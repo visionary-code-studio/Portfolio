@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="cmGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#04060a"/>
+    </linearGradient>
+    <linearGradient id="neonBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f2fe"/>
+      <stop offset="100%" stop-color="#4facfe"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="520" fill="url(#cmGrad)"/>
+  
+  <!-- Window Frame -->
+  <rect x="30" y="30" width="840" height="460" rx="14" fill="#0b101b" stroke="rgba(56, 189, 248, 0.25)" stroke-width="1.5"/>
+  <circle cx="65" cy="60" r="6" fill="#ef4444"/>
+  <circle cx="85" cy="60" r="6" fill="#f59e0b"/>
+  <circle cx="105" cy="60" r="6" fill="#10b981"/>
+  <text x="450" y="65" fill="#64748b" font-family="monospace" font-size="12" text-anchor="middle">CodeMap — AI-Powered Architecture Visualizer</text>
+  <line x1="30" y1="85" x2="870" y2="85" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  
+  <!-- Architecture Diagram Simulation -->
+  <g transform="translate(80, 130)">
+    <!-- Node 1: Code Repo -->
+    <rect x="0" y="80" width="180" height="90" rx="8" fill="#151d30" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="90" y="120" fill="#ffffff" font-family="'Space Grotesk', Inter, sans-serif" font-size="16" font-weight="700" text-anchor="middle">Git Repository</text>
+    <text x="90" y="145" fill="#94a3b8" font-family="monospace" font-size="11" text-anchor="middle">AST Parsing</text>
+    
+    <!-- Flow 1 -->
+    <line x1="180" y1="125" x2="270" y2="125" stroke="#38bdf8" stroke-width="2" stroke-dasharray="6 3"/>
+    
+    <!-- Node 2: AI Pipeline -->
+    <rect x="270" y="40" width="200" height="170" rx="10" fill="#1b253d" stroke="#00f2fe" stroke-width="2"/>
+    <text x="370" y="80" fill="#00f2fe" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">AI PIPELINE</text>
+    <rect x="290" y="100" width="160" height="35" rx="6" fill="#0e1526"/>
+    <text x="370" y="122" fill="#e2e8f0" font-family="monospace" font-size="11" text-anchor="middle">Gemini 1.5 Flash</text>
+    <rect x="290" y="145" width="160" height="35" rx="6" fill="#0e1526"/>
+    <text x="370" y="167" fill="#e2e8f0" font-family="monospace" font-size="11" text-anchor="middle">Groq Llama 3 70B</text>
+    
+    <!-- Flow 2 -->
+    <line x1="470" y1="125" x2="560" y2="125" stroke="#00f2fe" stroke-width="2"/>
+    
+    <!-- Node 3: Visual Output -->
+    <rect x="560" y="55" width="200" height="140" rx="8" fill="#151d30" stroke="#818cf8" stroke-width="1.5"/>
+    <text x="660" y="100" fill="#818cf8" font-family="'Space Grotesk', Inter, sans-serif" font-size="16" font-weight="700" text-anchor="middle">Interactive Graph</text>
+    <text x="660" y="130" fill="#94a3b8" font-family="Inter, sans-serif" font-size="12" text-anchor="middle">Real-Time Topologies</text>
+    <text x="660" y="160" fill="#38bdf8" font-family="monospace" font-size="11" text-anchor="middle">Auto-layout SVG</text>
+  </g>
+  
+  <text x="450" y="440" fill="#38bdf8" font-family="monospace" font-size="13" letter-spacing="2" text-anchor="middle">LIVE AT: code-map-ai-powered-code-to-archite.vercel.app</text>
+</svg>

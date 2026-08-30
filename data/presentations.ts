@@ -1,0 +1,58 @@
+import type { Presentation } from '@/types';
+
+export const presentations: Presentation[] = [
+  {
+    id: 'ppt-01',
+    title: 'AI in Education',
+    description: 'Exploring how artificial intelligence can transform personalized learning experiences at scale.',
+    category: 'AI / ML',
+    year: 2026,
+    preview: '/images/presentations/ai-education.svg',
+    file: '/ppt/ppt-01.pdf',
+  },
+  {
+    id: 'ppt-02',
+    title: 'Future of Blockchain',
+    description: 'A deep dive into blockchain applications beyond cryptocurrency — decentralized systems, smart contracts, and Web3.',
+    category: 'Technology',
+    year: 2026,
+    preview: '/images/presentations/blockchain.svg',
+    file: '/ppt/ppt-02.pdf',
+  },
+  {
+    id: 'ppt-03',
+    title: 'Pitch Playbook',
+    description: 'How to ideate, structure, and pitch ideas compellingly — from hackathons to startup presentations.',
+    category: 'Entrepreneurship',
+    year: 2025,
+    preview: '/images/presentations/pitch-playbook.svg',
+    file: '/ppt/ppt-03.pdf',
+  },
+  {
+    id: 'ppt-04',
+    title: 'GenAI & Agentic Systems',
+    description: 'From LLMs to autonomous agents — the architecture behind modern AI systems and how they reason.',
+    category: 'AI / ML',
+    year: 2026,
+    preview: '/images/presentations/agentic-ai.svg',
+    file: '/ppt/ppt-04.pdf',
+  },
+  {
+    id: 'ppt-05',
+    title: 'PIML — Physics-Informed ML',
+    description: 'How physics equations can guide machine learning models to better generalization with less data.',
+    category: 'Technology',
+    year: 2026,
+    preview: '/images/presentations/piml.svg',
+    file: '/ppt/ppt-05.pdf',
+  },
+  {
+    id: 'ppt-06',
+    title: 'CodeMap Deck',
+    description: 'The idea, architecture, and build journey behind CodeMap — AI-powered codebase visualizer.',
+    category: 'Hackathon',
+    year: 2026,
+    preview: '/images/presentations/codemap-deck.svg',
+    file: '/ppt/ppt-06.pdf',
+  },
+];

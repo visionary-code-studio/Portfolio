@@ -1,0 +1,317 @@
+/* ── Contact Section ────────────────────────────────────────── */
+.section {
+  padding: 8rem var(--margin-desktop) 6rem;
+  position: relative;
+  background: var(--bg);
+  border-top: 1px solid var(--text-dim);
+}
+
+.sectionMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.sectionMeta::before {
+  content: '';
+  display: block;
+  width: 1.5rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+.starMotif {
+  font-size: 0.75rem;
+  animation: spinStar 9s linear infinite;
+}
+
+@keyframes spinStar {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Oversized Editorial Heading */
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 3.5rem;
+}
+
+.headLine {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 11vw, 9.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--text);
+  line-height: 0.92;
+}
+
+.headLine.dim {
+  color: #2b3345;
+}
+
+/* Two Column Grid */
+.grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 4.5rem;
+  border-top: 1px solid var(--text-dim);
+  padding-top: 3.5rem;
+}
+
+/* 3D Email Card Wrapper */
+.card3DEmailWrap {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.emailBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  background: var(--bg-soft);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 2.5rem;
+  height: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.card3DEmailWrap:hover .emailBlock {
+  border-color: rgba(200, 240, 74, 0.4);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(200, 240, 74, 0.15);
+}
+
+.emailLabel {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.liveIndicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #51cf66;
+  box-shadow: 0 0 6px #51cf66;
+}
+
+.emailAddress {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.8vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  word-break: break-all;
+}
+
+.emailActions {
+  display: flex;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.emailBtn {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.emailBtn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.emailBtn.copied {
+  border-color: #51cf66;
+  color: #51cf66;
+  background: rgba(81, 207, 102, 0.1);
+}
+
+.emailBtn.primary {
+  background: var(--accent);
+  color: #060709;
+  border-color: var(--accent);
+  box-shadow: 0 4px 15px -3px rgba(200, 240, 74, 0.3);
+}
+
+.emailBtn.primary:hover {
+  background: #fff;
+  border-color: #fff;
+  color: #060709;
+  transform: translateY(-2px);
+}
+
+/* Academic & Location Info */
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-soft);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 1.4rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.infoRow:last-child {
+  border-bottom: none;
+}
+
+.infoLabel {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.infoValue {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text);
+  text-align: right;
+}
+
+/* ── Authentic Social Icons Grid ───────────────────────────── */
+.socialsHeader {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.85rem;
+}
+
+.socialGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+}
+
+.card3DSocialWrap {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.socialCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.1rem;
+  background: var(--bg-soft);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.25s var(--ease-out-expo);
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.socialCardLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.socialIconWrap {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+}
+
+.socialName {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.socialSub {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+.socialArrow {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.card3DSocialWrap:hover .socialCard {
+  border-color: var(--accent);
+  background: rgba(200, 240, 74, 0.04);
+}
+
+.card3DSocialWrap:hover .socialIconWrap {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.card3DSocialWrap:hover .socialArrow {
+  color: var(--accent);
+  transform: translate(3px, -3px);
+}
+
+@media (max-width: 960px) {
+  .section { padding: 6rem var(--margin-mobile) 4rem; }
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .socialGrid {
+    grid-template-columns: 1fr;
+  }
+}

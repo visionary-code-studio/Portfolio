@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="550" fill="#0c0e14"/>
+  <rect x="25" y="25" width="750" height="500" rx="12" fill="#141824" stroke="url(#goldBorder)" stroke-width="2"/>
+  <rect x="45" y="45" width="710" height="460" rx="8" fill="none" stroke="rgba(245,158,11,0.15)" stroke-width="1" stroke-dasharray="6 3"/>
+  
+  <text x="400" y="110" fill="#fbbf24" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" letter-spacing="4">EXCELLENCE AWARD</text>
+  <text x="400" y="160" fill="#ffffff" font-family="'Space Grotesk', Inter, sans-serif" font-size="28" font-weight="800" text-anchor="middle">National Hackathon Innovation Award</text>
+  <text x="400" y="200" fill="#94a3b8" font-family="Inter, sans-serif" font-size="15" text-anchor="middle">Presented with distinction to</text>
+  
+  <text x="400" y="270" fill="#f8fafc" font-family="'Space Grotesk', Inter, sans-serif" font-size="36" font-weight="800" text-anchor="middle">VAIBHAV SHAW</text>
+  <line x1="250" y1="290" x2="550" y2="290" stroke="#f59e0b" stroke-width="2"/>
+  
+  <text x="400" y="340" fill="#cbd5e1" font-family="Inter, sans-serif" font-size="15" text-anchor="middle">For exceptional problem-solving, rapid prototyping, and AI system design</text>
+  
+  <g transform="translate(100, 410)">
+    <text x="0" y="0" fill="#64748b" font-family="monospace" font-size="11">ISSUER</text>
+    <text x="0" y="20" fill="#e2e8f0" font-family="Inter, sans-serif" font-size="13" font-weight="600">Tech Hackathon Consortium</text>
+  </g>
+  <g transform="translate(400, 410)">
+    <text x="0" y="0" fill="#64748b" font-family="monospace" font-size="11" text-anchor="middle">CREDENTIAL ID</text>
+    <text x="0" y="20" fill="#fbbf24" font-family="monospace" font-size="12" text-anchor="middle">HACK-2026-WIN-04</text>
+  </g>
+  <g transform="translate(700, 410)">
+    <text x="0" y="0" fill="#64748b" font-family="monospace" font-size="11" text-anchor="end">YEAR</text>
+    <text x="0" y="20" fill="#e2e8f0" font-family="Inter, sans-serif" font-size="13" font-weight="600" text-anchor="end">2026</text>
+  </g>
+</svg>

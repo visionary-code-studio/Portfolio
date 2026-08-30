@@ -1,0 +1,221 @@
+/* ── About Section: Refined Editorial Design ───────────────── */
+.section {
+  padding: 8rem var(--margin-desktop);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5.5rem;
+  align-items: start;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.sectionMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+}
+
+.sectionMeta::before {
+  content: '';
+  display: block;
+  width: 1.5rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+/* Left: High-impact editorial statement */
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+.statementBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.statementQuote {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 4.8vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.statementAccent {
+  color: var(--accent);
+}
+
+.narrativeText {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+
+.philosophy {
+  border-left: 2px solid var(--accent);
+  padding-left: 1.5rem;
+  background: rgba(200, 240, 74, 0.02);
+  padding: 1.25rem 1.5rem;
+  border-radius: 0 8px 8px 0;
+}
+
+.philosophyText {
+  font-family: var(--font-body);
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: var(--text);
+  font-style: italic;
+}
+
+.philosophyAttr {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-top: 0.6rem;
+}
+
+/* Right Column: Identity Pillars + Academic Track */
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.identityList {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-soft);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.identityItem {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.1rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
+}
+
+.identityItem:last-child {
+  border-bottom: none;
+}
+
+.identityItem:hover {
+  background: rgba(200, 240, 74, 0.04);
+}
+
+.identityNum {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  min-width: 1.75rem;
+  transition: color 0.2s;
+}
+
+.identityLabel {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.identityItem:hover .identityLabel {
+  color: var(--accent);
+}
+
+.identityItem:hover .identityNum {
+  color: var(--accent);
+}
+
+/* Academic Card */
+.academic {
+  background: var(--bg-soft);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.academicHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.4rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.academicTitle {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.academicStatus {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  color: #51cf66;
+  background: rgba(81, 207, 102, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  border: 1px solid rgba(81, 207, 102, 0.25);
+  text-transform: uppercase;
+}
+
+.academicRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem 1.4rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.academicRow:last-child {
+  border-bottom: none;
+}
+
+.academicLabel {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.academicValue {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+@media (max-width: 1024px) {
+  .section {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    padding: 5rem var(--margin-mobile);
+  }
+}

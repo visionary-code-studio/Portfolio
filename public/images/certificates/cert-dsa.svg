@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" width="100%" height="100%">
+  <rect width="800" height="550" fill="#0c0a14"/>
+  <rect x="25" y="25" width="750" height="500" rx="12" fill="#130f24" stroke="#c084fc" stroke-width="1.5"/>
+  <text x="400" y="110" fill="#c084fc" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" letter-spacing="4">TECHNICAL MASTERY</text>
+  <text x="400" y="160" fill="#ffffff" font-family="'Space Grotesk', Inter, sans-serif" font-size="28" font-weight="800" text-anchor="middle">Data Structures &amp; Algorithms in C++</text>
+  <text x="400" y="270" fill="#f8fafc" font-family="'Space Grotesk', Inter, sans-serif" font-size="36" font-weight="800" text-anchor="middle">VAIBHAV SHAW</text>
+  <line x1="250" y1="290" x2="550" y2="290" stroke="#c084fc" stroke-width="2"/>
+  <text x="400" y="340" fill="#cbd5e1" font-family="Inter, sans-serif" font-size="15" text-anchor="middle">Advanced Dynamic Programming, Graph Algorithms &amp; Computational Complexity</text>
+  <g transform="translate(400, 410)">
+    <text x="0" y="0" fill="#64748b" font-family="monospace" font-size="11" text-anchor="middle">ID: DSA-CPP-2025-99</text>
+    <text x="0" y="20" fill="#c084fc" font-family="monospace" font-size="12" text-anchor="middle">OCTOBER 2025</text>
+  </g>
+</svg>

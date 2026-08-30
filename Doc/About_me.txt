@@ -1,0 +1,986 @@
+# Portfolio Data
+
+# Vaibhav Shaw
+
+> **Single Source of Truth for Personal Portfolio Content**
+>
+> This file contains the content and personal information used by the portfolio website.
+> Update this file whenever any portfolio information changes.
+
+---
+
+# 01 — Identity
+
+## Full Name
+
+**Vaibhav Shaw**
+
+## Display Name
+
+**Vaibhav**
+
+## Username / Handle
+
+visionary_code_studio
+
+## Portfolio Title
+
+**visionary_code_studio**
+
+## Short Professional Identity
+
+> Developer .AIML Engineer .Innovator .Designer
+
+## One-Line Introduction
+
+> Student of Sister Nivedita University pursuing B. Tech CSE in AIML
+
+## Personal Tagline
+
+> Learning with Curiosity, Innovate with Passion
+
+## Location
+
+Kolkata, West Bengal, India
+
+## Profile Image
+
+```text
+profile.jpg
+```
+
+## Resume
+
+```text
+resume1.pdf
+```
+
+---
+
+# 02 — Hero Section
+
+## Hero Name
+
+**VAIBHAV**
+
+## Hero Headline
+
+> Building Ideas with Passion
+
+## Hero Description
+
+> Currently Learning and try to implement how to build Ideas by Participating in multiple Hackathons
+
+## Hero Video
+
+```text
+Intro.mp4
+```
+
+## Hero Video Poster
+
+```text
+Profile.jpg
+```
+
+## Hero CTA
+
+**EXPLORE**
+
+## Hero CTA Target
+
+```text
+#about
+```
+
+## Scroll Label
+
+**SCROLL TO DISCOVER**
+
+---
+
+# 03 — About Me
+
+## Section Title
+
+**WHO I AM**
+
+## Short Introduction
+
+> `[Write a 2–4 sentence introduction about yourself.]`
+
+## Long Introduction
+
+> `[Write a more detailed description of yourself, your journey, personality, technical interests, creative interests, and what motivates you.]`
+
+## Who Am I?
+
+### Student
+
+> `[Describe yourself as a student.]`
+
+### Developer
+
+> `[Describe your development / technical identity.]`
+
+### Creator
+
+> `[Describe the things you create: presentations, designs, projects, content, ideas, etc.]`
+
+### Learner
+
+> `[Describe how you learn and what you continuously explore.]`
+
+### Problem Solver
+
+> `[Describe how you approach problems.]`
+
+---
+
+# 04 — Personal Philosophy
+
+## My Philosophy
+
+> I embrace life with curiosity, create with purpose, innovate with passion, and never stop learning.
+
+## What Drives Me?
+
+> Innovate and Learning is in parallel.
+
+## What Do I Believe?
+
+> Giving up is not in the Blood sir
+
+## Quote / Personal Statement
+
+> Learn with Curiosity, Build with Passion
+
+---
+
+# 05 — Education
+
+## Current Education
+
+### University
+
+**Name:** Sister Nivedita University
+
+**Degree:** B. Tech CSE AIML
+
+**Branch / Specialization:** CSE
+
+**Year:** 2ND
+
+**Semester:** 3rd
+
+**Expected Graduation:** 2029
+
+**Location:** Kolkata, West Bengal
+
+---
+
+## Previous Education
+
+### School
+
+**Name:** Bholananda National Vidyalaya
+
+**Board:** CBSE
+
+**Location:** KOLKATA, WEST BENGAL, INDIA
+
+**Years Attended:** Passing Year 2025
+
+---
+
+# 06 — Academic Performance
+
+## School Scores
+
+| Examination | Year | Score |
+| ----------- | ---: | ----: |
+| Class 10    | 2023 | 85.5% |
+| Class 12    | 2025 | 75.8% |
+
+## University Performance
+
+| Semester / Year | CGPA / Score |
+| --------------- | -----------: |
+| Semester 1      |         9.43 |
+| Semester 2      |         9.35 |
+| Semester 3      |    `[VALUE]` |
+| Semester 4      |    `[VALUE]` |
+| Semester 5      |    `[VALUE]` |
+| Semester 6      |    `[VALUE]` |
+| Semester 7      |    `[VALUE]` |
+| Semester 8      |    `[VALUE]` |
+
+## Current CGPA
+
+9.38
+
+## Academic Highlights
+
+* `[Academic achievement]`
+* `[Academic achievement]`
+* `[Academic achievement]`
+
+---
+
+# 07 — Technical Profile
+
+## Primary Technologies
+
+* `[Technology]`
+* `[Technology]`
+* `[Technology]`
+* `[Technology]`
+
+## Programming Languages
+
+* `[C]`
+* `[C++]`
+* `[Java]`
+* `[Python]`
+* `[JavaScript / TypeScript]`
+* `[Other]`
+
+## Web Development
+
+* `[HTML]`
+* `[CSS]`
+* `[JavaScript]`
+* `[React]`
+* `[Next.js]`
+* `[Node.js]`
+* `[Other]`
+
+## AI / ML
+
+* `[Technology / Framework]`
+* `[Technology / Framework]`
+* `[Technology / Framework]`
+
+## Tools
+
+* `[Git / GitHub]`
+* `[VS Code]`
+* `[Figma]`
+* [Powerpoint]
+* [MS OFFICE]
+* [ANTIGRAVITY]
+* `[Canva]`
+* `[Other]`
+
+## Other Technical Areas
+
+* GENAI 
+* Data Analytics and Visualizations
+* Blockchain Development
+
+---
+
+# 08 — Projects
+
+> Add projects here if/when the portfolio receives a dedicated Projects section.
+
+## Project 01
+
+**Name:** CodeMap
+
+**Category:** AI
+
+**Year:** 2026
+
+**Description:**
+
+> Visualize Your CodeBase Instantly. 
+
+**My Role:**
+
+> AI: API Integration, AI Architecture, and AI Pipelining
+
+**Technologies:**
+
+* Gemini and Groq API
+* Node.js and Express.js
+* LLM
+
+**Repository:**
+
+https://github.com/rajvirxai/CodeMap-AI-Powered-Code-to-Architecture-Visualizer
+
+**Live Demo:**
+
+https://code-map-ai-powered-code-to-archite.vercel.app/
+
+**Image:**
+
+```text
+project1.jpg
+```
+
+##
+
+---
+
+# 09 — Presentations / PPT Shelf
+
+## Section Title
+
+**THE ARCHIVE**
+
+## Section Introduction
+
+> Designing the Ideas into Presenations
+
+---
+
+## Presentation Categories
+
+```text
+Academic
+AI / ML
+Technology
+Innovation
+Hackathon
+Entrepreneurship
+other
+```
+
+---
+
+# 10 — Certifications
+
+## Section Title
+
+**THE PROOF**
+
+## Section Introduction
+
+> Certification from participation to appreciation
+
+---
+
+---
+
+# 11 — Achievements
+
+## Section Title
+
+**MILESTONES**
+
+## Achievement 01
+
+**Title:** `[ACHIEVEMENT]`
+
+**Year:** `[YEAR]`
+
+**Organization:** `[ORGANIZATION]`
+
+**Description:**
+
+> `[DESCRIPTION]`
+
+---
+
+## Achievement 02
+
+**Title:** `[ACHIEVEMENT]`
+
+**Year:** `[YEAR]`
+
+**Organization:** `[ORGANIZATION]`
+
+**Description:**
+
+> `[DESCRIPTION]`
+
+---
+
+# 12 — Interests
+
+## Section Title
+
+**WHAT I'M INTO**
+
+## Introduction
+
+> `[A short statement describing your curiosity and interests.]`
+
+---
+
+## Interest 01
+
+**Name:** `Artificial Intelligence`
+
+**Category:** `Technology`
+
+**Description:**
+
+> `[Why are you interested in AI?]`
+
+**Priority:**
+
+`High`
+
+**Published:**
+
+`true`
+
+---
+
+## Interest 02
+
+**Name:** `[INTEREST]`
+
+**Category:** `[CATEGORY]`
+
+**Description:**
+
+> `[WHY YOU ARE INTERESTED IN IT]`
+
+**Priority:**
+
+`High / Medium / Low`
+
+**Published:**
+
+`true`
+
+---
+
+## Current Interests
+
+* Blockchain
+* Game Dev
+* AIML
+* Exploring tools and AI
+* PIML [physics informed machine learning]
+
+---
+
+# 13 — Topics I Explore
+
+### Technology
+
+`[Topics]`
+
+### AI
+
+GENAI, RAG, LLM, AGENTIC AI, AI AGENT
+
+### Development
+
+Programming to Development
+
+### Design
+
+Graphic Design
+
+### Entrepreneurship
+
+Startups
+
+### Innovation
+
+`[Topics]`
+
+### Other
+
+`[Topics]`
+
+---
+
+# 14 — Future Thoughts
+
+## Section Title
+
+**WHAT'S NEXT?**
+
+## Introduction
+
+> `[Short introduction to your future vision.]`
+
+---
+
+## BUILD
+
+### What I Want to Build
+
+> `[Things/products/systems you want to create.]`
+
+---
+
+## LEARN
+
+### What I Want to Learn
+
+> `[Technologies, subjects, or skills you want to master.]`
+
+---
+
+## EXPLORE
+
+### What I Want to Explore
+
+> `[Domains, ideas, industries, research areas, etc.]`
+
+---
+
+## BECOME
+
+### Who I Want to Become
+
+> `[Describe the professional/person you want to become.]`
+
+---
+
+# 15 — Future Goals
+
+## Short-Term
+
+* `[Goal]`
+* `[Goal]`
+* `[Goal]`
+
+## Medium-Term
+
+* `[Goal]`
+* `[Goal]`
+* `[Goal]`
+
+## Long-Term
+
+* `[Goal]`
+* `[Goal]`
+* `[Goal]`
+
+---
+
+# 16 — Contact
+
+## Section Title
+
+**LET'S TALK.**
+
+## Contact Introduction
+
+> `[A short invitation to connect.]`
+
+## Email
+
+`[YOUR EMAIL]`
+
+## University
+
+`[UNIVERSITY NAME]`
+
+## School
+
+`[SCHOOL NAME]`
+
+## LinkedIn
+
+`[LINKEDIN URL]`
+
+## Instagram
+
+`[INSTAGRAM URL]`
+
+## X
+
+`[X URL]`
+
+## GitHub
+
+`[GITHUB URL]`
+
+## Other
+
+`[OTHER LINK]`
+
+---
+
+# 17 — Social Media Display
+
+| Platform  | URL     | Visible |
+| --------- | ------- | ------- |
+| LinkedIn  | `[URL]` | `true`  |
+| Instagram | `[URL]` | `true`  |
+| X         | `[URL]` | `true`  |
+| GitHub    | `[URL]` | `true`  |
+| Other     | `[URL]` | `false` |
+
+---
+
+# 18 — Portfolio Statistics
+
+> These can be automatically calculated later. Keep them here only if manually controlled.
+
+**Presentations:** `[NUMBER]`
+
+**Certifications:** `[NUMBER]`
+
+**Projects:** `[NUMBER]`
+
+**Achievements:** `[NUMBER]`
+
+**Years Learning / Building:** `[NUMBER]`
+
+---
+
+# 19 — Personal Keywords
+
+These keywords can be used for SEO, metadata, and portfolio search.
+
+```text
+Vaibhav
+Developer
+Student
+Creator
+Builder
+Technology
+AI
+Innovation
+Web Development
+Entrepreneurship
+Presentations
+Learning
+```
+
+Add or remove keywords as required.
+
+---
+
+# 20 — SEO Information
+
+## Page Title
+
+`Vaibhav — Developer, Creator & Builder`
+
+## Meta Description
+
+> `[150–160 character description of your portfolio.]`
+
+## Open Graph Title
+
+`Vaibhav — Personal Portfolio`
+
+## Open Graph Description
+
+> `[SOCIAL SHARE DESCRIPTION]`
+
+## Open Graph Image
+
+```text
+/og-image.jpg
+```
+
+---
+
+# 21 — Website Settings
+
+## Portfolio Status
+
+`Active`
+
+Allowed values:
+
+```text
+Active
+Maintenance
+Private
+```
+
+## Current Year
+
+`2026`
+
+## Copyright
+
+`© 2026 Vaibhav`
+
+## Primary Accent
+
+`[ACCENT COLOR]`
+
+## Theme
+
+`Dark`
+
+---
+
+# 22 — Featured Content
+
+## Featured PPTs
+
+```text
+ppt-01
+ppt-02
+```
+
+## Featured Certifications
+
+```text
+cert-01
+cert-02
+```
+
+## Featured Interests
+
+```text
+interest-01
+interest-02
+```
+
+---
+
+# 23 — Content Rules
+
+### Published Content
+
+Only content marked:
+
+```text
+Published: true
+```
+
+should appear on the public portfolio.
+
+### Featured Content
+
+Only content marked:
+
+```text
+Featured: true
+```
+
+should receive special visual treatment.
+
+### Display Order
+
+Lower number = higher position.
+
+Example:
+
+```text
+01
+02
+03
+04
+```
+
+---
+
+# 24 — File Naming Convention
+
+Use consistent lowercase filenames.
+
+### Presentations
+
+```text
+ppt-01.pdf
+ppt-02.pdf
+ppt-03.pdf
+```
+
+### Certificates
+
+```text
+cert-01.pdf
+cert-02.png
+cert-03.jpg
+```
+
+### Images
+
+```text
+profile.jpg
+hero-poster.jpg
+og-image.jpg
+```
+
+### Projects
+
+```text
+project-01.jpg
+project-02.jpg
+```
+
+---
+
+# 25 — Content Writing Guidelines
+
+## Tone
+
+The portfolio should sound:
+
+```text
+Personal
+Confident
+Curious
+Intelligent
+Approachable
+Authentic
+```
+
+Avoid:
+
+```text
+Corporate clichés
+Overly exaggerated claims
+Generic AI-generated phrases
+Long paragraphs
+Unverifiable achievements
+```
+
+## Preferred Writing Style
+
+Instead of:
+
+> I am a highly motivated and passionate individual who possesses a strong desire to learn and grow.
+
+Prefer:
+
+> I like building things, understanding how they work, and learning what I don't know yet.
+
+---
+
+# 26 — Personal Brand Statement
+
+## Main Statement
+
+> `[WRITE YOUR FINAL PERSONAL BRAND STATEMENT HERE]`
+
+## 10-Word Version
+
+> `[WRITE A VERY SHORT VERSION]`
+
+## 3-Word Version
+
+> `[WORD] • [WORD] • [WORD]`
+
+---
+
+# 27 — My Story
+
+## Beginning
+
+> `[Where did your interest in technology / creation begin?]`
+
+## Present
+
+> `[Where are you now?]`
+
+## Next
+
+> `[Where are you heading?]`
+
+---
+
+# 28 — Things I Care About
+
+* `[Value]`
+* `[Value]`
+* `[Value]`
+* `[Value]`
+* `[Value]`
+
+---
+
+# 29 — Things I Am Learning
+
+* `[Skill / Topic]`
+* `[Skill / Topic]`
+* `[Skill / Topic]`
+* `[Skill / Topic]`
+
+---
+
+# 30 — Things I Want to Create
+
+* `[Idea]`
+* `[Idea]`
+* `[Idea]`
+* `[Idea]`
+
+---
+
+# 31 — Things I Want to Explore
+
+* `[Domain]`
+* `[Domain]`
+* `[Domain]`
+* `[Domain]`
+
+---
+
+# 32 — Portfolio Closing Statement
+
+> `[Write the final thought you want visitors to remember after reaching the end of the website.]`
+
+Possible structure:
+
+```text
+I don't want this portfolio to be a list of what I've done.
+
+I want it to show what I'm curious about,
+what I'm building,
+and where I'm going next.
+```
+
+---
+
+# 33 — Internal Notes
+
+> This section is private and should NOT be displayed on the public website.
+
+### Future Content
+
+* `[TODO]`
+* `[TODO]`
+
+### Information to Update
+
+* `[TODO]`
+* `[TODO]`
+
+### Potential New Sections
+
+* `[Section]`
+* `[Section]`
+
+---
+
+# 34 — Data Validation Checklist
+
+Before publishing the portfolio, verify:
+
+* [ ] Name is correct
+* [ ] University information is correct
+* [ ] School information is correct
+* [ ] Scores / marks are correct
+* [ ] Email is correct
+* [ ] LinkedIn link works
+* [ ] Instagram link works
+* [ ] X link works
+* [ ] Hero video works
+* [ ] PPT files open correctly
+* [ ] Certification files open correctly
+* [ ] All public content is intentional
+* [ ] No private information has been accidentally published
+* [ ] External links work
+* [ ] Resume is up to date
+
+---
+
+# 35 — Final Content Principle
+
+> **This file should describe who I am, what I have done, what I care about, and where I am going.**
+
+The website is the visual representation of this information.
+
+The Admin Panel is the interface used to modify it.
+
+The portfolio itself should never become dependent on hardcoded personal information scattered throughout the codebase.

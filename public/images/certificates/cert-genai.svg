@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" width="100%" height="100%">
+  <defs>
+    <linearGradient id="certBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#00f2fe"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="550" fill="#0b0f19"/>
+  <rect x="25" y="25" width="750" height="500" rx="12" fill="#0f172a" stroke="url(#certBorder)" stroke-width="2"/>
+  <rect x="45" y="45" width="710" height="460" rx="8" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="8 4"/>
+  
+  <text x="400" y="110" fill="#38bdf8" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" letter-spacing="4">VERIFIED CREDENTIAL</text>
+  <text x="400" y="160" fill="#ffffff" font-family="'Space Grotesk', Inter, sans-serif" font-size="28" font-weight="800" text-anchor="middle">Generative AI &amp; LLM Engineering</text>
+  <text x="400" y="200" fill="#94a3b8" font-family="Inter, sans-serif" font-size="15" text-anchor="middle">This credential certifies specialized competence awarded to</text>
+  
+  <text x="400" y="270" fill="#f8fafc" font-family="'Space Grotesk', Inter, sans-serif" font-size="36" font-weight="800" text-anchor="middle" letter-spacing="1">VAIBHAV SHAW</text>
+  <line x1="250" y1="290" x2="550" y2="290" stroke="#38bdf8" stroke-width="2"/>
+  
+  <text x="400" y="340" fill="#cbd5e1" font-family="Inter, sans-serif" font-size="15" text-anchor="middle">For demonstrating mastery in Agentic AI Architectures, RAG Systems, &amp; LLM Integrations</text>
+  
+  <g transform="translate(100, 410)">
+    <text x="0" y="0" fill="#64748b" font-family="monospace" font-size="11">ISSUER</text>
+    <text x="0" y="20" fill="#e2e8f0" font-family="Inter, sans-serif" font-size="13" font-weight="600">DeepLearning &amp; AI Institute</text>
+  </g>
+  <g transform="translate(400, 410)">
+    <text x="0" y="0" fill="#64748b" font-family="monospace" font-size="11" text-anchor="middle">CREDENTIAL ID</text>
+    <text x="0" y="20" fill="#38bdf8" font-family="monospace" font-size="12" text-anchor="middle">GENAI-882910-VS</text>
+  </g>
+  <g transform="translate(700, 410)">
+    <text x="0" y="0" fill="#64748b" font-family="monospace" font-size="11" text-anchor="end">DATE</text>
+    <text x="0" y="20" fill="#e2e8f0" font-family="Inter, sans-serif" font-size="13" font-weight="600" text-anchor="end">January 2026</text>
+  </g>
+</svg>

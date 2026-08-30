@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="pitchGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1c1917"/>
+      <stop offset="100%" stop-color="#0c0a09"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#pitchGrad)"/>
+  <rect x="40" y="40" width="720" height="370" rx="16" fill="rgba(28, 25, 23, 0.7)" stroke="rgba(244, 63, 94, 0.25)" stroke-width="1.5"/>
+  <rect x="70" y="70" width="140" height="28" rx="6" fill="rgba(244, 63, 94, 0.12)" stroke="#f43f5e" stroke-width="1"/>
+  <text x="140" y="89" fill="#fb7185" font-family="monospace" font-size="12" font-weight="bold" text-anchor="middle" letter-spacing="2">ENTREPRENEUR</text>
+  <text x="70" y="160" fill="#ffffff" font-family="'Space Grotesk', Inter, sans-serif" font-size="34" font-weight="800">THE PROTOTYPING PLAYBOOK</text>
+  <text x="70" y="200" fill="#94a3b8" font-family="Inter, sans-serif" font-size="18">From High-Conviction Idea to Winning Hackathon Pitch</text>
+  
+  <g transform="translate(540, 160)">
+    <path d="M 20 120 L 70 80 L 120 100 L 180 30" fill="none" stroke="#f43f5e" stroke-width="3"/>
+    <circle cx="180" cy="30" r="8" fill="#f43f5e"/>
+    <polygon points="180,20 190,30 180,40" fill="#f43f5e"/>
+  </g>
+  
+  <line x1="70" y1="350" x2="730" y2="350" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="70" y="375" fill="#64748b" font-family="monospace" font-size="12">INNOVATION CLUB • 2025</text>
+  <text x="730" y="375" fill="#fb7185" font-family="monospace" font-size="12" text-anchor="end">VAIBHAV SHAW</text>
+</svg>

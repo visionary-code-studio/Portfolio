@@ -1,0 +1,58 @@
+import type { Certification } from '@/types';
+
+export const certifications: Certification[] = [
+  {
+    id: 'cert-01',
+    title: 'GenAI Certification',
+    issuer: 'Online Platform',
+    year: 2026,
+    category: 'AI / ML',
+    preview: '/images/certificates/cert-genai.svg',
+    file: '/certs/cert-01.pdf',
+  },
+  {
+    id: 'cert-02',
+    title: 'Hackathon Achievement',
+    issuer: 'Event Organization',
+    year: 2026,
+    category: 'Hackathon',
+    preview: '/images/certificates/cert-hackathon.svg',
+    file: '/certs/cert-02.pdf',
+  },
+  {
+    id: 'cert-03',
+    title: 'Blockchain Development',
+    issuer: 'Online Platform',
+    year: 2026,
+    category: 'Technology',
+    preview: '/images/certificates/cert-blockchain.svg',
+    file: '/certs/cert-03.pdf',
+  },
+  {
+    id: 'cert-04',
+    title: 'Data Structures & Algorithms',
+    issuer: 'Online Platform',
+    year: 2025,
+    category: 'Technology',
+    preview: '/images/certificates/cert-dsa.svg',
+    file: '/certs/cert-04.pdf',
+  },
+  {
+    id: 'cert-05',
+    title: 'Semester 1 Excellence',
+    issuer: 'Sister Nivedita University',
+    year: 2024,
+    category: 'Academic',
+    preview: '/images/certificates/cert-sem1.svg',
+    file: '/certs/cert-05.pdf',
+  },
+  {
+    id: 'cert-06',
+    title: 'Semester 2 Excellence',
+    issuer: 'Sister Nivedita University',
+    year: 2025,
+    category: 'Academic',
+    preview: '/images/certificates/cert-sem2.svg',
+    file: '/certs/cert-06.pdf',
+  },
+];

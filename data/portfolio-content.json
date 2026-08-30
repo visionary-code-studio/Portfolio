@@ -1,0 +1,249 @@
+{
+  "profile": {
+    "fullName": "Vaibhav Shaw",
+    "displayName": "Vaibhav",
+    "handle": "visionary_code_studio",
+    "roleTitle": "Developer · AIML Engineer · Innovator · Designer",
+    "headline": "Student • Developer • Creator • Builder",
+    "tagline": "Learning with Curiosity, Innovate with Passion",
+    "shortIntro": "Student of Sister Nivedita University pursuing B.Tech CSE in AIML. Building ideas through curiosity and turning research into reality.",
+    "philosophy": "Learning with Curiosity, Innovate with Passion",
+    "philosophyQuote": "Giving up is not in the blood sir",
+    "email": "vaibhavsnu@2029",
+    "location": "Kolkata, West Bengal, India",
+    "profileImage": "/images/profile_update.png",
+    "resumeUrl": "/resume1.pdf",
+    "university": {
+      "name": "Sister Nivedita University",
+      "degree": "B.Tech CSE — AIML",
+      "year": "2nd Year",
+      "semester": "3rd Sem",
+      "cgpa": "9.38",
+      "sem1": "9.43",
+      "sem2": "9.35",
+      "expectedGraduation": "2029",
+      "location": "Kolkata, West Bengal"
+    },
+    "school": {
+      "name": "Bholananda National Vidyalaya",
+      "board": "CBSE",
+      "location": "Kolkata, West Bengal, India",
+      "passingYear": "2025",
+      "class10": "85.5%",
+      "class12": "75.8%"
+    },
+    "socials": {
+      "github": "https://github.com/visionary-code-studio",
+      "linkedin": "https://www.linkedin.com/in/vaibhav-shaw-55124835b/",
+      "instagram": "https://www.instagram.com/designer.hub2025/",
+      "x": "https://x.com/vaibhavshawsnu"
+    }
+  },
+  "hero": {
+    "eyebrow": "Portfolio — 2026",
+    "firstName": "Vaibhav",
+    "lastName": "Shaw",
+    "role": "Developer · AIML Engineer · Innovator · Designer",
+    "headline": "Building Ideas with Passion",
+    "description": "Currently learning and implementing ideas by participating in multiple hackathons, building AI pipelines, and crafting digital experiences.",
+    "heroVideo": "/video/Intro.mp4",
+    "posterImage": "/images/profile_update.png",
+    "ctaText": "Explore",
+    "ctaTarget": "#about",
+    "scrollLabel": "Scroll"
+  },
+  "sectionVisibility": {
+    "hero": true,
+    "identity": true,
+    "marquee": true,
+    "about": true,
+    "presentations": true,
+    "certifications": true,
+    "interests": true,
+    "future": true,
+    "contact": true
+  },
+  "presentations": [
+    {
+      "id": "ppt-01",
+      "title": "AI in Education",
+      "description": "Exploring how artificial intelligence can transform personalized learning experiences at scale.",
+      "category": "AI / ML",
+      "year": 2026,
+      "event": "Academic Research Presentation",
+      "preview": "/images/presentations/ai-education.svg",
+      "file": "/ppt/ppt-01.pdf",
+      "featured": true,
+      "published": true
+    },
+    {
+      "id": "ppt-02",
+      "title": "Future of Blockchain",
+      "description": "A deep dive into blockchain applications beyond cryptocurrency — decentralized systems, smart contracts, and Web3.",
+      "category": "Technology",
+      "year": 2026,
+      "event": "Tech Symposium",
+      "preview": "/images/presentations/blockchain.svg",
+      "file": "/ppt/ppt-02.pdf",
+      "featured": true,
+      "published": true
+    },
+    {
+      "id": "ppt-03",
+      "title": "Pitch Playbook",
+      "description": "How to ideate, structure, and pitch ideas compellingly — from hackathons to startup presentations.",
+      "category": "Entrepreneurship",
+      "year": 2025,
+      "event": "Innovation Workshop",
+      "preview": "/images/presentations/pitch-playbook.svg",
+      "file": "/ppt/ppt-03.pdf",
+      "featured": false,
+      "published": true
+    },
+    {
+      "id": "ppt-04",
+      "title": "GenAI & Agentic Systems",
+      "description": "From LLMs to autonomous agents — the architecture behind modern AI systems and how they reason.",
+      "category": "AI / ML",
+      "year": 2026,
+      "event": "AI Summit",
+      "preview": "/images/presentations/agentic-ai.svg",
+      "file": "/ppt/ppt-04.pdf",
+      "featured": true,
+      "published": true
+    },
+    {
+      "id": "ppt-05",
+      "title": "PIML — Physics-Informed ML",
+      "description": "How physics equations can guide machine learning models to better generalization with less data.",
+      "category": "Technology",
+      "year": 2026,
+      "event": "Research Colloquium",
+      "preview": "/images/presentations/piml.svg",
+      "file": "/ppt/ppt-05.pdf",
+      "featured": false,
+      "published": true
+    },
+    {
+      "id": "ppt-06",
+      "title": "CodeMap Deck",
+      "description": "The idea, architecture, and build journey behind CodeMap — AI-powered codebase visualizer.",
+      "category": "Hackathon",
+      "year": 2026,
+      "event": "Hackathon Demo Day",
+      "preview": "/images/presentations/codemap-deck.svg",
+      "file": "/ppt/ppt-06.pdf",
+      "featured": true,
+      "published": true
+    }
+  ],
+  "certifications": [
+    {
+      "id": "cert-1788108223177",
+      "title": "Build With AI Bootcamp",
+      "issuer": "Google",
+      "year": 2026,
+      "category": "Hackathon",
+      "credentialId": "",
+      "preview": "/uploads/Build_with_AI_Bootcamp_1788108197167.jpg",
+      "file": "/uploads/Build_with_AI_Bootcamp_1788108197167.jpg",
+      "published": true
+    }
+  ],
+  "interests": [
+    {
+      "text": "AI",
+      "size": "xl",
+      "desc": "Artificial Intelligence",
+      "category": "AI / ML"
+    },
+    {
+      "text": "Systems",
+      "size": "lg",
+      "desc": "System Architecture",
+      "category": "Technology"
+    },
+    {
+      "text": "Design",
+      "size": "md",
+      "desc": "UI / UX & Visual",
+      "category": "Design"
+    },
+    {
+      "text": "GenAI",
+      "size": "md",
+      "desc": "Generative AI",
+      "category": "AI / ML"
+    },
+    {
+      "text": "Blockchain",
+      "size": "lg",
+      "desc": "Web3 & Smart Contracts",
+      "category": "Technology"
+    },
+    {
+      "text": "Web",
+      "size": "xl",
+      "desc": "Full-Stack Development",
+      "category": "Technology"
+    },
+    {
+      "text": "PIML",
+      "size": "lg",
+      "desc": "Physics-Informed ML",
+      "category": "Research"
+    },
+    {
+      "text": "Startups",
+      "size": "md",
+      "desc": "Innovation & Building",
+      "category": "Business"
+    },
+    {
+      "text": "Automation",
+      "size": "sm",
+      "desc": "Agentic Workflows",
+      "category": "AI / ML"
+    },
+    {
+      "text": "GameDev",
+      "size": "md",
+      "desc": "Game Development",
+      "category": "Creative"
+    },
+    {
+      "text": "Innovation",
+      "size": "xl",
+      "desc": "Turning Ideas to Reality",
+      "category": "Innovation"
+    },
+    {
+      "text": "Products",
+      "size": "sm",
+      "desc": "Product Thinking",
+      "category": "Business"
+    }
+  ],
+  "future": [
+    {
+      "num": "01",
+      "label": "Build",
+      "text": "AI systems that actually solve real problems. Products that start as ideas at 2am and ship before the semester ends. Tools that make other developers' lives 10x easier."
+    },
+    {
+      "num": "02",
+      "label": "Learn",
+      "text": "Physics-informed machine learning. The mathematics behind why models work. System design at scale. The intersection of engineering and art that most people never find."
+    },
+    {
+      "num": "03",
+      "label": "Explore",
+      "text": "Blockchain development beyond the hype. Agentic AI workflows. Game development as a medium for ideas. Research that turns curiosity into something publishable."
+    },
+    {
+      "num": "04",
+      "label": "Become",
+      "text": "An engineer who builds things that last. A creator who communicates ideas visually. Someone who bridges the gap between technical depth and human clarity."
+    }
+  ]
+}

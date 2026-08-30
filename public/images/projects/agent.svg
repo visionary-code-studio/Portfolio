@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" width="100%" height="100%">
+  <rect width="900" height="520" fill="#090714"/>
+  <rect x="30" y="30" width="840" height="460" rx="14" fill="#120e26" stroke="rgba(168, 85, 247, 0.25)" stroke-width="1.5"/>
+  <text x="450" y="65" fill="#64748b" font-family="monospace" font-size="12" text-anchor="middle">IntelliAgent Runtime Architecture</text>
+  <line x1="30" y1="85" x2="870" y2="85" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  
+  <g transform="translate(150, 160)">
+    <circle cx="100" cy="120" r="70" fill="#1c163b" stroke="#a855f7" stroke-width="2"/>
+    <text x="100" y="125" fill="#c084fc" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle">SUPERVISOR</text>
+    
+    <circle cx="350" cy="40" r="45" fill="#1c163b" stroke="#38bdf8" stroke-width="2"/>
+    <text x="350" y="45" fill="#38bdf8" font-family="monospace" font-size="11" text-anchor="middle">PARSER</text>
+    
+    <circle cx="350" cy="120" r="45" fill="#1c163b" stroke="#10b981" stroke-width="2"/>
+    <text x="350" y="125" fill="#10b981" font-family="monospace" font-size="11" text-anchor="middle">ANALYZER</text>
+    
+    <circle cx="350" cy="200" r="45" fill="#1c163b" stroke="#f59e0b" stroke-width="2"/>
+    <text x="350" y="205" fill="#f59e0b" font-family="monospace" font-size="11" text-anchor="middle">EXECUTOR</text>
+    
+    <line x1="170" y1="120" x2="305" y2="40" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+    <line x1="170" y1="120" x2="305" y2="120" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+    <line x1="170" y1="120" x2="305" y2="200" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+  </g>
+</svg>

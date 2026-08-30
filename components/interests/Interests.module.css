@@ -1,0 +1,228 @@
+/* ── What I'm Into (Interests): Interactive Domain Cloud ───── */
+.section {
+  padding: 8rem var(--margin-desktop);
+  overflow: hidden;
+  background: var(--bg);
+  border-top: 1px solid var(--text-dim);
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 4rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sectionMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.sectionMeta::before {
+  content: '';
+  display: block;
+  width: 1.5rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+.starMotif {
+  font-size: 0.75rem;
+  animation: spinStar 9s linear infinite;
+}
+
+@keyframes spinStar {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4.2rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--text);
+  line-height: 1;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+/* Category Filters */
+.filters {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.filterBtn {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filterBtn:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  color: var(--text);
+}
+
+.filterBtn.active {
+  background: var(--accent);
+  color: #060709;
+  border-color: var(--accent);
+  font-weight: 700;
+  box-shadow: 0 0 12px rgba(200, 240, 74, 0.3);
+}
+
+/* Kinetic Typographic Cloud */
+.cloudContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 2rem;
+  align-items: baseline;
+  padding: 2rem 0;
+}
+
+.wordItem {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: #4a5468;
+  cursor: pointer;
+  position: relative;
+  line-height: 0.95;
+  transition: all 0.3s var(--ease-out-expo);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+}
+
+.wordItem:hover {
+  color: var(--text);
+  transform: translateY(-3px) scale(1.04);
+}
+
+.wordItem.activeWord {
+  color: var(--text);
+}
+
+.wordItem.activeWord::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+}
+
+/* Size Scalings */
+.size-xl { font-size: clamp(3.2rem, 7vw, 6.2rem); }
+.size-lg { font-size: clamp(2.2rem, 4.8vw, 4rem); }
+.size-md { font-size: clamp(1.5rem, 3.2vw, 2.6rem); }
+.size-sm { font-size: clamp(1.1rem, 2.2vw, 1.8rem); }
+
+/* Expansion Detail Drawer */
+.detailBox {
+  margin-top: 2.5rem;
+  background: var(--bg-soft);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1.75rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.detailLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.detailBadge {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.detailTitle {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.detailDesc {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  max-width: 60ch;
+}
+
+.detailPills {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.detailPill {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+}
+
+@media (max-width: 768px) {
+  .section { padding: 5rem var(--margin-mobile); }
+  .detailBox {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

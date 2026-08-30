@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" width="100%" height="100%">
+  <defs>
+    <linearGradient id="acadBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="550" fill="#081014"/>
+  <rect x="25" y="25" width="750" height="500" rx="12" fill="#0c171e" stroke="url(#acadBorder)" stroke-width="2"/>
+  
+  <text x="400" y="110" fill="#34d399" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle" letter-spacing="4">ACADEMIC EXCELLENCE</text>
+  <text x="400" y="160" fill="#ffffff" font-family="'Space Grotesk', Inter, sans-serif" font-size="28" font-weight="800" text-anchor="middle">Semester 1 Dean's Merit Honor</text>
+  <text x="400" y="200" fill="#94a3b8" font-family="Inter, sans-serif" font-size="15" text-anchor="middle">Awarded by Sister Nivedita University to</text>
+  
+  <text x="400" y="270" fill="#f8fafc" font-family="'Space Grotesk', Inter, sans-serif" font-size="36" font-weight="800" text-anchor="middle">VAIBHAV SHAW</text>
+  <line x1="250" y1="290" x2="550" y2="290" stroke="#10b981" stroke-width="2"/>
+  
+  <text x="400" y="340" fill="#a7f3d0" font-family="'Space Grotesk', Inter, sans-serif" font-size="22" font-weight="700" text-anchor="middle">GRADE POINT AVERAGE: 9.43 / 10.0</text>
+  
+  <g transform="translate(100, 410)">
+    <text x="0" y="0" fill="#64748b" font-family="monospace" font-size="11">INSTITUTION</text>
+    <text x="0" y="20" fill="#e2e8f0" font-family="Inter, sans-serif" font-size="13" font-weight="600">Sister Nivedita University</text>
+  </g>
+  <g transform="translate(400, 410)">
+    <text x="0" y="0" fill="#64748b" font-family="monospace" font-size="11" text-anchor="middle">DEPARTMENT</text>
+    <text x="0" y="20" fill="#34d399" font-family="monospace" font-size="12" text-anchor="middle">B.Tech CSE (AIML)</text>
+  </g>
+  <g transform="translate(700, 410)">
+    <text x="0" y="0" fill="#64748b" font-family="monospace" font-size="11" text-anchor="end">SESSION</text>
+    <text x="0" y="20" fill="#e2e8f0" font-family="Inter, sans-serif" font-size="13" font-weight="600" text-anchor="end">Dec 2025</text>
+  </g>
+</svg>

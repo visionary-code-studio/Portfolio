@@ -1,0 +1,458 @@
+/* ── Top Fixed Navigation Bar ───────────────────────────────── */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem var(--margin-desktop);
+  transition: background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
+}
+
+.navbar.scrolled {
+  background: rgba(8, 10, 15, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.wordmarkDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: #8c93a8;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.menuBtn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: #ffffff;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.45rem 1.1rem;
+  transition: all 0.2s ease;
+}
+
+.menuBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.02);
+}
+
+.menuIcon {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5px;
+  width: 14px;
+}
+
+.menuIcon span {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  border-radius: 1px;
+  transition: transform 0.3s var(--ease-out-expo), opacity 0.2s;
+}
+
+.menuIcon.open span:nth-child(1) { transform: translateY(5px) rotate(45deg); }
+.menuIcon.open span:nth-child(2) { opacity: 0; }
+.menuIcon.open span:nth-child(3) { transform: translateY(-5px) rotate(-45deg); }
+
+/* ── Fullscreen Responsive Menu Drawer ─────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  background: radial-gradient(circle at 25% 35%, #101524 0%, #06080d 80%);
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.overlay.open {
+  pointer-events: all;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Ambient glow orb inside menu */
+.menuGlow {
+  position: absolute;
+  top: 30%;
+  left: 25%;
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(37, 99, 235, 0.12), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Inner Responsive Container fitting system pixels */
+.menuContainer {
+  max-width: 1320px;
+  margin: 0 auto;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5.5rem var(--margin-desktop) 2.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* 2-Column Split Layout (Executive Dashboard style) */
+.menuGrid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+/* ── Left Column: Profile Card (Inspired by Toukir Reference) ── */
+.profileCard {
+  background: #0d101a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 2.25rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 35px -10px rgba(37, 99, 235, 0.1);
+}
+
+.avatarRing {
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, #eab308 0%, #ca8a04 50%, #facc15 100%);
+  box-shadow: 0 0 25px rgba(234, 179, 8, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #171d2b;
+}
+
+.profileMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.welcomeBadge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8c93a8;
+}
+
+.profileName {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.profileRole {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: #9aa2b5;
+  margin-top: 0.15rem;
+}
+
+/* Status Pill */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: #c4ccdf;
+}
+
+.liveDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #51cf66;
+  box-shadow: 0 0 8px #51cf66;
+}
+
+/* Quick Card Actions */
+.cardActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.actionPillPrimary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  background: var(--accent);
+  color: #06080d;
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(200, 240, 74, 0.3);
+}
+
+.actionPillPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(200, 240, 74, 0.45);
+}
+
+.actionPillSecondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  color: #f4f2ee;
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.actionPillSecondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+/* ── Right Column: Chapter Navigation List ─────────────────── */
+.navList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.navItem {
+  position: relative;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  border-radius: 14px;
+  text-decoration: none;
+  background: transparent;
+  border: 1px solid transparent;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.linkLeft {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.navNum {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #636b80;
+  letter-spacing: 0.1em;
+  transition: color 0.2s;
+  min-width: 20px;
+}
+
+.navTitleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.navLabel {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.2vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: #c4ccdf;
+  line-height: 1.1;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.navSub {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: #6d7588;
+  letter-spacing: 0.01em;
+  transition: color 0.2s;
+}
+
+.linkRight {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.arrowIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #6d7588;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+/* Hover effects inspired by reference acid-lime pill */
+.navLink:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(4px);
+}
+
+.navLink:hover .navLabel {
+  color: #ffffff;
+}
+
+.navLink:hover .navNum {
+  color: var(--accent);
+}
+
+.navLink:hover .navSub {
+  color: #9aa2b5;
+}
+
+.navLink:hover .arrowIcon {
+  background: var(--accent);
+  color: #06080d;
+  border-color: var(--accent);
+  transform: translateX(3px);
+}
+
+/* Responsive pixel adaptations for tablets and mobile */
+@media (max-width: 1024px) {
+  .menuGrid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .profileCard {
+    flex-direction: row;
+    text-align: left;
+    padding: 1.5rem;
+  }
+  .profileMeta {
+    align-items: flex-start;
+  }
+  .cardActions {
+    flex-direction: row;
+    width: auto;
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem var(--margin-mobile);
+  }
+  .center {
+    display: none;
+  }
+  .menuContainer {
+    padding: 5rem var(--margin-mobile) 2rem;
+    justify-content: flex-start;
+  }
+  .profileCard {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem 1.25rem;
+  }
+  .cardActions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .navLink {
+    padding: 0.65rem 0.8rem;
+  }
+  .navLabel {
+    font-size: 1.2rem;
+  }
+  .navSub {
+    display: none;
+  }
+}

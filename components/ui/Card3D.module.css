@@ -1,0 +1,14 @@
+.card3DWrap {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.glareLayer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 10;
+  mix-blend-mode: overlay;
+}
