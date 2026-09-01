@@ -1214,6 +1214,7 @@ export default function AdminPage() {
                       <option value="AI / ML">AI / ML</option>
                       <option value="Technology">Technology</option>
                       <option value="Hackathon">Hackathon</option>
+                      <option value="Bootcamp & Workshops">Bootcamp & Workshops</option>
                       <option value="Entrepreneurship">Entrepreneurship</option>
                       <option value="Academic">Academic</option>
                     </select>
@@ -1375,6 +1376,7 @@ export default function AdminPage() {
                       <option value="AI / ML">AI / ML</option>
                       <option value="Technology">Technology</option>
                       <option value="Hackathon">Hackathon</option>
+                      <option value="Bootcamp & Workshops">Bootcamp & Workshops</option>
                       <option value="Academic">Academic</option>
                       <option value="Business">Business</option>
                     </select>

@@ -139,11 +139,55 @@
   ],
   "certifications": [
     {
+      "id": "cert-1788273687354",
+      "title": "ByteQuest1.0_Participation Certificate_BuildOnIndia",
+      "issuer": "",
+      "year": 2026,
+      "category": "Academic",
+      "credentialId": "",
+      "preview": "/uploads/ByteQuest1_0_Participation_Certificate_BuildOnIndia_1788273662281.jpg",
+      "file": "/uploads/ByteQuest1_0_Participation_Certificate_BuildOnIndia_1788273662281.jpg",
+      "published": true
+    },
+    {
+      "id": "cert-1788273651086",
+      "title": "2026H2S08BWAIBKOL-P00397",
+      "issuer": "",
+      "year": 2026,
+      "category": "Hackathon",
+      "credentialId": "",
+      "preview": "/uploads/2026H2S08BWAIBKOL-P00397_1788273639072.pdf",
+      "file": "/uploads/2026H2S08BWAIBKOL-P00397_1788273639072.pdf",
+      "published": true
+    },
+    {
+      "id": "cert-1788273617565",
+      "title": "SUMMER ANALYTICS | IIT GUWAHATI 2026",
+      "issuer": "IIT GUWAHATI ",
+      "year": 2026,
+      "category": "Academic",
+      "credentialId": "",
+      "preview": "/uploads/a9dd2fd7-ec26-4fd2-bf9a-bf95f63799a0_1788273586496.png",
+      "file": "/uploads/a9dd2fd7-ec26-4fd2-bf9a-bf95f63799a0_1788273586496.png",
+      "published": true
+    },
+    {
+      "id": "cert-1788273579067",
+      "title": "2026H2S06BAH-P12374  ISRO",
+      "issuer": "ISRO",
+      "year": 2026,
+      "category": "Hackathon",
+      "credentialId": "",
+      "preview": "/uploads/2026H2S06BAH-P12374__ISRO_1788273565947.pdf",
+      "file": "/uploads/2026H2S06BAH-P12374__ISRO_1788273565947.pdf",
+      "published": true
+    },
+    {
       "id": "cert-1788108223177",
       "title": "Build With AI Bootcamp",
       "issuer": "Google",
       "year": 2026,
-      "category": "Hackathon",
+      "category": "Bootcamp & Workshops",
       "credentialId": "",
       "preview": "/uploads/Build_with_AI_Bootcamp_1788108197167.jpg",
       "file": "/uploads/Build_with_AI_Bootcamp_1788108197167.jpg",
