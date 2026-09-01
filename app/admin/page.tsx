@@ -732,8 +732,8 @@ export default function AdminPage() {
               {activeTab === 'hero' && 'Landing Hero & Media Upload'}
               {activeTab === 'presentations' && 'The Archive — Presentation Upload & Shelf'}
               {activeTab === 'certifications' && 'The Proof — Certification Upload & Gallery'}
-              {activeTab === 'interests' && 'What I&apos;m Into — Typographic Keywords'}
-              {activeTab === 'future' && 'What&apos;s Next — Manifesto Pillars'}
+              {activeTab === 'interests' && "What I'm Into — Typographic Keywords"}
+              {activeTab === 'future' && "What's Next — Manifesto Pillars"}
               {activeTab === 'visibility' && 'Public Section Visibility Switchboard'}
             </h2>
             <p className={styles.pageDesc}>
