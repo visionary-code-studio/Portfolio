@@ -27,10 +27,24 @@ export default function Home() {
 
   // Sync with live data from API
   useEffect(() => {
+    // Check if client has locally saved updates
+    const localBackup = typeof window !== 'undefined' ? localStorage.getItem('vaibhav_portfolio_content_backup') : null;
+    if (localBackup) {
+      try {
+        setContent((prev) => ({ ...prev, ...JSON.parse(localBackup) }));
+      } catch (e) {}
+    }
+
     fetch('/api/content')
       .then((res) => res.json())
       .then((json) => {
         if (json.success && json.data) {
+          if (localBackup) {
+            try {
+              setContent({ ...json.data, ...JSON.parse(localBackup) });
+              return;
+            } catch (e) {}
+          }
           setContent(json.data);
         }
       })
