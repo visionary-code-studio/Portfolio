@@ -230,17 +230,30 @@ export default function AdminPage() {
     }));
   };
 
-  // Presentations CRUD
-  const addPresentation = () => {
-    if (!newPpt.title) return alert('Please enter a presentation title');
+  // Presentations CRUD with Immediate Auto-Persist (Local & Deploy)
+  const addPresentation = async () => {
+    if (!newPpt.title && !newPpt.file) return alert('Please enter a presentation title or attach a file');
+    const effectiveTitle = newPpt.title?.trim() || cleanFileNameToTitle(newPpt.file) || 'Presentation Deck';
+    const autoResolved = resolveAutoPreview(
+      newPpt.file || newPpt.preview || '',
+      effectiveTitle,
+      newPpt.event,
+      newPpt.category
+    );
+
     const item = {
       id: `ppt-${Date.now()}`,
       ...newPpt,
+      title: effectiveTitle,
+      preview: newPpt.preview || autoResolved.previewUrl,
     };
-    setData((prev: any) => ({
-      ...prev,
-      presentations: [item, ...(prev.presentations || [])],
-    }));
+
+    const updatedData = {
+      ...data,
+      presentations: [item, ...(data.presentations || [])],
+    };
+
+    setData(updatedData);
     setShowAddPpt(false);
     setNewPpt({
       title: '',
@@ -248,32 +261,75 @@ export default function AdminPage() {
       category: 'AI / ML',
       year: 2026,
       event: 'Academic Presentation',
-      preview: '/images/presentations/ai-education.svg',
-      file: '/ppt/ppt-01.pdf',
+      preview: '',
+      file: '',
       featured: true,
       published: true,
     });
+
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('vaibhav_portfolio_content_backup', JSON.stringify(updatedData));
+      }
+      await fetch('/api/content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedData),
+      });
+      setSavedToast(true);
+      setTimeout(() => setSavedToast(false), 3500);
+    } catch (err) {
+      console.warn('Auto-saved to local browser backup:', err);
+      setSavedToast(true);
+      setTimeout(() => setSavedToast(false), 3500);
+    }
   };
 
-  const deletePresentation = (id: string) => {
+  const deletePresentation = async (id: string) => {
     if (!confirm('Are you sure you want to remove this presentation?')) return;
-    setData((prev: any) => ({
-      ...prev,
-      presentations: prev.presentations.filter((p: any) => p.id !== id),
-    }));
+    const updatedData = {
+      ...data,
+      presentations: (data.presentations || []).filter((p: any) => p.id !== id),
+    };
+    setData(updatedData);
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('vaibhav_portfolio_content_backup', JSON.stringify(updatedData));
+      }
+      await fetch('/api/content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedData),
+      });
+    } catch (err) {
+      console.warn(err);
+    }
   };
 
-  // Certifications CRUD
-  const addCertification = () => {
-    if (!newCert.title) return alert('Please enter certificate title');
+  // Certifications CRUD with Immediate Auto-Persist (Local & Deploy)
+  const addCertification = async () => {
+    if (!newCert.title && !newCert.file) return alert('Please enter certificate title or attach a file');
+    const effectiveTitle = newCert.title?.trim() || cleanFileNameToTitle(newCert.file) || 'Certificate of Achievement';
+    const autoResolved = resolveAutoPreview(
+      newCert.file || newCert.preview || '',
+      effectiveTitle,
+      newCert.issuer,
+      newCert.category
+    );
+
     const item = {
       id: `cert-${Date.now()}`,
       ...newCert,
+      title: effectiveTitle,
+      preview: newCert.preview || autoResolved.previewUrl,
     };
-    setData((prev: any) => ({
-      ...prev,
-      certifications: [item, ...(prev.certifications || [])],
-    }));
+
+    const updatedData = {
+      ...data,
+      certifications: [item, ...(data.certifications || [])],
+    };
+
+    setData(updatedData);
     setShowAddCert(false);
     setNewCert({
       title: '',
@@ -281,18 +337,48 @@ export default function AdminPage() {
       year: 2026,
       category: 'AI / ML',
       credentialId: '',
-      preview: '/images/certificates/cert-genai.svg',
-      file: '/certs/cert-01.pdf',
+      preview: '',
+      file: '',
       published: true,
     });
+
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('vaibhav_portfolio_content_backup', JSON.stringify(updatedData));
+      }
+      await fetch('/api/content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedData),
+      });
+      setSavedToast(true);
+      setTimeout(() => setSavedToast(false), 3500);
+    } catch (err) {
+      console.warn('Auto-saved to local browser backup:', err);
+      setSavedToast(true);
+      setTimeout(() => setSavedToast(false), 3500);
+    }
   };
 
-  const deleteCertification = (id: string) => {
+  const deleteCertification = async (id: string) => {
     if (!confirm('Are you sure you want to delete this certificate?')) return;
-    setData((prev: any) => ({
-      ...prev,
-      certifications: prev.certifications.filter((c: any) => c.id !== id),
-    }));
+    const updatedData = {
+      ...data,
+      certifications: (data.certifications || []).filter((c: any) => c.id !== id),
+    };
+    setData(updatedData);
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('vaibhav_portfolio_content_backup', JSON.stringify(updatedData));
+      }
+      await fetch('/api/content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedData),
+      });
+    } catch (err) {
+      console.warn(err);
+    }
   };
 
   // Interests CRUD
@@ -1203,7 +1289,7 @@ export default function AdminPage() {
                   <div className={styles.uploadContainer}>
                     <input
                       type="file"
-                      accept=".pdf,.ppt,.pptx,.jpg,.jpeg,.png,.webp"
+                      accept=".ppt,.pptx,.pdf,.pps,.ppsx,.jpg,.jpeg,.png,.webp"
                       onChange={(e) =>
                         handleFileUpload(
                           e,
@@ -1212,7 +1298,8 @@ export default function AdminPage() {
                               url,
                               newPpt.title,
                               newPpt.event,
-                              newPpt.category
+                              newPpt.category,
+                              name
                             );
                             setNewPpt((prev) => ({
                               ...prev,
@@ -1226,14 +1313,18 @@ export default function AdminPage() {
                       }
                       className={styles.fileInputHidden}
                     />
-                    <span className={styles.uploadIcon}>📁</span>
+                    <span className={styles.uploadIcon}>📊</span>
                     <span className={styles.uploadTitle}>
-                      {uploading === 'pptFile' ? 'Uploading presentation...' : 'Select Presentation File from Device'}
+                      {uploading === 'pptFile'
+                        ? 'Uploading presentation...'
+                        : 'Select PowerPoint / Presentation File (.PPT, .PPTX, .PDF)'}
                     </span>
-                    <span className={styles.uploadHint}>Supports PDF, PPT, PPTX, Images (Any size)</span>
+                    <span className={styles.uploadHint}>
+                      Supports PowerPoint (.pptx, .ppt), PDF slides, and images. Auto-detects on Local & Deploy.
+                    </span>
                     {newPpt.file && (
                       <span className={styles.uploadSuccessPill}>
-                        ✓ File Attached: {newPpt.file}
+                        ✓ File Attached: {newPpt.file.startsWith('data:') ? 'Document Loaded in Memory' : newPpt.file}
                       </span>
                     )}
                   </div>
@@ -1244,7 +1335,7 @@ export default function AdminPage() {
                     </label>
                     <input
                       type="text"
-                      placeholder="e.g. /ppt/my-presentation.pdf or https://..."
+                      placeholder="e.g. /ppt/my-presentation.pptx or https://..."
                       value={newPpt.file}
                       onChange={(e) => {
                         const url = e.target.value;
@@ -1276,6 +1367,13 @@ export default function AdminPage() {
                           border: '1px solid rgba(255,255,255,0.08)',
                         }}
                       >
+                        <img
+                          src="/images/powerpoint-icon.png"
+                          alt="PowerPoint"
+                          width={20}
+                          height={20}
+                          style={{ objectFit: 'contain' }}
+                        />
                         <span
                           style={{
                             fontSize: '0.7rem',
@@ -1292,7 +1390,7 @@ export default function AdminPage() {
                         <span style={{ fontSize: '0.78rem', color: '#cbd5e1' }}>
                           Auto-Engine: {detectFileFormat(newPpt.file).isImage
                             ? 'Native image visual detected'
-                            : `Generated official ${detectFileFormat(newPpt.file).ext.toUpperCase()} badge`}
+                            : `Generated official ${detectFileFormat(newPpt.file).label} badge`}
                         </span>
                       </div>
                     )}

@@ -22,7 +22,7 @@ export default function ScrollImageReveal({
   className = '',
   glare = true,
   threshold = 0.15,
-  once = true,
+  once = false,
 }: ScrollImageRevealProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isRevealed, setIsRevealed] = useState(false);

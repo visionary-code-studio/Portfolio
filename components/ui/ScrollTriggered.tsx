@@ -131,7 +131,7 @@ export function ScrollReveal({
   variant = 'fadeUp',
   delay = 0,
   amount = 0.2,
-  once = true,
+  once = false,
   className = '',
   style,
   ...props
@@ -171,7 +171,7 @@ export function ScrollStagger({
   children,
   staggerDelay = 0.08,
   amount = 0.15,
-  once = true,
+  once = false,
   className = '',
   style,
   ...props

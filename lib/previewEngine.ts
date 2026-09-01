@@ -15,8 +15,10 @@ export interface FormatMeta {
   iconType: 'pdf' | 'image' | 'presentation' | 'doc' | 'archive';
 }
 
-export function detectFileFormat(urlOrFilename: string): FormatMeta {
-  if (!urlOrFilename) {
+export const PPT_ICON_BASE64 = 'data:image/png;base64,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';
+
+export function detectFileFormat(urlOrFilename: string, originalName?: string): FormatMeta {
+  if (!urlOrFilename && !originalName) {
     return {
       ext: 'file',
       label: 'DOCUMENT',
@@ -27,6 +29,9 @@ export function detectFileFormat(urlOrFilename: string): FormatMeta {
       iconType: 'doc',
     };
   }
+
+  // If originalName is supplied, check its extension first for data URIs
+  const effectiveName = originalName || urlOrFilename;
 
   // Handle data URIs
   if (urlOrFilename.startsWith('data:image/')) {
@@ -43,8 +48,37 @@ export function detectFileFormat(urlOrFilename: string): FormatMeta {
     };
   }
 
-  // Extract extension from URL or path (stripping query string and hashes)
-  const cleanUrl = urlOrFilename.split('?')[0].split('#')[0];
+  if (urlOrFilename.startsWith('data:application/pdf')) {
+    return {
+      ext: 'pdf',
+      label: 'PDF DOCUMENT',
+      isImage: false,
+      color: '#ef4444',
+      accentColor: '#b91c1c',
+      bgGradient: ['#2b0d0d', '#180808'],
+      iconType: 'pdf',
+    };
+  }
+
+  if (
+    urlOrFilename.includes('presentationml') ||
+    urlOrFilename.includes('ms-powerpoint') ||
+    effectiveName.toLowerCase().endsWith('.ppt') ||
+    effectiveName.toLowerCase().endsWith('.pptx')
+  ) {
+    return {
+      ext: 'pptx',
+      label: 'POWERPOINT SLIDES',
+      isImage: false,
+      color: '#f97316',
+      accentColor: '#ea580c',
+      bgGradient: ['#2d1204', '#180a02'],
+      iconType: 'presentation',
+    };
+  }
+
+  // Extract extension from URL, path, or filename (stripping query string and hashes)
+  const cleanUrl = effectiveName.split('?')[0].split('#')[0];
   const lastDot = cleanUrl.lastIndexOf('.');
   const ext = lastDot !== -1 ? cleanUrl.substring(lastDot + 1).toLowerCase() : '';
 
@@ -232,9 +266,9 @@ export function generateDocumentPreviewSvg(params: {
   <!-- Center Document Icon Glyph -->
   <g transform="translate(400, 210)">
     ${meta.iconType === 'presentation' ? `
-    <!-- Official Microsoft PowerPoint Brand Logo -->
-    <rect x="-55" y="-55" width="110" height="110" rx="20" fill="rgba(255,255,255,0.04)" stroke="${meta.color}" stroke-opacity="0.35" stroke-width="1.5"/>
-    <image href="/images/powerpoint-icon.png" x="-45" y="-45" width="90" height="90" preserveAspectRatio="xMidYMid meet"/>
+    <!-- Official Microsoft PowerPoint Brand Logo (Self-Contained Embedded Base64) -->
+    <rect x="-65" y="-65" width="130" height="130" rx="22" fill="rgba(255,255,255,0.05)" stroke="${meta.color}" stroke-opacity="0.4" stroke-width="1.5"/>
+    <image href="${PPT_ICON_BASE64}" x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet"/>
     ` : `
     <!-- Icon Container Box -->
     <rect x="-45" y="-55" width="90" height="90" rx="18" fill="rgba(255,255,255,0.04)" stroke="${meta.color}" stroke-opacity="0.3" stroke-width="1.5"/>
@@ -255,14 +289,15 @@ export function generateDocumentPreviewSvg(params: {
     ${displayTitle}
   </text>
 
-  <!-- Issuer Subtitle -->
-  <text x="400" y="360" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="14" text-anchor="middle">
-    ${issuer}
+  <!-- Secondary Metadata Line -->
+  <text x="400" y="360" fill="#94a3b8" font-family="monospace" font-size="13" text-anchor="middle" letter-spacing="1">
+    ${meta.label} // ${issuer ? issuer.toUpperCase() : 'VERIFIED DOCUMENT'}
   </text>
 
-  <!-- Bottom Action Footer -->
-  <g transform="translate(60, 435)">
-    <text x="0" y="0" fill="#64748b" font-family="monospace" font-size="10" letter-spacing="2">VERIFIED ARTIFACT ARCHIVE</text>
+  <!-- Bottom Accent / Verification Bar -->
+  <g transform="translate(60, 425)">
+    <line x1="0" y1="0" x2="680" y2="0" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+    <text x="0" y="0" fill="#64748b" font-family="monospace" font-size="10" letter-spacing="1.5">SHA-256 SECURE ARTIFACT</text>
     <text x="680" y="0" fill="${meta.color}" font-family="monospace" font-size="10" font-weight="700" text-anchor="end" letter-spacing="1">CLICK TO INSPECT ${meta.ext.toUpperCase()} ↗</text>
   </g>
 </svg>`;
@@ -271,7 +306,7 @@ export function generateDocumentPreviewSvg(params: {
 }
 
 /**
- * Master Engine: Given any URL or filename, resolves the best preview image.
+ * Master Engine: Given any URL, filename or data URI, resolves the best preview image.
  * - If already an image: returns the original image URL.
  * - If a document (PDF, PPT, DOC, etc.): automatically generates an official vector badge preview.
  */
@@ -279,13 +314,14 @@ export function resolveAutoPreview(
   fileUrl: string,
   title?: string,
   issuer?: string,
-  category?: string
+  category?: string,
+  originalName?: string
 ): { previewUrl: string; detectedFormat: FormatMeta; autoTitle: string } {
-  const detectedFormat = detectFileFormat(fileUrl);
-  const autoTitle = cleanFileNameToTitle(fileUrl);
+  const detectedFormat = detectFileFormat(fileUrl, originalName);
+  const autoTitle = cleanFileNameToTitle(originalName || fileUrl);
   const effectiveTitle = title && title.trim() ? title.trim() : autoTitle;
 
-  if (detectedFormat.isImage && fileUrl) {
+  if (detectedFormat.isImage && fileUrl && !fileUrl.startsWith('data:application/')) {
     return {
       previewUrl: fileUrl,
       detectedFormat,
