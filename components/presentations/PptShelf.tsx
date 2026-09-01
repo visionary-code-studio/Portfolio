@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import Image from 'next/image';
 import Card3D from '@/components/ui/Card3D';
 import ScrollImageReveal from '@/components/ui/ScrollImageReveal';
+import { resolveAutoPreview } from '@/lib/previewEngine';
 import styles from './PptShelf.module.css';
 import type { Presentation } from '@/types';
 
@@ -87,50 +88,60 @@ export default function PptShelf({ items, onOpen }: Props) {
       {/* Horizontal Shelf with 3D Perspective Cards */}
       <div className={styles.shelfOuter} ref={shelfRef}>
         <div className={styles.shelf}>
-          {filtered.map((ppt, i) => (
-            <Card3D
-              key={ppt.id}
-              className={styles.card3DItem}
-              intensity={12}
-              onClick={() => onOpen(ppt)}
-              glare={true}
-            >
-              <div
-                className={styles.cardInner}
-                data-cursor-hover
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && onOpen(ppt)}
-                aria-label={`Open presentation: ${ppt.title}`}
-              >
-                <div className={styles.cardTopRow}>
-                  <span className={styles.cardNum}>
-                    {String(i + 1).padStart(2, '0')} // ARCHIVE
-                  </span>
-                  <span className={styles.cardYearBadge}>{ppt.year}</span>
-                </div>
+          {filtered.map((ppt, i) => {
+            const autoResolved = resolveAutoPreview(
+              ppt.preview || ppt.file,
+              ppt.title,
+              ppt.event,
+              ppt.category
+            );
+            const previewSrc = autoResolved.previewUrl;
 
-                <div className={styles.cardThumb}>
-                  {ppt.preview ? (
-                    <ScrollImageReveal direction="up" delay={(i % 3) * 100} glare={true}>
-                      <Image
-                        src={ppt.preview}
-                        alt={ppt.title}
-                        fill
-                        className={styles.cardThumbImg}
-                        sizes="320px"
-                      />
-                    </ScrollImageReveal>
-                  ) : (
-                    <div className={styles.thumbPlaceholder}>
-                      <span className={styles.thumbIcon}>{String(i + 1).padStart(2, '0')}</span>
-                      <span className={styles.thumbCat}>{ppt.category}</span>
-                    </div>
-                  )}
-                  <div className={styles.cardOverlay}>
-                    <span className={styles.cardOpenLabel}>View Slides ↗</span>
+            return (
+              <Card3D
+                key={ppt.id}
+                className={styles.card3DItem}
+                intensity={12}
+                onClick={() => onOpen(ppt)}
+                glare={true}
+              >
+                <div
+                  className={styles.cardInner}
+                  data-cursor-hover
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === 'Enter' && onOpen(ppt)}
+                  aria-label={`Open presentation: ${ppt.title}`}
+                >
+                  <div className={styles.cardTopRow}>
+                    <span className={styles.cardNum}>
+                      {String(i + 1).padStart(2, '0')} // ARCHIVE
+                    </span>
+                    <span className={styles.cardYearBadge}>{ppt.year}</span>
                   </div>
-                </div>
+
+                  <div className={styles.cardThumb}>
+                    {previewSrc ? (
+                      <ScrollImageReveal direction="up" delay={(i % 3) * 100} glare={true}>
+                        <Image
+                          src={previewSrc}
+                          alt={ppt.title}
+                          fill
+                          unoptimized={previewSrc.startsWith('data:') || previewSrc.endsWith('.svg')}
+                          className={styles.cardThumbImg}
+                          sizes="320px"
+                        />
+                      </ScrollImageReveal>
+                    ) : (
+                      <div className={styles.thumbPlaceholder}>
+                        <span className={styles.thumbIcon}>{String(i + 1).padStart(2, '0')}</span>
+                        <span className={styles.thumbCat}>{ppt.category}</span>
+                      </div>
+                    )}
+                    <div className={styles.cardOverlay}>
+                      <span className={styles.cardOpenLabel}>View Slides ↗</span>
+                    </div>
+                  </div>
 
                 <div className={styles.cardMeta}>
                   <span className={styles.cardCategory}>{ppt.category}</span>
@@ -139,7 +150,8 @@ export default function PptShelf({ items, onOpen }: Props) {
                 </div>
               </div>
             </Card3D>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

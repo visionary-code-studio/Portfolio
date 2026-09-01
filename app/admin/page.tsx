@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { resolveAutoPreview, cleanFileNameToTitle, detectFileFormat } from '@/lib/previewEngine';
 import styles from './admin.module.css';
 
 type Tab =
@@ -1202,15 +1203,22 @@ export default function AdminPage() {
                   <div className={styles.uploadContainer}>
                     <input
                       type="file"
-                      accept=".pdf,.ppt,.pptx,.jpg,.jpeg,.png"
+                      accept=".pdf,.ppt,.pptx,.jpg,.jpeg,.png,.webp"
                       onChange={(e) =>
                         handleFileUpload(
                           e,
                           (url, name) => {
+                            const { previewUrl, autoTitle } = resolveAutoPreview(
+                              url,
+                              newPpt.title,
+                              newPpt.event,
+                              newPpt.category
+                            );
                             setNewPpt((prev) => ({
                               ...prev,
                               file: url,
-                              title: prev.title || name.replace(/\.[^/.]+$/, ''),
+                              preview: previewUrl,
+                              title: prev.title || cleanFileNameToTitle(name) || autoTitle,
                             }));
                           },
                           'pptFile'
@@ -1232,15 +1240,62 @@ export default function AdminPage() {
 
                   <div style={{ marginTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
                     <label style={{ fontSize: '0.75rem', color: '#7b8191', fontFamily: 'var(--font-mono)' }}>
-                      Direct Presentation URL or Path (Optional):
+                      Direct Presentation URL or Path (Auto-Format Detection):
                     </label>
                     <input
                       type="text"
                       placeholder="e.g. /ppt/my-presentation.pdf or https://..."
                       value={newPpt.file}
-                      onChange={(e) => setNewPpt({ ...newPpt, file: e.target.value })}
+                      onChange={(e) => {
+                        const url = e.target.value;
+                        const { previewUrl, autoTitle } = resolveAutoPreview(
+                          url,
+                          newPpt.title,
+                          newPpt.event,
+                          newPpt.category
+                        );
+                        setNewPpt((prev) => ({
+                          ...prev,
+                          file: url,
+                          preview: previewUrl,
+                          title: prev.title || autoTitle,
+                        }));
+                      }}
                       className={styles.input}
                     />
+                    {newPpt.file && (
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.75rem',
+                          marginTop: '0.35rem',
+                          background: 'rgba(255,255,255,0.03)',
+                          padding: '0.4rem 0.75rem',
+                          borderRadius: '6px',
+                          border: '1px solid rgba(255,255,255,0.08)',
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontSize: '0.7rem',
+                            padding: '0.15rem 0.5rem',
+                            borderRadius: '4px',
+                            background: detectFileFormat(newPpt.file).color,
+                            color: '#000',
+                            fontWeight: 800,
+                            fontFamily: 'var(--font-mono)',
+                          }}
+                        >
+                          {detectFileFormat(newPpt.file).ext.toUpperCase()}
+                        </span>
+                        <span style={{ fontSize: '0.78rem', color: '#cbd5e1' }}>
+                          Auto-Engine: {detectFileFormat(newPpt.file).isImage
+                            ? 'Native image visual detected'
+                            : `Generated official ${detectFileFormat(newPpt.file).ext.toUpperCase()} badge`}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -1371,11 +1426,17 @@ export default function AdminPage() {
                         handleFileUpload(
                           e,
                           (url, name) => {
+                            const { previewUrl, autoTitle } = resolveAutoPreview(
+                              url,
+                              newCert.title,
+                              newCert.issuer,
+                              newCert.category
+                            );
                             setNewCert((prev) => ({
                               ...prev,
                               file: url,
-                              preview: url,
-                              title: prev.title || name.replace(/\.[^/.]+$/, ''),
+                              preview: previewUrl,
+                              title: prev.title || cleanFileNameToTitle(name) || autoTitle,
                             }));
                           },
                           'certFile'
@@ -1397,17 +1458,62 @@ export default function AdminPage() {
 
                   <div style={{ marginTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
                     <label style={{ fontSize: '0.75rem', color: '#7b8191', fontFamily: 'var(--font-mono)' }}>
-                      Direct Certificate URL or Path (Optional):
+                      Direct Certificate URL or Path (Auto-Format Detection):
                     </label>
                     <input
                       type="text"
                       placeholder="e.g. /uploads/my-cert.pdf or https://..."
                       value={newCert.file}
-                      onChange={(e) =>
-                        setNewCert({ ...newCert, file: e.target.value, preview: e.target.value })
-                      }
+                      onChange={(e) => {
+                        const url = e.target.value;
+                        const { previewUrl, autoTitle } = resolveAutoPreview(
+                          url,
+                          newCert.title,
+                          newCert.issuer,
+                          newCert.category
+                        );
+                        setNewCert((prev) => ({
+                          ...prev,
+                          file: url,
+                          preview: previewUrl,
+                          title: prev.title || autoTitle,
+                        }));
+                      }}
                       className={styles.input}
                     />
+                    {newCert.file && (
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.75rem',
+                          marginTop: '0.35rem',
+                          background: 'rgba(255,255,255,0.03)',
+                          padding: '0.4rem 0.75rem',
+                          borderRadius: '6px',
+                          border: '1px solid rgba(255,255,255,0.08)',
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontSize: '0.7rem',
+                            padding: '0.15rem 0.5rem',
+                            borderRadius: '4px',
+                            background: detectFileFormat(newCert.file).color,
+                            color: '#000',
+                            fontWeight: 800,
+                            fontFamily: 'var(--font-mono)',
+                          }}
+                        >
+                          {detectFileFormat(newCert.file).ext.toUpperCase()}
+                        </span>
+                        <span style={{ fontSize: '0.78rem', color: '#cbd5e1' }}>
+                          Auto-Engine: {detectFileFormat(newCert.file).isImage
+                            ? 'Native visual image detected'
+                            : `Generated official ${detectFileFormat(newCert.file).ext.toUpperCase()} badge`}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
 

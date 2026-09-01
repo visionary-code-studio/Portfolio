@@ -4,6 +4,7 @@ export interface Presentation {
   description: string;
   category: string;
   year: number;
+  event?: string;
   preview?: string;
   file?: string;
   tags?: string[];
