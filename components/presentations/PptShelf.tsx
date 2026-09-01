@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react';
 import Image from 'next/image';
 import Card3D from '@/components/ui/Card3D';
+import ScrollImageReveal from '@/components/ui/ScrollImageReveal';
 import styles from './PptShelf.module.css';
 import type { Presentation } from '@/types';
 
@@ -111,13 +112,15 @@ export default function PptShelf({ items, onOpen }: Props) {
 
                 <div className={styles.cardThumb}>
                   {ppt.preview ? (
-                    <Image
-                      src={ppt.preview}
-                      alt={ppt.title}
-                      fill
-                      className={styles.cardThumbImg}
-                      sizes="320px"
-                    />
+                    <ScrollImageReveal direction="up" delay={(i % 3) * 100} glare={true}>
+                      <Image
+                        src={ppt.preview}
+                        alt={ppt.title}
+                        fill
+                        className={styles.cardThumbImg}
+                        sizes="320px"
+                      />
+                    </ScrollImageReveal>
                   ) : (
                     <div className={styles.thumbPlaceholder}>
                       <span className={styles.thumbIcon}>{String(i + 1).padStart(2, '0')}</span>

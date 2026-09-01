@@ -1,0 +1,152 @@
+/* ── Scroll Image Reveal Effect ───────────────────────────────── */
+.revealContainer {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  user-select: none;
+}
+
+/* Inner content (the image / card visual) */
+.revealContent {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: scale(1.18);
+  filter: brightness(0.85) contrast(1.05);
+  transition:
+    transform 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.8s ease;
+  opacity: 0;
+  will-change: transform, filter, opacity;
+  border-radius: inherit;
+}
+
+.revealed .revealContent {
+  transform: scale(1);
+  filter: brightness(1) contrast(1);
+  opacity: 1;
+}
+
+/* ── Shutter / Curtain Wipe Masks ────────────────────────────── */
+.curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: var(--curtain-bg, #0e121a);
+  will-change: transform;
+}
+
+/* Direction: Up (Curtain slides from bottom to top) */
+.directionUp .curtain {
+  transform: translateY(0%);
+  transform-origin: top;
+  transition: transform 0.95s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.directionUp.revealed .curtain {
+  transform: translateY(-101%);
+}
+
+/* Direction: Down */
+.directionDown .curtain {
+  transform: translateY(0%);
+  transform-origin: bottom;
+  transition: transform 0.95s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.directionDown.revealed .curtain {
+  transform: translateY(101%);
+}
+
+/* Direction: Left */
+.directionLeft .curtain {
+  transform: translateX(0%);
+  transform-origin: left;
+  transition: transform 0.95s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.directionLeft.revealed .curtain {
+  transform: translateX(-101%);
+}
+
+/* Direction: Right */
+.directionRight .curtain {
+  transform: translateX(0%);
+  transform-origin: right;
+  transition: transform 0.95s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.directionRight.revealed .curtain {
+  transform: translateX(101%);
+}
+
+/* ── Second Accent Line Shutter (Editorial Detail) ───────────── */
+.accentEdge {
+  position: absolute;
+  z-index: 6;
+  pointer-events: none;
+  background: var(--accent);
+  opacity: 0.85;
+  box-shadow: 0 0 12px var(--accent);
+  transition: transform 0.95s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.directionUp .accentEdge {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  transform: translateY(0%);
+}
+
+.directionUp.revealed .accentEdge {
+  transform: translateY(-100vh);
+}
+
+.directionRight .accentEdge {
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 2px;
+  transform: translateX(0%);
+}
+
+.directionRight.revealed .accentEdge {
+  transform: translateX(100vw);
+}
+
+/* ── Glossy Shimmer Light Sweep on Unveil ────────────────────── */
+.shimmerSweep {
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 100%
+  );
+  transform: skewX(-25deg);
+  pointer-events: none;
+  z-index: 4;
+}
+
+.revealed .shimmerSweep {
+  animation: sweepPass 1.2s 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes sweepPass {
+  0% {
+    left: -150%;
+  }
+  100% {
+    left: 200%;
+  }
+}

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Card3D from '@/components/ui/Card3D';
+import ScrollImageReveal from '@/components/ui/ScrollImageReveal';
 import styles from './Certifications.module.css';
 import type { Certification } from '@/types';
 
@@ -80,13 +81,15 @@ export default function CertificationsSection({ items, onOpen }: Props) {
 
               <div className={styles.cardThumb}>
                 {cert.preview ? (
-                  <Image
-                    src={cert.preview}
-                    alt={cert.title}
-                    fill
-                    className={styles.cardThumbImg}
-                    sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
-                  />
+                  <ScrollImageReveal direction="up" delay={(i % 3) * 120} glare={true}>
+                    <Image
+                      src={cert.preview}
+                      alt={cert.title}
+                      fill
+                      className={styles.cardThumbImg}
+                      sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                    />
+                  </ScrollImageReveal>
                 ) : (
                   <div className={styles.thumbPlaceholder}>
                     <span className={styles.thumbLetter}>

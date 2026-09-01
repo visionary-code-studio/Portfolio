@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Card3D from '@/components/ui/Card3D';
+import ScrollImageReveal from '@/components/ui/ScrollImageReveal';
 import styles from './IdentitySection.module.css';
 
 interface ProfileProps {
@@ -93,14 +94,16 @@ export default function IdentitySection({ data }: ProfileProps) {
         <div className={styles.photoCol}>
           <Card3D intensity={10} glare={true} className={styles.card3DPhotoWrap}>
             <div className={styles.photoWrap}>
-              <Image
-                src={profileImage}
-                alt={fullName}
-                fill
-                priority
-                className={styles.photo}
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
+              <ScrollImageReveal direction="up" delay={150} glare={true}>
+                <Image
+                  src={profileImage}
+                  alt={fullName}
+                  fill
+                  priority
+                  className={styles.photo}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </ScrollImageReveal>
               {/* Authentic Autographed Signature Badge */}
               <div className={styles.signatureBadge} aria-label="Personal Signature">
                 <div className={styles.signatureScript}>Vaibhav Shaw</div>
