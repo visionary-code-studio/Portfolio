@@ -134,8 +134,14 @@ export default function PptShelf({ items, onOpen }: Props) {
                       </ScrollImageReveal>
                     ) : (
                       <div className={styles.thumbPlaceholder}>
-                        <span className={styles.thumbIcon}>{String(i + 1).padStart(2, '0')}</span>
-                        <span className={styles.thumbCat}>{ppt.category}</span>
+                        <Image
+                          src="/images/powerpoint-icon.png"
+                          alt="PowerPoint Presentation"
+                          width={60}
+                          height={60}
+                          className={styles.pptBrandLogo}
+                        />
+                        <span className={styles.thumbCat}>{ppt.category || 'PRESENTATION'}</span>
                       </div>
                     )}
                     <div className={styles.cardOverlay}>

@@ -231,6 +231,11 @@ export function generateDocumentPreviewSvg(params: {
 
   <!-- Center Document Icon Glyph -->
   <g transform="translate(400, 210)">
+    ${meta.iconType === 'presentation' ? `
+    <!-- Official Microsoft PowerPoint Brand Logo -->
+    <rect x="-55" y="-55" width="110" height="110" rx="20" fill="rgba(255,255,255,0.04)" stroke="${meta.color}" stroke-opacity="0.35" stroke-width="1.5"/>
+    <image href="/images/powerpoint-icon.png" x="-45" y="-45" width="90" height="90" preserveAspectRatio="xMidYMid meet"/>
+    ` : `
     <!-- Icon Container Box -->
     <rect x="-45" y="-55" width="90" height="90" rx="18" fill="rgba(255,255,255,0.04)" stroke="${meta.color}" stroke-opacity="0.3" stroke-width="1.5"/>
     
@@ -242,6 +247,7 @@ export function generateDocumentPreviewSvg(params: {
     <line x1="-14" y1="-8" x2="6" y2="-8" stroke="${meta.color}" stroke-width="2" stroke-linecap="round"/>
     <line x1="-14" y1="2" x2="14" y2="2" stroke="${meta.color}" stroke-width="2" stroke-linecap="round"/>
     <line x1="-14" y1="12" x2="8" y2="12" stroke="${meta.color}" stroke-width="2" stroke-linecap="round"/>
+    `}
   </g>
 
   <!-- Main Document Title -->

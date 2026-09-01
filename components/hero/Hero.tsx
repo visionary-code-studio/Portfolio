@@ -167,24 +167,6 @@ export default function Hero({ data }: HeroProps) {
         </div>
       </div>
 
-      {/* ── Left HUD Telemetry Rail ──────────────────────────── */}
-      <div className={styles.sideRailLeft} aria-hidden="true">
-        <div className={styles.railChapter}>
-          <span className={styles.railDotActive} />
-          <span>01 / 08 HOME</span>
-        </div>
-        <div className={styles.railTrack}>
-          <span className={`${styles.railDot} ${styles.active}`} />
-          <span className={styles.railDot} />
-          <span className={styles.railDot} />
-          <span className={styles.railDot} />
-          <span className={styles.railDot} />
-          <span className={styles.railDot} />
-          <span className={styles.railDot} />
-          <span className={styles.railDot} />
-        </div>
-      </div>
-
       {/* ── Center Hero Stage & Editorial Typography ─────────── */}
       <div className={styles.centerContent}>
         <div className={styles.domainTag}>
