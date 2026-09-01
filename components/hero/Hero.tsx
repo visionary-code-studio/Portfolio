@@ -2,7 +2,6 @@
 
 import { useRef, useState, useEffect, useCallback } from 'react';
 import Hero3DCanvas from '@/components/3d/Hero3DCanvas';
-import Card3D from '@/components/ui/Card3D';
 import styles from './Hero.module.css';
 
 interface HeroProps {
@@ -26,16 +25,15 @@ export default function Hero({ data }: HeroProps) {
   const posterImage = data?.posterImage || '/images/profile_update.png';
   const firstName = data?.firstName || 'Vaibhav';
   const lastName = data?.lastName || 'Shaw';
-  const role = data?.role || 'Developer · AIML Engineer · Innovator · Designer';
+  const role = data?.role || 'AIML Student · Full Stack Developer';
   const eyebrow = data?.eyebrow || 'Portfolio — 2026';
-  const location = data?.location || 'Kolkata, India';
+  const location = data?.location || 'Kolkata, West Bengal, India';
 
-  // 1. Safe autoplay on initial website load
+  // 1. Safe autoplay on initial mount (muted)
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    // Strict browser requirement for autoplay without user interaction
     video.muted = true;
     video.defaultMuted = true;
 
@@ -44,13 +42,8 @@ export default function Hero({ data }: HeroProps) {
       const playPromise = video.play();
       if (playPromise !== undefined) {
         playPromise
-          .then(() => {
-            setPaused(false);
-          })
-          .catch(() => {
-            // Autoplay was blocked by browser policy; wait for user interaction
-            setPaused(true);
-          });
+          .then(() => setPaused(false))
+          .catch(() => setPaused(true));
       }
     };
 
@@ -65,7 +58,7 @@ export default function Hero({ data }: HeroProps) {
     };
   }, [heroVideo]);
 
-  // 2. Reliable scroll-based pause and mute
+  // 2. Scroll-based pause and mute logic
   useEffect(() => {
     let wasScrolledDown = false;
 
@@ -122,27 +115,47 @@ export default function Hero({ data }: HeroProps) {
     video.muted = nextMuted;
     setMuted(nextMuted);
 
-    // If unmuted and video was paused, start playing
     if (!nextMuted && video.paused) {
       video.play().then(() => setPaused(false)).catch(() => {});
     }
   }, []);
 
-  const scrollDown = () => {
-    const id = document.getElementById('identity');
-    if (id) id.scrollIntoView({ behavior: 'smooth' });
+  const scrollToIdentity = () => {
+    const el = document.getElementById('identity');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToContact = () => {
+    const el = document.getElementById('contact');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <section className={styles.hero} id="home">
-      {/* 3D Mathematical Coordinate & Neural Particle Layer */}
+      {/* ── Full-Bleed Cinematic Background Video (Insta360 Style) ── */}
+      <div className={styles.bgVideoContainer}>
+        <video
+          ref={videoRef}
+          className={styles.bgVideo}
+          src={heroVideo}
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={posterImage}
+          preload="auto"
+        />
+      </div>
+
+      {/* Atmospheric Vignette & Contrast Gradients */}
+      <div className={styles.topGradient} aria-hidden="true" />
+      <div className={styles.radialVignette} aria-hidden="true" />
+      <div className={styles.bottomFade} aria-hidden="true" />
+
+      {/* Interactive 3D Particle Space Coordinate Layer */}
       <Hero3DCanvas />
 
-      {/* Atmospheric Ambient Glow Layer */}
-      <div className={styles.ambientGlow} aria-hidden="true" />
-      <div className={styles.overlay} aria-hidden="true" />
-
-      {/* Top Bar: Eyebrow + Location */}
+      {/* ── Top HUD Telemetry Bar ────────────────────────────── */}
       <div className={styles.topBar}>
         <div className={styles.eyebrow}>
           <span className={styles.liveDot} />
@@ -154,111 +167,100 @@ export default function Hero({ data }: HeroProps) {
         </div>
       </div>
 
-      {/* Center Stage: The Fitted Video Container with 3D Depth */}
-      <div className={styles.stageWrapper}>
-        <Card3D intensity={6} className={styles.card3DStageWrap} glare={true}>
-          <div
-            className={styles.videoStage}
-            onClick={togglePlay}
-            role="region"
-            aria-label="Video Player Stage"
-          >
-            <video
-              ref={videoRef}
-              className={styles.mainVideo}
-              src={heroVideo}
-              autoPlay
-              muted
-              loop
-              playsInline
-              poster={posterImage}
-              preload="auto"
-            />
-
-            {/* Sound Toggle Floating Badge */}
-            <div className={styles.videoBadgeOverlay}>
-              <button
-                className={styles.soundHint}
-                onClick={toggleSound}
-                aria-label={muted ? 'Unmute video' : 'Mute video'}
-                data-cursor-hover
-              >
-                <span className={styles.soundPulse} />
-                <span>{muted ? 'Tap For Sound' : 'Audio Live'}</span>
-              </button>
-            </div>
-
-            {/* Center Play Button Overlay when paused */}
-            {paused && (
-              <div
-                className={styles.centerPlayOverlay}
-                onClick={togglePlay}
-                aria-label="Play video"
-              >
-                <button className={styles.centerPlayBtn} aria-label="Play video" data-cursor-hover>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <polygon points="5 3 19 12 5 21 5 3" />
-                  </svg>
-                </button>
-              </div>
-            )}
-          </div>
-        </Card3D>
+      {/* ── Left HUD Telemetry Rail ──────────────────────────── */}
+      <div className={styles.sideRailLeft} aria-hidden="true">
+        <div className={styles.railChapter}>
+          <span className={styles.railDotActive} />
+          <span>01 / 08 HOME</span>
+        </div>
+        <div className={styles.railTrack}>
+          <span className={`${styles.railDot} ${styles.active}`} />
+          <span className={styles.railDot} />
+          <span className={styles.railDot} />
+          <span className={styles.railDot} />
+          <span className={styles.railDot} />
+          <span className={styles.railDot} />
+          <span className={styles.railDot} />
+          <span className={styles.railDot} />
+        </div>
       </div>
 
-      {/* Bottom Strip: Name, Role, Scroll Indicator & Controls */}
-      <div className={styles.bottomStrip}>
-        <div className={styles.heroTitles}>
-          <h1 className={styles.name}>
-            {firstName} <span className={styles.nameAccent}>{lastName}</span>
-          </h1>
-          <p className={styles.role}>{role}</p>
+      {/* ── Center Hero Stage & Editorial Typography ─────────── */}
+      <div className={styles.centerContent}>
+        <div className={styles.domainTag}>
+          <span>Artificial Intelligence & Full Stack Architecture</span>
+        </div>
+
+        <h1 className={styles.giantTitle}>
+          {firstName} <span className={styles.titleAccent}>{lastName}</span>
+        </h1>
+
+        <p className={styles.subtitle}>
+          Architecting intelligent neural systems, high-performance web applications, and next-generation digital experiences.
+        </p>
+
+        <div className={styles.heroCtas}>
+          <button
+            className={styles.ctaPrimary}
+            onClick={scrollToIdentity}
+            data-cursor-hover
+          >
+            <span>Explore Portfolio</span>
+            <span>↓</span>
+          </button>
+          <button
+            className={styles.ctaSecondary}
+            onClick={scrollToContact}
+            data-cursor-hover
+          >
+            <span>Let&apos;s Connect</span>
+            <span>⚡</span>
+          </button>
+        </div>
+      </div>
+
+      {/* ── Bottom HUD Status Bar & Media Controls ────────────── */}
+      <div className={styles.bottomBar}>
+        <div className={styles.hudRole}>
+          <span className={styles.hudRoleTitle}>Primary Focus</span>
+          <span className={styles.hudRoleDesc}>{role}</span>
         </div>
 
         <button
           className={styles.scrollCue}
-          onClick={scrollDown}
-          aria-label="Scroll to discover"
+          onClick={scrollToIdentity}
+          aria-label="Scroll down to explore"
           data-cursor-hover
         >
           <span className={styles.scrollLabel}>Scroll</span>
           <span className={styles.scrollLine} />
         </button>
 
-        <div className={styles.ctrlBtns}>
+        <div className={styles.mediaControls}>
+          <button
+            className={styles.soundPill}
+            onClick={toggleSound}
+            aria-label={muted ? 'Unmute video sound' : 'Mute video sound'}
+            data-cursor-hover
+          >
+            <span className={`${styles.soundDot} ${muted ? styles.muted : ''}`} />
+            <span>{muted ? 'Tap For Sound' : 'Audio Live'}</span>
+          </button>
+
           <button
             className={styles.ctrlBtn}
             onClick={togglePlay}
-            aria-label={paused ? 'Play' : 'Pause'}
+            aria-label={paused ? 'Play video' : 'Pause video'}
             data-cursor-hover
           >
             {paused ? (
               <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor">
-                <path d="M1 1l10 6-10 6V1z" />
+                <polygon points="1 1, 11 7, 1 13" />
               </svg>
             ) : (
-              <svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor">
-                <rect x="0" y="0" width="3.5" height="12" rx="1" />
-                <rect x="6.5" y="0" width="3.5" height="12" rx="1" />
-              </svg>
-            )}
-          </button>
-          <button
-            className={styles.ctrlBtn}
-            onClick={toggleSound}
-            aria-label={muted ? 'Unmute' : 'Mute'}
-            data-cursor-hover
-          >
-            {muted ? (
-              <svg width="16" height="14" viewBox="0 0 16 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-                <path d="M2 4.5h2.5L8 2v10L4.5 9.5H2V4.5z" fill="currentColor" stroke="none" />
-                <line x1="11" y1="4" x2="15" y2="10" /><line x1="15" y1="4" x2="11" y2="10" />
-              </svg>
-            ) : (
-              <svg width="16" height="14" viewBox="0 0 16 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-                <path d="M2 4.5h2.5L8 2v10L4.5 9.5H2V4.5z" fill="currentColor" stroke="none" />
-                <path d="M10.5 4.5a3 3 0 0 1 0 5" />
-                <path d="M12.5 2.5a6 6 0 0 1 0 9" />
+              <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor">
+                <rect x="1" y="1" width="3.5" height="12" rx="1" />
+                <rect x="7.5" y="1" width="3.5" height="12" rx="1" />
               </svg>
             )}
           </button>

@@ -1,61 +1,101 @@
-/* ── Hero: Cinematic 3D Video Landing Stage ──────────────────── */
+/* ── Hero: Immersive Cinematic Video Landing (Insta360 Style) ─── */
 .hero {
   position: relative;
   width: 100%;
   min-height: 100vh;
+  height: 100vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #060709;
-  padding: 5.5rem var(--margin-desktop) 2.5rem;
+  background: #06080d;
+  padding: 6rem var(--margin-desktop) 2.5rem;
+  user-select: none;
 }
 
-/* Ambient dynamic background glow */
-.ambientGlow {
+/* ── 1. Full-Bleed Cinematic Background Video ────────────────── */
+.bgVideoContainer {
   position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 800px;
-  height: 500px;
-  background: radial-gradient(ellipse, rgba(37, 99, 235, 0.12), rgba(200, 240, 74, 0.05), transparent 70%);
-  pointer-events: none;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
   z-index: 0;
+  pointer-events: none;
 }
 
-.overlay {
+.bgVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  opacity: 0.72;
+  transform: scale(1.02);
+  transition: opacity 0.5s ease;
+  filter: contrast(1.05) saturate(1.08);
+}
+
+/* Atmospheric Multi-Layer Dark Vignettes */
+.topGradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 220px;
+  background: linear-gradient(180deg, rgba(6, 8, 13, 0.88) 0%, rgba(6, 8, 13, 0.4) 60%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.radialVignette {
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    circle at center,
-    transparent 20%,
-    rgba(6, 7, 9, 0.65) 70%,
-    var(--bg) 100%
+    ellipse at center 45%,
+    rgba(6, 8, 13, 0.15) 0%,
+    rgba(6, 8, 13, 0.55) 60%,
+    rgba(6, 8, 13, 0.95) 100%
   );
   pointer-events: none;
   z-index: 1;
 }
 
-/* Header strip above video */
+.bottomFade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 280px;
+  background: linear-gradient(to bottom, transparent 0%, rgba(6, 8, 13, 0.75) 50%, #06080d 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── 2. Top HUD Telemetry Bar ───────────────────────────────── */
 .topBar {
   position: relative;
-  z-index: 3;
+  z-index: 4;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
+  align-items: center;
+  width: 100%;
 }
 
 .eyebrow {
   font-family: var(--font-mono);
   font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  color: var(--text-muted);
+  letter-spacing: 0.22em;
+  color: #9aa2b5;
   text-transform: uppercase;
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.65rem;
+  background: rgba(14, 18, 26, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .liveDot {
@@ -63,16 +103,22 @@
   height: 6px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 8px var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+  animation: liveBlink 2s infinite ease-in-out;
+}
+
+@keyframes liveBlink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
 }
 
 .starMotif {
   color: var(--accent);
   font-size: 0.75rem;
-  animation: spinMotif 10s linear infinite;
+  animation: spinStar 12s linear infinite;
 }
 
-@keyframes spinMotif {
+@keyframes spinStar {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
@@ -80,177 +126,212 @@
 .locationBadge {
   font-family: var(--font-mono);
   font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  color: var(--text-muted);
+  letter-spacing: 0.16em;
+  color: #9aa2b5;
   text-transform: uppercase;
+  background: rgba(14, 18, 26, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Center Stage: The Fitted Video Container with 3D Depth */
-.stageWrapper {
-  position: relative;
-  z-index: 3;
-  flex: 1;
+/* ── 3. Side HUD Telemetry Rails ────────────────────────────── */
+.sideRailLeft {
+  position: absolute;
+  left: var(--margin-desktop);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.card3DStageWrap {
-  width: min(100%, calc((100vh - 14.5rem) * 16 / 9));
-  max-width: 1080px;
-  display: flex;
-  justify-content: center;
-  margin: 0 auto;
-}
-
-.videoStage {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 20px;
-  overflow: hidden;
-  background: #000000;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow:
-    0 25px 75px -15px rgba(0, 0, 0, 0.95),
-    0 0 50px -15px rgba(37, 99, 235, 0.18);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  user-select: none;
-}
-
-.mainVideo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: #000000;
-  display: block;
-  border-radius: inherit;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
   pointer-events: none;
 }
 
-/* Sound badge overlay on the video stage */
-.videoBadgeOverlay {
-  position: absolute;
-  top: 1.25rem;
-  right: 1.25rem;
-  z-index: 6;
-}
-
-/* Center Play Button Overlay when paused */
-.centerPlayOverlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  z-index: 5;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
-}
-
-.centerPlayBtn {
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: #06080d;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 8px 30px rgba(200, 240, 74, 0.5);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.centerPlayBtn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 12px 35px rgba(200, 240, 74, 0.7);
-}
-
-.soundHint {
+.railChapter {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.12em;
-  color: rgba(240, 237, 232, 0.85);
-  text-transform: uppercase;
-  cursor: pointer;
-  background: rgba(10, 10, 10, 0.7);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  padding: 0.4rem 0.85rem;
+  background: rgba(14, 18, 26, 0.6);
+  backdrop-filter: blur(12px);
+  padding: 0.3rem 0.75rem;
   border-radius: 999px;
-  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: #c4ccdf;
 }
 
-.soundHint:hover {
-  border-color: var(--accent);
-  color: var(--text);
-  background: rgba(10, 10, 10, 0.9);
-}
-
-.soundPulse {
-  width: 6px;
-  height: 6px;
+.railDotActive {
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: var(--accent);
-  animation: pulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 8px var(--accent);
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.6); }
+.railTrack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-left: 0.5rem;
 }
 
-/* Bottom info & controls strip */
-.bottomStrip {
+.railDot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.railDot.active {
+  background: var(--accent);
+  height: 12px;
+  border-radius: 3px;
+  box-shadow: 0 0 8px var(--accent);
+}
+
+/* ── 4. Center Hero Stage & Typography ───────────────────────── */
+.centerContent {
   position: relative;
-  z-index: 3;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 980px;
+  margin: auto auto;
+  gap: 1rem;
+}
+
+.domainTag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #c8f04a;
+  background: rgba(200, 240, 74, 0.08);
+  border: 1px solid rgba(200, 240, 74, 0.2);
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+}
+
+.giantTitle {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.85);
+}
+
+.titleAccent {
+  color: var(--accent);
+  text-shadow: 0 0 45px rgba(200, 240, 74, 0.35);
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+  font-weight: 500;
+  color: #e2e8f0;
+  letter-spacing: 0.01em;
+  max-width: 700px;
+  line-height: 1.5;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
+}
+
+.heroCtas {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.6rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #06080d;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 8px 30px rgba(200, 240, 74, 0.35);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.ctaPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(200, 240, 74, 0.55);
+}
+
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.6rem;
+  border-radius: 999px;
+  background: rgba(14, 18, 26, 0.65);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(14px);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.ctaSecondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: translateY(-2px);
+}
+
+/* ── 5. Bottom HUD Status & Media Controls ───────────────────── */
+.bottomBar {
+  position: relative;
+  z-index: 4;
   width: 100%;
-  margin-top: 1.25rem;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 2rem;
 }
 
-.heroTitles {
-  flex: 1;
+.hudRole {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
-.name {
-  font-family: var(--font-display);
-  font-size: clamp(2.4rem, 5.5vw, 4.2rem);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1;
+.hudRoleTitle {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--text);
+  color: #7b8398;
 }
 
-.nameAccent {
-  color: var(--accent);
-}
-
-.role {
-  font-family: var(--font-body);
-  font-size: clamp(0.8rem, 1.3vw, 0.95rem);
-  font-weight: 500;
-  color: var(--text-muted);
-  margin-top: 0.5rem;
-  letter-spacing: 0.02em;
+.hudRoleDesc {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
 }
 
 /* Center scroll cue */
@@ -263,7 +344,6 @@
   background: none;
   border: none;
   padding: 0;
-  align-self: center;
   transition: opacity 0.2s;
 }
 
@@ -275,15 +355,15 @@
   font-family: var(--font-mono);
   font-size: 0.55rem;
   letter-spacing: 0.2em;
-  color: var(--text-muted);
+  color: #9aa2b5;
   text-transform: uppercase;
 }
 
 .scrollLine {
   width: 1px;
-  height: 2rem;
+  height: 2.2rem;
   background: linear-gradient(to bottom, var(--accent), transparent);
-  animation: scrollDown 1.6s ease-in-out infinite;
+  animation: scrollDown 1.8s ease-in-out infinite;
 }
 
 @keyframes scrollDown {
@@ -294,10 +374,49 @@
 }
 
 /* Right stage control buttons */
-.ctrlBtns {
+.mediaControls {
   display: flex;
-  gap: 0.5rem;
-  align-self: flex-end;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.soundPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: #f4f2ee;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: rgba(14, 18, 26, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0.48rem 1rem;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+}
+
+.soundPill:hover {
+  border-color: var(--accent);
+  background: rgba(20, 25, 36, 0.9);
+  transform: translateY(-1px);
+}
+
+.soundDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.soundDot.muted {
+  background: #ffbd2e;
+  box-shadow: 0 0 8px #ffbd2e;
 }
 
 .ctrlBtn {
@@ -305,35 +424,41 @@
   height: 38px;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(16, 18, 24, 0.8);
-  backdrop-filter: blur(8px);
-  color: var(--text-muted);
+  background: rgba(14, 18, 26, 0.75);
+  backdrop-filter: blur(14px);
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
 }
 
 .ctrlBtn:hover {
   border-color: var(--accent);
-  color: var(--text);
-  transform: translateY(-2px);
+  color: var(--accent);
+  transform: translateY(-1px);
 }
 
+/* ── Responsive Adaptations ────────────────────────────────── */
 @media (max-width: 900px) {
   .hero {
-    min-height: auto;
     padding: 5rem var(--margin-mobile) 2rem;
+    height: auto;
+    min-height: 100vh;
   }
-  .videoStage {
-    max-height: 45vh;
-    border-radius: 12px;
+  .sideRailLeft {
+    display: none;
   }
-  .bottomStrip {
+  .giantTitle {
+    font-size: 2.8rem;
+  }
+  .bottomBar {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 1.5rem;
+    text-align: center;
   }
   .scrollCue {
     display: none;
