@@ -1,6 +1,7 @@
 'use client';
 
 import Card3D from '@/components/ui/Card3D';
+import { ScrollReveal, ScrollStagger, ScrollStaggerItem } from '@/components/ui/ScrollTriggered';
 import styles from './FutureSection.module.css';
 
 interface Pillar {
@@ -41,7 +42,7 @@ export default function FutureSection({ items }: FutureProps) {
 
   return (
     <section className={styles.section} id="future">
-      <div className={styles.intro}>
+      <ScrollReveal variant="fadeUp" className={styles.intro}>
         <div className={styles.sectionMeta}>
           <span className={styles.starMotif}>✦</span>
           <span>07 — What&apos;s Next</span>
@@ -51,23 +52,25 @@ export default function FutureSection({ items }: FutureProps) {
           I don&apos;t have every answer.{' '}
           <strong>I have better questions.</strong>
         </p>
-      </div>
+      </ScrollReveal>
 
-      <div className={styles.pillars}>
+      <ScrollStagger staggerDelay={0.1} className={styles.pillars}>
         {pillars.map((p) => (
-          <Card3D key={p.num} className={styles.card3DWrap} intensity={10} glare={true}>
-            <div className={styles.pillarInner}>
-              <div className={styles.pillarTop}>
-                <span className={styles.pillarNum}>{p.num} // MANIFESTO</span>
-                <span className={styles.pillarTag}>Future Pillar</span>
+          <ScrollStaggerItem key={p.num} style={{ display: 'flex' }}>
+            <Card3D className={styles.card3DWrap} intensity={10} glare={true}>
+              <div className={styles.pillarInner}>
+                <div className={styles.pillarTop}>
+                  <span className={styles.pillarNum}>{p.num} // MANIFESTO</span>
+                  <span className={styles.pillarTag}>Future Pillar</span>
+                </div>
+                <h3 className={styles.pillarLabel}>{p.label}</h3>
+                <span className={styles.pillarAccent} />
+                <p className={styles.pillarText}>{p.text}</p>
               </div>
-              <h3 className={styles.pillarLabel}>{p.label}</h3>
-              <span className={styles.pillarAccent} />
-              <p className={styles.pillarText}>{p.text}</p>
-            </div>
-          </Card3D>
+            </Card3D>
+          </ScrollStaggerItem>
         ))}
-      </div>
+      </ScrollStagger>
     </section>
   );
 }

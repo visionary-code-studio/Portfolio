@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Card3D from '@/components/ui/Card3D';
 import ScrollImageReveal from '@/components/ui/ScrollImageReveal';
+import { ScrollReveal, ScrollStagger, ScrollStaggerItem } from '@/components/ui/ScrollTriggered';
 import styles from './IdentitySection.module.css';
 
 interface ProfileProps {
@@ -118,34 +119,44 @@ export default function IdentitySection({ data }: ProfileProps) {
 
         {/* Content Column */}
         <div className={styles.contentCol}>
-          <div className={styles.greeting}>
-            <span className={styles.hi}>02 — Digital Identity</span>
-            <h2 className={styles.fullName}>{fullName}</h2>
-          </div>
+          <ScrollReveal variant="fadeUp" delay={0.1}>
+            <div className={styles.greeting}>
+              <span className={styles.hi}>02 — Digital Identity</span>
+              <h2 className={styles.fullName}>{fullName}</h2>
+            </div>
+          </ScrollReveal>
 
-          <div className={styles.pills}>
+          <ScrollStagger staggerDelay={0.06} className={styles.pills}>
             {pills.map((p) => (
-              <span key={p} className={styles.pill}>{p}</span>
+              <ScrollStaggerItem key={p}>
+                <span className={styles.pill}>{p}</span>
+              </ScrollStaggerItem>
             ))}
-          </div>
+          </ScrollStagger>
 
-          <p className={styles.bioText}>{shortIntro}</p>
+          <ScrollReveal variant="fadeUp" delay={0.2}>
+            <p className={styles.bioText}>{shortIntro}</p>
+          </ScrollReveal>
 
-          <button className={styles.ctaBtn} onClick={scrollToAbout} data-cursor-hover>
-            <span>Explore Archive</span>
-            <span className={styles.ctaArrow}>→</span>
-          </button>
+          <ScrollReveal variant="fadeUp" delay={0.25}>
+            <button className={styles.ctaBtn} onClick={scrollToAbout} data-cursor-hover>
+              <span>Explore Archive</span>
+              <span className={styles.ctaArrow}>→</span>
+            </button>
+          </ScrollReveal>
 
-          <div className={styles.stats}>
+          <ScrollStagger staggerDelay={0.1} className={styles.stats}>
             {stats.map((s) => (
-              <Card3D key={s.label} intensity={8} glare={false} className={styles.card3DStatWrap}>
-                <div className={styles.statCard}>
-                  <span className={styles.statValue}>{s.value}</span>
-                  <span className={styles.statLabel}>{s.label}</span>
-                </div>
-              </Card3D>
+              <ScrollStaggerItem key={s.label}>
+                <Card3D intensity={8} glare={false} className={styles.card3DStatWrap}>
+                  <div className={styles.statCard}>
+                    <span className={styles.statValue}>{s.value}</span>
+                    <span className={styles.statLabel}>{s.label}</span>
+                  </div>
+                </Card3D>
+              </ScrollStaggerItem>
             ))}
-          </div>
+          </ScrollStagger>
         </div>
       </section>
 

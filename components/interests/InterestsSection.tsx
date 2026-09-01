@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { ScrollReveal, ScrollStagger, ScrollStaggerItem } from '@/components/ui/ScrollTriggered';
 import styles from './Interests.module.css';
 
 interface InterestItem {
@@ -88,7 +89,7 @@ export default function InterestsSection({ items }: Props) {
   return (
     <section className={styles.section} id="interests">
       <div className={styles.header}>
-        <div className={styles.headerLeft}>
+        <ScrollReveal variant="fadeUp" className={styles.headerLeft}>
           <div className={styles.sectionMeta}>
             <span className={styles.starMotif}>✦</span>
             <span>06 — What I&apos;m Into</span>
@@ -97,7 +98,7 @@ export default function InterestsSection({ items }: Props) {
           <p className={styles.subtitle}>
             A kinetic domain cloud of technical obsession and creative curiosity.
           </p>
-        </div>
+        </ScrollReveal>
 
         {/* Filter chips */}
         <div className={styles.filters}>
@@ -115,24 +116,25 @@ export default function InterestsSection({ items }: Props) {
       </div>
 
       {/* Interactive Typographic Word Cloud */}
-      <div className={styles.cloudContainer}>
+      <ScrollStagger staggerDelay={0.04} className={styles.cloudContainer}>
         {filtered.map((item, idx) => {
           const isSelected = selectedWord.text === item.text;
           const sizeClass = styles[`size-${item.size || 'md'}`] || styles['size-md'];
 
           return (
-            <button
-              key={idx}
-              className={`${styles.wordItem} ${sizeClass} ${isSelected ? styles.activeWord : ''}`}
-              onClick={() => setSelectedWord(item)}
-              data-cursor-hover
-              aria-label={`Explore ${item.text}`}
-            >
-              <span>{item.text}</span>
-            </button>
+            <ScrollStaggerItem key={idx}>
+              <button
+                className={`${styles.wordItem} ${sizeClass} ${isSelected ? styles.activeWord : ''}`}
+                onClick={() => setSelectedWord(item)}
+                data-cursor-hover
+                aria-label={`Explore ${item.text}`}
+              >
+                <span>{item.text}</span>
+              </button>
+            </ScrollStaggerItem>
           );
         })}
-      </div>
+      </ScrollStagger>
 
       {/* Progressive Disclosure: Engineering Detail Box */}
       {selectedWord && (

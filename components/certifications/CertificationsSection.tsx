@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Card3D from '@/components/ui/Card3D';
 import ScrollImageReveal from '@/components/ui/ScrollImageReveal';
+import { ScrollReveal, ScrollStagger, ScrollStaggerItem } from '@/components/ui/ScrollTriggered';
 import styles from './Certifications.module.css';
 import type { Certification } from '@/types';
 
@@ -54,65 +55,66 @@ export default function CertificationsSection({ items, onOpen }: Props) {
       </div>
 
       {/* 3D Perspective Document Grid */}
-      <div className={styles.grid}>
+      <ScrollStagger staggerDelay={0.09} className={styles.grid}>
         {filtered.map((cert, i) => (
-          <Card3D
-            key={cert.id}
-            className={styles.card3DWrap}
-            intensity={12}
-            onClick={() => onOpen(cert)}
-            glare={true}
-          >
-            <div
-              className={styles.cardInner}
-              data-cursor-hover
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && onOpen(cert)}
-              aria-label={`View certificate: ${cert.title}`}
+          <ScrollStaggerItem key={cert.id} style={{ display: 'flex' }}>
+            <Card3D
+              className={styles.card3DWrap}
+              intensity={12}
+              onClick={() => onOpen(cert)}
+              glare={true}
             >
-              <div className={styles.cardTop}>
-                <span className={styles.verifiedBadge}>
-                  <span>✓</span>
-                  <span>Verified Artifact</span>
-                </span>
-                <span className={styles.cardYear}>{cert.year}</span>
-              </div>
+              <div
+                className={styles.cardInner}
+                data-cursor-hover
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && onOpen(cert)}
+                aria-label={`View certificate: ${cert.title}`}
+              >
+                <div className={styles.cardTop}>
+                  <span className={styles.verifiedBadge}>
+                    <span>✓</span>
+                    <span>Verified Artifact</span>
+                  </span>
+                  <span className={styles.cardYear}>{cert.year}</span>
+                </div>
 
-              <div className={styles.cardThumb}>
-                {cert.preview ? (
-                  <ScrollImageReveal direction="up" delay={(i % 3) * 120} glare={true}>
-                    <Image
-                      src={cert.preview}
-                      alt={cert.title}
-                      fill
-                      className={styles.cardThumbImg}
-                      sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
-                    />
-                  </ScrollImageReveal>
-                ) : (
-                  <div className={styles.thumbPlaceholder}>
-                    <span className={styles.thumbLetter}>
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
+                <div className={styles.cardThumb}>
+                  {cert.preview ? (
+                    <ScrollImageReveal direction="up" delay={(i % 3) * 120} glare={true}>
+                      <Image
+                        src={cert.preview}
+                        alt={cert.title}
+                        fill
+                        className={styles.cardThumbImg}
+                        sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                      />
+                    </ScrollImageReveal>
+                  ) : (
+                    <div className={styles.thumbPlaceholder}>
+                      <span className={styles.thumbLetter}>
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                    </div>
+                  )}
+                  <div className={styles.cardOverlay}>
+                    <span className={styles.viewLabel}>Inspect Document ↗</span>
                   </div>
-                )}
-                <div className={styles.cardOverlay}>
-                  <span className={styles.viewLabel}>Inspect Document ↗</span>
+                </div>
+
+                <div className={styles.cardInfo}>
+                  <span className={styles.cardIssuer}>{cert.issuer}</span>
+                  <h3 className={styles.cardTitle}>{cert.title}</h3>
+                  {cert.credentialId && (
+                    <span className={styles.credentialId}>ID: {cert.credentialId}</span>
+                  )}
                 </div>
               </div>
-
-              <div className={styles.cardInfo}>
-                <span className={styles.cardIssuer}>{cert.issuer}</span>
-                <h3 className={styles.cardTitle}>{cert.title}</h3>
-                {cert.credentialId && (
-                  <span className={styles.credentialId}>ID: {cert.credentialId}</span>
-                )}
-              </div>
-            </div>
-          </Card3D>
+            </Card3D>
+          </ScrollStaggerItem>
         ))}
-      </div>
+      </ScrollStagger>
     </section>
   );
 }

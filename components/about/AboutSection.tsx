@@ -1,5 +1,6 @@
 'use client';
 
+import { ScrollReveal, ScrollStagger, ScrollStaggerItem } from '@/components/ui/ScrollTriggered';
 import styles from './AboutSection.module.css';
 
 interface AboutProps {
@@ -57,7 +58,7 @@ export default function AboutSection({ data }: AboutProps) {
     <section className={styles.section} id="about">
       {/* Left Column: Manifesto & Narrative */}
       <div className={styles.left}>
-        <div>
+        <ScrollReveal variant="fadeUp">
           <div className={styles.sectionMeta}>02 — Personal Philosophy</div>
           <div className={styles.statementBlock}>
             <h2 className={styles.statementQuote}>
@@ -66,39 +67,45 @@ export default function AboutSection({ data }: AboutProps) {
             </h2>
             <p className={styles.narrativeText}>{shortIntro}</p>
           </div>
-        </div>
+        </ScrollReveal>
 
-        <div className={styles.philosophy}>
-          <p className={styles.philosophyText}>
-            &ldquo;{tagline}&rdquo;
-          </p>
-          <p className={styles.philosophyAttr}>— Operational Mantra</p>
-        </div>
+        <ScrollReveal variant="fadeUp" delay={0.15}>
+          <div className={styles.philosophy}>
+            <p className={styles.philosophyText}>
+              &ldquo;{tagline}&rdquo;
+            </p>
+            <p className={styles.philosophyAttr}>— Operational Mantra</p>
+          </div>
+        </ScrollReveal>
       </div>
 
       {/* Right Column: Identity Pillars + Academic Track */}
       <div className={styles.right}>
-        <div className={styles.identityList}>
+        <ScrollStagger staggerDelay={0.07} className={styles.identityList}>
           {identityPillars.map((item) => (
-            <div key={item.num} className={styles.identityItem}>
-              <span className={styles.identityNum}>{item.num}</span>
-              <span className={styles.identityLabel}>{item.label}</span>
-            </div>
+            <ScrollStaggerItem key={item.num}>
+              <div className={styles.identityItem}>
+                <span className={styles.identityNum}>{item.num}</span>
+                <span className={styles.identityLabel}>{item.label}</span>
+              </div>
+            </ScrollStaggerItem>
           ))}
-        </div>
+        </ScrollStagger>
 
-        <div className={styles.academic}>
+        <ScrollReveal variant="card" delay={0.15} className={styles.academic}>
           <div className={styles.academicHeader}>
             <span className={styles.academicTitle}>Academic Dossier</span>
             <span className={styles.academicStatus}>Active Standing</span>
           </div>
-          {academic.map((row) => (
-            <div key={row.label} className={styles.academicRow}>
-              <span className={styles.academicLabel}>{row.label}</span>
-              <span className={styles.academicValue}>{row.value}</span>
-            </div>
-          ))}
-        </div>
+          <ScrollStagger staggerDelay={0.05}>
+            {academic.map((row) => (
+              <ScrollStaggerItem key={row.label} className={styles.academicRow}>
+                <span className={styles.academicLabel}>{row.label}</span>
+                <span className={styles.academicValue}>{row.value}</span>
+              </ScrollStaggerItem>
+            ))}
+          </ScrollStagger>
+        </ScrollReveal>
       </div>
     </section>
   );
