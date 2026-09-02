@@ -1,58 +1,96 @@
 'use client';
 
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import Hero3DCanvas from '@/components/3d/Hero3DCanvas';
 import styles from './Hero.module.css';
 
 interface HeroProps {
   data?: {
+    eyebrow?: string;
     firstName?: string;
     lastName?: string;
     role?: string;
-    tagline?: string;
-    location?: string;
-    eyebrow?: string;
     heroVideo?: string;
-    avatar?: string;
+    posterImage?: string;
+    location?: string;
   };
 }
 
 export default function Hero({ data }: HeroProps) {
-  const firstName = data?.firstName || 'VAIBHAV';
-  const lastName = data?.lastName || 'SHAW';
-  const role = data?.role || 'AIML Student & Full Stack Developer';
-  const location = data?.location || 'Greater Noida, India';
-  const eyebrow = data?.eyebrow || 'PORTFOLIO 2026';
-  const heroVideo = data?.heroVideo || '/hero-loop.mp4';
-  const posterImage = data?.avatar || '/images/profile_update.png';
-
   const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
   const [paused, setPaused] = useState(false);
 
-  // Auto-play muted on mount
+  const heroVideo = data?.heroVideo || '/video/Intro.mp4';
+  const posterImage = data?.posterImage || '/images/profile_update.png';
+  const firstName = data?.firstName || 'Vaibhav';
+  const lastName = data?.lastName || 'Shaw';
+  const role = data?.role || 'AIML Student · Full Stack Developer';
+  const eyebrow = data?.eyebrow || 'Portfolio — 2026';
+  const location = data?.location || 'Kolkata, West Bengal, India';
+
+  // 1. Safe autoplay on initial mount (muted)
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     video.muted = true;
-    const playPromise = video.play();
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => setPaused(false))
-        .catch(() => {
-          setPaused(true);
-          const handleFirstInteraction = () => {
-            if (videoRef.current) {
-              videoRef.current.play().then(() => setPaused(false)).catch(() => {});
-            }
-            window.removeEventListener('click', handleFirstInteraction);
-            window.removeEventListener('scroll', handleFirstInteraction);
-          };
-          window.addEventListener('click', handleFirstInteraction, { once: true });
-          window.addEventListener('scroll', handleFirstInteraction, { once: true });
-        });
+    video.defaultMuted = true;
+
+    const tryAutoplay = () => {
+      video.currentTime = 0;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => setPaused(false))
+          .catch(() => setPaused(true));
+      }
+    };
+
+    if (video.readyState >= 2) {
+      tryAutoplay();
+    } else {
+      video.addEventListener('canplay', tryAutoplay, { once: true });
     }
+
+    return () => {
+      video.removeEventListener('canplay', tryAutoplay);
+    };
+  }, [heroVideo]);
+
+  // 2. Scroll-based pause and mute logic
+  useEffect(() => {
+    let wasScrolledDown = false;
+
+    const handleScroll = () => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      const scrollY = window.scrollY;
+      const threshold = window.innerHeight * 0.55;
+
+      if (scrollY > threshold) {
+        if (!wasScrolledDown) {
+          wasScrolledDown = true;
+          video.muted = true;
+          video.pause();
+          setMuted(true);
+          setPaused(true);
+        }
+      } else if (scrollY < 120) {
+        if (wasScrolledDown) {
+          wasScrolledDown = false;
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {});
+          }
+          setPaused(false);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const togglePlay = useCallback((e?: React.MouseEvent) => {
@@ -94,7 +132,7 @@ export default function Hero({ data }: HeroProps) {
 
   return (
     <section className={styles.hero} id="home">
-      {/* ── 1. Full-Bleed Cinematic Background Video ─────────── */}
+      {/* ── Full-Bleed Cinematic Background Video (Insta360 Style) ── */}
       <div className={styles.bgVideoContainer}>
         <video
           ref={videoRef}
@@ -109,7 +147,7 @@ export default function Hero({ data }: HeroProps) {
         />
       </div>
 
-      {/* Atmospheric Multi-Layer Dark Vignettes & Depth Filters */}
+      {/* Atmospheric Vignette & Contrast Gradients */}
       <div className={styles.topGradient} aria-hidden="true" />
       <div className={styles.radialVignette} aria-hidden="true" />
       <div className={styles.bottomFade} aria-hidden="true" />
@@ -117,70 +155,59 @@ export default function Hero({ data }: HeroProps) {
       {/* Interactive 3D Particle Space Coordinate Layer */}
       <Hero3DCanvas />
 
-      {/* ── 2. Top HUD Telemetry Bar ─────────────────────────── */}
+      {/* ── Top HUD Telemetry Bar ────────────────────────────── */}
       <div className={styles.topBar}>
         <div className={styles.eyebrow}>
           <span className={styles.liveDot} />
-          <span>SYSTEM ONLINE · {eyebrow}</span>
+          <span>{eyebrow}</span>
           <span className={styles.starMotif}>✦</span>
         </div>
-
         <div className={styles.locationBadge}>
-          <span className={styles.locationIcon}>📍</span>
-          <span>{location}</span>
+          {location}
         </div>
       </div>
 
-      {/* ── 3. Giant Layered Cyber-Editorial Stage ─────────────── */}
-      <div className={styles.heroStage}>
-        {/* Layer A: Giant Background Typography (Spans Entire Canvas Behind Subject) */}
-        <div className={styles.giantBackdrop} aria-hidden="true">
-          <span className={styles.backdropFirstName}>{firstName}</span>
-          <span className={styles.backdropLastName}>{lastName}</span>
+      {/* ── Center Hero Stage & Editorial Typography ─────────── */}
+      <div className={styles.centerContent}>
+        <div className={styles.domainTag}>
+          <span>Artificial Intelligence & Full Stack Architecture</span>
         </div>
 
-        {/* Layer B: Overlapping Expressive Brush Neon Script & Action CTAs */}
-        <div className={styles.centerStage}>
-          <div className={styles.scriptWrapper}>
-            <h1 className={styles.scriptNeon}>NEURAL ARCHITECT</h1>
-            <p className={styles.scriptTagline}>Architected for tomorrow.</p>
-          </div>
+        <h1 className={styles.giantTitle}>
+          {firstName} <span className={styles.titleAccent}>{lastName}</span>
+        </h1>
 
-          <div className={styles.heroActions}>
-            <button
-              className={styles.ctaPrimary}
-              onClick={scrollToIdentity}
-              data-cursor-hover
-            >
-              <span>Explore Portfolio</span>
-              <span>↓</span>
-            </button>
-            <button
-              className={styles.ctaSecondary}
-              onClick={scrollToContact}
-              data-cursor-hover
-            >
-              <span>Let&apos;s Connect</span>
-              <span>⚡</span>
-            </button>
-          </div>
+        <p className={styles.subtitle}>
+          Architecting intelligent neural systems, high-performance web applications, and next-generation digital experiences.
+        </p>
+
+        <div className={styles.heroCtas}>
+          <button
+            className={styles.ctaPrimary}
+            onClick={scrollToIdentity}
+            data-cursor-hover
+          >
+            <span>Explore Portfolio</span>
+            <span>↓</span>
+          </button>
+          <button
+            className={styles.ctaSecondary}
+            onClick={scrollToContact}
+            data-cursor-hover
+          >
+            <span>Let&apos;s Connect</span>
+            <span>⚡</span>
+          </button>
         </div>
       </div>
 
-      {/* ── 4. Bottom HUD: Specifications, Scroll Cue & Spotlight Card ── */}
+      {/* ── Bottom HUD Status Bar & Media Controls ────────────── */}
       <div className={styles.bottomBar}>
-        {/* Left: System Specification Block (Ref: LIMITED PRE-ORDERS) */}
-        <div className={styles.specBlock}>
-          <span className={styles.specEyebrow}>SYSTEM SPECIALIZATION</span>
-          <h3 className={styles.specTitle}>
-            Intelligent Models &amp; Resilient Architectures
-          </h3>
-          <p className={styles.specDesc}>
-            Engineering next-generation AI/ML architectures, autonomous neural systems, and high-performance digital experiences.
-          </p>
+        <div className={styles.hudRole}>
+          <span className={styles.hudRoleTitle}>Primary Focus</span>
+          <span className={styles.hudRoleDesc}>{role}</span>
         </div>
 
-        {/* Center: Interactive Scroll Cue */}
         <button
           className={styles.scrollCue}
           onClick={scrollToIdentity}
@@ -191,62 +218,34 @@ export default function Hero({ data }: HeroProps) {
           <span className={styles.scrollLine} />
         </button>
 
-        {/* Right: Glassmorphic Spotlight HUD Card (Ref: THIS MONTH'S EXCLUSIVE) */}
-        <div className={styles.spotlightCard}>
-          <div className={styles.spotlightTop}>
-            <span className={styles.spotlightTag}>THIS CYCLE&apos;S FOCUS</span>
-            <span className={styles.spotlightLiveBadge}>
-              <span className={styles.spotlightLiveDot} />
-              ACTIVE
-            </span>
-          </div>
+        <div className={styles.mediaControls}>
+          <button
+            className={styles.soundPill}
+            onClick={toggleSound}
+            aria-label={muted ? 'Unmute video sound' : 'Mute video sound'}
+            data-cursor-hover
+          >
+            <span className={`${styles.soundDot} ${muted ? styles.muted : ''}`} />
+            <span>{muted ? 'Tap For Sound' : 'Audio Live'}</span>
+          </button>
 
-          <h4 className={styles.spotlightHeading}>
-            ISRO BAH Hackathon &amp; IIT Guwahati Analytics
-          </h4>
-          <p className={styles.spotlightDesc}>
-            Deep neural classification, geospatial mapping, and scalable edge systems.
-          </p>
-
-          <div className={styles.spotlightBottom}>
-            <a href="#proof" className={styles.spotlightAction} data-cursor-hover>
-              <span>Inspect Proof</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M7 17L17 7M17 7H7M17 7V17" />
+          <button
+            className={styles.ctrlBtn}
+            onClick={togglePlay}
+            aria-label={paused ? 'Play video' : 'Pause video'}
+            data-cursor-hover
+          >
+            {paused ? (
+              <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor">
+                <polygon points="1 1, 11 7, 1 13" />
               </svg>
-            </a>
-
-            {/* Docked Audio & Playback Controls */}
-            <div className={styles.mediaDock}>
-              <button
-                className={styles.soundPill}
-                onClick={toggleSound}
-                aria-label={muted ? 'Unmute video sound' : 'Mute video sound'}
-                data-cursor-hover
-              >
-                <span className={`${styles.soundDot} ${muted ? styles.muted : ''}`} />
-                <span>{muted ? 'Sound' : 'Live'}</span>
-              </button>
-
-              <button
-                className={styles.ctrlBtn}
-                onClick={togglePlay}
-                aria-label={paused ? 'Play video' : 'Pause video'}
-                data-cursor-hover
-              >
-                {paused ? (
-                  <svg width="10" height="12" viewBox="0 0 12 14" fill="currentColor">
-                    <polygon points="1 1, 11 7, 1 13" />
-                  </svg>
-                ) : (
-                  <svg width="10" height="12" viewBox="0 0 12 14" fill="currentColor">
-                    <rect x="1" y="1" width="3.5" height="12" rx="1" />
-                    <rect x="7.5" y="1" width="3.5" height="12" rx="1" />
-                  </svg>
-                )}
-              </button>
-            </div>
-          </div>
+            ) : (
+              <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor">
+                <rect x="1" y="1" width="3.5" height="12" rx="1" />
+                <rect x="7.5" y="1" width="3.5" height="12" rx="1" />
+              </svg>
+            )}
+          </button>
         </div>
       </div>
     </section>

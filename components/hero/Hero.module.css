@@ -1,4 +1,4 @@
-/* ── Hero: Cyber-Editorial Cinematic Landing (Synth Era Inspired) ── */
+/* ── Hero: Immersive Cinematic Video Landing (Insta360 Style) ─── */
 .hero {
   position: relative;
   width: 100%;
@@ -9,7 +9,7 @@
   flex-direction: column;
   justify-content: space-between;
   background: #06080d;
-  padding: 5.5rem var(--margin-desktop) 2.2rem;
+  padding: 6rem var(--margin-desktop) 2.5rem;
   user-select: none;
 }
 
@@ -29,10 +29,10 @@
   height: 100%;
   object-fit: cover;
   object-position: center 36%;
-  opacity: 0.68;
-  transform: translateY(28px) scale(1.02);
+  opacity: 0.74;
+  transform: translateY(32px) scale(1.03);
   transition: opacity 0.5s ease;
-  filter: contrast(1.08) saturate(1.1);
+  filter: contrast(1.05) saturate(1.08);
 }
 
 /* Atmospheric Multi-Layer Dark Vignettes */
@@ -41,8 +41,8 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 150px;
-  background: linear-gradient(180deg, rgba(6, 8, 13, 0.85) 0%, rgba(6, 8, 13, 0.25) 60%, transparent 100%);
+  height: 140px;
+  background: linear-gradient(180deg, rgba(6, 8, 13, 0.72) 0%, rgba(6, 8, 13, 0.2) 60%, transparent 100%);
   pointer-events: none;
   z-index: 1;
 }
@@ -51,10 +51,10 @@
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    ellipse at center 48%,
-    rgba(6, 8, 13, 0.1) 0%,
-    rgba(6, 8, 13, 0.6) 65%,
-    rgba(6, 8, 13, 0.96) 100%
+    ellipse at center 45%,
+    rgba(6, 8, 13, 0.15) 0%,
+    rgba(6, 8, 13, 0.55) 60%,
+    rgba(6, 8, 13, 0.95) 100%
   );
   pointer-events: none;
   z-index: 1;
@@ -65,8 +65,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 260px;
-  background: linear-gradient(to bottom, transparent 0%, rgba(6, 8, 13, 0.8) 55%, #06080d 100%);
+  height: 280px;
+  background: linear-gradient(to bottom, transparent 0%, rgba(6, 8, 13, 0.75) 50%, #06080d 100%);
   pointer-events: none;
   z-index: 1;
 }
@@ -74,7 +74,7 @@
 /* ── 2. Top HUD Telemetry Bar ───────────────────────────────── */
 .topBar {
   position: relative;
-  z-index: 5;
+  z-index: 4;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -84,16 +84,16 @@
 .eyebrow {
   font-family: var(--font-mono);
   font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  color: #94a3b8;
+  letter-spacing: 0.22em;
+  color: #9aa2b5;
   text-transform: uppercase;
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  background: rgba(14, 18, 26, 0.65);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  padding: 0.35rem 0.9rem;
+  background: rgba(14, 18, 26, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 0.35rem 0.85rem;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -115,465 +115,352 @@
 .starMotif {
   color: var(--accent);
   font-size: 0.75rem;
+  animation: spinStar 12s linear infinite;
+}
+
+@keyframes spinStar {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 .locationBadge {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
-  color: #cbd5e1;
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  background: rgba(14, 18, 26, 0.65);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  padding: 0.35rem 0.9rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  color: #9aa2b5;
+  text-transform: uppercase;
+  background: rgba(14, 18, 26, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 0.35rem 0.85rem;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.locationIcon {
-  font-size: 0.75rem;
-}
-
-/* ── 3. Giant Layered Cyber-Editorial Stage ──────────────────── */
-.heroStage {
-  position: relative;
-  z-index: 3;
-  width: 100%;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Layer A: Giant Background Letters (SYNTH ERA Style) */
-.giantBackdrop {
+/* ── 3. Side HUD Telemetry Rails ────────────────────────────── */
+.sideRailLeft {
   position: absolute;
-  inset: 0;
+  left: var(--margin-desktop);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+  pointer-events: none;
+}
+
+.railChapter {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 1.8vw;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
+  gap: 0.5rem;
+  background: rgba(14, 18, 26, 0.6);
+  backdrop-filter: blur(12px);
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: #c4ccdf;
 }
 
-.backdropFirstName,
-.backdropLastName {
-  font-family: var(--font-heading), 'Syne', sans-serif;
-  font-size: clamp(5.5rem, 15vw, 16.5rem);
-  font-weight: 800;
-  text-transform: uppercase;
-  line-height: 0.88;
-  letter-spacing: -0.045em;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.32) 0%,
-    rgba(255, 255, 255, 0.12) 55%,
-    rgba(255, 255, 255, 0.03) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.6));
-  user-select: none;
+.railDotActive {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
 }
 
-/* Layer B: Center Overlapping Expressive Brush Neon Script */
-.centerStage {
+.railTrack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+.railDot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.railDot.active {
+  background: var(--accent);
+  height: 12px;
+  border-radius: 3px;
+  box-shadow: 0 0 8px var(--accent);
+}
+
+/* ── 4. Center Hero Stage & Typography ───────────────────────── */
+.centerContent {
   position: relative;
   z-index: 4;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 1.5rem;
+  max-width: 980px;
+  margin: auto auto;
+  gap: 1rem;
 }
 
-.scriptWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transform: rotate(-3deg);
-  transition: transform 0.4s var(--ease-out-expo);
-}
-
-.scriptWrapper:hover {
-  transform: rotate(-1deg) scale(1.02);
-}
-
-.scriptNeon {
-  font-family: var(--font-brush), 'Permanent Marker', cursive;
-  font-size: clamp(2.8rem, 6.8vw, 7.2rem);
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  line-height: 1;
+.domainTag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #c084fc;
-  background: linear-gradient(135deg, #e879f9 0%, #c084fc 40%, #a855f7 70%, #c8f04a 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 
-    0 0 25px rgba(192, 132, 252, 0.45),
-    0 0 60px rgba(168, 85, 247, 0.25);
-  margin: 0;
-  padding: 0 0.5rem;
+  color: #c8f04a;
+  background: rgba(200, 240, 74, 0.08);
+  border: 1px solid rgba(200, 240, 74, 0.2);
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
 }
 
-.scriptTagline {
-  font-family: var(--font-signature), 'Caveat', cursive;
-  font-size: clamp(1.4rem, 2.4vw, 2.1rem);
-  font-weight: 600;
-  color: #f1f5f9;
-  letter-spacing: 0.04em;
-  margin-top: 0.2rem;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+.giantTitle {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.85);
 }
 
-/* Action CTAs */
-.heroActions {
+.titleAccent {
+  color: var(--accent);
+  text-shadow: 0 0 45px rgba(200, 240, 74, 0.35);
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+  font-weight: 500;
+  color: #e2e8f0;
+  letter-spacing: 0.01em;
+  max-width: 700px;
+  line-height: 1.5;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
+}
+
+.heroCtas {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
 }
 
 .ctaPrimary {
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
-  background: var(--accent);
-  color: #080a0f;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.85rem 1.6rem;
+  gap: 0.6rem;
+  padding: 0.75rem 1.6rem;
   border-radius: 999px;
-  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #06080d;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 8px 30px rgba(200, 240, 74, 0.35);
+  transition: all 0.2s ease;
   cursor: pointer;
-  transition: all 0.3s var(--ease-out-expo);
-  box-shadow: 0 0 24px rgba(200, 240, 74, 0.25);
+  border: none;
 }
 
 .ctaPrimary:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 0 35px rgba(200, 240, 74, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(200, 240, 74, 0.55);
 }
 
 .ctaSecondary {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
-  background: rgba(14, 18, 26, 0.75);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  color: #f1f5f9;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.85rem 1.5rem;
+  gap: 0.6rem;
+  padding: 0.75rem 1.6rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(14, 18, 26, 0.65);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(14px);
+  transition: all 0.2s ease;
   cursor: pointer;
-  transition: all 0.3s var(--ease-out-expo);
 }
 
 .ctaSecondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
   transform: translateY(-2px);
 }
 
-/* ── 4. Bottom HUD: Specifications, Scroll Cue & Spotlight Card ── */
+/* ── 5. Bottom HUD Status & Media Controls ───────────────────── */
 .bottomBar {
   position: relative;
-  z-index: 5;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: flex-end;
+  z-index: 4;
   width: 100%;
-  gap: 2rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
 }
 
-/* Left: System Specification Block */
-.specBlock {
-  max-width: 380px;
+.hudRole {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.25rem;
 }
 
-.specEyebrow {
+.hudRoleTitle {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--accent);
-  font-weight: 700;
+  color: #7b8398;
 }
 
-.specTitle {
+.hudRoleDesc {
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  color: #f8fafc;
-  line-height: 1.3;
-  margin: 0;
+  color: #ffffff;
+  letter-spacing: -0.01em;
 }
 
-.specDesc {
-  font-size: 0.78rem;
-  line-height: 1.55;
-  color: #94a3b8;
-  margin: 0;
-}
-
-/* Center: Scroll Cue */
+/* Center scroll cue */
 .scrollCue {
-  background: none;
-  border: none;
-  color: #94a3b8;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   cursor: pointer;
-  padding: 0.5rem;
-  transition: color 0.3s ease;
-  justify-self: center;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: opacity 0.2s;
 }
 
 .scrollCue:hover {
-  color: var(--accent);
+  opacity: 0.8;
 }
 
 .scrollLabel {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.22em;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  color: #9aa2b5;
   text-transform: uppercase;
 }
 
 .scrollLine {
   width: 1px;
-  height: 28px;
-  background: linear-gradient(to bottom, currentColor, transparent);
-  animation: scrollDrop 2.2s infinite ease-in-out;
+  height: 2.2rem;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  animation: scrollDown 1.8s ease-in-out infinite;
 }
 
-@keyframes scrollDrop {
-  0% { transform: scaleY(0); transform-origin: top; }
-  50% { transform: scaleY(1); transform-origin: top; }
-  50.1% { transform: scaleY(1); transform-origin: bottom; }
-  100% { transform: scaleY(0); transform-origin: bottom; }
+@keyframes scrollDown {
+  0% { transform: scaleY(0); transform-origin: top; opacity: 0; }
+  40% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  60% { transform: scaleY(1); transform-origin: bottom; opacity: 1; }
+  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
 }
 
-/* Right: Glassmorphic Spotlight Card (THIS MONTH'S EXCLUSIVE Inspired) */
-.spotlightCard {
-  justify-self: end;
-  width: 320px;
-  background: rgba(13, 17, 26, 0.78);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
-  border-radius: 18px;
-  padding: 1.15rem 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  transition: transform 0.3s var(--ease-out-expo), border-color 0.3s ease;
-}
-
-.spotlightCard:hover {
-  transform: translateY(-3px);
-  border-color: rgba(255, 255, 255, 0.22);
-}
-
-.spotlightTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.spotlightTag {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #cbd5e1;
-  font-weight: 700;
-}
-
-.spotlightLiveBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.12em;
-  color: #10b981;
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid rgba(16, 185, 129, 0.25);
-  padding: 0.15rem 0.5rem;
-  border-radius: 999px;
-}
-
-.spotlightLiveDot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #10b981;
-  animation: liveBlink 1.8s infinite ease-in-out;
-}
-
-.spotlightHeading {
-  font-family: var(--font-display);
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: #f8fafc;
-  line-height: 1.35;
-  margin: 0;
-}
-
-.spotlightDesc {
-  font-size: 0.72rem;
-  line-height: 1.5;
-  color: #94a3b8;
-  margin: 0;
-}
-
-.spotlightBottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 0.6rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.spotlightAction {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: var(--accent);
-  text-decoration: none;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.spotlightAction:hover {
-  opacity: 0.85;
-  transform: translateX(2px);
-}
-
-/* Docked Media Controls Inside Spotlight Card */
-.mediaDock {
+/* Right stage control buttons */
+.mediaControls {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.65rem;
 }
 
 .soundPill {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #cbd5e1;
+  gap: 0.55rem;
   font-family: var(--font-mono);
-  font-size: 0.64rem;
-  letter-spacing: 0.08em;
-  padding: 0.25rem 0.6rem;
-  border-radius: 999px;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: #f4f2ee;
+  text-transform: uppercase;
   cursor: pointer;
+  background: rgba(14, 18, 26, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0.48rem 1rem;
+  border-radius: 999px;
   transition: all 0.2s ease;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
 }
 
 .soundPill:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
+  border-color: var(--accent);
+  background: rgba(20, 25, 36, 0.9);
+  transform: translateY(-1px);
 }
 
 .soundDot {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 6px var(--accent);
+  box-shadow: 0 0 8px var(--accent);
 }
 
 .soundDot.muted {
-  background: #64748b;
-  box-shadow: none;
+  background: #ffbd2e;
+  box-shadow: 0 0 8px #ffbd2e;
 }
 
 .ctrlBtn {
-  width: 26px;
-  height: 26px;
-  display: inline-flex;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(14, 18, 26, 0.75);
+  backdrop-filter: blur(14px);
+  color: #ffffff;
+  display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  color: #cbd5e1;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
 }
 
 .ctrlBtn:hover {
-  background: rgba(200, 240, 74, 0.15);
   border-color: var(--accent);
   color: var(--accent);
+  transform: translateY(-1px);
 }
 
-/* ── Responsive Adaptations ──────────────────────────────────── */
-@media (max-width: 1024px) {
+/* ── Responsive Adaptations ────────────────────────────────── */
+@media (max-width: 900px) {
+  .hero {
+    padding: 5rem var(--margin-mobile) 2rem;
+    height: auto;
+    min-height: 100vh;
+  }
+  .sideRailLeft {
+    display: none;
+  }
+  .giantTitle {
+    font-size: 2.8rem;
+  }
   .bottomBar {
-    grid-template-columns: 1fr 1fr;
+    flex-direction: column;
+    align-items: center;
     gap: 1.5rem;
+    text-align: center;
   }
   .scrollCue {
     display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .hero {
-    height: auto;
-    min-height: 100vh;
-    padding: 5rem var(--margin-mobile) 2rem;
-    gap: 2.5rem;
-  }
-  .giantBackdrop {
-    flex-direction: column;
-    gap: 0;
-  }
-  .backdropFirstName,
-  .backdropLastName {
-    font-size: clamp(3.5rem, 16vw, 6rem);
-    line-height: 0.95;
-  }
-  .scriptNeon {
-    font-size: clamp(2.2rem, 9.5vw, 3.8rem);
-  }
-  .bottomBar {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  .specBlock,
-  .spotlightCard {
-    width: 100%;
-    max-width: 100%;
-    justify-self: stretch;
   }
 }
