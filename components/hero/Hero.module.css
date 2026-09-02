@@ -1,25 +1,44 @@
-/* ── Hero: Immersive Cinematic Video Landing (Insta360 Style) ─── */
+/* ── Hero: Boxed Cinematic Landing (Synth Era Reference Concept) ── */
 .hero {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #06080d;
+  padding: 4.8rem var(--margin-desktop) 1.8rem;
+  user-select: none;
+}
+
+/* ── Enclosed Rounded Hero Box (Synth Era Frame) ─────────────── */
+.heroBox {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 6.6rem);
+  min-height: 640px;
+  max-width: 1560px;
+  border-radius: 32px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #06080d;
-  padding: 6rem var(--margin-desktop) 2.5rem;
-  user-select: none;
+  background: #0a0d14;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    0 24px 64px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  padding: 2rem 2.8rem;
 }
 
-/* ── 1. Full-Bleed Cinematic Background Video ────────────────── */
+/* ── 1. Cinematic Background Video Enclosed Within Box ───────── */
 .bgVideoContainer {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
+  border-radius: 32px;
   z-index: 0;
   pointer-events: none;
 }
@@ -29,10 +48,10 @@
   height: 100%;
   object-fit: cover;
   object-position: center 36%;
-  opacity: 0.74;
-  transform: translateY(32px) scale(1.03);
+  opacity: 0.72;
+  transform: translateY(24px) scale(1.02);
   transition: opacity 0.5s ease;
-  filter: contrast(1.05) saturate(1.08);
+  filter: contrast(1.06) saturate(1.08);
 }
 
 /* Atmospheric Multi-Layer Dark Vignettes */
@@ -41,8 +60,8 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 140px;
-  background: linear-gradient(180deg, rgba(6, 8, 13, 0.72) 0%, rgba(6, 8, 13, 0.2) 60%, transparent 100%);
+  height: 150px;
+  background: linear-gradient(180deg, rgba(6, 8, 13, 0.8) 0%, rgba(6, 8, 13, 0.2) 60%, transparent 100%);
   pointer-events: none;
   z-index: 1;
 }
@@ -51,10 +70,10 @@
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    ellipse at center 45%,
-    rgba(6, 8, 13, 0.15) 0%,
+    ellipse at center 46%,
+    rgba(6, 8, 13, 0.1) 0%,
     rgba(6, 8, 13, 0.55) 60%,
-    rgba(6, 8, 13, 0.95) 100%
+    rgba(6, 8, 13, 0.94) 100%
   );
   pointer-events: none;
   z-index: 1;
@@ -65,13 +84,13 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 280px;
+  height: 240px;
   background: linear-gradient(to bottom, transparent 0%, rgba(6, 8, 13, 0.75) 50%, #06080d 100%);
   pointer-events: none;
   z-index: 1;
 }
 
-/* ── 2. Top HUD Telemetry Bar ───────────────────────────────── */
+/* ── 2. Top HUD Telemetry Bar Inside Box ─────────────────────── */
 .topBar {
   position: relative;
   z-index: 4;
@@ -91,8 +110,8 @@
   align-items: center;
   gap: 0.65rem;
   background: rgba(14, 18, 26, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   padding: 0.35rem 0.85rem;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -120,82 +139,24 @@
 
 @keyframes spinStar {
   from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  to { transform: rotate(360deg); }
 }
 
 .locationBadge {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.65rem;
   letter-spacing: 0.16em;
-  color: #9aa2b5;
+  color: #c4ccdf;
   text-transform: uppercase;
   background: rgba(14, 18, 26, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   padding: 0.35rem 0.85rem;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* ── 3. Side HUD Telemetry Rails ────────────────────────────── */
-.sideRailLeft {
-  position: absolute;
-  left: var(--margin-desktop);
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 4;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1.25rem;
-  pointer-events: none;
-}
-
-.railChapter {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: rgba(14, 18, 26, 0.6);
-  backdrop-filter: blur(12px);
-  padding: 0.3rem 0.75rem;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  color: #c4ccdf;
-}
-
-.railDotActive {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 8px var(--accent);
-}
-
-.railTrack {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding-left: 0.5rem;
-}
-
-.railDot {
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.railDot.active {
-  background: var(--accent);
-  height: 12px;
-  border-radius: 3px;
-  box-shadow: 0 0 8px var(--accent);
-}
-
-/* ── 4. Center Hero Stage & Typography ───────────────────────── */
+/* ── 3. Center Hero Stage & Condensed Geometric Typography ───── */
 .centerContent {
   position: relative;
   z-index: 4;
@@ -203,48 +164,55 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  max-width: 980px;
+  max-width: 960px;
   margin: auto auto;
-  gap: 1rem;
+  gap: 1.15rem;
 }
 
 .domainTag {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.24em;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: #c8f04a;
   background: rgba(200, 240, 74, 0.08);
-  border: 1px solid rgba(200, 240, 74, 0.2);
-  padding: 0.35rem 1rem;
+  border: 1px solid rgba(200, 240, 74, 0.22);
+  padding: 0.38rem 1.1rem;
   border-radius: 999px;
   backdrop-filter: blur(10px);
 }
 
+/* Title Font Style Matching Reference Image (SYNTH ERA Geometric Capitals) */
 .giantTitle {
-  font-family: var(--font-display);
-  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-family: var(--font-heading), 'Syne', -apple-system, sans-serif;
+  font-size: clamp(3.2rem, 7.8vw, 6.8rem);
   font-weight: 800;
   letter-spacing: -0.04em;
-  line-height: 0.95;
+  line-height: 0.94;
   text-transform: uppercase;
   color: #ffffff;
+  background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 70%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   text-shadow: 0 10px 40px rgba(0, 0, 0, 0.85);
 }
 
 .titleAccent {
   color: var(--accent);
-  text-shadow: 0 0 45px rgba(200, 240, 74, 0.35);
+  background: linear-gradient(180deg, #ffffff 0%, var(--accent) 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 25px rgba(200, 240, 74, 0.35));
 }
 
 .subtitle {
   font-family: var(--font-body);
-  font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+  font-size: clamp(0.95rem, 1.6vw, 1.18rem);
   font-weight: 500;
-  color: #e2e8f0;
+  color: #cbd5e1;
   letter-spacing: 0.01em;
-  max-width: 700px;
-  line-height: 1.5;
+  max-width: 680px;
+  line-height: 1.55;
   text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
 }
 
@@ -252,29 +220,31 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-top: 0.75rem;
+  margin-top: 0.6rem;
 }
 
 .ctaPrimary {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0.75rem 1.6rem;
+  padding: 0.8rem 1.7rem;
   border-radius: 999px;
   background: var(--accent);
   color: #06080d;
-  font-family: var(--font-body);
-  font-size: 0.88rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
   font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   text-decoration: none;
   box-shadow: 0 8px 30px rgba(200, 240, 74, 0.35);
-  transition: all 0.2s ease;
+  transition: all 0.25s var(--ease-out-expo);
   cursor: pointer;
   border: none;
 }
 
 .ctaPrimary:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.02);
   box-shadow: 0 12px 35px rgba(200, 240, 74, 0.55);
 }
 
@@ -282,128 +252,125 @@
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0.75rem 1.6rem;
+  padding: 0.8rem 1.6rem;
   border-radius: 999px;
-  background: rgba(14, 18, 26, 0.65);
-  color: #ffffff;
-  font-family: var(--font-body);
-  font-size: 0.88rem;
+  background: rgba(14, 18, 26, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #f1f5f9;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
   font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(14px);
-  transition: all 0.2s ease;
+  transition: all 0.25s var(--ease-out-expo);
   cursor: pointer;
 }
 
 .ctaSecondary:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
 
-/* ── 5. Bottom HUD Status & Media Controls ───────────────────── */
+/* ── 4. Bottom HUD Status Bar Inside Box ─────────────────────── */
 .bottomBar {
   position: relative;
   z-index: 4;
-  width: 100%;
   display: flex;
-  align-items: flex-end;
   justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
 }
 
 .hudRole {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  max-width: 280px;
 }
 
 .hudRoleTitle {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.18em;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #7b8398;
+  color: var(--accent);
 }
 
 .hudRoleDesc {
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: -0.01em;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  line-height: 1.4;
 }
 
-/* Center scroll cue */
 .scrollCue {
+  background: none;
+  border: none;
+  color: #9aa2b5;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.4rem;
   cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
-  transition: opacity 0.2s;
+  padding: 0.4rem;
+  transition: color 0.2s ease;
 }
 
 .scrollCue:hover {
-  opacity: 0.8;
+  color: var(--accent);
 }
 
 .scrollLabel {
   font-family: var(--font-mono);
-  font-size: 0.55rem;
-  letter-spacing: 0.2em;
-  color: #9aa2b5;
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
 }
 
 .scrollLine {
   width: 1px;
-  height: 2.2rem;
-  background: linear-gradient(to bottom, var(--accent), transparent);
-  animation: scrollDown 1.8s ease-in-out infinite;
+  height: 24px;
+  background: linear-gradient(to bottom, currentColor, transparent);
+  animation: scrollPulse 2s infinite ease-in-out;
 }
 
-@keyframes scrollDown {
-  0% { transform: scaleY(0); transform-origin: top; opacity: 0; }
-  40% { transform: scaleY(1); transform-origin: top; opacity: 1; }
-  60% { transform: scaleY(1); transform-origin: bottom; opacity: 1; }
-  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+@keyframes scrollPulse {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  50.1% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
 }
 
-/* Right stage control buttons */
 .mediaControls {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.6rem;
 }
 
 .soundPill {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 0.55rem;
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  color: #f4f2ee;
-  text-transform: uppercase;
-  cursor: pointer;
-  background: rgba(14, 18, 26, 0.75);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  gap: 0.45rem;
+  background: rgba(14, 18, 26, 0.65);
+  backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 0.48rem 1rem;
+  color: #f1f5f9;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  padding: 0.35rem 0.75rem;
   border-radius: 999px;
+  cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
 }
 
 .soundPill:hover {
-  border-color: var(--accent);
-  background: rgba(20, 25, 36, 0.9);
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .soundDot {
@@ -415,50 +382,63 @@
 }
 
 .soundDot.muted {
-  background: #ffbd2e;
-  box-shadow: 0 0 8px #ffbd2e;
+  background: #64748b;
+  box-shadow: none;
 }
 
 .ctrlBtn {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(14, 18, 26, 0.75);
-  backdrop-filter: blur(14px);
-  color: #ffffff;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgba(14, 18, 26, 0.65);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  color: #f1f5f9;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
 }
 
 .ctrlBtn:hover {
+  background: rgba(200, 240, 74, 0.15);
   border-color: var(--accent);
   color: var(--accent);
-  transform: translateY(-1px);
 }
 
-/* ── Responsive Adaptations ────────────────────────────────── */
-@media (max-width: 900px) {
+/* ── Responsive Adaptations ──────────────────────────────────── */
+@media (max-width: 1024px) {
+  .heroBox {
+    height: calc(100vh - 5.5rem);
+    padding: 1.8rem 2rem;
+  }
+}
+
+@media (max-width: 768px) {
   .hero {
-    padding: 5rem var(--margin-mobile) 2rem;
     height: auto;
     min-height: 100vh;
+    padding: 4.5rem 1rem 1.5rem;
   }
-  .sideRailLeft {
-    display: none;
+  .heroBox {
+    height: auto;
+    min-height: calc(100vh - 6rem);
+    padding: 1.5rem 1.25rem;
+    border-radius: 24px;
+    gap: 2rem;
   }
-  .giantTitle {
-    font-size: 2.8rem;
+  .bgVideoContainer {
+    border-radius: 24px;
   }
   .bottomBar {
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.2rem;
     text-align: center;
+  }
+  .hudRole {
+    align-items: center;
   }
   .scrollCue {
     display: none;
