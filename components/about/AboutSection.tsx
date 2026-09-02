@@ -1,6 +1,7 @@
 'use client';
 
 import { ScrollReveal, ScrollStagger, ScrollStaggerItem } from '@/components/ui/ScrollTriggered';
+import PhilosophyCardStack from './PhilosophyCardStack';
 import styles from './AboutSection.module.css';
 
 interface AboutProps {
@@ -70,12 +71,7 @@ export default function AboutSection({ data }: AboutProps) {
         </ScrollReveal>
 
         <ScrollReveal variant="fadeUp" delay={0.15}>
-          <div className={styles.philosophy}>
-            <p className={styles.philosophyText}>
-              &ldquo;{tagline}&rdquo;
-            </p>
-            <p className={styles.philosophyAttr}>— Operational Mantra</p>
-          </div>
+          <PhilosophyCardStack tagline={tagline} />
         </ScrollReveal>
       </div>
 

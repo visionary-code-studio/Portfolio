@@ -1,0 +1,304 @@
+/* ── Life Mantra & Philosophy Card Stack ──────────────────────── */
+.stackSection {
+  margin-top: 2rem;
+  width: 100%;
+  position: relative;
+}
+
+.stackHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.motif {
+  color: var(--accent);
+  font-size: 0.85rem;
+}
+
+.sectionTag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.deckCounter {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  background: rgba(200, 240, 74, 0.08);
+  border: 1px solid rgba(200, 240, 74, 0.2);
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+}
+
+/* ── Viewport & Stacking Geometry ────────────────────────────── */
+.stackViewport {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  perspective: 1000px;
+}
+
+.cardsTrack {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Individual Card in Stack ────────────────────────────────── */
+.card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 360px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #0d111a;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  transform-origin: 50% 100%;
+}
+
+.card:active {
+  cursor: grabbing;
+}
+
+/* ── Background Photo & Cinematic Overlays ───────────────────── */
+.cardImageWrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.cardImg {
+  object-fit: cover;
+  transition: transform 0.6s var(--ease-out-expo);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 8, 13, 0.45) 0%,
+    rgba(6, 8, 13, 0.75) 50%,
+    rgba(6, 8, 13, 0.95) 100%
+  );
+  backdrop-filter: blur(1px);
+}
+
+.vignetteOverlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.6) 100%);
+}
+
+/* ── Card Content Typography ─────────────────────────────────── */
+.cardInner {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  padding: 1.5rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cardTopBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.categoryPill {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid;
+  backdrop-filter: blur(8px);
+}
+
+.descriptorBadge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+}
+
+.quoteBlock {
+  margin-top: 1rem;
+  margin-bottom: auto;
+  position: relative;
+}
+
+.quoteMark {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  line-height: 1;
+  color: rgba(200, 240, 74, 0.35);
+  position: absolute;
+  top: -1.2rem;
+  left: -0.4rem;
+  pointer-events: none;
+}
+
+.quoteText {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  line-height: 1.4;
+  font-weight: 700;
+  color: #f8fafc;
+  letter-spacing: -0.015em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75);
+  position: relative;
+  z-index: 2;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.authorRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.authorDash {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.authorName {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #e2e8f0;
+}
+
+.liveIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: #94a3b8;
+}
+
+.pulsingDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* ── Interactive Controls ────────────────────────────────────── */
+.controlsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.85rem;
+  gap: 0.75rem;
+}
+
+.swipeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.swipeBtn:hover {
+  background: rgba(200, 240, 74, 0.1);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.swipeTip {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: #64748b;
+  letter-spacing: 0.04em;
+}
+
+.dragIcon {
+  color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .stackViewport {
+    height: 400px;
+  }
+  .card {
+    height: 380px;
+  }
+  .quoteText {
+    font-size: 1.15rem;
+  }
+  .swipeTip {
+    display: none;
+  }
+  .controlsRow {
+    justify-content: space-between;
+  }
+}
