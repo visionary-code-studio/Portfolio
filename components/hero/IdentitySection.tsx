@@ -96,13 +96,14 @@ export default function IdentitySection({ data }: ProfileProps) {
           <Card3D intensity={10} glare={true} className={styles.card3DPhotoWrap}>
             <div className={styles.photoWrap}>
               <ScrollImageReveal direction="up" delay={150} glare={true}>
-                <Image
-                  src={profileImage}
-                  alt={fullName}
-                  fill
-                  priority
+                <video
+                  src="/video/Intro.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
                   className={styles.photo}
-                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                 />
               </ScrollImageReveal>
               {/* Authentic Autographed Signature Badge */}

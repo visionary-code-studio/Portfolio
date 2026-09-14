@@ -189,20 +189,6 @@ export default function Hero({ data }: HeroProps) {
           </div>
         </div>
 
-        {/* ── Welcoming Intro Video ────────────── */}
-        <div className={styles.bottomVideoContainer}>
-          <video
-            ref={videoRef}
-            className={styles.bottomVideo}
-            src={heroVideo}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-          />
-        </div>
-
         {/* ── Bottom HUD Status Bar & Media Controls ────────────── */}
         <div className={styles.bottomBar}>
           <div className={styles.hudRole}>

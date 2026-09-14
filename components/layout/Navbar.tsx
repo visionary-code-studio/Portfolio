@@ -115,11 +115,7 @@ export default function Navbar({ profile }: NavbarProps) {
           data-cursor-hover
         >
           <div className={styles.brandLogoGlyph} aria-hidden="true">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m21.12 6.4-6.05-4.06a2 2 0 0 0-2.17-.05L2.95 8.41a2 2 0 0 0-.95 1.7v5.82a2 2 0 0 0 .88 1.66l6.05 4.07a2 2 0 0 0 2.18.05l9.9-6.13a2 2 0 0 0 .99-1.7V9.74a2 2 0 0 0-.88-1.66Z" />
-              <polyline points="3.29 7 12 12.67 20.71 8" />
-              <line x1="12" y1="22.76" x2="12" y2="12.56" />
-            </svg>
+            <Image src="/images/logo.png" alt="VS Logo" width={28} height={28} style={{ objectFit: 'contain' }} />
           </div>
           <span className={styles.brandText}>Vaibhav</span>
         </a>
