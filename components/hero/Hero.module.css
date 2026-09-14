@@ -1,301 +1,446 @@
-/* ── Hero: Minimalist Portrait Landing (Reference Concept) ── */
+/* ── Hero: Boxed Cinematic Landing (Synth Era Reference Concept) ── */
 .hero {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background: var(--bg);
-  color: var(--text);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  padding: 1.5rem 3rem;
-  font-family: var(--font-body);
-}
-
-/* ── Top Bar ── */
-.topBar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 10;
-  width: 100%;
-}
-
-.availabilityBadge {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  background: var(--bg-soft);
-  padding: 0.5rem 1.2rem;
-  border-radius: 999px;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text);
-  border: 1px solid var(--text-dim);
-}
-
-.greenDot {
-  width: 8px;
-  height: 8px;
-  background-color: var(--accent-green);
-  border-radius: 50%;
-  animation: pulseGreen 2s infinite;
-}
-
-@keyframes pulseGreen {
-  0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
-  70% { box-shadow: 0 0 0 6px rgba(76, 175, 80, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
-}
-
-.navLinks {
-  display: none;
-}
-
-@media (min-width: 1024px) {
-  .navLinks {
-    display: flex;
-    gap: 2.5rem;
-    font-size: 0.85rem;
-    font-weight: 500;
-  }
-  
-  .navLinks a {
-    text-decoration: none;
-    color: var(--text-muted);
-    transition: color 0.3s ease;
-  }
-
-  .navLinks a:hover {
-    color: var(--text);
-  }
-}
-
-.letsTalkBtn {
-  background: var(--text);
-  color: var(--bg);
-  padding: 0.6rem 1.5rem;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.letsTalkBtn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-/* ── Main Content Area ── */
-.mainContent {
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #06080d;
+  padding: 4.8rem var(--margin-desktop) 1.8rem;
+  user-select: none;
+}
+
+/* ── Enclosed Rounded Hero Box (Synth Era Frame) ─────────────── */
+.heroBox {
   position: relative;
   width: 100%;
-  margin-top: 2rem;
+  height: calc(100vh - 6.6rem);
+  min-height: 640px;
+  max-width: 1560px;
+  border-radius: 32px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #0a0d14;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    0 24px 64px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  padding: 2rem 2.8rem;
 }
 
-/* Background Huge Text */
-.backgroundText {
+/* ── 1. Cinematic Background Video Enclosed Within Box ───────── */
+.bgVideoContainer {
   position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
   width: 100%;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  gap: 2.5vw;
-  z-index: 1;
-  white-space: nowrap;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 32px;
+  z-index: 0;
   pointer-events: none;
 }
 
-.firstName, .lastName {
-  font-family: var(--font-heading);
-  font-size: clamp(4rem, 15vw, 13rem);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
+.bgVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 36%;
+  opacity: 0.72;
+  transform: translateY(24px) scale(1.02);
+  transition: opacity 0.5s ease;
+  filter: contrast(1.06) saturate(1.08);
 }
 
-.firstName {
-  color: transparent; 
-  -webkit-text-stroke: 2px var(--text);
-}
-.lastName {
-  color: var(--text);
-}
-
-/* Profile Image */
-.profileImageContainer {
-  position: relative;
-  width: 45vw;
-  max-width: 600px;
-  height: 65vh;
-  min-height: 400px;
-  z-index: 2;
-  margin-top: 4rem;
-  animation: slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.profileImage {
-  object-fit: contain;
-  object-position: bottom;
-  /* Optional: filter: drop-shadow(0 20px 40px rgba(0,0,0,0.08)); */
-}
-
-@keyframes slideUpFade {
-  from { transform: translateY(80px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-/* Left Side Content */
-.leftContent {
+/* Atmospheric Multi-Layer Dark Vignettes */
+.topGradient {
   position: absolute;
+  top: 0;
   left: 0;
-  bottom: 15%;
-  max-width: 300px;
-  z-index: 3;
-  animation: slideInLeft 1s ease forwards 0.5s;
-  opacity: 0;
-}
-
-@keyframes slideInLeft {
-  from { transform: translateX(-30px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-.roleTitle {
-  font-family: var(--font-heading);
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.02em;
-}
-
-.roleDescription {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-  margin-bottom: 1.5rem;
-}
-
-.collaborateBtn {
-  display: inline-flex;
-  align-items: center;
-  background: var(--text);
-  color: var(--bg);
-  padding: 0.8rem 1.6rem;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.collaborateBtn:hover {
-  transform: translateX(4px);
-}
-
-/* Right Side Content */
-.rightContent {
-  position: absolute;
   right: 0;
-  bottom: 15%;
+  height: 150px;
+  background: linear-gradient(180deg, rgba(6, 8, 13, 0.8) 0%, rgba(6, 8, 13, 0.2) 60%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.radialVignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center 46%,
+    rgba(6, 8, 13, 0.1) 0%,
+    rgba(6, 8, 13, 0.55) 60%,
+    rgba(6, 8, 13, 0.94) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bottomFade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 240px;
+  background: linear-gradient(to bottom, transparent 0%, rgba(6, 8, 13, 0.75) 50%, #06080d 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── 2. Top HUD Telemetry Bar Inside Box ─────────────────────── */
+.topBar {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  color: #9aa2b5;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: rgba(14, 18, 26, 0.6);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.liveDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+  animation: liveBlink 2s infinite ease-in-out;
+}
+
+@keyframes liveBlink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.starMotif {
+  color: var(--accent);
+  font-size: 0.75rem;
+  animation: spinStar 12s linear infinite;
+}
+
+@keyframes spinStar {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.locationBadge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  color: #c4ccdf;
+  text-transform: uppercase;
+  background: rgba(14, 18, 26, 0.6);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ── 3. Center Hero Stage & Condensed Geometric Typography ───── */
+.centerContent {
+  position: relative;
+  z-index: 4;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  z-index: 3;
-  animation: slideInRight 1s ease forwards 0.5s;
-  opacity: 0;
+  align-items: center;
+  text-align: center;
+  max-width: 960px;
+  margin: auto auto;
+  gap: 1.15rem;
 }
 
-@keyframes slideInRight {
-  from { transform: translateX(30px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+.domainTag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #c8f04a;
+  background: rgba(200, 240, 74, 0.08);
+  border: 1px solid rgba(200, 240, 74, 0.22);
+  padding: 0.38rem 1.1rem;
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
 }
 
-.socialLink {
+/* Title Font Style Matching Reference Image (SYNTH ERA Geometric Capitals) */
+.giantTitle {
+  font-family: var(--font-heading), 'Syne', -apple-system, sans-serif;
+  font-size: clamp(3.2rem, 7.8vw, 6.8rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.94;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 70%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.85);
+}
+
+.titleAccent {
+  color: var(--accent);
+  background: linear-gradient(180deg, #ffffff 0%, var(--accent) 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 25px rgba(200, 240, 74, 0.35));
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.6vw, 1.18rem);
+  font-weight: 500;
+  color: #cbd5e1;
+  letter-spacing: 0.01em;
+  max-width: 680px;
+  line-height: 1.55;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
+}
+
+.heroCtas {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  text-decoration: none;
-  color: var(--text);
-  font-size: 0.9rem;
-  font-weight: 500;
-  padding: 0.5rem 1.2rem 0.5rem 0.5rem;
+  gap: 1rem;
+  margin-top: 0.6rem;
+}
+
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1.7rem;
   border-radius: 999px;
-  border: 1px solid transparent;
-  transition: all 0.3s ease;
-  background: transparent;
+  background: var(--accent);
+  color: #06080d;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 8px 30px rgba(200, 240, 74, 0.35);
+  transition: all 0.25s var(--ease-out-expo);
+  cursor: pointer;
+  border: none;
 }
 
-.socialLink:hover {
-  border-color: var(--text-dim);
-  background: var(--bg-soft);
+.ctaPrimary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 35px rgba(200, 240, 74, 0.55);
 }
 
-.socialIcon {
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1.6rem;
+  border-radius: 999px;
+  background: rgba(14, 18, 26, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #f1f5f9;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.25s var(--ease-out-expo);
+  cursor: pointer;
+}
+
+.ctaSecondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* ── 4. Bottom HUD Status Bar Inside Box ─────────────────────── */
+.bottomBar {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.hudRole {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 280px;
+}
+
+.hudRoleTitle {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.hudRoleDesc {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  line-height: 1.4;
+}
+
+.scrollCue {
+  background: none;
+  border: none;
+  color: #9aa2b5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  padding: 0.4rem;
+  transition: color 0.2s ease;
+}
+
+.scrollCue:hover {
+  color: var(--accent);
+}
+
+.scrollLabel {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.scrollLine {
+  width: 1px;
+  height: 24px;
+  background: linear-gradient(to bottom, currentColor, transparent);
+  animation: scrollPulse 2s infinite ease-in-out;
+}
+
+@keyframes scrollPulse {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  50.1% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+.mediaControls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.soundPill {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(14, 18, 26, 0.65);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.soundPill:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.soundDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.soundDot.muted {
+  background: #64748b;
+  box-shadow: none;
+}
+
+.ctrlBtn {
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  background: var(--bg-soft);
-  border: 1px solid var(--text-dim);
+  background: rgba(14, 18, 26, 0.65);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 50%;
-  color: var(--text);
+  color: #f1f5f9;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.socialLink:hover .socialIcon {
-  background: var(--text);
-  color: var(--bg);
+.ctrlBtn:hover {
+  background: rgba(200, 240, 74, 0.15);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
-/* ── Responsive Adaptations ── */
+/* ── Responsive Adaptations ──────────────────────────────────── */
 @media (max-width: 1024px) {
+  .heroBox {
+    height: calc(100vh - 5.5rem);
+    padding: 1.8rem 2rem;
+  }
+}
+
+@media (max-width: 768px) {
   .hero {
-    padding: 1.5rem;
+    height: auto;
+    min-height: 100vh;
+    padding: 4.5rem 1rem 1.5rem;
   }
-  .backgroundText {
-    flex-direction: column;
-    gap: 0;
-    line-height: 1;
-    top: 40%;
+  .heroBox {
+    height: auto;
+    min-height: calc(100vh - 6rem);
+    padding: 1.5rem 1.25rem;
+    border-radius: 24px;
+    gap: 2rem;
   }
-  .leftContent, .rightContent {
-    position: relative;
-    bottom: auto;
-    left: auto;
-    right: auto;
-    margin-top: 2rem;
-    animation: slideUpFade 1s ease forwards 0.5s;
+  .bgVideoContainer {
+    border-radius: 24px;
   }
-  .mainContent {
-    flex-direction: column;
-  }
-  .profileImageContainer {
-    width: 80vw;
-    height: 50vh;
-    margin-top: 15vh;
-  }
-  .rightContent {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .leftContent {
-    text-align: center;
-    max-width: 100%;
-    display: flex;
+  .bottomBar {
     flex-direction: column;
     align-items: center;
+    gap: 1.2rem;
+    text-align: center;
+  }
+  .hudRole {
+    align-items: center;
+  }
+  .scrollCue {
+    display: none;
   }
 }
