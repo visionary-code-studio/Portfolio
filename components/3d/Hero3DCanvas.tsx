@@ -151,8 +151,8 @@ export default function Hero3DCanvas() {
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(200, 240, 74, ${lineAlpha})`;
-            ctx.lineWidth = 0.8;
+            ctx.strokeStyle = `rgba(30, 41, 59, ${lineAlpha * 0.45})`;
+            ctx.lineWidth = 0.85;
             ctx.stroke();
           }
         }
@@ -161,19 +161,19 @@ export default function Hero3DCanvas() {
       // Draw 3D Nodes
       for (let i = 0; i < projected.length; i++) {
         const p = projected[i];
-        const dotSize = Math.max(1.2, 2.8 * p.scale);
+        const dotSize = Math.max(1.4, 3 * p.scale);
 
         // Core dot
         ctx.beginPath();
         ctx.arc(p.x, p.y, dotSize, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(240, 237, 232, ${p.alpha * 0.85})`;
+        ctx.fillStyle = `rgba(15, 23, 42, ${p.alpha * 0.7})`;
         ctx.fill();
 
         // Subtle glowing accent on nearest nodes
         if (p.z > 0) {
           ctx.beginPath();
-          ctx.arc(p.x, p.y, dotSize * 2.2, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(200, 240, 74, ${p.alpha * 0.25})`;
+          ctx.arc(p.x, p.y, dotSize * 2, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(15, 23, 42, ${p.alpha * 0.14})`;
           ctx.fill();
         }
       }

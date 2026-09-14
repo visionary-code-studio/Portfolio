@@ -98,7 +98,7 @@
   font-size: 0.64rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: #fbbf24;
   font-weight: 600;
   line-height: 1.35;
 }
@@ -122,9 +122,9 @@
 .hi {
   font-family: var(--font-mono);
   font-size: 0.7rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.2em;
-  color: var(--accent);
+  color: #64748b;
   text-transform: uppercase;
 }
 
@@ -149,9 +149,9 @@
   font-size: 0.62rem;
   font-weight: 500;
   letter-spacing: 0.1em;
-  color: var(--text-muted);
-  border: 1px solid var(--text-dim);
-  background: rgba(255, 255, 255, 0.02);
+  color: #64748b;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #f8fafc;
   padding: 0.4rem 0.85rem;
   border-radius: 999px;
   text-transform: uppercase;
@@ -160,9 +160,9 @@
 }
 
 .pill:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-dim);
+  border-color: #0f172a;
+  color: #0f172a;
+  background: #ffffff;
   transform: translateY(-1px);
 }
 
@@ -170,7 +170,7 @@
   font-family: var(--font-body);
   font-size: 1rem;
   line-height: 1.7;
-  color: var(--text-muted);
+  color: #475569;
   max-width: 52ch;
 }
 
@@ -178,8 +178,8 @@
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  background: var(--accent);
-  color: #060709;
+  background: #0f172a;
+  color: #ffffff;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 600;
@@ -187,18 +187,18 @@
   text-transform: uppercase;
   padding: 0.95rem 2rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 999px;
   cursor: pointer;
   width: fit-content;
   transition: all 0.25s ease;
-  box-shadow: 0 4px 20px -5px rgba(200, 240, 74, 0.4);
+  box-shadow: 0 4px 20px -5px rgba(15, 23, 42, 0.35);
 }
 
 .ctaBtn:hover {
-  background: #ffffff;
-  color: #060709;
+  background: #000000;
+  color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px -5px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.3);
 }
 
 .ctaArrow {

@@ -115,7 +115,7 @@ export default function Navbar({ profile }: NavbarProps) {
           data-cursor-hover
         >
           <div className={styles.brandLogoGlyph} aria-hidden="true">
-            <Image src="/images/logo.png" alt="VS Logo" width={28} height={28} style={{ objectFit: 'contain' }} />
+            <Image src="/images/logo.png" alt="VS Logo" width={44} height={44} style={{ objectFit: 'cover' }} />
           </div>
           <span className={styles.brandText}>Vaibhav</span>
         </a>

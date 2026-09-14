@@ -16,6 +16,7 @@ import ContactSection from '@/components/contact/ContactSection';
 import Footer from '@/components/layout/Footer';
 import ModalViewer from '@/components/ui/ModalViewer';
 import ScrollProgressHUD from '@/components/ui/ScrollProgressHUD';
+import WebGLSplashReveal from '@/components/splash/WebGLSplashReveal';
 
 import fallbackData from '@/data/portfolio-content.json';
 import type { Presentation, Certification } from '@/types';
@@ -55,6 +56,7 @@ export default function Home() {
 
   return (
     <>
+      <WebGLSplashReveal />
       <CustomCursor />
       <ScrollProgressHUD />
       <Navbar profile={content.profile} />

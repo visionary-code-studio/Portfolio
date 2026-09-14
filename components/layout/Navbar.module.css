@@ -8,15 +8,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.25rem var(--margin-desktop);
-  transition: background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
+  padding: 1.1rem var(--margin-desktop);
+  transition: background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .navbar.scrolled {
-  background: rgba(8, 10, 15, 0.75);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
 /* ── Left: Brand Monogram & Wordmark ────────────────────────── */
@@ -26,52 +27,51 @@
   gap: 0.75rem;
   text-decoration: none;
   cursor: pointer;
-  color: #ffffff;
+  color: var(--text);
   user-select: none;
 }
 
 .brandLogoGlyph {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: #ffffff;
-  color: #06080d;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #000000;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.9rem;
-  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.25);
-  transition: transform 0.2s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  flex-shrink: 0;
 }
 
 .brandLink:hover .brandLogoGlyph {
-  transform: scale(1.05) rotate(-3deg);
+  transform: scale(1.08);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
 }
 
 .brandText {
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1.08rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: #ffffff;
+  color: var(--text);
 }
 
 /* ── Center: Floating Pill Dock ─────────────────────────────── */
 .centerDock {
   display: flex;
   align-items: center;
-  background: rgba(14, 18, 26, 0.75);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 999px;
   padding: 4px 6px;
   box-shadow:
-    0 10px 30px -5px rgba(0, 0, 0, 0.5),
-    inset 0 1px 1px rgba(255, 255, 255, 0.1);
-  gap: 2px;
+    0 4px 20px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  gap: 3px;
 }
 
 .dockItem {
@@ -79,7 +79,7 @@
   font-family: var(--font-body);
   font-size: 0.84rem;
   font-weight: 500;
-  color: #8c93a8;
+  color: #64748b;
   border-radius: 999px;
   border: 1px solid transparent;
   background: transparent;
@@ -90,16 +90,15 @@
 }
 
 .dockItem:hover {
-  color: #ffffff;
+  color: #0f172a;
+  background: rgba(0, 0, 0, 0.03);
 }
 
 .dockItem.active {
-  background: rgba(255, 255, 255, 0.11);
+  background: #0f172a;
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.14);
-  box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-color: #0f172a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   font-weight: 600;
 }
 
@@ -114,16 +113,16 @@
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  background: rgba(14, 18, 26, 0.75);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 999px;
   padding: 0.48rem 1.15rem;
   box-shadow:
-    0 10px 30px -5px rgba(0, 0, 0, 0.5),
-    inset 0 1px 1px rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+    0 4px 20px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: var(--text);
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 600;
@@ -133,8 +132,7 @@
 }
 
 .clockPill:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(20, 25, 36, 0.85);
+  border-color: rgba(0, 0, 0, 0.15);
   transform: translateY(-1px);
 }
 
@@ -142,8 +140,8 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #51cf66;
-  box-shadow: 0 0 8px #51cf66;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
   flex-shrink: 0;
   animation: liveBlink 2s infinite ease-in-out;
 }
@@ -154,27 +152,28 @@
 }
 
 .clockText {
-  color: #f4f2ee;
+  color: #0f172a;
   font-variant-numeric: tabular-nums;
 }
 
 .clockZone {
   font-size: 0.62rem;
-  color: #7b8398;
+  color: #64748b;
   letter-spacing: 0.06em;
 }
 
 /* Mobile drawer trigger */
 .mobileMenuBtn {
   display: none;
-  background: rgba(14, 18, 26, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 999px;
   padding: 0.45rem 0.85rem;
-  color: #ffffff;
+  color: #0f172a;
   cursor: pointer;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 /* ── Fullscreen Executive Drawer for Mobile & Exploration ─── */
@@ -182,7 +181,9 @@
   position: fixed;
   inset: 0;
   z-index: 110;
-  background: radial-gradient(circle at 25% 35%, #101524 0%, #06080d 80%);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
   display: flex;
   flex-direction: column;
   height: 100dvh;
@@ -222,8 +223,8 @@
 }
 
 .profileCard {
-  background: #0d101a;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #f8fafc;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 24px;
   padding: 2rem 1.5rem;
   display: flex;
@@ -231,7 +232,7 @@
   align-items: center;
   text-align: center;
   gap: 1.25rem;
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.06);
 }
 
 .avatarRing {
@@ -239,8 +240,8 @@
   height: 96px;
   border-radius: 50%;
   padding: 3px;
-  background: linear-gradient(135deg, #eab308 0%, #ca8a04 50%, #facc15 100%);
-  box-shadow: 0 0 25px rgba(234, 179, 8, 0.25);
+  background: linear-gradient(135deg, #d97706 0%, #b45309 50%, #f59e0b 100%);
+  box-shadow: 0 0 25px rgba(217, 119, 6, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -252,7 +253,7 @@
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  background: #171d2b;
+  background: #f1f5f9;
 }
 
 .profileMeta {
@@ -266,20 +267,20 @@
   font-size: 0.62rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #8c93a8;
+  color: #64748b;
 }
 
 .profileName {
   font-family: var(--font-display);
   font-size: 1.3rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #0f172a;
 }
 
 .profileRole {
   font-family: var(--font-body);
   font-size: 0.78rem;
-  color: #9aa2b5;
+  color: #475569;
 }
 
 .cardActions {
@@ -295,8 +296,8 @@
   justify-content: center;
   gap: 0.5rem;
   padding: 0.65rem 1rem;
-  background: var(--accent);
-  color: #06080d;
+  background: #0f172a;
+  color: #ffffff;
   border-radius: 12px;
   font-family: var(--font-body);
   font-size: 0.82rem;
@@ -324,14 +325,14 @@
 }
 
 .drawerLink:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.06);
 }
 
 .drawerNum {
   font-family: var(--font-mono);
   font-size: 0.68rem;
-  color: #636b80;
+  color: #94a3b8;
   margin-right: 1.25rem;
 }
 
@@ -339,12 +340,12 @@
   font-family: var(--font-display);
   font-size: 1.4rem;
   font-weight: 700;
-  color: #c4ccdf;
+  color: #1e293b;
   text-transform: uppercase;
 }
 
 .drawerLink:hover .drawerLabel {
-  color: #ffffff;
+  color: #0f172a;
 }
 
 /* ── Responsive Adaptations ────────────────────────────────── */

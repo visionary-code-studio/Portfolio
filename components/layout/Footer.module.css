@@ -1,455 +1,508 @@
-/* ── Merged Contact & Executive Footer (Inspired by Arete Reference) ──── */
+/* ── Footer: Elevated Editorial & Reference-Matched Design ──── */
 .footerWrap {
-  padding: 4rem var(--margin-desktop) 5rem;
-  background: var(--bg);
   position: relative;
-  z-index: 10;
-  border-top: 1px solid var(--text-dim);
-}
-
-.footerCard {
-  background: radial-gradient(circle at 50% 60%, #0d1322 0%, #06080d 80%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 32px;
-  padding: 3.5rem 4rem;
-  box-shadow:
-    0 35px 90px -20px rgba(0, 0, 0, 0.95),
-    0 0 60px -15px rgba(37, 99, 235, 0.18);
+  width: 100%;
+  background: var(--bg);
+  padding: 4rem var(--margin-desktop) 2.5rem;
   display: flex;
   flex-direction: column;
   gap: 3.5rem;
-  position: relative;
   overflow: hidden;
+  user-select: none;
 }
 
-/* Ambient glow accent behind the card */
-.ambientGlow {
+/* ── 1. Top Curved Dark CTA Banner (Reference Match) ────────── */
+.topCardWrap {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.topCardAura {
   position: absolute;
-  top: 50%;
+  top: -45px;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 700px;
-  height: 350px;
-  background: radial-gradient(ellipse, rgba(37, 99, 235, 0.1), transparent 70%);
+  transform: translateX(-50%);
+  width: 82%;
+  height: 140px;
+  background: radial-gradient(ellipse at center, rgba(15, 23, 42, 0.35) 0%, rgba(15, 23, 42, 0.1) 50%, transparent 75%);
+  filter: blur(28px);
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 
-/* ── 1. Top Floating Pill Bar ──────────────────────────────── */
-.topPillBar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  background: rgba(14, 18, 28, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 999px;
-  padding: 0.65rem 1.5rem;
+.topCard {
   position: relative;
-  z-index: 2;
-  flex-wrap: wrap;
-}
-
-.pillLeft {
+  width: 100%;
+  background: #0f172a;
+  border-radius: 36px;
+  padding: 4.5rem 3.5rem 4rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1rem;
-}
-
-.pillLogoMark {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: #ffffff;
-  color: #06080d;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.85rem;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
-}
-
-.pillDivider {
-  width: 1px;
-  height: 18px;
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.pillSlogan {
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  color: #9aa2b5;
-  letter-spacing: 0.01em;
-}
-
-/* Social icons cluster in top pill */
-.pillSocials {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.pillSocialBtn {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #9aa2b5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.pillSocialBtn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.25);
-  transform: translateY(-2px);
-}
-
-/* ── 2. Middle Main Grid ───────────────────────────────────── */
-.mainGrid {
-  display: grid;
-  grid-template-columns: 1.45fr 0.75fr 0.8fr;
-  gap: 4.5rem;
-  position: relative;
+  text-align: center;
+  gap: 1.4rem;
+  box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.25);
+  overflow: hidden;
   z-index: 2;
 }
 
-/* Big Headline, Email Direct & Action Buttons */
-.calloutCol {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 2.25rem;
-}
-
-.headlineBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.sectionTag {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #3b82f6;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.sectionTag::before {
-  content: '';
-  width: 1.25rem;
-  height: 1px;
-  background: #3b82f6;
-}
-
-.bigHeadline {
-  font-family: var(--font-display);
-  font-size: clamp(3.2rem, 5.8vw, 5.6rem);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 0.95;
-  text-transform: uppercase;
-  color: #ffffff;
-}
-
-.emailDirectBox {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  margin-top: 0.5rem;
-}
-
-.emailPill {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  color: #c4ccdf;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.45rem 1rem;
-  border-radius: 999px;
-}
-
-.ctaGroup {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.startBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.9rem 1.8rem;
-  background: #2563eb;
-  color: #ffffff;
-  border-radius: 999px;
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 8px 25px -4px rgba(37, 99, 235, 0.5);
-}
-
-.startBtn:hover {
-  background: #3b82f6;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px -4px rgba(37, 99, 235, 0.65);
-}
-
-.callBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.9rem 1.8rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #f4f2ee;
-  border-radius: 999px;
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  font-weight: 500;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.callBtn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.25);
-  transform: translateY(-2px);
-}
-
-.callBtn.copied {
-  border-color: #51cf66;
-  color: #51cf66;
-  background: rgba(81, 207, 102, 0.1);
-}
-
-/* Nav & Resources Link Columns */
-.navCol {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.colHeader {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #ffffff;
-}
-
-.linkList {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.95rem;
-}
-
-.linkItem {
+.availPill {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  color: #a0a7ba;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: #cbd5e1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.availDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: liveBlink 2s infinite ease-in-out;
+}
+
+@keyframes liveBlink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.ctaHeading {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.8vw, 3.1rem);
+  font-weight: 700;
+  color: #ffffff;
+  max-width: 780px;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+
+.ctaSub {
   font-family: var(--font-body);
-  font-size: 0.92rem;
+  font-size: clamp(0.92rem, 1.25vw, 1.06rem);
+  color: #94a3b8;
+  max-width: 640px;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.inquiryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: #ffffff;
+  color: #0f172a;
+  padding: 0.85rem 1.95rem;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
   text-decoration: none;
+  transition: all 0.25s var(--ease-out-expo);
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+  margin-top: 0.5rem;
+}
+
+.inquiryBtn:hover {
+  transform: translateY(-2px);
+  background: #f1f5f9;
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.35);
+}
+
+.inquiryArrow {
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.inquiryBtn:hover .inquiryArrow {
+  transform: translate(2px, -2px);
+}
+
+/* ── 2. Dynamic Kinetic Tech Stack Ribbon (Hover Interactive) ─ */
+.ribbonSection {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.ribbonLabel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.ribbonDivider {
+  flex: 1;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.ribbonTrackWrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 0.5rem 0;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.ribbonTrack {
+  display: flex;
+  gap: 1.25rem;
+  width: max-content;
+  animation: ribbonMarquee 32s linear infinite;
+}
+
+.ribbonTrackWrapper:hover .ribbonTrack {
+  animation-play-state: paused;
+}
+
+@keyframes ribbonMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ribbonItem {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 0.65rem 1.15rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  transition: all 0.25s var(--ease-out-expo);
+  cursor: default;
+}
+
+.ribbonItem:hover {
+  transform: translateY(-3px);
+  border-color: #0f172a;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+.ribbonIcon {
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+}
+
+.ribbonMeta {
+  display: flex;
+  flex-direction: column;
+}
+
+.ribbonName {
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.ribbonCategory {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+/* ── 3. Bottom Light Stage ──────────────────────────────────── */
+.bottomStage {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.bottomGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 4rem;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.leftSignoff {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.displayName {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  margin: 0;
+}
+
+.signoffText {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.65;
+  max-width: 520px;
+  margin: 0;
+}
+
+.actionBtnGroup {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+.scheduleBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: #0f172a;
+  color: #ffffff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.15);
+}
+
+.scheduleBtn:hover {
+  background: #000000;
+  transform: translateY(-2px);
+}
+
+.copyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f1f5f9;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: #0f172a;
+  padding: 0.75rem 1.4rem;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
   cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
-  text-align: left;
   transition: all 0.2s ease;
 }
 
-.starIcon {
-  color: #3b82f6;
-  font-size: 0.85rem;
-  display: inline-block;
-  transition: transform 0.2s ease, color 0.2s ease;
+.copyBtn:hover {
+  background: #e2e8f0;
+  transform: translateY(-2px);
 }
 
-.linkItem:hover {
-  color: #ffffff;
-  transform: translateX(3px);
+/* Right Nav Block */
+.rightNavBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-.linkItem:hover .starIcon {
-  color: #60a5fa;
-  transform: scale(1.2) rotate(15deg);
+.navRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1.5rem;
 }
 
-/* Academic Dossier Ticker Bar */
-.academicTicker {
+.footerNavLinks {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.navLinkItem {
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #334155;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0.2rem 0;
+  transition: color 0.2s ease;
+}
+
+.navLinkItem:hover {
+  color: #0f172a;
+}
+
+.scrollTopSquare {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1.5px solid #0f172a;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 1.25rem;
+  font-weight: 700;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 1.1rem 1.6rem;
-  background: rgba(14, 18, 28, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 14px;
-  position: relative;
-  z-index: 2;
-  gap: 1.5rem;
-  flex-wrap: wrap;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.scrollTopSquare:hover {
+  background: #0f172a;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.socialButtonsRow {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.squareSocialBtn {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: #0f172a;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+}
+
+.squareSocialBtn:hover {
+  background: #000000;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
+}
+
+/* Academic Dossier Ticker */
+.academicTicker {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  background: #f8fafc;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 20px;
+  padding: 1.25rem 1.75rem;
+  width: 100%;
 }
 
 .academicItem {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.25rem;
 }
 
 .academicLabel {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.62rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #727b91;
+  color: #94a3b8;
 }
 
 .academicValue {
   font-family: var(--font-body);
-  font-size: 0.86rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  color: #f4f2ee;
+  color: #1e293b;
 }
 
-/* ── 3. Bottom Bar ─────────────────────────────────────────── */
-.bottomBar {
+/* Colophon Bar */
+.colophonBar {
   display: flex;
-  align-items: flex-end;
   justify-content: space-between;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 2.25rem;
-  position: relative;
-  z-index: 2;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.copyrightBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.rightsLabel {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #6d7588;
-}
-
-.brandCopyright {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 4.2vw, 3.4rem);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-  color: #ffffff;
-  line-height: 1;
-}
-
-/* Right Side: Local Time Clock & Scroll Top Button */
-.bottomRight {
-  display: flex;
   align-items: center;
-  gap: 2.5rem;
-}
-
-.timeBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.timeLabel {
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
   font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #6d7588;
+  font-size: 0.72rem;
+  color: #64748b;
 }
 
-.timeValue {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.88rem;
+.copyrightText {
   font-weight: 600;
-  color: #ffffff;
-  letter-spacing: 0.02em;
 }
 
-.scrollTopBtn {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: #2563eb;
-  color: #ffffff;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  font-weight: 700;
-  transition: all 0.25s var(--ease-out-expo);
-  box-shadow: 0 6px 22px rgba(37, 99, 235, 0.45);
+.colophonNote {
+  color: #94a3b8;
 }
 
-.scrollTopBtn:hover {
-  background: #3b82f6;
-  transform: translateY(-3px) scale(1.06);
-  box-shadow: 0 10px 28px rgba(37, 99, 235, 0.65);
-}
-
+/* ── Responsive Adaptations ────────────────────────────────── */
 @media (max-width: 1024px) {
-  .footerWrap { padding: 3rem var(--margin-mobile) 4rem; }
-  .footerCard { padding: 2.5rem 2rem; gap: 3rem; border-radius: 24px; }
-  .mainGrid {
+  .bottomGrid {
     grid-template-columns: 1fr;
     gap: 3rem;
+  }
+  .academicTicker {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .socialButtonsRow {
+    justify-content: flex-start;
   }
 }
 
 @media (max-width: 768px) {
-  .topPillBar {
-    flex-direction: column;
-    align-items: flex-start;
-    border-radius: 20px;
+  .footerWrap {
+    padding: 3rem var(--margin-mobile) 2rem;
+    gap: 2.5rem;
   }
-  .bottomBar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.75rem;
+  .topCard {
+    padding: 3rem 1.5rem;
+    border-radius: 28px;
   }
-  .bottomRight {
-    width: 100%;
-    justify-content: space-between;
+  .navRow {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+  .academicTicker {
+    grid-template-columns: 1fr;
+  }
+  .colophonBar {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
   }
 }
