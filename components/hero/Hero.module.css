@@ -6,12 +6,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #06080d;
+  background: var(--bg);
   padding: 4.8rem var(--margin-desktop) 1.8rem;
   user-select: none;
 }
 
-/* ── Enclosed Rounded Hero Box (Synth Era Frame) ─────────────── */
+/* ── Enclosed Rounded Hero Box (Light Theme Full Bleed) ──────── */
 .heroBox {
   position: relative;
   width: 100%;
@@ -19,75 +19,65 @@
   min-height: 640px;
   max-width: 1560px;
   border-radius: 32px;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #0a0d14;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 
-    0 24px 64px rgba(0, 0, 0, 0.75),
-    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
-  padding: 2rem 2.8rem;
+  background: transparent;
+  padding: 2rem 0; /* Full bleed layout instead of bordered box */
 }
 
-/* ── 1. Cinematic Background Video Enclosed Within Box ───────── */
-.bgVideoContainer {
+/* ── 1. Massive Background Typography ───────── */
+.massiveTextBg {
   position: absolute;
-  inset: 0;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 32px;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.bgVideo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 36%;
-  opacity: 0.72;
-  transform: translateY(24px) scale(1.02);
-  transition: opacity 0.5s ease;
-  filter: contrast(1.06) saturate(1.08);
-}
-
-/* Atmospheric Multi-Layer Dark Vignettes */
-.topGradient {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 150px;
-  background: linear-gradient(180deg, rgba(6, 8, 13, 0.8) 0%, rgba(6, 8, 13, 0.2) 60%, transparent 100%);
-  pointer-events: none;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 2vw;
   z-index: 1;
+  white-space: nowrap;
+  pointer-events: none;
 }
 
-.radialVignette {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse at center 46%,
-    rgba(6, 8, 13, 0.1) 0%,
-    rgba(6, 8, 13, 0.55) 60%,
-    rgba(6, 8, 13, 0.94) 100%
-  );
-  pointer-events: none;
-  z-index: 1;
+.massiveFirst, .massiveLast {
+  font-family: var(--font-heading);
+  font-size: clamp(4rem, 15vw, 13rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
 }
 
-.bottomFade {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 240px;
-  background: linear-gradient(to bottom, transparent 0%, rgba(6, 8, 13, 0.75) 50%, #06080d 100%);
-  pointer-events: none;
-  z-index: 1;
+.massiveFirst {
+  color: transparent; 
+  -webkit-text-stroke: 2px var(--text);
+}
+.massiveLast {
+  color: var(--text);
+}
+
+/* ── Center Portrait Image ───────── */
+.portraitContainer {
+  position: relative;
+  width: 45vw;
+  max-width: 500px;
+  height: 60vh;
+  min-height: 400px;
+  z-index: 2;
+  margin: -4rem auto 2rem auto;
+  animation: slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.portraitImage {
+  object-fit: contain;
+  object-position: bottom;
+}
+
+@keyframes slideUpFade {
+  from { transform: translateY(80px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 /* ── 2. Top HUD Telemetry Bar Inside Box ─────────────────────── */
@@ -104,17 +94,17 @@
   font-family: var(--font-mono);
   font-size: 0.65rem;
   letter-spacing: 0.22em;
-  color: #9aa2b5;
+  color: var(--text-muted);
   text-transform: uppercase;
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  background: rgba(14, 18, 26, 0.6);
+  background: var(--bg-soft);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   padding: 0.35rem 0.85rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--text-dim);
 }
 
 .liveDot {
@@ -146,14 +136,14 @@
   font-family: var(--font-mono);
   font-size: 0.65rem;
   letter-spacing: 0.16em;
-  color: #c4ccdf;
+  color: var(--text-muted);
   text-transform: uppercase;
-  background: rgba(14, 18, 26, 0.6);
+  background: var(--bg-soft);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   padding: 0.35rem 0.85rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--text-dim);
 }
 
 /* ── 3. Center Hero Stage & Condensed Geometric Typography ───── */
@@ -174,46 +164,24 @@
   font-size: 0.72rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #c8f04a;
-  background: rgba(200, 240, 74, 0.08);
-  border: 1px solid rgba(200, 240, 74, 0.22);
+  color: var(--bg);
+  background: var(--text);
   padding: 0.38rem 1.1rem;
   border-radius: 999px;
-  backdrop-filter: blur(10px);
+  z-index: 5;
 }
 
-/* Title Font Style Matching Reference Image (SYNTH ERA Geometric Capitals) */
-.giantTitle {
-  font-family: var(--font-heading), 'Syne', -apple-system, sans-serif;
-  font-size: clamp(3.2rem, 7.8vw, 6.8rem);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 0.94;
-  text-transform: uppercase;
-  color: #ffffff;
-  background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 70%, #94a3b8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.85);
-}
-
-.titleAccent {
-  color: var(--accent);
-  background: linear-gradient(180deg, #ffffff 0%, var(--accent) 80%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 25px rgba(200, 240, 74, 0.35));
-}
+/* Title Font Style removed as it is now massiveTextBg */
 
 .subtitle {
   font-family: var(--font-body);
   font-size: clamp(0.95rem, 1.6vw, 1.18rem);
   font-weight: 500;
-  color: #cbd5e1;
+  color: var(--text-muted);
   letter-spacing: 0.01em;
   max-width: 680px;
   line-height: 1.55;
-  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
+  z-index: 5;
 }
 
 .heroCtas {
@@ -221,6 +189,7 @@
   align-items: center;
   gap: 1rem;
   margin-top: 0.6rem;
+  z-index: 5;
 }
 
 .ctaPrimary {
@@ -229,15 +198,14 @@
   gap: 0.6rem;
   padding: 0.8rem 1.7rem;
   border-radius: 999px;
-  background: var(--accent);
-  color: #06080d;
+  background: var(--text);
+  color: var(--bg);
   font-family: var(--font-mono);
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   text-decoration: none;
-  box-shadow: 0 8px 30px rgba(200, 240, 74, 0.35);
   transition: all 0.25s var(--ease-out-expo);
   cursor: pointer;
   border: none;
@@ -245,7 +213,7 @@
 
 .ctaPrimary:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 12px 35px rgba(200, 240, 74, 0.55);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .ctaSecondary {
@@ -254,10 +222,9 @@
   gap: 0.6rem;
   padding: 0.8rem 1.6rem;
   border-radius: 999px;
-  background: rgba(14, 18, 26, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #f1f5f9;
+  background: var(--bg-soft);
+  border: 1px solid var(--text-dim);
+  color: var(--text);
   font-family: var(--font-mono);
   font-size: 0.8rem;
   font-weight: 600;
@@ -269,8 +236,8 @@
 }
 
 .ctaSecondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: var(--bg);
+  border-color: var(--text-muted);
   transform: translateY(-2px);
 }
 
@@ -296,21 +263,21 @@
   font-size: 0.6rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--text-muted);
 }
 
 .hudRoleDesc {
   font-family: var(--font-body);
   font-size: 0.78rem;
   font-weight: 600;
-  color: #e2e8f0;
+  color: var(--text);
   line-height: 1.4;
 }
 
 .scrollCue {
   background: none;
   border: none;
-  color: #9aa2b5;
+  color: var(--text-muted);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -321,7 +288,7 @@
 }
 
 .scrollCue:hover {
-  color: var(--accent);
+  color: var(--text);
 }
 
 .scrollLabel {
@@ -355,10 +322,9 @@
   display: flex;
   align-items: center;
   gap: 0.45rem;
-  background: rgba(14, 18, 26, 0.65);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #f1f5f9;
+  background: var(--bg-soft);
+  border: 1px solid var(--text-dim);
+  color: var(--text);
   font-family: var(--font-mono);
   font-size: 0.65rem;
   letter-spacing: 0.1em;
@@ -369,20 +335,20 @@
 }
 
 .soundPill:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.25);
+  background: var(--bg);
+  border-color: var(--text-muted);
 }
 
 .soundDot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 8px var(--accent);
+  background: var(--accent-green);
+  box-shadow: 0 0 8px var(--accent-green);
 }
 
 .soundDot.muted {
-  background: #64748b;
+  background: var(--text-muted);
   box-shadow: none;
 }
 
@@ -392,19 +358,37 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(14, 18, 26, 0.65);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--bg-soft);
+  border: 1px solid var(--text-dim);
   border-radius: 50%;
-  color: #f1f5f9;
+  color: var(--text);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .ctrlBtn:hover {
-  background: rgba(200, 240, 74, 0.15);
-  border-color: var(--accent);
-  color: var(--accent);
+  background: var(--bg);
+  border-color: var(--text-muted);
+  color: var(--text);
+}
+
+/* ── Bottom Intro Video ── */
+.bottomVideoContainer {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 2rem auto 0;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+.bottomVideo {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
 }
 
 /* ── Responsive Adaptations ──────────────────────────────────── */

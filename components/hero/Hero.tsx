@@ -134,28 +134,14 @@ export default function Hero({ data }: HeroProps) {
     <section className={styles.hero} id="home">
       {/* ── Enclosed Hero Box (Synth Era Boxed Frame) ── */}
       <div className={styles.heroBox}>
-        {/* ── Cinematic Background Video (Enclosed in Box) ── */}
-        <div className={styles.bgVideoContainer}>
-          <video
-            ref={videoRef}
-            className={styles.bgVideo}
-            src={heroVideo}
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster={posterImage}
-            preload="auto"
-          />
-        </div>
-
-        {/* Atmospheric Vignette & Contrast Gradients */}
-        <div className={styles.topGradient} aria-hidden="true" />
-        <div className={styles.radialVignette} aria-hidden="true" />
-        <div className={styles.bottomFade} aria-hidden="true" />
-
         {/* Interactive 3D Particle Space Coordinate Layer */}
         <Hero3DCanvas />
+
+        {/* ── Massive Background Typography ── */}
+        <div className={styles.massiveTextBg}>
+          <span className={styles.massiveFirst}>{firstName}</span>
+          <span className={styles.massiveLast}>{lastName}</span>
+        </div>
 
         {/* ── Top HUD Telemetry Bar ────────────────────────────── */}
         <div className={styles.topBar}>
@@ -171,13 +157,13 @@ export default function Hero({ data }: HeroProps) {
 
         {/* ── Center Hero Stage & Editorial Typography ─────────── */}
         <div className={styles.centerContent}>
+          <div className={styles.portraitContainer}>
+            <img src={posterImage} alt={`${firstName} ${lastName}`} className={styles.portraitImage} />
+          </div>
+
           <div className={styles.domainTag}>
             <span>AIML Engineer &amp; Full Stack Developer</span>
           </div>
-
-          <h1 className={styles.giantTitle}>
-            {firstName} <span className={styles.titleAccent}>{lastName}</span>
-          </h1>
 
           <p className={styles.subtitle}>
             Architecting intelligent neural systems, high-performance web applications, and next-generation digital experiences.
@@ -201,6 +187,20 @@ export default function Hero({ data }: HeroProps) {
               <span>⚡</span>
             </button>
           </div>
+        </div>
+
+        {/* ── Welcoming Intro Video ────────────── */}
+        <div className={styles.bottomVideoContainer}>
+          <video
+            ref={videoRef}
+            className={styles.bottomVideo}
+            src={heroVideo}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+          />
         </div>
 
         {/* ── Bottom HUD Status Bar & Media Controls ────────────── */}
