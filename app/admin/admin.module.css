@@ -1,8 +1,59 @@
-/* ── Admin Panel Design System ──────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   VAIBHAV SHAW — ADMIN PANEL DESIGN SYSTEM
+   Executive Light Aesthetic (Vercel & Linear Executive Style)
+   High-Contrast Monochrome & Slate, Clean Elevation, Zero Overlay Clash
+   ───────────────────────────────────────────────────────────── */
+
+/* ── Container & Scoped Design Tokens ───────────────────────── */
+.container,
+.loginWrapper {
+  --adm-bg: #f8fafc;
+  --adm-bg-subtle: #ffffff;
+  --adm-surface: #ffffff;
+  --adm-surface-elevated: #f8fafc;
+  --adm-surface-active: #0f172a;
+  --adm-surface-hover: #f1f5f9;
+  --adm-border: #e2e8f0;
+  --adm-border-light: #cbd5e1;
+  --adm-border-hover: #94a3b8;
+  --adm-border-active: #0f172a;
+
+  /* Brand Accent: Executive Slate Black */
+  --accent: #0f172a;
+  --accent-hover: #1e293b;
+  --accent-dim: rgba(15, 23, 42, 0.05);
+  --accent-glow: rgba(15, 23, 42, 0.12);
+  --accent-foreground: #ffffff;
+
+  /* Status Colors */
+  --adm-success: #059669;
+  --adm-success-hover: #047857;
+  --adm-success-bg: #ecfdf5;
+  --adm-success-border: #a7f3d0;
+  --adm-warning: #d97706;
+  --adm-warning-hover: #b45309;
+  --adm-warning-bg: #fffbeb;
+  --adm-warning-border: #fde68a;
+  --adm-danger: #dc2626;
+  --adm-danger-hover: #b91c1c;
+  --adm-danger-bg: #fef2f2;
+  --adm-danger-border: #fecaca;
+
+  /* High-Legibility Typography Scale */
+  --adm-text-primary: #0f172a;
+  --adm-text-secondary: #475569;
+  --adm-text-muted: #64748b;
+  --adm-text-dim: #94a3b8;
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+
+  cursor: default;
+}
+
 .container {
   min-height: 100vh;
-  background: #080a0f;
-  color: #f4f2ee;
+  background: var(--adm-bg);
+  color: var(--adm-text-primary);
   display: flex;
   font-family: var(--font-body);
 }
@@ -14,18 +65,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 50% 30%, #151a28 0%, #080a0f 80%);
+  background: radial-gradient(circle at 50% 25%, #f1f5f9 0%, #e2e8f0 100%);
   padding: 1.5rem;
 }
 
 .loginCard {
   width: 100%;
   max-width: 440px;
-  background: #0f121a;
-  border: 1px solid #232a3b;
+  background: var(--adm-surface);
+  border: 1px solid var(--adm-border);
   border-radius: 16px;
   padding: 2.5rem;
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
@@ -41,119 +92,151 @@
 
 .loginBadge {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   color: var(--accent);
   text-transform: uppercase;
   background: var(--accent-dim);
-  padding: 0.35rem 0.85rem;
+  padding: 0.4rem 0.9rem;
   border-radius: 999px;
-  border: 1px solid rgba(200, 240, 74, 0.25);
+  border: 1px solid var(--adm-border-light);
   margin-bottom: 0.5rem;
 }
 
 .loginTitle {
   font-family: var(--font-display);
-  font-size: 1.8rem;
+  font-size: 1.85rem;
   font-weight: 800;
   letter-spacing: -0.03em;
-  color: #fff;
+  color: var(--adm-text-primary);
+  line-height: 1.2;
 }
 
 .loginSub {
-  font-size: 0.85rem;
-  color: #7b8191;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--adm-text-secondary);
+  line-height: 1.5;
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.45rem;
 }
 
 .label {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  color: #8c93a8;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--adm-text-secondary);
   text-transform: uppercase;
 }
 
 .input {
   width: 100%;
   padding: 0.75rem 1rem;
-  background: #151a26;
-  border: 1px solid #262f44;
+  background: #ffffff;
+  border: 1px solid var(--adm-border-light);
   border-radius: 8px;
-  color: #fff;
+  color: var(--adm-text-primary);
   font-family: var(--font-body);
-  font-size: 0.9rem;
-  transition: all 0.2s;
+  font-size: 0.92rem;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
   box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: var(--adm-text-muted);
+}
+
+.input:hover {
+  border-color: var(--adm-border-hover);
+  background: #fafafa;
 }
 
 .input:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(200, 240, 74, 0.15);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 .textarea {
   width: 100%;
   padding: 0.75rem 1rem;
-  background: #151a26;
-  border: 1px solid #262f44;
+  background: #ffffff;
+  border: 1px solid var(--adm-border-light);
   border-radius: 8px;
-  color: #fff;
+  color: var(--adm-text-primary);
   font-family: var(--font-body);
-  font-size: 0.88rem;
-  line-height: 1.5;
-  min-height: 90px;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  min-height: 95px;
   resize: vertical;
   box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.textarea::placeholder {
+  color: var(--adm-text-muted);
+}
+
+.textarea:hover {
+  border-color: var(--adm-border-hover);
+  background: #fafafa;
 }
 
 .textarea:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(200, 240, 74, 0.15);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 .loginBtn {
   width: 100%;
   padding: 0.85rem;
   background: var(--accent);
-  color: #060709;
+  color: var(--accent-foreground);
   border: none;
   border-radius: 8px;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
   margin-top: 0.5rem;
 }
 
 .loginBtn:hover {
-  background: #fff;
+  background: var(--accent-hover);
+  color: #ffffff;
   transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2);
+}
+
+.loginBtn:active {
+  transform: translateY(0);
 }
 
 .loginHint {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
-  color: #555d70;
+  font-size: 0.7rem;
+  color: var(--adm-text-muted);
   text-align: center;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
 }
 
-/* ── Professional Untitled UI Inspired Sidebar ───────────── */
+/* ── Sidebar (Untitled UI Inspired Executive Light) ───────── */
 .sidebar {
   width: 270px;
-  background: #090b10;
-  border-right: 1px solid #1a1e2b;
+  background: var(--adm-bg-subtle);
+  border-right: 1px solid var(--adm-border);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -174,7 +257,7 @@
   gap: 1.5rem;
 }
 
-/* Window Control Dots (macOS style) */
+/* Window Control Dots */
 .windowControls {
   display: flex;
   align-items: center;
@@ -199,16 +282,17 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.55rem 0.65rem;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.6rem 0.75rem;
+  background: var(--adm-surface-elevated);
+  border: 1px solid var(--adm-border);
   border-radius: 10px;
   gap: 0.75rem;
-  transition: background 0.2s;
+  transition: background 0.2s, border-color 0.2s;
 }
 
 .workspaceHeader:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--adm-surface-hover);
+  border-color: var(--adm-border-light);
 }
 
 .workspaceLeft {
@@ -222,13 +306,13 @@
   width: 34px;
   height: 34px;
   border-radius: 8px;
-  background: #ffffff;
-  color: #06080d;
+  background: #0f172a;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);
 }
 
 .workspaceMeta {
@@ -240,22 +324,22 @@
 
 .workspaceTitle {
   font-family: var(--font-display);
-  font-size: 0.86rem;
+  font-size: 0.88rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--adm-text-primary);
   letter-spacing: -0.01em;
   white-space: nowrap;
 }
 
 .workspaceSub {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
-  color: #6d7588;
+  font-size: 0.62rem;
+  color: var(--adm-text-muted);
   white-space: nowrap;
 }
 
 .switcherChevron {
-  color: #6d7588;
+  color: var(--adm-text-muted);
   font-size: 0.75rem;
   display: flex;
   align-items: center;
@@ -277,36 +361,36 @@
 
 .groupLabel {
   font-family: var(--font-mono);
-  font-size: 0.55rem;
-  font-weight: 600;
+  font-size: 0.68rem;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #555d70;
+  color: var(--adm-text-muted);
   padding: 0 0.75rem;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.25rem;
 }
 
 .navList {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.25rem;
 }
 
 .navItem {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.62rem 0.8rem;
+  padding: 0.62rem 0.85rem;
   border-radius: 8px;
   font-family: var(--font-body);
-  font-size: 0.84rem;
+  font-size: 0.88rem;
   font-weight: 500;
-  color: #8c93a8;
+  color: var(--adm-text-secondary);
   background: transparent;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
   width: 100%;
   text-align: left;
 }
@@ -325,7 +409,7 @@
   width: 20px;
   height: 20px;
   flex-shrink: 0;
-  color: #6d7588;
+  color: var(--adm-text-muted);
   transition: color 0.15s ease;
 }
 
@@ -336,31 +420,34 @@
 
 .navBadge {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.66rem;
   font-weight: 600;
-  color: #8c93a8;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 0.1rem 0.45rem;
+  color: var(--adm-text-secondary);
+  background: #f1f5f9;
+  border: 1px solid var(--adm-border);
+  padding: 0.15rem 0.5rem;
   border-radius: 999px;
   line-height: 1.2;
 }
 
+/* Hover without overlay conflict */
 .navItem:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.035);
+  color: var(--adm-text-primary);
+  background: var(--adm-surface-hover);
+  border-color: var(--adm-border);
 }
 
 .navItem:hover .navItemIcon {
-  color: #ffffff;
+  color: var(--adm-text-primary);
 }
 
+/* Active navigation item */
 .navItem.active {
   color: #ffffff;
-  background: #181c28;
-  border-color: rgba(255, 255, 255, 0.08);
+  background: var(--adm-surface-active);
+  border-color: var(--adm-surface-active);
   font-weight: 600;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
 }
 
 .navItem.active .navItemIcon {
@@ -368,10 +455,15 @@
 }
 
 .navItem.active .navBadge {
-  background: var(--accent);
-  color: #06080d;
-  border-color: var(--accent);
+  background: #ffffff;
+  color: #0f172a;
+  border-color: #ffffff;
   font-weight: 700;
+}
+
+.navItem.active:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
 }
 
 /* Collapsed state adjustments */
@@ -402,7 +494,7 @@
 /* Sidebar Footer & Bottom Actions */
 .sidebarFooter {
   padding: 1.25rem 1rem;
-  border-top: 1px solid #1a1e2b;
+  border-top: 1px solid var(--adm-border);
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
@@ -414,18 +506,19 @@
   gap: 0.5rem;
   padding: 0.45rem 0.75rem;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--adm-surface-elevated);
+  border: 1px solid var(--adm-border);
   font-family: var(--font-mono);
-  font-size: 0.6rem;
-  color: #6d7588;
+  font-size: 0.68rem;
+  color: var(--adm-text-secondary);
 }
 
 .livePulseDot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: #51cf66;
-  box-shadow: 0 0 8px #51cf66;
+  background: var(--adm-success);
+  box-shadow: 0 0 6px var(--adm-success);
   flex-shrink: 0;
 }
 
@@ -443,23 +536,25 @@
   padding: 0.55rem 0.75rem;
   border-radius: 6px;
   background: transparent;
-  border: none;
-  color: #7b8191;
+  border: 1px solid transparent;
+  color: var(--adm-text-secondary);
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 0.84rem;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.15s ease;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
 .footerActionBtn:hover {
-  background: rgba(255, 255, 255, 0.04);
-  color: #ffffff;
+  background: var(--adm-surface-hover);
+  border-color: var(--adm-border);
+  color: var(--adm-text-primary);
 }
 
 .footerActionBtnDanger:hover {
-  background: rgba(255, 107, 107, 0.1);
-  color: #ff6b6b;
+  background: var(--adm-danger-bg);
+  border-color: var(--adm-danger-border);
+  color: var(--adm-danger);
 }
 
 /* Sidebar Collapse / Expand Toggle Button */
@@ -470,21 +565,21 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: #141824;
-  border: 1px solid #28334b;
-  color: #8c93a8;
+  background: #ffffff;
+  border: 1px solid var(--adm-border-light);
+  color: var(--adm-text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 100;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .collapseToggleBtn:hover {
-  background: #2563eb;
-  border-color: #3b82f6;
+  background: var(--accent);
+  border-color: var(--accent);
   color: #ffffff;
 }
 
@@ -503,26 +598,29 @@
   align-items: center;
   margin-bottom: 2.5rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid #1c2232;
+  border-bottom: 1px solid var(--adm-border);
 }
 
 .pageHeader {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.35rem;
 }
 
 .pageTitle {
   font-family: var(--font-display);
-  font-size: 1.9rem;
+  font-size: 1.95rem;
   font-weight: 800;
   letter-spacing: -0.03em;
-  color: #fff;
+  color: var(--adm-text-primary);
+  line-height: 1.2;
 }
 
 .pageDesc {
-  font-size: 0.85rem;
-  color: #7b8191;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--adm-text-secondary);
+  line-height: 1.5;
 }
 
 .actions {
@@ -533,13 +631,13 @@
 
 .toast {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #51cf66;
-  background: rgba(81, 207, 102, 0.1);
-  border: 1px solid rgba(81, 207, 102, 0.3);
-  padding: 0.45rem 0.9rem;
+  color: var(--adm-success);
+  background: var(--adm-success-bg);
+  border: 1px solid var(--adm-success-border);
+  padding: 0.5rem 1rem;
   border-radius: 6px;
   animation: fadeIn 0.2s ease;
 }
@@ -553,48 +651,62 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.65rem 1.4rem;
+  padding: 0.7rem 1.5rem;
   background: var(--accent);
-  color: #060709;
+  color: var(--accent-foreground);
   border: none;
   border-radius: 8px;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 4px 15px -3px rgba(200, 240, 74, 0.35);
+  transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
 }
 
 .saveBtn:hover {
-  background: #fff;
+  background: var(--accent-hover);
+  color: #ffffff;
   transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.25);
+}
+
+.saveBtn:active {
+  transform: translateY(0);
 }
 
 /* ── Cards & Grid Layouts ──────────────────────────────────── */
 .card {
-  background: #0f121a;
-  border: 1px solid #1c2232;
+  background: var(--adm-surface);
+  border: 1px solid var(--adm-border);
   border-radius: 12px;
   padding: 1.75rem;
   margin-bottom: 2rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.card:hover {
+  border-color: var(--adm-border-light);
 }
 
 .cardTitle {
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: #fff;
-  margin-bottom: 0.35rem;
+  color: var(--adm-text-primary);
+  margin-bottom: 0.4rem;
 }
 
 .cardSubtitle {
-  font-size: 0.8rem;
-  color: #7b8191;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--adm-text-secondary);
   margin-bottom: 1.5rem;
+  line-height: 1.5;
 }
 
 .grid2 {
@@ -616,77 +728,86 @@
   margin-bottom: 2rem;
 }
 
-/* Stat tile */
+/* Stat Tile */
 .statTile {
-  background: #0f121a;
-  border: 1px solid #1c2232;
+  background: var(--adm-surface);
+  border: 1px solid var(--adm-border);
   border-radius: 12px;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.5rem;
+  transition: border-color 0.2s, background 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.statTile:hover {
+  background: var(--adm-surface-elevated);
+  border-color: var(--adm-border-light);
 }
 
 .statTileLabel {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.14em;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #7b8191;
+  color: var(--adm-text-secondary);
 }
 
 .statTileValue {
   font-family: var(--font-display);
-  font-size: 2.1rem;
+  font-size: 2.25rem;
   font-weight: 800;
-  color: #fff;
-  line-height: 1;
+  color: var(--adm-text-primary);
+  line-height: 1.1;
 }
 
 .statTileDesc {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
-  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--adm-text-secondary);
 }
 
 /* ── Direct System Upload Component ────────────────────────── */
 .uploadContainer {
-  background: #141824;
-  border: 2px dashed #28334b;
+  background: var(--adm-surface-elevated);
+  border: 2px dashed var(--adm-border-light);
   border-radius: 10px;
-  padding: 1.5rem;
+  padding: 1.75rem 1.5rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, background 0.2s ease;
   cursor: pointer;
   position: relative;
 }
 
 .uploadContainer:hover {
   border-color: var(--accent);
-  background: rgba(200, 240, 74, 0.02);
+  background: #f1f5f9;
 }
 
 .uploadIcon {
-  font-size: 1.8rem;
+  font-size: 1.9rem;
   color: var(--accent);
 }
 
 .uploadTitle {
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--adm-text-primary);
 }
 
 .uploadHint {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
-  color: #7b8191;
-  letter-spacing: 0.05em;
+  font-size: 0.7rem;
+  color: var(--adm-text-secondary);
+  letter-spacing: 0.04em;
 }
 
 .fileInputHidden {
@@ -701,13 +822,13 @@
 .uploadSuccessPill {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: #51cf66;
-  background: rgba(81, 207, 102, 0.12);
-  border: 1px solid rgba(81, 207, 102, 0.3);
-  padding: 0.35rem 0.75rem;
+  font-size: 0.72rem;
+  color: var(--adm-success);
+  background: var(--adm-success-bg);
+  border: 1px solid var(--adm-success-border);
+  padding: 0.4rem 0.85rem;
   border-radius: 6px;
   margin-top: 0.5rem;
   word-break: break-all;
@@ -721,16 +842,22 @@
 }
 
 .socialIconBadge {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 8px;
-  background: #141824;
-  border: 1px solid #232b3d;
+  background: var(--adm-surface-elevated);
+  border: 1px solid var(--adm-border-light);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--accent);
   flex-shrink: 0;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.socialInputRow:focus-within .socialIconBadge {
+  border-color: var(--accent);
+  background: #f1f5f9;
 }
 
 /* List Items (PPT / Certs) */
@@ -739,15 +866,17 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.25rem;
-  background: #141824;
-  border: 1px solid #20273a;
+  background: var(--adm-surface);
+  border: 1px solid var(--adm-border);
   border-radius: 8px;
   margin-bottom: 0.75rem;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, background 0.2s;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 
 .itemRow:hover {
-  border-color: #2e3852;
+  background: var(--adm-surface-elevated);
+  border-color: var(--adm-border-light);
 }
 
 .itemLeft {
@@ -758,22 +887,22 @@
 
 .itemNum {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: #555d70;
+  font-size: 0.76rem;
+  color: var(--adm-text-muted);
 }
 
 .itemHeading {
   font-family: var(--font-display);
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #fff;
+  font-size: 0.98rem;
+  font-weight: 650;
+  color: var(--adm-text-primary);
 }
 
 .itemSub {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: #7b8191;
-  margin-top: 0.15rem;
+  font-size: 0.72rem;
+  color: var(--adm-text-secondary);
+  margin-top: 0.2rem;
 }
 
 .itemActions {
@@ -784,69 +913,79 @@
 
 .badge {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.1em;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 0.25rem 0.65rem;
+  padding: 0.28rem 0.7rem;
   border-radius: 4px;
   border: 1px solid transparent;
 }
 
 .badgeSuccess {
-  color: #51cf66;
-  background: rgba(81, 207, 102, 0.1);
-  border-color: rgba(81, 207, 102, 0.25);
+  color: var(--adm-success);
+  background: var(--adm-success-bg);
+  border-color: var(--adm-success-border);
 }
 
 .badgeWarning {
-  color: #ff922b;
-  background: rgba(255, 146, 43, 0.1);
-  border-color: rgba(255, 146, 43, 0.25);
+  color: var(--adm-warning);
+  background: var(--adm-warning-bg);
+  border-color: var(--adm-warning-border);
 }
 
 .iconBtn {
-  padding: 0.4rem 0.75rem;
-  background: #1d2334;
-  border: 1px solid #2a344d;
-  color: #8c93a8;
+  padding: 0.45rem 0.85rem;
+  background: var(--adm-surface);
+  border: 1px solid var(--adm-border-light);
+  color: var(--adm-text-secondary);
   border-radius: 6px;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
 }
 
 .iconBtn:hover {
-  color: #fff;
-  border-color: #3b496c;
+  background: var(--adm-surface-hover);
+  border-color: var(--adm-text-primary);
+  color: var(--adm-text-primary);
 }
 
 .iconBtnDanger:hover {
-  color: #ff6b6b;
-  border-color: #ff6b6b;
+  background: var(--adm-danger-bg);
+  border-color: var(--adm-danger);
+  color: var(--adm-danger);
 }
 
 .addBtn {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.55rem 1.1rem;
-  background: rgba(200, 240, 74, 0.1);
-  border: 1px solid rgba(200, 240, 74, 0.3);
-  color: var(--accent);
+  padding: 0.65rem 1.25rem;
+  background: #f1f5f9;
+  border: 1px solid var(--adm-border-light);
+  color: var(--adm-text-primary);
   border-radius: 6px;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
 }
 
 .addBtn:hover {
   background: var(--accent);
-  color: #060709;
+  border-color: var(--accent);
+  color: var(--accent-foreground);
+  transform: translateY(-1px);
+}
+
+.addBtn:active {
+  transform: translateY(0);
 }
 
 /* Visibility Toggles */
@@ -854,47 +993,66 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.1rem 1.4rem;
-  background: #141824;
-  border: 1px solid #20273a;
+  padding: 1.15rem 1.5rem;
+  background: var(--adm-surface);
+  border: 1px solid var(--adm-border);
   border-radius: 8px;
   margin-bottom: 0.75rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.toggleRow:hover {
+  background: var(--adm-surface-elevated);
+  border-color: var(--adm-border-light);
 }
 
 .toggleLabel {
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: 0.96rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #fff;
+  letter-spacing: 0.04em;
+  color: var(--adm-text-primary);
 }
 
 .toggleSwitch {
-  padding: 0.4rem 1.1rem;
+  padding: 0.45rem 1.2rem;
   border-radius: 999px;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
   border: 1px solid transparent;
-  transition: all 0.2s;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
 }
 
 .toggleOn {
-  background: rgba(81, 207, 102, 0.15);
-  color: #51cf66;
-  border-color: rgba(81, 207, 102, 0.35);
+  background: var(--adm-success-bg);
+  color: var(--adm-success);
+  border-color: var(--adm-success-border);
+}
+
+.toggleOn:hover {
+  background: var(--adm-success);
+  color: #ffffff;
+  border-color: var(--adm-success);
 }
 
 .toggleOff {
-  background: rgba(255, 107, 107, 0.15);
-  color: #ff6b6b;
-  border-color: rgba(255, 107, 107, 0.35);
+  background: var(--adm-danger-bg);
+  color: var(--adm-danger);
+  border-color: var(--adm-danger-border);
 }
 
+.toggleOff:hover {
+  background: var(--adm-danger);
+  color: #ffffff;
+  border-color: var(--adm-danger);
+}
+
+/* ── Responsive Layout ─────────────────────────────────────── */
 @media (max-width: 1024px) {
   .container {
     flex-direction: column;
@@ -902,7 +1060,7 @@
   .sidebar {
     width: 100%;
     border-right: none;
-    border-bottom: 1px solid #1c2232;
+    border-bottom: 1px solid var(--adm-border);
     padding: 1.5rem;
   }
   .main {

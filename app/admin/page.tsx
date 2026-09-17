@@ -840,22 +840,22 @@ export default function AdminPage() {
               <div className={styles.card}>
                 <h3 className={styles.cardTitle}>Identity &amp; Profile Summary</h3>
                 <p className={styles.cardSubtitle}>Key details visible across the portfolio</p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.85rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #1c2232', paddingBottom: '0.5rem' }}>
-                    <span style={{ color: '#7b8191' }}>Full Name</span>
-                    <span style={{ fontWeight: 600 }}>{data.profile?.fullName}</span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.88rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--adm-border)', paddingBottom: '0.6rem' }}>
+                    <span style={{ color: 'var(--adm-text-secondary)' }}>Full Name</span>
+                    <span style={{ fontWeight: 600, color: 'var(--adm-text-primary)' }}>{data.profile?.fullName}</span>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #1c2232', paddingBottom: '0.5rem' }}>
-                    <span style={{ color: '#7b8191' }}>Role</span>
-                    <span>{data.profile?.roleTitle}</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--adm-border)', paddingBottom: '0.6rem' }}>
+                    <span style={{ color: 'var(--adm-text-secondary)' }}>Role</span>
+                    <span style={{ color: 'var(--adm-text-primary)' }}>{data.profile?.roleTitle}</span>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #1c2232', paddingBottom: '0.5rem' }}>
-                    <span style={{ color: '#7b8191' }}>Email</span>
-                    <span>{data.profile?.email}</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--adm-border)', paddingBottom: '0.6rem' }}>
+                    <span style={{ color: 'var(--adm-text-secondary)' }}>Email</span>
+                    <span style={{ color: 'var(--adm-text-primary)' }}>{data.profile?.email}</span>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #1c2232', paddingBottom: '0.5rem' }}>
-                    <span style={{ color: '#7b8191' }}>Profile Image</span>
-                    <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--adm-border)', paddingBottom: '0.6rem' }}>
+                    <span style={{ color: 'var(--adm-text-secondary)' }}>Profile Image</span>
+                    <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)', fontSize: '0.78rem', fontWeight: 600 }}>
                       {data.profile?.profileImage}
                     </span>
                   </div>
@@ -897,7 +897,7 @@ export default function AdminPage() {
         {activeTab === 'profile' && (
           <div>
             {/* Social Network Connections (High Priority) */}
-            <div className={styles.card} style={{ border: '1px solid rgba(200, 240, 74, 0.3)' }}>
+            <div className={styles.card}>
               <h3 className={styles.cardTitle}>Social Network Channels</h3>
               <p className={styles.cardSubtitle}>
                 Add and manage your links for LinkedIn, GitHub, Instagram, and X. These automatically display on the Identity sidebar, Contact section, and Footer.
@@ -1827,16 +1827,17 @@ export default function AdminPage() {
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.5rem',
-                      padding: '0.5rem 0.9rem',
-                      background: '#151a26',
-                      border: '1px solid #232b3d',
+                      gap: '0.6rem',
+                      padding: '0.55rem 0.95rem',
+                      background: 'var(--adm-surface-elevated)',
+                      border: '1px solid var(--adm-border-light)',
                       borderRadius: '8px',
-                      fontSize: '0.85rem',
+                      fontSize: '0.88rem',
+                      transition: 'border-color 0.15s ease',
                     }}
                   >
-                    <span style={{ fontWeight: 700, color: '#fff' }}>{item.text}</span>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--accent)' }}>
+                    <span style={{ fontWeight: 650, color: '#ffffff' }}>{item.text}</span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', fontWeight: 600, color: 'var(--accent)' }}>
                       [{item.size}]
                     </span>
                     <button
@@ -1844,10 +1845,18 @@ export default function AdminPage() {
                       style={{
                         background: 'none',
                         border: 'none',
-                        color: '#7b8191',
+                        color: 'var(--adm-text-muted)',
                         cursor: 'pointer',
                         marginLeft: '0.25rem',
+                        fontSize: '0.85rem',
+                        lineHeight: 1,
+                        padding: '0.2rem',
+                        transition: 'color 0.15s ease',
                       }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--adm-danger)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--adm-text-muted)')}
+                      title="Remove interest"
+                      aria-label="Remove interest"
                     >
                       ✕
                     </button>
