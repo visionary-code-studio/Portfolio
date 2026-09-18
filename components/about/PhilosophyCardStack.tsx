@@ -26,7 +26,7 @@ const DEFAULT_PHILOSOPHIES: PhilosophyCard[] = [
     quote: 'Control the controllable. Ignore the rest completely.',
     author: 'Personal Mantra',
     themeColor: '#c8f04a',
-    image: '/images/philosophy-prague.png',
+    image: '/images/mantra-stage-mic.jpg',
     descriptor: 'Life',
   },
   {
@@ -35,7 +35,7 @@ const DEFAULT_PHILOSOPHIES: PhilosophyCard[] = [
     quote: 'The expert was once a beginner. Mastery requires patience.',
     author: 'Personal Mantra',
     themeColor: '#38bdf8',
-    image: '/images/philosophy-mastery.jpg',
+    image: '/images/mantra-stage-checkered.jpg',
     descriptor: 'Learning',
   },
   {
@@ -44,7 +44,7 @@ const DEFAULT_PHILOSOPHIES: PhilosophyCard[] = [
     quote: 'You have to dream before your dreams can come true.',
     author: 'Dr. APJ Abdul Kalam',
     themeColor: '#f59e0b',
-    image: '/images/philosophy-dreams.jpg',
+    image: '/images/apj-abdul-kalam.jpg',
     descriptor: 'Success',
   },
   {
@@ -53,7 +53,7 @@ const DEFAULT_PHILOSOPHIES: PhilosophyCard[] = [
     quote: 'Be alone, that is the secret of invention; be alone, that is when ideas are born.',
     author: 'Nikola Tesla',
     themeColor: '#a855f7',
-    image: '/images/philosophy-tesla.jpg',
+    image: '/images/nikola-tesla.png',
     descriptor: 'Invention',
   },
   {
