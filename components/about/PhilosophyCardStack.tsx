@@ -12,6 +12,7 @@ export interface PhilosophyCard {
   author: string;
   themeColor: string;
   image: string;
+  objectPosition?: string;
   descriptor: string;
 }
 
@@ -27,6 +28,7 @@ const DEFAULT_PHILOSOPHIES: PhilosophyCard[] = [
     author: 'Personal Mantra',
     themeColor: '#c8f04a',
     image: '/images/mantra-stage-mic.jpg',
+    objectPosition: 'center 20%',
     descriptor: 'Life',
   },
   {
@@ -36,6 +38,7 @@ const DEFAULT_PHILOSOPHIES: PhilosophyCard[] = [
     author: 'Personal Mantra',
     themeColor: '#38bdf8',
     image: '/images/mantra-stage-checkered.jpg',
+    objectPosition: 'center 12%',
     descriptor: 'Learning',
   },
   {
@@ -45,6 +48,7 @@ const DEFAULT_PHILOSOPHIES: PhilosophyCard[] = [
     author: 'Dr. APJ Abdul Kalam',
     themeColor: '#f59e0b',
     image: '/images/apj-abdul-kalam.jpg',
+    objectPosition: 'center 22%',
     descriptor: 'Success',
   },
   {
@@ -54,6 +58,7 @@ const DEFAULT_PHILOSOPHIES: PhilosophyCard[] = [
     author: 'Nikola Tesla',
     themeColor: '#a855f7',
     image: '/images/nikola-tesla.png',
+    objectPosition: 'center 25%',
     descriptor: 'Invention',
   },
   {
@@ -63,6 +68,7 @@ const DEFAULT_PHILOSOPHIES: PhilosophyCard[] = [
     author: 'Life Mantra',
     themeColor: '#10b981',
     image: '/images/profile_update.png',
+    objectPosition: 'center 20%',
     descriptor: 'Growth',
   },
 ];
@@ -223,6 +229,7 @@ function CardItem({ card, index, isTop, swipeDirection, onSwipe }: CardItemProps
           fill
           priority={index === 0}
           className={styles.cardImg}
+          style={{ objectPosition: card.objectPosition || 'center 25%' }}
           sizes="(max-width: 768px) 90vw, 460px"
         />
         <div className={styles.imageOverlay} />

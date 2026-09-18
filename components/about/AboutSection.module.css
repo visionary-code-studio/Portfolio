@@ -1,12 +1,24 @@
 /* ── About Section: Refined Editorial Design ───────────────── */
 .section {
-  padding: 8rem var(--margin-desktop);
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Scroll-Pinned Track Container (Drives the 1-by-1 Tag Revelation) */
+.scrollPinnedWrapper {
+  position: relative;
+  min-height: 240vh;
+  padding: 8rem var(--margin-desktop) 4rem;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.sectionGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5.5rem;
   align-items: start;
-  max-width: 1500px;
-  margin: 0 auto;
 }
 
 .sectionMeta {
@@ -29,8 +41,10 @@
   background: var(--accent);
 }
 
-/* Left: High-impact editorial statement */
+/* Left: High-impact editorial statement + Philosophy Card Stack */
 .left {
+  position: sticky;
+  top: 5rem;
   display: flex;
   flex-direction: column;
   gap: 3.5rem;
@@ -87,17 +101,21 @@
   margin-top: 0.6rem;
 }
 
-/* Right Column: Identity Pillars + Academic Track */
+/* Right Column: Pinned Physical Hangtag Card */
 .right {
+  position: sticky;
+  top: 5rem;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  align-items: center;
+  width: 100%;
 }
 
 /* ── Physical Hangtag Card (Reference Image 1: Industrial Apparel Tag) ── */
 .hangtagCard {
   position: relative;
   width: 100%;
+  max-width: 520px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -248,11 +266,12 @@
   cursor: default;
 }
 
-.tagRow:hover {
+.tagRow:hover,
+.tagRowActive {
   background: #111111;
   border-color: #111111;
   transform: translateX(4px);
-  box-shadow: 0 8px 18px -4px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 10px 22px -4px rgba(0, 0, 0, 0.22);
 }
 
 .tagRowLeft {
@@ -313,22 +332,26 @@
   transition: all 0.2s ease;
 }
 
-/* Hover Color Transitions (Prevent any overlay or text collapse) */
-.tagRow:hover .tagRowNum {
+/* Hover & Active Color Transitions (Prevent any overlay or text collapse) */
+.tagRow:hover .tagRowNum,
+.tagRowActive .tagRowNum {
   color: rgba(255, 255, 255, 0.55);
 }
 
-.tagRow:hover .tagRowIcon {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.2);
+.tagRow:hover .tagRowIcon,
+.tagRowActive .tagRowIcon {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.22);
   color: #ffffff;
 }
 
-.tagRow:hover .tagRowLabel {
+.tagRow:hover .tagRowLabel,
+.tagRowActive .tagRowLabel {
   color: #ffffff;
 }
 
-.tagRow:hover .tagRowBadge {
+.tagRow:hover .tagRowBadge,
+.tagRowActive .tagRowBadge {
   background: #ffffff;
   color: #111111;
   border-color: #ffffff;
@@ -464,11 +487,37 @@
   color: var(--text);
 }
 
+/* Academic Track Wrapper (Flows after all tags are scrolled through) */
+.academicWrapper {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 1rem var(--margin-desktop) 8rem;
+  width: 100%;
+}
+
 @media (max-width: 1024px) {
-  .section {
+  .scrollPinnedWrapper {
+    min-height: 220vh;
+    padding: 5rem var(--margin-mobile) 2rem;
+  }
+
+  .sectionGrid {
     grid-template-columns: 1fr;
     gap: 4rem;
-    padding: 5rem var(--margin-mobile);
+  }
+
+  .left {
+    position: relative;
+    top: auto;
+  }
+
+  .right {
+    position: sticky;
+    top: 4.5rem;
+  }
+
+  .academicWrapper {
+    padding: 2rem var(--margin-mobile) 6rem;
   }
 }
 

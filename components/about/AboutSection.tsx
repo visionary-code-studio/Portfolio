@@ -1,5 +1,7 @@
 'use client';
 
+import { useState, useRef, useEffect } from 'react';
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 import { ScrollReveal, ScrollStagger, ScrollStaggerItem } from '@/components/ui/ScrollTriggered';
 import PhilosophyCardStack from './PhilosophyCardStack';
 import styles from './AboutSection.module.css';
@@ -36,6 +38,7 @@ const identityPillars = [
         <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
         <path d="M6 6h10" />
         <path d="M6 10h10" />
+        <path d="m14 14 2 2 4-4" />
       </svg>
     ),
   },
@@ -98,6 +101,11 @@ const identityPillars = [
 ];
 
 export default function AboutSection({ data }: AboutProps) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   const universityName = data?.university?.name || 'Sister Nivedita University';
   const degree = data?.university?.degree || 'B.Tech CSE — AIML';
   const yearSem = data?.university?.year ? `${data.university.year} · ${data.university.semester || '3rd Sem'}` : '2nd Year · 3rd Sem';
@@ -118,102 +126,160 @@ export default function AboutSection({ data }: AboutProps) {
     { label: 'Senior Secondary', value: schoolScores },
   ];
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: trackRef,
+    offset: ['start start', 'end end'],
+  });
+
+  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+    // 5 progressive steps matching scroll depth through the pinned track
+    if (latest <= 0.08) {
+      setCurrentStep(0);
+    } else if (latest <= 0.28) {
+      setCurrentStep(1);
+    } else if (latest <= 0.52) {
+      setCurrentStep(2);
+    } else if (latest <= 0.76) {
+      setCurrentStep(3);
+    } else {
+      setCurrentStep(4);
+    }
+  });
+
   return (
     <section className={styles.section} id="about">
-      {/* Left Column: Manifesto & Narrative */}
-      <div className={styles.left}>
-        <ScrollReveal variant="fadeUp">
-          <div className={styles.sectionMeta}>02 — Personal Philosophy</div>
-          <div className={styles.statementBlock}>
-            <h2 className={styles.statementQuote}>
-              I like to build things I don&apos;t yet know{' '}
-              <span className={styles.statementAccent}>how to build.</span>
-            </h2>
-            <p className={styles.narrativeText}>{shortIntro}</p>
-          </div>
-        </ScrollReveal>
+      {/* Scroll-Pinned Track Container for 1-by-1 Hangtag Reveal */}
+      <div ref={trackRef} className={styles.scrollPinnedWrapper}>
+        <div className={styles.sectionGrid}>
+          {/* Left Column: Manifesto & Narrative + Philosophy Stack */}
+          <div className={styles.left}>
+            <ScrollReveal variant="fadeUp">
+              <div className={styles.sectionMeta}>02 — Personal Philosophy</div>
+              <div className={styles.statementBlock}>
+                <h2 className={styles.statementQuote}>
+                  I like to build things I don&apos;t yet know{' '}
+                  <span className={styles.statementAccent}>how to build.</span>
+                </h2>
+                <p className={styles.narrativeText}>{shortIntro}</p>
+              </div>
+            </ScrollReveal>
 
-        <ScrollReveal variant="fadeUp" delay={0.15}>
-          <PhilosophyCardStack tagline={tagline} />
-        </ScrollReveal>
+            <ScrollReveal variant="fadeUp" delay={0.15}>
+              <PhilosophyCardStack tagline={tagline} />
+            </ScrollReveal>
+          </div>
+
+          {/* Right Column: Industrial Hangtag Card with Scroll-driven Hover Effect */}
+          <div className={styles.right}>
+            <div className={styles.hangtagCard}>
+              {/* Top Cord Assembly (Reference Image 1: Industrial Apparel Tag) */}
+              <div className={styles.tagCordAssembly} aria-hidden="true">
+                <div className={styles.tagPin} />
+                <div className={styles.tagCord} />
+              </div>
+
+              {/* Main Hangtag Card Body (Archival Matte Cream Paper) */}
+              <div className={styles.tagBody}>
+                {/* Metallic Grommet Eyelet */}
+                <div className={styles.tagEyelet} aria-hidden="true" />
+
+                {/* Tag Header Metadata */}
+                <div className={styles.tagHeader}>
+                  <div className={styles.tagMetaLeft}>
+                    <span className={styles.tagLabelSmall}>SPEC. NO 2026 // ROLE TAG</span>
+                    <span className={styles.tagBrandSmall}>VAIBHAV SHAW</span>
+                  </div>
+                  <div className={styles.tagMetaRight}>
+                    <span className={styles.tagStatusDot} />
+                    <span className={styles.tagStatusText}>
+                      {currentStep === 4 ? 'VERIFIED · 5/5' : `TAG 0${currentStep + 1} / 05`}
+                    </span>
+                  </div>
+                </div>
+
+                {/* 5 Identity Role Tags (One by One Scroll Reveal + Hover State) */}
+                <div className={styles.tagList}>
+                  <AnimatePresence initial={false}>
+                    {identityPillars.map((item, idx) => {
+                      const isRevealed = !mounted || idx <= currentStep;
+                      const isCurrentActive = hoveredIndex === idx || (hoveredIndex === null && currentStep === idx);
+
+                      if (!isRevealed) return null;
+
+                      return (
+                        <motion.div
+                          key={item.num}
+                          layout
+                          className={`${styles.tagRow} ${isCurrentActive ? styles.tagRowActive : ''}`}
+                          initial={{ opacity: 0, y: 16, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                          transition={{
+                            duration: 0.34,
+                            ease: [0.16, 1, 0.3, 1],
+                          }}
+                          onMouseEnter={() => setHoveredIndex(idx)}
+                          onMouseLeave={() => setHoveredIndex(null)}
+                        >
+                          <div className={styles.tagRowLeft}>
+                            <span className={styles.tagRowNum}>{item.num}</span>
+                            <span className={styles.tagRowIcon}>{item.icon}</span>
+                            <span className={styles.tagRowLabel}>{item.label}</span>
+                          </div>
+                          <span className={styles.tagRowBadge}>{item.tag}</span>
+                        </motion.div>
+                      );
+                    })}
+                  </AnimatePresence>
+                </div>
+
+                {/* Bottom Industrial Barcode & Spec Stamp (Reference Image 1) */}
+                <div className={styles.tagFooter}>
+                  <div className={styles.barcodeTrack} aria-hidden="true">
+                    <span className={styles.b1} />
+                    <span className={styles.b3} />
+                    <span className={styles.b2} />
+                    <span className={styles.b1} />
+                    <span className={styles.b4} />
+                    <span className={styles.b1} />
+                    <span className={styles.b2} />
+                    <span className={styles.b3} />
+                    <span className={styles.b1} />
+                    <span className={styles.b2} />
+                    <span className={styles.b4} />
+                    <span className={styles.b1} />
+                    <span className={styles.b3} />
+                    <span className={styles.b2} />
+                    <span className={styles.b1} />
+                    <span className={styles.b4} />
+                    <span className={styles.b2} />
+                    <span className={styles.b1} />
+                    <span className={styles.b3} />
+                    <span className={styles.b1} />
+                    <span className={styles.b4} />
+                    <span className={styles.b2} />
+                  </div>
+                  <div className={styles.tagFooterMeta}>
+                    <span className={styles.tagFooterSerial}>
+                      {currentStep === 4
+                        ? '✓ ALL 5 ROLES REVEALED'
+                        : `SCROLL ↓ TO REVEAL TAG 0${currentStep + 2}`}
+                    </span>
+                    <span className={styles.tagFooterOrigin}>SNU · KOLKATA, IN</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Right Column: Identity Hangtag Card + Academic Track */}
-      <div className={styles.right}>
-        <ScrollReveal variant="fadeUp">
-          <div className={styles.hangtagCard}>
-            {/* Top Cord Assembly (Inspired by Reference Image 1) */}
-            <div className={styles.tagCordAssembly} aria-hidden="true">
-              <div className={styles.tagPin} />
-              <div className={styles.tagCord} />
-            </div>
-
-            {/* Main Tag Body in Archival Cream with Black and White Interplay */}
-            <div className={styles.tagBody}>
-              {/* Grommet Eyelet */}
-              <div className={styles.tagEyelet} aria-hidden="true" />
-
-              {/* Tag Header Metadata */}
-              <div className={styles.tagHeader}>
-                <div className={styles.tagMetaLeft}>
-                  <span className={styles.tagLabelSmall}>SPEC. NO 2026 // ROLE TAG</span>
-                  <span className={styles.tagBrandSmall}>VAIBHAV SHAW</span>
-                </div>
-                <div className={styles.tagMetaRight}>
-                  <span className={styles.tagStatusDot} />
-                  <span className={styles.tagStatusText}>VERIFIED</span>
-                </div>
-              </div>
-
-              {/* 5 Identity Role Rows */}
-              <div className={styles.tagList}>
-                {identityPillars.map((item) => (
-                  <div key={item.num} className={styles.tagRow}>
-                    <div className={styles.tagRowLeft}>
-                      <span className={styles.tagRowNum}>{item.num}</span>
-                      <span className={styles.tagRowIcon}>{item.icon}</span>
-                      <span className={styles.tagRowLabel}>{item.label}</span>
-                    </div>
-                    <span className={styles.tagRowBadge}>{item.tag}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Bottom Industrial Barcode & Spec Stamp (Reference Image 1) */}
-              <div className={styles.tagFooter}>
-                <div className={styles.barcodeTrack} aria-hidden="true">
-                  <span className={styles.b1} />
-                  <span className={styles.b3} />
-                  <span className={styles.b2} />
-                  <span className={styles.b1} />
-                  <span className={styles.b4} />
-                  <span className={styles.b1} />
-                  <span className={styles.b2} />
-                  <span className={styles.b3} />
-                  <span className={styles.b1} />
-                  <span className={styles.b2} />
-                  <span className={styles.b4} />
-                  <span className={styles.b1} />
-                  <span className={styles.b3} />
-                  <span className={styles.b2} />
-                  <span className={styles.b1} />
-                  <span className={styles.b4} />
-                  <span className={styles.b2} />
-                  <span className={styles.b1} />
-                  <span className={styles.b3} />
-                  <span className={styles.b1} />
-                  <span className={styles.b4} />
-                  <span className={styles.b2} />
-                </div>
-                <div className={styles.tagFooterMeta}>
-                  <span className={styles.tagFooterSerial}>VS-2026 // DEV SPECIFICATION</span>
-                  <span className={styles.tagFooterOrigin}>SNU · KOLKATA, IN</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ScrollReveal>
-
+      {/* Academic Track Dossier (Floats into view once all tags are scrolled through) */}
+      <div className={styles.academicWrapper}>
         <ScrollReveal variant="card" delay={0.15} className={styles.academic}>
           <div className={styles.academicHeader}>
             <span className={styles.academicTitle}>Academic Dossier</span>

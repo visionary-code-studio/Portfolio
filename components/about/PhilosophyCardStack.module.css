@@ -103,17 +103,16 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(6, 8, 13, 0.45) 0%,
-    rgba(6, 8, 13, 0.75) 50%,
-    rgba(6, 8, 13, 0.95) 100%
+    rgba(6, 8, 13, 0.22) 0%,
+    rgba(6, 8, 13, 0.52) 50%,
+    rgba(6, 8, 13, 0.88) 100%
   );
-  backdrop-filter: blur(1px);
 }
 
 .vignetteOverlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.6) 100%);
+  background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.45) 100%);
 }
 
 /* ── Card Content Typography ─────────────────────────────────── */
