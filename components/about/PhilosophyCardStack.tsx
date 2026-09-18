@@ -67,8 +67,7 @@ const DEFAULT_PHILOSOPHIES: PhilosophyCard[] = [
     quote: 'Relentless curiosity with disciplined execution.',
     author: 'Life Mantra',
     themeColor: '#10b981',
-    image: '/images/profile_update.png',
-    objectPosition: 'center 20%',
+    image: '/images/mantra-stage-mic.jpg',
     descriptor: 'Growth',
   },
 ];
@@ -108,28 +107,28 @@ export default function PhilosophyCardStack({ tagline }: Props) {
           <span className={styles.motif}>✦</span>
           <span className={styles.sectionTag}>Life Mantra &amp; Philosophy</span>
         </div>
-        <span className={styles.deckCounter}>
-          01 / {cards.length}
-        </span>
+        <div className={styles.deckCounter}>
+          <span>01</span>
+          <span>/</span>
+          <span>{cards.length}</span>
+        </div>
       </div>
 
-      {/* ── Interactive Card Stack Container ── */}
+      {/* ── Interactive Card Stack Viewport ── */}
       <div className={styles.stackViewport}>
         <div className={styles.cardsTrack}>
-          {cards.slice(0, 3).map((card, index) => {
-            const isTop = index === 0;
-
-            return (
+          <AnimatePresence initial={false}>
+            {cards.slice(0, 3).map((card, index) => (
               <CardItem
                 key={card.id}
                 card={card}
                 index={index}
-                isTop={isTop}
-                swipeDirection={isTop ? swipeDirection : null}
+                isTop={index === 0}
+                swipeDirection={index === 0 ? swipeDirection : null}
                 onSwipe={handleSwipe}
               />
-            );
-          })}
+            ))}
+          </AnimatePresence>
         </div>
       </div>
 
@@ -221,15 +220,24 @@ function CardItem({ card, index, isTop, swipeDirection, onSwipe }: CardItemProps
       onDragEnd={handleDragEnd}
       whileTap={isTop ? { cursor: 'grabbing' } : undefined}
     >
-      {/* Visual Background Photo */}
+      {/* Visual Background Photo: Dual-layer to show full uncropped image with ambient glow */}
       <div className={styles.cardImageWrap}>
+        {/* Layer 1: Blurred ambient backdrop */}
+        <Image
+          src={card.image}
+          alt=""
+          fill
+          className={styles.cardImgBackdrop}
+          sizes="(max-width: 768px) 90vw, 460px"
+          aria-hidden="true"
+        />
+        {/* Layer 2: Full uncropped image fitted completely inside card */}
         <Image
           src={card.image}
           alt={card.category}
           fill
           priority={index === 0}
-          className={styles.cardImg}
-          style={{ objectPosition: card.objectPosition || 'center 25%' }}
+          className={styles.cardImgFull}
           sizes="(max-width: 768px) 90vw, 460px"
         />
         <div className={styles.imageOverlay} />
