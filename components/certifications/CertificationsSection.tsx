@@ -17,13 +17,22 @@ interface Props {
 export default function CertificationsSection({ items, onOpen }: Props) {
   const [active, setActive] = useState('All');
 
+  // Base standard categories ensuring "Campus Ambassador" is prominently featured
+  const standardCategories = ['All', 'Campus Ambassador', 'AI / ML', 'Hackathon', 'Academic', 'Bootcamp & Workshops'];
+
   // Compute category counts dynamically
-  const catCounts: { [key: string]: number } = { All: items.length };
+  const catCounts: { [key: string]: number } = { All: items.length, 'Campus Ambassador': 0 };
   items.forEach((c) => {
-    catCounts[c.category] = (catCounts[c.category] || 0) + 1;
+    if (c.category) {
+      catCounts[c.category] = (catCounts[c.category] || 0) + 1;
+    }
   });
 
-  const categories = Object.keys(catCounts);
+  // Merge standard list and any dynamic categories discovered from uploaded items
+  const dynamicCategories = Object.keys(catCounts);
+  const categories = Array.from(new Set([...standardCategories, ...dynamicCategories])).filter(
+    (cat) => cat === 'All' || cat === 'Campus Ambassador' || (catCounts[cat] && catCounts[cat] > 0)
+  );
 
   const filtered = active === 'All'
     ? items
@@ -37,7 +46,7 @@ export default function CertificationsSection({ items, onOpen }: Props) {
           <span>05 — The Proof</span>
         </div>
         <h2 className={styles.sectionTitle}>The Proof</h2>
-        <p className={styles.subtitle}>Verified engineering and academic credentials.</p>
+        <p className={styles.subtitle}>Verified engineering, ambassador and academic credentials.</p>
 
         {/* Category Filters with Counts */}
         <div className={styles.filters}>
@@ -49,7 +58,7 @@ export default function CertificationsSection({ items, onOpen }: Props) {
               data-cursor-hover
             >
               <span>{cat}</span>
-              <span className={styles.filterCount}>[{catCounts[cat]}]</span>
+              <span className={styles.filterCount}>[{catCounts[cat] || 0}]</span>
             </button>
           ))}
         </div>
@@ -83,10 +92,21 @@ export default function CertificationsSection({ items, onOpen }: Props) {
                   aria-label={`View certificate: ${cert.title}`}
                 >
                   <div className={styles.cardTop}>
-                    <span className={styles.verifiedBadge}>
-                      <span>✓</span>
-                      <span>Verified Artifact</span>
-                    </span>
+                    <div className={styles.cardTopLeft}>
+                      <span className={styles.verifiedBadge}>
+                        <span>✓</span>
+                        <span>{cert.category || 'Verified Artifact'}</span>
+                      </span>
+                      <span
+                        className={styles.formatTag}
+                        style={{
+                          borderColor: autoResolved.detectedFormat.color,
+                          color: autoResolved.detectedFormat.color,
+                        }}
+                      >
+                        {autoResolved.detectedFormat.ext.toUpperCase()}
+                      </span>
+                    </div>
                     <span className={styles.cardYear}>{cert.year}</span>
                   </div>
 
@@ -97,7 +117,7 @@ export default function CertificationsSection({ items, onOpen }: Props) {
                           src={previewSrc}
                           alt={cert.title}
                           fill
-                          unoptimized={previewSrc.startsWith('data:') || previewSrc.endsWith('.svg')}
+                          unoptimized={true}
                           className={styles.cardThumbImg}
                           sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
                         />

@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import Image from 'next/image';
 import styles from './Modal.module.css';
 
+import { detectFileFormat, resolveAutoPreview } from '@/lib/previewEngine';
+
 interface ModalItem {
   id: string;
   title: string;
@@ -38,6 +40,19 @@ export default function ModalViewer({ item, type, onClose }: Props) {
 
   if (!item) return null;
 
+  const targetFile = item.file || item.preview || '';
+  const format = detectFileFormat(targetFile);
+  const isPdf = format.ext === 'pdf' || targetFile.startsWith('data:application/pdf');
+  const isPpt = format.iconType === 'presentation';
+
+  const autoResolved = resolveAutoPreview(
+    item.preview || item.file || '',
+    item.title,
+    item.issuer,
+    item.category
+  );
+  const displayImageSrc = autoResolved.previewUrl;
+
   return (
     <div
       className={styles.backdrop}
@@ -46,21 +61,49 @@ export default function ModalViewer({ item, type, onClose }: Props) {
       aria-modal="true"
       aria-label={item.title}
     >
-      <div className={styles.modal}>
-        {/* Preview */}
-        <div className={styles.preview}>
-          {item.preview ? (
+      <div className={`${styles.modal} ${isPdf || isPpt ? styles.modalWide : ''}`}>
+        {/* Preview / Interactive Document Stage */}
+        <div className={`${styles.preview} ${isPdf ? styles.previewPdf : ''}`}>
+          {isPdf && item.file ? (
+            <div className={styles.iframeWrapper}>
+              <iframe
+                src={`${item.file}#toolbar=1&navpanes=0&scrollbar=1`}
+                title={item.title}
+                className={styles.docIframe}
+              />
+              <div className={styles.iframeOverlayBar}>
+                <span className={styles.pdfBadge}>✦ Interactive PDF Document</span>
+                <a
+                  href={item.file}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.openExternalBtn}
+                >
+                  Open in Tab ↗
+                </a>
+              </div>
+            </div>
+          ) : isPpt && item.file?.startsWith('http') ? (
+            <div className={styles.iframeWrapper}>
+              <iframe
+                src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(item.file)}`}
+                title={item.title}
+                className={styles.docIframe}
+              />
+            </div>
+          ) : displayImageSrc ? (
             <Image
-              src={item.preview}
+              src={displayImageSrc}
               alt={item.title}
               fill
+              unoptimized={true}
               className={styles.previewImg}
-              sizes="680px"
+              sizes="(max-width: 900px) 95vw, 860px"
             />
           ) : (
             <div className={styles.previewPlaceholder}>
               <span className={styles.previewNum}>
-                {type === 'ppt' ? '📄' : '🏆'}
+                {type === 'ppt' ? '📊' : '🏆'}
               </span>
             </div>
           )}

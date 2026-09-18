@@ -153,6 +153,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.5rem;
+}
+
+.cardTopLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
 }
 
 .verifiedBadge {
@@ -170,6 +178,18 @@
   gap: 0.3rem;
 }
 
+.formatTag {
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid;
+  padding: 0.18rem 0.45rem;
+  border-radius: 4px;
+}
+
 .cardYear {
   font-family: var(--font-mono);
   font-size: 0.6rem;
@@ -183,8 +203,8 @@
   position: relative;
   border-radius: 8px;
   overflow: hidden;
-  background: #000;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #090d16;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .cardThumbImg {

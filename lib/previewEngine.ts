@@ -211,8 +211,38 @@ export function cleanFileNameToTitle(urlOrFilename: string): string {
 }
 
 /**
- * Generates an SVG Data URI branded with official format logo, badge,
- * document title, and luxury glassmorphic telemetry.
+ * Converts raw SVG string safely to RFC-compliant Base64 Data URI
+ * for 100% reliable rendering in Next.js Image and all modern browsers.
+ */
+function svgToBase64Uri(svgStr: string): string {
+  try {
+    if (typeof Buffer !== 'undefined') {
+      return `data:image/svg+xml;base64,${Buffer.from(svgStr).toString('base64')}`;
+    }
+    if (typeof window !== 'undefined' && window.btoa) {
+      return `data:image/svg+xml;base64,${window.btoa(unescape(encodeURIComponent(svgStr)))}`;
+    }
+  } catch (e) {
+    console.warn('Base64 encoding fallback:', e);
+  }
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svgStr)}`;
+}
+
+/**
+ * Escapes XML entities in text to prevent SVG parse errors.
+ */
+function escapeXml(unsafe: string): string {
+  return (unsafe || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+/**
+ * Generates a luxury, high-contrast credential certificate card vector preview (4:3 aspect ratio 800x600)
+ * with official format badges (PDF, PPTX, etc.), verification seal, and clean typography.
  */
 export function generateDocumentPreviewSvg(params: {
   title: string;
@@ -221,88 +251,159 @@ export function generateDocumentPreviewSvg(params: {
   category?: string;
 }): string {
   const meta = detectFileFormat(params.format || 'pdf');
-  const title = params.title || 'Verified Document';
-  const issuer = params.issuer || 'Academic & Technical Dossier';
-  const category = params.category || 'Verified Artifact';
+  const rawTitle = params.title || 'Official Credential';
+  const rawIssuer = params.issuer || 'Academic & Technical Dossier';
+  const rawCategory = params.category || 'Verified Artifact';
 
-  // Truncate title for SVG canvas if too long
-  const displayTitle = title.length > 40 ? title.substring(0, 37) + '...' : title;
+  const cleanTitle = escapeXml(rawTitle.trim());
+  const cleanIssuer = escapeXml(rawIssuer.trim());
+  const cleanCategory = escapeXml(rawCategory.trim().toUpperCase());
 
-  // Render SVG with format logo
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  // Split title into 1 or 2 lines for high legibility
+  let line1 = cleanTitle;
+  let line2 = '';
+  if (cleanTitle.length > 28) {
+    const words = cleanTitle.split(' ');
+    const mid = Math.ceil(words.length / 2);
+    line1 = words.slice(0, mid).join(' ');
+    line2 = words.slice(mid).join(' ');
+    if (line2.length > 36) {
+      line2 = line2.substring(0, 33) + '...';
+    }
+  }
+
+  const isPpt = meta.iconType === 'presentation';
+  const isPdf = meta.ext === 'pdf';
+
+  // Primary accent colors
+  const primaryAccent = isPdf ? '#f43f5e' : isPpt ? '#f97316' : '#38bdf8';
+  const badgeBg = isPdf ? 'rgba(244, 63, 94, 0.16)' : isPpt ? 'rgba(249, 115, 22, 0.16)' : 'rgba(56, 189, 248, 0.16)';
+  const badgeBorder = isPdf ? '#f43f5e' : isPpt ? '#f97316' : '#38bdf8';
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
   <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="${meta.bgGradient[0]}"/>
-      <stop offset="100%" stop-color="${meta.bgGradient[1]}"/>
+    <!-- Deep Executive Dark Gradients -->
+    <linearGradient id="cardBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#050811"/>
     </linearGradient>
-    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="${meta.color}" stop-opacity="0.8"/>
-      <stop offset="100%" stop-color="${meta.accentColor}" stop-opacity="0.2"/>
+
+    <!-- Certificate Border Guilloche Glow -->
+    <linearGradient id="goldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.75"/>
+      <stop offset="35%" stop-color="${primaryAccent}" stop-opacity="0.9"/>
+      <stop offset="70%" stop-color="#38bdf8" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.8"/>
     </linearGradient>
-    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+
+    <!-- Center Radial Glow -->
+    <radialGradient id="centerGlow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="${primaryAccent}" stop-opacity="0.18"/>
+      <stop offset="60%" stop-color="#090d16" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Subtle Archival Security Grid -->
+    <pattern id="secGrid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+      <circle cx="15" cy="15" r="1" fill="rgba(255,255,255,0.04)"/>
     </pattern>
+
+    <!-- Seal Drop Shadow -->
+    <filter id="sealShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="rgba(0,0,0,0.6)"/>
+    </filter>
   </defs>
 
-  <!-- Deep Backdrop with Grid -->
-  <rect width="800" height="500" fill="url(#bgGrad)"/>
-  <rect width="800" height="500" fill="url(#grid)"/>
+  <!-- Base Canvas & Background -->
+  <rect width="800" height="600" fill="url(#cardBg)"/>
+  <rect width="800" height="600" fill="url(#centerGlow)"/>
+  <rect width="800" height="600" fill="url(#secGrid)"/>
 
-  <!-- Glowing Outer Frame -->
-  <rect x="24" y="24" width="752" height="452" rx="16" fill="none" stroke="url(#borderGrad)" stroke-width="1.5"/>
-  <rect x="36" y="36" width="728" height="428" rx="12" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="6 4"/>
+  <!-- Official Dual-Line Certificate Border -->
+  <rect x="24" y="24" width="752" height="552" rx="20" fill="none" stroke="url(#goldBorder)" stroke-width="2"/>
+  <rect x="36" y="36" width="728" height="528" rx="14" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="8 6"/>
 
-  <!-- Top Telemetry Bar -->
-  <g transform="translate(60, 75)">
-    <!-- Format Badge Pill -->
-    <rect x="0" y="0" width="130" height="32" rx="16" fill="${meta.color}" fill-opacity="0.12" stroke="${meta.color}" stroke-opacity="0.4" stroke-width="1"/>
-    <circle cx="16" cy="16" r="4" fill="${meta.color}"/>
-    <text x="28" y="21" fill="${meta.color}" font-family="monospace" font-size="11" font-weight="700" letter-spacing="1.5">✦ ${meta.ext.toUpperCase()}</text>
+  <!-- Corner Security Accents -->
+  <path d="M 28 48 L 48 48 L 48 28" fill="none" stroke="#fbbf24" stroke-width="2.5"/>
+  <path d="M 772 48 L 752 48 L 752 28" fill="none" stroke="#fbbf24" stroke-width="2.5"/>
+  <path d="M 28 552 L 48 552 L 48 572" fill="none" stroke="#fbbf24" stroke-width="2.5"/>
+  <path d="M 772 552 L 752 552 L 752 572" fill="none" stroke="#fbbf24" stroke-width="2.5"/>
+
+  <!-- Top Header Telemetry -->
+  <g transform="translate(60, 68)">
+    <!-- Format Badge (PDF / PPTX) -->
+    <rect x="0" y="0" width="145" height="34" rx="17" fill="${badgeBg}" stroke="${badgeBorder}" stroke-width="1.2"/>
+    <circle cx="18" cy="17" r="4.5" fill="${primaryAccent}"/>
+    <text x="32" y="22" fill="#ffffff" font-family="'JetBrains Mono', 'Space Grotesk', monospace" font-size="12" font-weight="800" letter-spacing="1.5">✦ ${meta.ext.toUpperCase()} DOC</text>
 
     <!-- Category Tag -->
-    <text x="680" y="21" fill="#94a3b8" font-family="monospace" font-size="11" text-anchor="end" letter-spacing="2">// ${category.toUpperCase()}</text>
+    <rect x="520" y="0" width="160" height="34" rx="17" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+    <text x="600" y="22" fill="#94a3b8" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="1.2">${cleanCategory.substring(0, 18)}</text>
   </g>
 
-  <!-- Center Document Icon Glyph -->
-  <g transform="translate(400, 210)">
-    ${meta.iconType === 'presentation' ? `
-    <!-- Official Microsoft PowerPoint Brand Logo (Self-Contained Embedded Base64) -->
-    <rect x="-65" y="-65" width="130" height="130" rx="22" fill="rgba(255,255,255,0.05)" stroke="${meta.color}" stroke-opacity="0.4" stroke-width="1.5"/>
-    <image href="${PPT_ICON_BASE64}" x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet"/>
+  <!-- Central Crest / Document Emblem -->
+  <g transform="translate(400, 215)" filter="url(#sealShadow)">
+    ${isPpt ? `
+    <!-- PowerPoint Presentation Visual Badge -->
+    <circle cx="0" cy="0" r="54" fill="#1e130c" stroke="#f97316" stroke-width="2.5"/>
+    <circle cx="0" cy="0" r="46" fill="#2a180e" stroke="rgba(249,115,22,0.3)" stroke-width="1" stroke-dasharray="4 3"/>
+    <image href="${PPT_ICON_BASE64}" x="-36" y="-36" width="72" height="72" preserveAspectRatio="xMidYMid meet"/>
+    ` : isPdf ? `
+    <!-- Luxury PDF Seal Crest -->
+    <circle cx="0" cy="0" r="54" fill="#200d14" stroke="#f43f5e" stroke-width="2.5"/>
+    <circle cx="0" cy="0" r="46" fill="#15060b" stroke="rgba(244,63,94,0.3)" stroke-width="1" stroke-dasharray="4 3"/>
+    
+    <!-- Stylized Folded Document Icon -->
+    <path d="M -16 -24 L 6 -24 L 20 -10 L 20 24 C 20 27 18 29 15 29 L -16 29 C -19 29 -21 27 -21 24 L -21 -19 C -21 -22 -19 -24 -16 -24 Z" fill="#2e0f1b" stroke="#f43f5e" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M 6 -24 L 6 -10 L 20 -10" fill="none" stroke="#f43f5e" stroke-width="2.2" stroke-linejoin="round"/>
+    
+    <!-- Document Text Lines -->
+    <line x1="-12" y1="-2" x2="6" y2="-2" stroke="#fca5a5" stroke-width="2" stroke-linecap="round"/>
+    <line x1="-12" y1="8" x2="12" y2="8" stroke="#fca5a5" stroke-width="2" stroke-linecap="round"/>
+    <line x1="-12" y1="18" x2="4" y2="18" stroke="#fca5a5" stroke-width="2" stroke-linecap="round"/>
+    <text x="0" y="44" fill="#f43f5e" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="900" text-anchor="middle" letter-spacing="2">PDF</text>
     ` : `
-    <!-- Icon Container Box -->
-    <rect x="-45" y="-55" width="90" height="90" rx="18" fill="rgba(255,255,255,0.04)" stroke="${meta.color}" stroke-opacity="0.3" stroke-width="1.5"/>
-    
-    <!-- Vector Document Symbol with Folded Corner -->
-    <path d="M -18 -32 L 6 -32 L 20 -18 L 20 22 C 20 25 17 28 14 28 L -18 28 C -21 28 -24 25 -24 22 L -24 -26 C -24 -29 -21 -32 -18 -32 Z" fill="none" stroke="${meta.color}" stroke-width="2.5" stroke-linejoin="round"/>
-    <path d="M 6 -32 L 6 -18 L 20 -18" fill="none" stroke="${meta.color}" stroke-width="2" stroke-linejoin="round"/>
-    
-    <!-- Inner Accent Lines -->
-    <line x1="-14" y1="-8" x2="6" y2="-8" stroke="${meta.color}" stroke-width="2" stroke-linecap="round"/>
-    <line x1="-14" y1="2" x2="14" y2="2" stroke="${meta.color}" stroke-width="2" stroke-linecap="round"/>
-    <line x1="-14" y1="12" x2="8" y2="12" stroke="${meta.color}" stroke-width="2" stroke-linecap="round"/>
+    <!-- Universal Verified Document Crest -->
+    <circle cx="0" cy="0" r="54" fill="#08232e" stroke="#38bdf8" stroke-width="2.5"/>
+    <circle cx="0" cy="0" r="46" fill="#03131b" stroke="rgba(56,189,248,0.3)" stroke-width="1" stroke-dasharray="4 3"/>
+    <path d="M -14 -4 L -4 6 L 14 -12" fill="none" stroke="#38bdf8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
     `}
   </g>
 
-  <!-- Main Document Title -->
-  <text x="400" y="325" fill="#f8fafc" font-family="'Space Grotesk', system-ui, -apple-system, sans-serif" font-size="24" font-weight="700" text-anchor="middle" letter-spacing="0.5">
-    ${displayTitle}
-  </text>
+  <!-- Document Title (High-Contrast, Crisp Typography) -->
+  <g transform="translate(400, 345)">
+    ${line2 ? `
+      <text x="0" y="-8" fill="#ffffff" font-family="'Space Grotesk', system-ui, sans-serif" font-size="28" font-weight="800" text-anchor="middle" letter-spacing="-0.3">
+        ${line1}
+      </text>
+      <text x="0" y="28" fill="#ffffff" font-family="'Space Grotesk', system-ui, sans-serif" font-size="28" font-weight="800" text-anchor="middle" letter-spacing="-0.3">
+        ${line2}
+      </text>
+    ` : `
+      <text x="0" y="10" fill="#ffffff" font-family="'Space Grotesk', system-ui, sans-serif" font-size="30" font-weight="800" text-anchor="middle" letter-spacing="-0.3">
+        ${line1}
+      </text>
+    `}
+  </g>
 
-  <!-- Secondary Metadata Line -->
-  <text x="400" y="360" fill="#94a3b8" font-family="monospace" font-size="13" text-anchor="middle" letter-spacing="1">
-    ${meta.label} // ${issuer ? issuer.toUpperCase() : 'VERIFIED DOCUMENT'}
-  </text>
+  <!-- Issuer & Verification Meta -->
+  <g transform="translate(400, 428)">
+    <rect x="-170" y="-16" width="340" height="32" rx="16" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    <text x="0" y="5" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="1.5">
+      ISSUER // ${(cleanIssuer || 'VERIFIED ORGANIZATION').toUpperCase()}
+    </text>
+  </g>
 
-  <!-- Bottom Accent / Verification Bar -->
-  <g transform="translate(60, 425)">
-    <line x1="0" y1="0" x2="680" y2="0" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-    <text x="0" y="0" fill="#64748b" font-family="monospace" font-size="10" letter-spacing="1.5">SHA-256 SECURE ARTIFACT</text>
-    <text x="680" y="0" fill="${meta.color}" font-family="monospace" font-size="10" font-weight="700" text-anchor="end" letter-spacing="1">CLICK TO INSPECT ${meta.ext.toUpperCase()} ↗</text>
+  <!-- Bottom Security Footer Bar -->
+  <g transform="translate(60, 520)">
+    <line x1="0" y1="0" x2="680" y2="0" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+    <text x="0" y="24" fill="#64748b" font-family="'JetBrains Mono', monospace" font-size="11" letter-spacing="1">✓ CRYPTOGRAPHICALLY VERIFIED ARTIFACT</text>
+    <text x="680" y="24" fill="#c8f04a" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="800" text-anchor="end" letter-spacing="1.2">INSPECT FULL DOCUMENT ↗</text>
   </g>
 </svg>`;
 
-  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+  return svgToBase64Uri(svg);
 }
 
 /**
@@ -321,7 +422,13 @@ export function resolveAutoPreview(
   const autoTitle = cleanFileNameToTitle(originalName || fileUrl);
   const effectiveTitle = title && title.trim() ? title.trim() : autoTitle;
 
-  if (detectedFormat.isImage && fileUrl && !fileUrl.startsWith('data:application/')) {
+  // If already an image raster file and NOT a PDF data URI, use it directly
+  if (
+    detectedFormat.isImage &&
+    fileUrl &&
+    !fileUrl.startsWith('data:application/pdf') &&
+    !fileUrl.toLowerCase().endsWith('.pdf')
+  ) {
     return {
       previewUrl: fileUrl,
       detectedFormat,

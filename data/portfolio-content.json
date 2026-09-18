@@ -139,9 +139,20 @@
   ],
   "certifications": [
     {
+      "id": "cert-1789758000000",
+      "title": "Vaibhav Shaw Onboarding Letter",
+      "issuer": "UNSTOP",
+      "year": 2026,
+      "category": "Campus Ambassador",
+      "credentialId": "UNSTOP-CA-2026",
+      "preview": "",
+      "file": "/uploads/2026H2S08BWAIBKOL-P00397_1788273639072.pdf",
+      "published": true
+    },
+    {
       "id": "cert-1788273687354",
       "title": "ByteQuest1.0_Participation Certificate_BuildOnIndia",
-      "issuer": "",
+      "issuer": "BuildOnIndia",
       "year": 2026,
       "category": "Academic",
       "credentialId": "",

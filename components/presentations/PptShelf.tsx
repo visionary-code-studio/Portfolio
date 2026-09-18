@@ -144,7 +144,7 @@ export default function PptShelf({ items, onOpen }: Props) {
                             src={previewSrc}
                             alt={ppt.title}
                             fill
-                            unoptimized={previewSrc.startsWith('data:') || previewSrc.endsWith('.svg')}
+                            unoptimized={true}
                             className={styles.cardThumbImg}
                             sizes="320px"
                           />

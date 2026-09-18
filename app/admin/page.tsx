@@ -282,11 +282,14 @@ export default function AdminPage() {
       newPpt.category
     );
 
+    const isRasterImage = (url?: string) =>
+      Boolean(url && (url.startsWith('data:image/') || /\.(png|jpe?g|webp|svg)(\?.*)?$/i.test(url)));
+
     const item = {
       id: `ppt-${Date.now()}`,
       ...newPpt,
       title: effectiveTitle,
-      preview: newPpt.preview || autoResolved.previewUrl,
+      preview: isRasterImage(newPpt.preview) ? newPpt.preview : autoResolved.previewUrl,
     };
 
     const updatedData = {
@@ -358,11 +361,14 @@ export default function AdminPage() {
       newCert.category
     );
 
+    const isRasterImage = (url?: string) =>
+      Boolean(url && (url.startsWith('data:image/') || /\.(png|jpe?g|webp|svg)(\?.*)?$/i.test(url)));
+
     const item = {
       id: `cert-${Date.now()}`,
       ...newCert,
       title: effectiveTitle,
-      preview: newCert.preview || autoResolved.previewUrl,
+      preview: isRasterImage(newCert.preview) ? newCert.preview : autoResolved.previewUrl,
     };
 
     const updatedData = {
@@ -1347,7 +1353,7 @@ export default function AdminPage() {
                   <div className={styles.uploadContainer}>
                     <input
                       type="file"
-                      accept=".ppt,.pptx,.pdf,.pps,.ppsx,.jpg,.jpeg,.png,.webp"
+                      accept=".ppt,.pptx,.pdf,.pps,.ppsx,.key,.odp,.jpg,.jpeg,.png,.webp,application/pdf,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
                       onChange={(e) =>
                         handleFileUpload(
                           e,
@@ -1375,10 +1381,10 @@ export default function AdminPage() {
                     <span className={styles.uploadTitle}>
                       {uploading === 'pptFile'
                         ? 'Uploading presentation...'
-                        : 'Select PowerPoint / Presentation File (.PPT, .PPTX, .PDF)'}
+                        : 'Select PowerPoint / Presentation File (.PPTX, .PPT, .PDF, Slides)'}
                     </span>
                     <span className={styles.uploadHint}>
-                      Supports PowerPoint (.pptx, .ppt), PDF slides, and images. Auto-detects on Local & Deploy.
+                      Supports PowerPoint (.pptx, .ppt), PDF slides, and images in any format.
                     </span>
                     {newPpt.file && (
                       <span className={styles.uploadSuccessPill}>
@@ -1577,7 +1583,7 @@ export default function AdminPage() {
                   <div className={styles.uploadContainer}>
                     <input
                       type="file"
-                      accept=".pdf,.jpg,.jpeg,.png,.webp"
+                      accept=".pdf,.jpg,.jpeg,.png,.webp,.svg,.doc,.docx,application/pdf,image/*"
                       onChange={(e) =>
                         handleFileUpload(
                           e,
@@ -1586,7 +1592,8 @@ export default function AdminPage() {
                               url,
                               newCert.title,
                               newCert.issuer,
-                              newCert.category
+                              newCert.category,
+                              name
                             );
                             setNewCert((prev) => ({
                               ...prev,
@@ -1602,9 +1609,9 @@ export default function AdminPage() {
                     />
                     <span className={styles.uploadIcon}>📜</span>
                     <span className={styles.uploadTitle}>
-                      {uploading === 'certFile' ? 'Uploading certificate...' : 'Select Certificate File (PDF, JPG, PNG, WEBP)'}
+                      {uploading === 'certFile' ? 'Uploading certificate...' : 'Select Certificate File (PDF, Images, or Documents)'}
                     </span>
-                    <span className={styles.uploadHint}>Any size supported. Uploaded file is saved to public/uploads</span>
+                    <span className={styles.uploadHint}>Any size supported. Upload PDF, JPG, PNG, WEBP, or Document</span>
                     {newCert.file && (
                       <span className={styles.uploadSuccessPill}>
                         ✓ Attached: {newCert.file}
@@ -1701,6 +1708,7 @@ export default function AdminPage() {
                       onChange={(e) => setNewCert({ ...newCert, category: e.target.value })}
                       className={styles.input}
                     >
+                      <option value="Campus Ambassador">Campus Ambassador</option>
                       <option value="AI / ML">AI / ML</option>
                       <option value="Technology">Technology</option>
                       <option value="Hackathon">Hackathon</option>
