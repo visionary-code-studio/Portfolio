@@ -107,13 +107,9 @@ export default function Hero({ data }: HeroProps) {
             <span className={styles.scrollLine} />
           </button>
 
-          {/* Kolkata Heritage Meets Tomorrow Card */}
-          <div className={styles.locationCardWrap} title={location} data-cursor-hover>
-            <img
-              src="/images/kolkata_card.jpg"
-              alt="Kolkata, West Bengal — Where Heritage Meets Tomorrow"
-              className={styles.locationCardImg}
-            />
+          <div className={styles.hudRole} style={{ textAlign: 'right' }}>
+            <span className={styles.hudRoleTitle}>Base Location</span>
+            <span className={styles.hudRoleDesc}>{location}</span>
           </div>
         </div>
       </div>

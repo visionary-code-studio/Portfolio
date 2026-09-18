@@ -171,6 +171,31 @@ export default function AboutSection({ data }: AboutProps) {
             <ScrollReveal variant="fadeUp" delay={0.15}>
               <PhilosophyCardStack tagline={tagline} />
             </ScrollReveal>
+
+            {/* Kolkata Heritage Postcard Card (Relocated to About Left Column) */}
+            <ScrollReveal variant="fadeUp" delay={0.25}>
+              <div className={styles.kolkataCardContainer}>
+                <div className={styles.kolkataCardMeta}>
+                  <div className={styles.kolkataMetaLeft}>
+                    <span className={styles.kolkataPulseDot} />
+                    <span className={styles.kolkataCityTag}>KOLKATA, WEST BENGAL</span>
+                  </div>
+                  <span className={styles.kolkataHeritageTag}>WHERE HERITAGE MEETS TOMORROW</span>
+                </div>
+                <div
+                  className={styles.kolkataCardWrap}
+                  title="Kolkata, West Bengal — Where Heritage Meets Tomorrow"
+                  data-cursor-hover
+                >
+                  <img
+                    src="/images/kolkata_card.jpg"
+                    alt="Kolkata, West Bengal — Where Heritage Meets Tomorrow"
+                    className={styles.kolkataCardImg}
+                  />
+                  <div className={styles.kolkataCardGlassOverlay} />
+                </div>
+              </div>
+            </ScrollReveal>
           </div>
 
           {/* Right Column: Industrial Hangtag Card with Scroll-driven Hover Effect */}

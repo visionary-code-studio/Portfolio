@@ -8,7 +8,7 @@
 /* Scroll-Pinned Track Container (Drives the 1-by-1 Tag Revelation) */
 .scrollPinnedWrapper {
   position: relative;
-  min-height: 240vh;
+  min-height: 180vh;
   padding: 8rem var(--margin-desktop) 4rem;
   max-width: 1500px;
   margin: 0 auto;
@@ -47,7 +47,7 @@
   top: 5rem;
   display: flex;
   flex-direction: column;
-  gap: 3.5rem;
+  gap: 2.5rem;
 }
 
 .statementBlock {
@@ -99,6 +99,97 @@
   color: var(--text-muted);
   text-transform: uppercase;
   margin-top: 0.6rem;
+}
+
+/* Kolkata Heritage Postcard Card */
+.kolkataCardContainer {
+  margin-top: 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.kolkataCardMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.25rem;
+}
+
+.kolkataMetaLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.kolkataPulseDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #e11d48;
+  box-shadow: 0 0 8px rgba(225, 29, 72, 0.6);
+}
+
+.kolkataCityTag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+.kolkataHeritageTag {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  background: rgba(17, 17, 17, 0.05);
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+}
+
+.kolkataCardWrap {
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow:
+    0 16px 36px -8px rgba(0, 0, 0, 0.14),
+    0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1.5px solid rgba(17, 17, 17, 0.1);
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  background: #000000;
+}
+
+.kolkataCardWrap:hover {
+  transform: translateY(-4px) scale(1.015);
+  box-shadow: 0 24px 48px -10px rgba(0, 0, 0, 0.22);
+}
+
+.kolkataCardImg {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 16 / 10;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kolkataCardWrap:hover .kolkataCardImg {
+  transform: scale(1.03);
+}
+
+.kolkataCardGlassOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 18px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
 /* Right Column: Pinned Physical Hangtag Card */
