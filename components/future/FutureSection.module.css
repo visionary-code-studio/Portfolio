@@ -79,7 +79,7 @@
 
 .pillarInner {
   background: #0d1017;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   padding: 3rem 2.5rem;
   display: flex;
@@ -91,8 +91,8 @@
 }
 
 .card3DWrap:hover .pillarInner {
-  border-color: rgba(200, 240, 74, 0.4);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(200, 240, 74, 0.15);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(255, 255, 255, 0.1);
 }
 
 .pillarTop {
@@ -105,7 +105,7 @@
   font-family: var(--font-mono);
   font-size: 0.65rem;
   letter-spacing: 0.15em;
-  color: var(--accent);
+  color: #ffffff;
   text-transform: uppercase;
 }
 
@@ -114,7 +114,12 @@
   font-size: 0.58rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: #94a3b8;
+  transition: color 0.2s ease;
+}
+
+.card3DWrap:hover .pillarTag {
+  color: #cbd5e1;
 }
 
 .pillarLabel {
@@ -123,14 +128,19 @@
   font-weight: 800;
   letter-spacing: -0.04em;
   text-transform: uppercase;
-  color: var(--text);
+  color: #ffffff !important;
   line-height: 0.95;
+  transition: color 0.2s ease;
+}
+
+.card3DWrap:hover .pillarLabel {
+  color: #ffffff !important;
 }
 
 .pillarAccent {
   width: 2rem;
   height: 2px;
-  background: var(--accent);
+  background: #ffffff;
   transform: scaleX(0.5);
   transform-origin: left;
   transition: transform 0.4s var(--ease-out-expo);
@@ -144,7 +154,12 @@
   font-family: var(--font-body);
   font-size: 0.92rem;
   line-height: 1.7;
-  color: var(--text-muted);
+  color: #94a3b8;
+  transition: color 0.2s ease;
+}
+
+.card3DWrap:hover .pillarText {
+  color: #ffffff !important;
 }
 
 @media (max-width: 900px) {

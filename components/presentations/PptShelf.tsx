@@ -15,6 +15,7 @@ interface Props {
 
 export default function PptShelf({ items, onOpen }: Props) {
   const [active, setActive] = useState('All');
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const shelfRef = useRef<HTMLDivElement>(null);
 
   // Compute categories dynamically with counts
@@ -85,8 +86,8 @@ export default function PptShelf({ items, onOpen }: Props) {
         </div>
       </div>
 
-      {/* Horizontal Shelf with 3D Perspective Cards */}
-      <div className={styles.shelfOuter} ref={shelfRef}>
+      {/* Horizontal Shelf with 3D Perspective Coverflow Cards */}
+      <div className={styles.shelfOuter} ref={shelfRef} onMouseLeave={() => setHoveredIdx(null)}>
         <div className={styles.shelf}>
           {filtered.map((ppt, i) => {
             const autoResolved = resolveAutoPreview(
@@ -97,65 +98,82 @@ export default function PptShelf({ items, onOpen }: Props) {
             );
             const previewSrc = autoResolved.previewUrl;
 
-            return (
-              <Card3D
-                key={ppt.id}
-                className={styles.card3DItem}
-                intensity={12}
-                onClick={() => onOpen(ppt)}
-                glare={true}
-              >
-                <div
-                  className={styles.cardInner}
-                  data-cursor-hover
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => e.key === 'Enter' && onOpen(ppt)}
-                  aria-label={`Open presentation: ${ppt.title}`}
-                >
-                  <div className={styles.cardTopRow}>
-                    <span className={styles.cardNum}>
-                      {String(i + 1).padStart(2, '0')} // ARCHIVE
-                    </span>
-                    <span className={styles.cardYearBadge}>{ppt.year}</span>
-                  </div>
+            const isHovered = hoveredIdx === i;
+            const isLeft = hoveredIdx !== null && i < hoveredIdx;
+            const isRight = hoveredIdx !== null && i > hoveredIdx;
 
-                  <div className={styles.cardThumb}>
-                    {previewSrc ? (
-                      <ScrollImageReveal direction="up" delay={(i % 3) * 100} glare={true}>
-                        <Image
-                          src={previewSrc}
-                          alt={ppt.title}
-                          fill
-                          unoptimized={previewSrc.startsWith('data:') || previewSrc.endsWith('.svg')}
-                          className={styles.cardThumbImg}
-                          sizes="320px"
-                        />
-                      </ScrollImageReveal>
-                    ) : (
-                      <div className={styles.thumbPlaceholder}>
-                        <Image
-                          src="/images/powerpoint-icon.png"
-                          alt="PowerPoint Presentation"
-                          width={60}
-                          height={60}
-                          className={styles.pptBrandLogo}
-                        />
-                        <span className={styles.thumbCat}>{ppt.category || 'PRESENTATION'}</span>
+            const coverflowClass = isHovered
+              ? styles.coverflowCenter
+              : isLeft
+              ? styles.coverflowLeft
+              : isRight
+              ? styles.coverflowRight
+              : '';
+
+            return (
+              <div
+                key={ppt.id}
+                className={`${styles.card3DItem} ${coverflowClass}`}
+                onMouseEnter={() => setHoveredIdx(i)}
+              >
+                <Card3D
+                  className={styles.card3DWrapInner}
+                  intensity={isHovered ? 8 : 0}
+                  onClick={() => onOpen(ppt)}
+                  glare={true}
+                >
+                  <div
+                    className={styles.cardInner}
+                    data-cursor-hover
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => e.key === 'Enter' && onOpen(ppt)}
+                    aria-label={`Open presentation: ${ppt.title}`}
+                  >
+                    <div className={styles.cardTopRow}>
+                      <span className={styles.cardNum}>
+                        {String(i + 1).padStart(2, '0')} // ARCHIVE
+                      </span>
+                      <span className={styles.cardYearBadge}>{ppt.year}</span>
+                    </div>
+
+                    <div className={styles.cardThumb}>
+                      {previewSrc ? (
+                        <ScrollImageReveal direction="up" delay={(i % 3) * 100} glare={true}>
+                          <Image
+                            src={previewSrc}
+                            alt={ppt.title}
+                            fill
+                            unoptimized={previewSrc.startsWith('data:') || previewSrc.endsWith('.svg')}
+                            className={styles.cardThumbImg}
+                            sizes="320px"
+                          />
+                        </ScrollImageReveal>
+                      ) : (
+                        <div className={styles.thumbPlaceholder}>
+                          <Image
+                            src="/images/powerpoint-icon.png"
+                            alt="PowerPoint Presentation"
+                            width={60}
+                            height={60}
+                            className={styles.pptBrandLogo}
+                          />
+                          <span className={styles.thumbCat}>{ppt.category || 'PRESENTATION'}</span>
+                        </div>
+                      )}
+                      <div className={styles.cardOverlay}>
+                        <span className={styles.cardOpenLabel}>View Slides ↗</span>
                       </div>
-                    )}
-                    <div className={styles.cardOverlay}>
-                      <span className={styles.cardOpenLabel}>View Slides ↗</span>
+                    </div>
+
+                    <div className={styles.cardMeta}>
+                      <span className={styles.cardCategory}>{ppt.category}</span>
+                      <h3 className={styles.cardTitle}>{ppt.title}</h3>
+                      <p className={styles.cardDesc}>{ppt.description}</p>
                     </div>
                   </div>
-
-                <div className={styles.cardMeta}>
-                  <span className={styles.cardCategory}>{ppt.category}</span>
-                  <h3 className={styles.cardTitle}>{ppt.title}</h3>
-                  <p className={styles.cardDesc}>{ppt.description}</p>
-                </div>
+                </Card3D>
               </div>
-            </Card3D>
             );
           })}
         </div>

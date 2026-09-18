@@ -81,24 +81,27 @@
   text-transform: uppercase;
   padding: 0.45rem 0.95rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.02);
-  color: var(--text-muted);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #ffffff;
+  color: #64748b;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .filterBtn:hover {
-  border-color: rgba(255, 255, 255, 0.25);
-  color: var(--text);
+  border-color: #0f172a !important;
+  background: #0f172a !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
 }
 
 .filterBtn.active {
-  background: var(--accent);
-  color: #060709;
-  border-color: var(--accent);
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border-color: #0f172a !important;
   font-weight: 700;
-  box-shadow: 0 0 12px rgba(200, 240, 74, 0.3);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);
 }
 
 /* Kinetic Typographic Cloud */

@@ -27,7 +27,7 @@
 }
 
 .activeStar {
-  color: var(--accent);
+  color: #ffffff;
   font-size: 0.7rem;
   animation: spin 8s linear infinite;
 }
@@ -42,16 +42,17 @@
   font-size: 0.6rem;
   font-weight: 600;
   letter-spacing: 0.1em;
-  color: var(--text);
+  color: #ffffff !important;
 }
 
 .chapterTitle {
   font-family: var(--font-mono);
   font-size: 0.6rem;
+  font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--accent);
-  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
   padding-left: 0.5rem;
   margin-left: 0.15rem;
 }
@@ -135,7 +136,7 @@
   font-size: 0.58rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--text);
+  color: #ffffff !important;
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
