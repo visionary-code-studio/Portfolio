@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import InquiryModal from '@/components/contact/InquiryModal';
 import styles from './Footer.module.css';
 
 interface ProfileData {
@@ -142,6 +143,8 @@ const techStack = [
 
 export default function Footer({ data, socials }: FooterProps) {
   const [copied, setCopied] = useState(false);
+  const [timeString, setTimeString] = useState('');
+  const [isInquiryOpen, setIsInquiryOpen] = useState(false);
 
   const email = data?.email || 'vaibhavsnu@2029';
   const fullName = data?.fullName || 'Vaibhav Shaw';
@@ -191,14 +194,15 @@ export default function Footer({ data, socials }: FooterProps) {
             I build fast, scalable web applications, intelligent neural systems, and practical automated solutions for modern teams and brands.
           </p>
 
-          <a
-            href={`mailto:${email}`}
+          <button
+            type="button"
+            onClick={() => setIsInquiryOpen(true)}
             className={styles.inquiryBtn}
             data-cursor-hover
           >
             <span>Send Inquiry</span>
             <span className={styles.inquiryArrow}>↗</span>
-          </a>
+          </button>
         </div>
       </div>
 
@@ -364,6 +368,13 @@ export default function Footer({ data, socials }: FooterProps) {
           <span className={styles.colophonNote}>Handcrafted with Next.js &amp; PyTorch</span>
         </div>
       </div>
+
+      {/* Interactive Mobile Inquiry & Notification Modal */}
+      <InquiryModal
+        isOpen={isInquiryOpen}
+        onClose={() => setIsInquiryOpen(false)}
+        defaultEmail={email}
+      />
     </footer>
   );
 }

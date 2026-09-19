@@ -71,22 +71,13 @@ export default function AdminPage() {
   });
   const [showAddInterest, setShowAddInterest] = useState(false);
 
-  // Check login on load (Supports both Firebase Auth & Local Token Session)
+  // Mandatory Authentication on Every Entry (Always requires login, no persistent auto-bypass)
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsAuthenticated(true);
-        localStorage.setItem('vaibhav_admin_session', 'true');
-        if (user.email) setAuthEmail(user.email);
-      }
-    });
-
-    const storedAuth = localStorage.getItem('vaibhav_admin_session');
-    if (storedAuth === 'true') {
-      setIsAuthenticated(true);
-    }
-
-    return () => unsubscribe();
+    setIsAuthenticated(false);
+    localStorage.removeItem('vaibhav_admin_session');
+    localStorage.removeItem('vaibhav_firebase_uid');
+    // Pre-fill email for convenience
+    setAuthEmail('vaibhawshaw@gmail.com');
   }, []);
 
   // Fetch live portfolio content prioritizing local customizations
@@ -529,21 +520,21 @@ export default function AdminPage() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.4rem',
-                background: 'rgba(245, 158, 11, 0.1)',
-                border: '1px solid rgba(245, 158, 11, 0.3)',
+                background: 'rgba(200, 240, 74, 0.1)',
+                border: '1px solid rgba(200, 240, 74, 0.3)',
                 borderRadius: '9999px',
                 padding: '0.25rem 0.75rem',
                 marginBottom: '0.75rem',
                 fontSize: '0.7rem',
-                color: '#f59e0b',
+                color: 'var(--accent)',
                 fontFamily: 'var(--font-mono)',
               }}
             >
-              <span>🔥</span>
-              <span>Firebase Enterprise Auth</span>
+              <span>🔒</span>
+              <span>256-Bit Encrypted Admin Gateway</span>
             </div>
-            <h1 className={styles.loginTitle}>Vaibhav Admin</h1>
-            <p className={styles.loginSub}>Sign in securely to manage portfolio content</p>
+            <h1 className={styles.loginTitle}>Encrypted Control Center</h1>
+            <p className={styles.loginSub}>Mandatory authentication required on every entry</p>
           </div>
 
           {authError && (
