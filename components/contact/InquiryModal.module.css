@@ -77,6 +77,59 @@
   margin-bottom: 0.85rem;
 }
 
+.badgeGmail {
+  background: rgba(234, 67, 53, 0.12);
+  border: 1px solid rgba(234, 67, 53, 0.35);
+  color: #ff7875;
+}
+
+.channelSwitch {
+  display: flex;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px;
+  border-radius: 12px;
+  gap: 6px;
+  margin-bottom: 1.25rem;
+}
+
+.channelTab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.62rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans, inherit);
+}
+
+.channelTab:hover:not(.channelTabActiveWhatsApp):not(.channelTabActiveGmail) {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.channelTabActiveWhatsApp {
+  background: rgba(37, 211, 102, 0.16);
+  border: 1px solid rgba(37, 211, 102, 0.45);
+  color: #25d366;
+  box-shadow: 0 0 16px rgba(37, 211, 102, 0.2);
+}
+
+.channelTabActiveGmail {
+  background: rgba(234, 67, 53, 0.16);
+  border: 1px solid rgba(234, 67, 53, 0.45);
+  color: #ff7875;
+  box-shadow: 0 0 16px rgba(234, 67, 53, 0.2);
+}
+
 .title {
   font-size: 1.55rem;
   font-weight: 800;
@@ -197,6 +250,16 @@
   cursor: not-allowed;
 }
 
+.submitBtnGmail {
+  background: linear-gradient(135deg, #ea4335, #ff5252);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(234, 67, 53, 0.3);
+}
+
+.submitBtnGmail:hover:not(:disabled) {
+  box-shadow: 0 12px 32px rgba(234, 67, 53, 0.45);
+}
+
 .phoneNotificationNotice {
   font-size: 0.72rem;
   color: #64748b;
@@ -285,6 +348,27 @@
 .pingPhoneBtn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+}
+
+.pingGmailBtn {
+  background: #ea4335;
+  color: #fff;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.8rem 1.4rem;
+  font-weight: 800;
+  font-size: 0.88rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.pingGmailBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(234, 67, 53, 0.4);
 }
 
 .doneBtn {

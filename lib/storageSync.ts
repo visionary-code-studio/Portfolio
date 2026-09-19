@@ -100,26 +100,30 @@ export function savePortfolioContentLocally(data: any) {
   };
 
   try {
-    // Sanitize any large inline base64 data to avoid 5MB localStorage limits
-    const sanitized = {
-      ...taggedData,
-      presentations: taggedData.presentations?.map((p: any) => ({
-        ...p,
-        file: typeof p.file === 'string' && p.file.startsWith('data:') && p.file.length > 50000 
-          ? (p.preview || '/ppt/nike-brand-deal.pdf') 
-          : (p.file || p.preview || '/ppt/nike-brand-deal.pdf'),
-      })),
-      certifications: taggedData.certifications?.map((c: any) => ({
-        ...c,
-        file: typeof c.file === 'string' && c.file.startsWith('data:') && c.file.length > 50000 
-          ? (c.preview || '/certs/cert-01.pdf') 
-          : (c.file || c.preview || '/certs/cert-01.pdf'),
-      })),
-    };
-
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(sanitized));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(taggedData));
   } catch (e) {
-    console.warn('LocalStorage save notice:', e);
+    console.warn('LocalStorage quota limit reached, compressing data URIs for safe backup:', e);
+    try {
+      // If quota exceeded, strip only oversized inline base64 previews, keeping real URLs and file references
+      const sanitized = {
+        ...taggedData,
+        presentations: taggedData.presentations?.map((p: any) => ({
+          ...p,
+          file: typeof p.file === 'string' && p.file.startsWith('data:') && p.file.length > 200000
+            ? (p.preview || p.file.slice(0, 50))
+            : p.file,
+        })),
+        certifications: taggedData.certifications?.map((c: any) => ({
+          ...c,
+          file: typeof c.file === 'string' && c.file.startsWith('data:') && c.file.length > 200000
+            ? (c.preview || c.file.slice(0, 50))
+            : c.file,
+        })),
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(sanitized));
+    } catch (innerErr) {
+      console.warn('LocalStorage secondary fallback notice:', innerErr);
+    }
   }
 
   // Broadcast to other tabs (e.g. from /admin to /)

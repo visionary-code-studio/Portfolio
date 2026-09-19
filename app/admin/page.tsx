@@ -108,7 +108,7 @@ export default function AdminPage() {
       .catch((err) => console.error('Failed to load portfolio content:', err));
   }, []);
 
-  // Generic File Upload Handler supporting up to 100MB+ with IndexedDB, Cloud & Local storage
+  // Generic Instant File Upload Handler supporting up to 100MB+ with server /uploads storage & client fallbacks
   const handleFileUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
     onSuccess: (url: string, originalName: string) => void,
@@ -118,122 +118,70 @@ export default function AdminPage() {
     if (!file) return;
 
     setUploading(fieldKey);
-    setUploadProgress(10);
+    setUploadProgress(25);
 
-    // Save directly to browser IndexedDB (Supports up to 100MB+ without any cloud or server quota issues)
-    let localFileId = '';
-    let objectUrl = '';
+    const cleanName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const localFileId = `doc_${Date.now()}_${cleanName}`;
+    const objectUrl = URL.createObjectURL(file);
+
+    // Cache locally in IndexedDB asynchronously
+    storeDocumentInDb(localFileId, file, file.name).catch(() => {});
+
+    // 1. Primary: Save via /api/upload to /public/uploads (or Vercel Blob)
     try {
-      localFileId = `doc_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
-      await storeDocumentInDb(localFileId, file, file.name);
-      objectUrl = URL.createObjectURL(file);
-    } catch (idbErr) {
-      console.warn('IndexedDB store notice:', idbErr);
-    }
+      setUploadProgress(50);
+      const formData = new FormData();
+      formData.append('file', file);
 
-    // Strategy 1: Attempt direct upload to Firebase Cloud Storage (ideal for 100MB+ files)
-    if (storage) {
-      try {
-        const uniqueName = `portfolio_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
-        const storageRef = ref(storage, `uploads/${uniqueName}`);
-        const uploadTask = uploadBytesResumable(storageRef, file);
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 8000);
 
-        await new Promise<void>((resolve, reject) => {
-          uploadTask.on(
-            'state_changed',
-            (snapshot) => {
-              const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-              setUploadProgress(progress);
-            },
-            (error) => {
-              console.warn('Firebase Storage upload notice (falling back):', error);
-              reject(error);
-            },
-            async () => {
-              try {
-                const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
-                onSuccess(downloadUrl, file.name);
-                setUploading(null);
-                setUploadProgress(null);
-                e.target.value = '';
-                resolve();
-              } catch (urlErr) {
-                reject(urlErr);
-              }
-            }
-          );
-        });
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+        signal: controller.signal,
+      });
+      clearTimeout(timer);
+
+      const json = await res.json().catch(() => null);
+      if (res.ok && json && json.success && json.url) {
+        setUploadProgress(100);
+        onSuccess(json.url, file.name);
+        setUploading(null);
+        setUploadProgress(null);
+        e.target.value = '';
         return;
-      } catch (fbErr) {
-        console.warn('Direct cloud upload unavailable, attempting server upload:', fbErr);
       }
+    } catch (apiErr) {
+      console.warn('Server upload note, using instant client storage:', apiErr);
     }
 
-    // Strategy 2: Attempt standard API upload (works on local disk & Vercel Blob)
+    // 2. Secondary fallback: For files <= 4.5MB, convert to data URI
     if (file.size <= 4.5 * 1024 * 1024) {
-      try {
-        setUploadProgress(40);
-        const formData = new FormData();
-        formData.append('file', file);
-
-        const res = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData,
-        });
-
-        let json: any = null;
-        try {
-          json = await res.json();
-        } catch {
-          json = null;
-        }
-
-        if (res.ok && json && json.success && json.url) {
-          onSuccess(json.url, file.name);
-          setUploading(null);
-          setUploadProgress(null);
-          e.target.value = '';
-          return;
-        }
-      } catch (apiErr) {
-        console.warn('API upload unavailable, using client storage:', apiErr);
-      }
-    }
-
-    // Strategy 3: Client Object URL / IndexedDB fallback (instant and supports 100MB+ documents)
-    if (objectUrl) {
-      onSuccess(objectUrl, file.name);
-      setUploading(null);
-      setUploadProgress(null);
-      e.target.value = '';
-      return;
-    }
-
-    // Strategy 4: Client-side reader fallback
-    if (file.size <= 15 * 1024 * 1024) {
       try {
         const reader = new FileReader();
         reader.onload = () => {
-          if (typeof reader.result === 'string') {
-            onSuccess(reader.result, file.name);
-          }
+          const dataUri = typeof reader.result === 'string' ? reader.result : objectUrl;
+          onSuccess(dataUri, file.name);
           setUploading(null);
           setUploadProgress(null);
           e.target.value = '';
         };
         reader.onerror = () => {
-          alert('Could not read the file from your computer.');
+          onSuccess(objectUrl, file.name);
           setUploading(null);
           setUploadProgress(null);
           e.target.value = '';
         };
         reader.readAsDataURL(file);
         return;
-      } catch (fallbackErr) {
-        console.error(fallbackErr);
+      } catch {
+        // fallback
       }
     }
 
+    // 3. Fallback: Instant objectUrl
+    onSuccess(objectUrl, file.name);
     setUploading(null);
     setUploadProgress(null);
     e.target.value = '';
@@ -1448,7 +1396,7 @@ export default function AdminPage() {
                       {uploading === 'pptFile'
                         ? uploadProgress !== null && uploadProgress > 0
                           ? `Uploading presentation: ${uploadProgress}%...`
-                          : 'Uploading presentation to cloud...'
+                          : 'Attaching & processing presentation...'
                         : 'Select PowerPoint / Presentation File (.PPTX, .PPT, .PDF, Slides)'}
                     </span>
                     <span className={styles.uploadHint}>
@@ -1686,7 +1634,7 @@ export default function AdminPage() {
                       {uploading === 'certFile'
                         ? uploadProgress !== null && uploadProgress > 0
                           ? `Uploading certificate: ${uploadProgress}%...`
-                          : 'Uploading certificate to cloud...'
+                          : 'Attaching & processing certificate...'
                         : 'Select Certificate File (PDF, Images, or Documents)'}
                     </span>
                     <span className={styles.uploadHint}>Any size supported. Upload PDF, JPG, PNG, WEBP, or Document</span>

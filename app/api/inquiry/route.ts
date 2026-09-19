@@ -29,12 +29,16 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { name, phone, email, message } = body || {};
+    const body = await request.json().catch(() => ({}));
+    const { name, phone, email, projectType, message, channel } = body || {};
 
-    if (!phone || String(phone).replace(/\D/g, '').length < 8) {
+    // Validate based on channel: WhatsApp requires phone, Gmail requires email
+    const hasPhone = phone && String(phone).replace(/\D/g, '').length >= 8;
+    const hasEmail = email && /\S+@\S+\.\S+/.test(String(email).trim());
+
+    if (!hasPhone && !hasEmail) {
       return NextResponse.json(
-        { success: false, error: 'Please enter a valid mobile number with country code' },
+        { success: false, error: 'Please enter a valid mobile number for WhatsApp or email address for Gmail' },
         { status: 400 }
       );
     }
@@ -43,8 +47,10 @@ export async function POST(request: Request) {
     const newInquiry = {
       id: inquiryId,
       name: name?.trim() || 'Valued Visitor',
-      phone: phone?.trim(),
+      phone: phone?.trim() || '',
       email: email?.trim() || '',
+      projectType: projectType || 'General Inquiry',
+      channel: channel || (hasEmail && !hasPhone ? 'gmail' : 'whatsapp'),
       message: message?.trim() || 'Portfolio Inquiry & Collaboration Request',
       createdAt: new Date().toISOString(),
       timestamp: Date.now(),
