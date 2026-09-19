@@ -10,8 +10,8 @@
   align-items: center;
   justify-content: center;
   user-select: none;
-  background: #f8f9fc;
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  background: #030508;
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: default;
 }
 
@@ -25,51 +25,41 @@
   pointer-events: none;
 }
 
-/* Background Atmospheric Gradient & Glow */
+/* Background Cosmic Nebula & Silver Vignette */
 .ambientGlow {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 1;
-  background: radial-gradient(circle at 50% 50%, rgba(217, 119, 6, 0.05) 0%, transparent 70%);
-  transition: opacity 0.6s ease;
+  z-index: 2;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.04) 0%, rgba(15, 23, 42, 0.4) 60%, #030508 100%);
+  transition: opacity 0.8s ease;
 }
 
-/* ── Top Header Bar (Monogram Logo + Audio & Skip Controls) ── */
-.topNavRow {
-  position: absolute;
-  top: 1.75rem;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0 clamp(1.25rem, 4vw, 3.5rem);
-  pointer-events: none;
-}
-
+/* ── Top Center Logo Badge (Anchored from start, no buttons) ── */
 .topBadge {
   position: absolute;
+  top: 1.85rem;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 10;
   display: inline-flex;
   align-items: center;
   gap: 0.85rem;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  padding: 0.35rem 1.15rem 0.35rem 0.45rem;
+  background: rgba(10, 15, 26, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 0.35rem 1.25rem 0.35rem 0.45rem;
   border-radius: 999px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
   pointer-events: auto;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .topBadge:hover {
   transform: translateX(-50%) translateY(-1px);
-  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.08);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 10px 35px rgba(255, 255, 255, 0.1);
 }
 
 .logoCircle {
@@ -77,75 +67,27 @@
   height: 38px;
   border-radius: 50%;
   background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .monogramText {
   font-family: var(--font-display);
   font-size: 0.85rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #0f172a;
+  color: #f1f5f9;
 }
 
-.topControls {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  pointer-events: auto;
-}
-
-.controlBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(0, 0, 0, 0.09);
-  padding: 0.45rem 0.95rem;
-  border-radius: 999px;
-  font-family: var(--font-body);
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #0f172a;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
-}
-
-.controlBtn:hover {
-  background: #0f172a;
-  color: #ffffff;
-  border-color: #0f172a;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.15);
-}
-
-.audioPulse {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #d97706;
-  box-shadow: 0 0 10px #d97706;
-  animation: audioPulseAnim 1.4s infinite ease-in-out;
-}
-
-@keyframes audioPulseAnim {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.4); opacity: 0.5; }
-}
-
-/* ── Center Stage & Sequential Typographic Experience ── */
+/* ── Center Stage & Spiral Galaxy Sequential Reveal ── */
 .centerStage {
   position: relative;
-  z-index: 3;
+  z-index: 4;
   width: 100%;
   max-width: 1300px;
   height: 100%;
@@ -153,49 +95,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 5rem 1.5rem 6rem;
+  padding: 5rem 1.5rem 6.5rem;
   pointer-events: none;
   text-align: center;
 }
 
-/* Step 0: Flute Stage Instruction */
-.fluteGreeting {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.85rem;
-  margin-top: 17rem;
-  animation: fadeInGreeting 1s ease-out forwards;
-}
-
-@keyframes fadeInGreeting {
-  from { opacity: 0; transform: translateY(18px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.fluteLabel {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: #d97706;
-  background: rgba(217, 119, 6, 0.08);
-  border: 1px solid rgba(217, 119, 6, 0.2);
-  padding: 0.35rem 1rem;
-  border-radius: 999px;
-}
-
-.fluteInstruction {
-  font-family: var(--font-heading);
-  font-size: clamp(1.15rem, 2.2vw, 1.85rem);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: #0f172a;
-  margin: 0;
-}
-
-/* Word Reveal Flow (Steps 1 through 7) */
+/* Word Reveal Flow (Steps 2 through 8) */
 .storyboardArea {
   display: flex;
   flex-direction: column;
@@ -204,10 +109,10 @@
   width: 100%;
   max-width: 1100px;
   min-height: 280px;
-  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.75s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* In Step 8 (Unity at Bottom), the text scales and docks gracefully to the bottom */
+/* In Step 8 (Unity at Bottom), the text docks cleanly to the bottom */
 .storyboardArea.dockedBottom {
   margin-top: auto;
   margin-bottom: 2rem;
@@ -219,9 +124,9 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: clamp(0.6rem, 1.8vw, 1.8rem);
+  gap: clamp(0.6rem, 2vw, 2rem);
   font-family: var(--font-heading);
-  font-size: clamp(2.6rem, 7.5vw, 6.4rem);
+  font-size: clamp(2.6rem, 7.8vw, 6.6rem);
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.05;
@@ -234,14 +139,14 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: clamp(0.5rem, 1.4vw, 1.4rem);
+  gap: clamp(0.5rem, 1.5vw, 1.5rem);
   font-family: var(--font-heading);
-  font-size: clamp(1.8rem, 5.2vw, 4.2rem);
+  font-size: clamp(1.8rem, 5.4vw, 4.4rem);
   font-weight: 800;
   letter-spacing: -0.025em;
   line-height: 1.1;
   text-transform: uppercase;
-  margin: 0.75rem 0 0;
+  margin: 0.85rem 0 0;
 }
 
 /* Individual Animated Word */
@@ -249,8 +154,8 @@
   display: inline-block;
   opacity: 0;
   transform: translateY(35px) scale(0.92);
-  filter: blur(8px);
-  transition: all 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: blur(10px);
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity, filter;
 }
 
@@ -260,32 +165,33 @@
   filter: blur(0);
 }
 
-/* Stroke vs Solid styles matching portfolio palette */
+/* Black, Silver & White Palette Typography */
 .tokenStroke {
   color: transparent;
-  -webkit-text-stroke: 2.2px #0f172a;
+  -webkit-text-stroke: 2.2px #e2e8f0;
+  text-shadow: 0 0 25px rgba(226, 232, 240, 0.3);
 }
 
 .tokenSolid {
-  color: #0f172a;
-  text-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+  color: #ffffff;
+  text-shadow: 0 0 35px rgba(255, 255, 255, 0.45), 0 4px 18px rgba(0, 0, 0, 0.9);
 }
 
 .tokenAccent {
-  color: #d97706;
-  text-shadow: 0 0 35px rgba(217, 119, 6, 0.3);
+  color: #cbd5e1; /* Sterling Silver */
+  text-shadow: 0 0 30px rgba(203, 213, 225, 0.65);
 }
 
-/* Sub-role and tagline for the unified layout */
+/* Sub-role pill and tagline for the unified layout */
 .roleBlock {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.65rem;
-  margin-top: 1.5rem;
+  margin-top: 1.6rem;
   opacity: 0;
   transform: translateY(20px);
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.65s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .roleBlock.visible {
@@ -297,36 +203,38 @@
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  background: rgba(15, 23, 42, 0.05);
-  border: 1px solid rgba(15, 23, 42, 0.1);
-  padding: 0.4rem 1.15rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  padding: 0.42rem 1.25rem;
   border-radius: 999px;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
-  color: #0f172a;
+  letter-spacing: 0.16em;
+  color: #f1f5f9;
   text-transform: uppercase;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
-.greenDot {
+.silverDot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 8px #10b981;
-  animation: pulseBlink 2s infinite ease-in-out;
+  background: #ffffff;
+  box-shadow: 0 0 10px #ffffff;
+  animation: pulseSilver 2s infinite ease-in-out;
 }
 
-@keyframes pulseBlink {
+@keyframes pulseSilver {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.4; transform: scale(0.8); }
 }
 
-/* ── Bottom Action & Step Indicators ── */
+/* ── Bottom Action & Step Indicators (Silver & White Cosmic Glass) ── */
 .bottomNavRow {
   position: absolute;
-  bottom: 2rem;
+  bottom: 2.2rem;
   left: 0;
   right: 0;
   z-index: 10;
@@ -341,35 +249,40 @@
   display: inline-flex;
   align-items: center;
   gap: 0.7rem;
-  padding: 0.85rem 1.85rem;
+  padding: 0.85rem 1.95rem;
   border-radius: 999px;
-  background: #0f172a;
+  background: rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   color: #ffffff;
   font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
-  border: none;
+  letter-spacing: 0.03em;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
 }
 
 .scrollActionBtn:hover {
-  background: #000000;
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.28);
+  box-shadow: 0 12px 35px rgba(255, 255, 255, 0.15);
 }
 
 .scrollActionBtn.finalAction {
-  background: linear-gradient(135deg, #d97706, #b45309);
-  box-shadow: 0 8px 28px rgba(217, 119, 6, 0.35);
+  background: linear-gradient(135deg, #ffffff, #cbd5e1);
+  color: #000000;
+  border-color: #ffffff;
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.35);
 }
 
 .scrollActionBtn.finalAction:hover {
-  background: linear-gradient(135deg, #b45309, #92400e);
+  background: #ffffff;
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 12px 34px rgba(217, 119, 6, 0.45);
+  box-shadow: 0 12px 40px rgba(255, 255, 255, 0.55);
 }
 
 .arrowIcon {
@@ -382,15 +295,15 @@
   50% { transform: translateY(4px); }
 }
 
-/* Step Progress Indicator Dots */
+/* Step Progress Indicator Dots in Silver & White */
 .stepDotsTrack {
   display: flex;
   align-items: center;
   gap: 0.45rem;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(10, 15, 26, 0.6);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  padding: 0.35rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.35rem 0.8rem;
   border-radius: 999px;
 }
 
@@ -398,51 +311,44 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: rgba(15, 23, 42, 0.2);
+  background: rgba(255, 255, 255, 0.25);
   transition: all 0.3s ease;
 }
 
 .stepDot.activeDot {
-  background: #d97706;
-  transform: scale(1.3);
+  background: #ffffff;
+  transform: scale(1.35);
+  box-shadow: 0 0 8px #ffffff;
 }
 
 .stepDot.passedDot {
-  background: #0f172a;
+  background: #94a3b8;
 }
 
 /* ── Responsive adjustments ── */
 @media (max-width: 768px) {
-  .topNavRow {
-    padding: 0 1rem;
+  .topBadge {
     top: 1.25rem;
   }
   .monogramText {
-    display: none;
+    font-size: 0.78rem;
   }
   .centerStage {
-    padding: 4.5rem 1rem 5rem;
-  }
-  .fluteGreeting {
-    margin-top: 12rem;
+    padding: 4.5rem 1rem 5.5rem;
   }
   .wordLinePrimary {
-    font-size: clamp(2rem, 9.5vw, 3.4rem);
+    font-size: clamp(2.1rem, 9.5vw, 3.5rem);
     gap: 0.45rem;
   }
   .tokenStroke {
-    -webkit-text-stroke: 1.5px #0f172a;
+    -webkit-text-stroke: 1.5px #e2e8f0;
   }
   .wordLineSecondary {
     font-size: clamp(1.4rem, 6.8vw, 2.3rem);
     gap: 0.35rem;
   }
-  .controlBtn {
-    padding: 0.35rem 0.75rem;
-    font-size: 0.72rem;
-  }
   .scrollActionBtn {
-    padding: 0.75rem 1.4rem;
+    padding: 0.75rem 1.45rem;
     font-size: 0.8rem;
   }
 }

@@ -11,16 +11,17 @@ interface WebGLSplashRevealProps {
 
 /**
  * Sequential Step Flow:
- * 0: Flute in center with golden aura + ambient lighting (top logo anchored)
- * 1: Flute dissolves into glowing harmonic sound particles
- * 2: "VAIBHAV" appears
- * 3: "SHAW" appears (VAIBHAV SHAW)
- * 4: "WELCOME" appears
- * 5: "TO" appears
- * 6: "MY" appears
- * 7: "PORTFOLIO" appears (WELCOME TO MY PORTFOLIO)
- * 8: All words assemble together harmoniously at the bottom
- * 9: Final scroll renders us directly into the landing page / hero section!
+ * 0: 3D Flute resting in the center of the Spiral Galaxy (Black, Silver, and White).
+ *    Music starts playing continuously from the start on every reload.
+ * 1: Flute dissolves into the galaxy's silver and white stardust.
+ * 2: "VAIBHAV" appears in crisp silver & white typography.
+ * 3: "SHAW" appears (VAIBHAV SHAW).
+ * 4: "WELCOME" appears.
+ * 5: "TO" appears.
+ * 6: "MY" appears.
+ * 7: "PORTFOLIO" appears (WELCOME TO MY PORTFOLIO).
+ * 8: All words dock harmoniously together at the bottom with role badge.
+ * 9: Final scroll renders directly to the main landing page!
  */
 const TOTAL_STEPS = 9;
 
@@ -30,113 +31,98 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
   
   const [currentStep, setCurrentStep] = useState(0);
   const [isRevealed, setIsRevealed] = useState(false);
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
 
-  // Audio Reference
+  // Audio Reference: flute-song.mp3 starts immediately from the begin of website on every reload
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const audioStartedRef = useRef(false);
 
-  // Three.js Scene References
+  // Three.js References
   const fluteGroupRef = useRef<THREE.Group | null>(null);
-  const particleSystemRef = useRef<THREE.Points | null>(null);
+  const galaxyPointsRef = useRef<THREE.Points | null>(null);
   const fluteDissolveRef = useRef<{ factor: number }>({ factor: 0 });
 
-  // Wheel & Input Debounce Control
+  // Input Debounce Control
   const lastAdvanceTimeRef = useRef(0);
   const stepRef = useRef(0);
   stepRef.current = currentStep;
 
-  // Initialize and play flute audio
-  const startAudioSafely = useCallback(() => {
-    if (audioStartedRef.current && audioRef.current) {
-      if (audioRef.current.paused && !isMuted) {
-        audioRef.current.play().catch(() => {});
-        setIsAudioPlaying(true);
-      }
-      return;
-    }
+  // Initialize and continuously play flute-song.mp3 from the start
+  useEffect(() => {
+    let audio: HTMLAudioElement;
 
     try {
-      // Try /audio/flute-song.mp3, with fallback to /flute-song.mp3
-      const audio = new Audio('/audio/flute-song.mp3');
+      audio = new Audio('/audio/flute-song.mp3');
       audio.loop = true;
-      audio.volume = 0.75;
+      audio.volume = 0.85;
 
       audio.onerror = () => {
-        // Fallback to root path if /audio/ fails
         if (audio.src.includes('/audio/')) {
           audio.src = '/flute-song.mp3';
-          audio.play().then(() => {
-            setIsAudioPlaying(true);
-            audioStartedRef.current = true;
-          }).catch(() => {});
+          audio.play().catch(() => {});
         }
       };
 
-      audio.play().then(() => {
-        setIsAudioPlaying(true);
-        audioStartedRef.current = true;
-      }).catch(() => {
-        // Browser requires direct user click if scroll gesture is restricted
-      });
+      // Attempt immediate autoplay on reload
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // If browser restricts unprompted autoplay, immediately unlock on ANY first micro-interaction
+          const unlockAudio = () => {
+            if (audio && audio.paused) {
+              audio.play().catch(() => {});
+            }
+            window.removeEventListener('pointerdown', unlockAudio);
+            window.removeEventListener('touchstart', unlockAudio);
+            window.removeEventListener('keydown', unlockAudio);
+            window.removeEventListener('wheel', unlockAudio);
+          };
+
+          window.addEventListener('pointerdown', unlockAudio, { once: true, passive: true });
+          window.addEventListener('touchstart', unlockAudio, { once: true, passive: true });
+          window.addEventListener('keydown', unlockAudio, { once: true, passive: true });
+          window.addEventListener('wheel', unlockAudio, { once: true, passive: true });
+        });
+      }
 
       audioRef.current = audio;
     } catch {
-      // Audio autoplay policy fallback
-    }
-  }, [isMuted]);
-
-  // Toggle Mute / Unmute
-  const toggleMute = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!audioRef.current) {
-      startAudioSafely();
-      return;
+      // Audio fallback
     }
 
-    if (audioRef.current.paused) {
-      audioRef.current.play().then(() => {
-        audioRef.current!.muted = false;
-        setIsMuted(false);
-        setIsAudioPlaying(true);
-      }).catch(() => {});
-    } else {
-      const nextMute = !audioRef.current.muted;
-      audioRef.current.muted = nextMute;
-      setIsMuted(nextMute);
-    }
-  }, [startAudioSafely]);
+    return () => {
+      // Keep playing smoothly into portfolio, or pause if unmounted
+    };
+  }, []);
 
-  // Final Reveal Transition into Landing Page
+  // Complete Reveal Transition into Landing Page
   const completeReveal = useCallback(() => {
     setIsRevealed(true);
     document.body.style.overflow = '';
     if (onRevealComplete) onRevealComplete();
 
-    // Fade out audio gracefully over 1.5 seconds
+    // Fade out audio gracefully over 1.8 seconds when entering the portfolio
     if (audioRef.current) {
       const audio = audioRef.current;
       const fadeInterval = setInterval(() => {
-        if (audio.volume > 0.05) {
+        if (audio.volume > 0.06) {
           audio.volume = Math.max(0, audio.volume - 0.08);
         } else {
           audio.pause();
           clearInterval(fadeInterval);
         }
-      }, 80);
+      }, 90);
     }
   }, [onRevealComplete]);
 
-  // Advance to next step
+  // Advance Step: Scrolling is ONLY to disappear flute and reveal words one by one
   const advanceStep = useCallback(() => {
     const now = performance.now();
-    // Debounce to ensure distinct deliberate scrolls
-    if (now - lastAdvanceTimeRef.current < 450) return;
+    if (now - lastAdvanceTimeRef.current < 420) return;
     lastAdvanceTimeRef.current = now;
 
-    // Start music on first scroll/interaction
-    startAudioSafely();
+    // Ensure audio is playing if browser was holding it back
+    if (audioRef.current && audioRef.current.paused) {
+      audioRef.current.play().catch(() => {});
+    }
 
     setCurrentStep((prev) => {
       const next = prev + 1;
@@ -146,12 +132,6 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
       }
       return next;
     });
-  }, [startAudioSafely, completeReveal]);
-
-  // Direct Skip button
-  const handleSkip = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    completeReveal();
   }, [completeReveal]);
 
   // Lock document scroll while splash overlay is active
@@ -171,7 +151,7 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
     if (isRevealed) return;
 
     const handleWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) > 12 || Math.abs(e.deltaX) > 16) {
+      if (Math.abs(e.deltaY) > 10 || Math.abs(e.deltaX) > 14) {
         advanceStep();
       }
     };
@@ -179,12 +159,14 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
     let touchStartY = 0;
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0].clientY;
-      startAudioSafely();
+      if (audioRef.current && audioRef.current.paused) {
+        audioRef.current.play().catch(() => {});
+      }
     };
 
     const handleTouchMove = (e: TouchEvent) => {
       const touchY = e.touches[0].clientY;
-      if (touchStartY - touchY > 25 || touchY - touchStartY > 25) {
+      if (Math.abs(touchStartY - touchY) > 22) {
         touchStartY = touchY;
         advanceStep();
       }
@@ -208,9 +190,9 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isRevealed, advanceStep, startAudioSafely]);
+  }, [isRevealed, advanceStep]);
 
-  // ── Three.js 3D Flute & Sound Particle Scene ──
+  // ── Three.js Spiral Galaxy & 3D Flute GUI (Black, Silver, White) ──
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -218,12 +200,12 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
     let width = window.innerWidth;
     let height = window.innerHeight;
 
-    // 1. Scene, Camera, Renderer
+    // 1. Scene, Camera, High-Precision WebGL Renderer
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#f8f9fc');
+    scene.background = new THREE.Color('#030508'); // Deep cosmic black
 
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    camera.position.set(0, 0, 6.2);
+    const camera = new THREE.PerspectiveCamera(48, width / height, 0.1, 1000);
+    camera.position.set(0, 0, 6.4);
 
     const renderer = new THREE.WebGLRenderer({
       canvas,
@@ -234,55 +216,126 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(width, height);
 
-    // 2. Build 3D Bansuri / Flute Group
+    // 2. ── Spiral Galaxy Three.js System (Black, Silver, White) ──
+    const galaxyParams = {
+      count: 7500,
+      size: 0.038,
+      radius: 9.2,
+      branches: 4,
+      spin: 1.25,
+      randomness: 0.45,
+      power: 3.2,
+      coreColor: new THREE.Color('#ffffff'), // Pure brilliant stellar white
+      innerColor: new THREE.Color('#f1f5f9'), // Sterling silver
+      outerColor: new THREE.Color('#94a3b8'), // Metallic silver
+      rimColor: new THREE.Color('#334155'), // Deep cosmic graphite
+    };
+
+    const galaxyGeometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(galaxyParams.count * 3);
+    const colors = new Float32Array(galaxyParams.count * 3);
+    const scales = new Float32Array(galaxyParams.count);
+
+    for (let i = 0; i < galaxyParams.count; i++) {
+      // Position along spiral arms
+      const i3 = i * 3;
+      const r = Math.random() * galaxyParams.radius;
+      const spinAngle = r * galaxyParams.spin;
+      const branchAngle = ((i % galaxyParams.branches) * (Math.PI * 2)) / galaxyParams.branches;
+
+      const randomX = Math.pow(Math.random(), galaxyParams.power) * (Math.random() < 0.5 ? 1 : -1) * galaxyParams.randomness * r;
+      const randomY = Math.pow(Math.random(), galaxyParams.power) * (Math.random() < 0.5 ? 1 : -1) * galaxyParams.randomness * r * 0.45;
+      const randomZ = Math.pow(Math.random(), galaxyParams.power) * (Math.random() < 0.5 ? 1 : -1) * galaxyParams.randomness * r;
+
+      positions[i3] = Math.cos(branchAngle + spinAngle) * r + randomX;
+      positions[i3 + 1] = randomY;
+      positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * r + randomZ;
+
+      // Color interpolation: White core -> Silver arms -> Graphite outer space
+      const mixedColor = galaxyParams.coreColor.clone();
+      const normRadius = r / galaxyParams.radius;
+
+      if (normRadius < 0.25) {
+        mixedColor.lerp(galaxyParams.innerColor, normRadius * 4);
+      } else if (normRadius < 0.65) {
+        mixedColor.lerp(galaxyParams.outerColor, (normRadius - 0.25) * 2.5);
+      } else {
+        mixedColor.lerp(galaxyParams.rimColor, (normRadius - 0.65) * 2.8);
+      }
+
+      colors[i3] = mixedColor.r;
+      colors[i3 + 1] = mixedColor.g;
+      colors[i3 + 2] = mixedColor.b;
+
+      scales[i] = Math.random() * 0.8 + 0.4;
+    }
+
+    galaxyGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    galaxyGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const galaxyMaterial = new THREE.PointsMaterial({
+      size: galaxyParams.size,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.88,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+
+    const galaxyPoints = new THREE.Points(galaxyGeometry, galaxyMaterial);
+    galaxyPointsRef.current = galaxyPoints;
+
+    // Tilt the spiral galaxy in 3D perspective
+    galaxyPoints.rotation.x = Math.PI / 3.4;
+    galaxyPoints.rotation.z = Math.PI / 8;
+    scene.add(galaxyPoints);
+
+    // 3. ── 3D Flute in the Galactic Core (Obsidian Black, Silver, White) ──
     const fluteGroup = new THREE.Group();
     fluteGroupRef.current = fluteGroup;
     scene.add(fluteGroup);
 
-    // Main Flute Body (Deep bamboo / polished obsidian wood finish)
+    // Flute Body: Polished Obsidian Black Wood
     const fluteLength = 4.4;
     const fluteRadius = 0.115;
     const bodyGeo = new THREE.CylinderGeometry(fluteRadius, fluteRadius * 0.96, fluteLength, 48);
     const bodyMat = new THREE.MeshStandardMaterial({
-      color: 0x1e1511, // Rich dark roasted bamboo / mahogany
-      roughness: 0.32,
-      metalness: 0.18,
+      color: 0x090c12, // Deep obsidian black
+      roughness: 0.22,
+      metalness: 0.35,
       transparent: true,
       opacity: 1,
     });
     const fluteBody = new THREE.Mesh(bodyGeo, bodyMat);
     fluteGroup.add(fluteBody);
 
-    // Gold Metal Ring Bindings (Traditional Bansuri golden thread / brass accents)
-    const goldRingMat = new THREE.MeshStandardMaterial({
-      color: 0xd97706, // Warm gold
-      roughness: 0.22,
-      metalness: 0.92,
+    // Silver & White Chrome Binding Rings
+    const silverRingMat = new THREE.MeshStandardMaterial({
+      color: 0xf1f5f9, // Sterling silver / chrome
+      roughness: 0.15,
+      metalness: 0.95,
       transparent: true,
       opacity: 1,
     });
 
     const ringPositions = [1.95, 1.82, 0.95, -0.2, -1.2, -1.95, -2.05];
-    const ringMeshes: THREE.Mesh[] = [];
-
     ringPositions.forEach((yPos) => {
       const ringGeo = new THREE.TorusGeometry(fluteRadius + 0.006, 0.016, 16, 40);
       ringGeo.rotateX(Math.PI / 2);
-      const ringMesh = new THREE.Mesh(ringGeo, goldRingMat);
+      const ringMesh = new THREE.Mesh(ringGeo, silverRingMat);
       ringMesh.position.y = yPos;
       fluteGroup.add(ringMesh);
-      ringMeshes.push(ringMesh);
     });
 
     // Embouchure Hole (Blow Hole)
-    const holeMat = new THREE.MeshBasicMaterial({ color: 0x050505 });
+    const holeMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
     const blowHoleGeo = new THREE.CylinderGeometry(0.042, 0.042, 0.05, 24);
     blowHoleGeo.rotateX(Math.PI / 2);
     const blowHole = new THREE.Mesh(blowHoleGeo, holeMat);
     blowHole.position.set(0, 1.45, fluteRadius);
     fluteGroup.add(blowHole);
 
-    // 6 Finger Tone Holes along the body
+    // 6 Precision Finger Tone Holes with Silver Rims
     const fingerHolesY = [0.45, 0.15, -0.15, -0.45, -0.75, -1.05];
     fingerHolesY.forEach((yPos) => {
       const fHoleGeo = new THREE.CylinderGeometry(0.032, 0.032, 0.04, 20);
@@ -291,79 +344,72 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
       fHole.position.set(0, yPos, fluteRadius);
       fluteGroup.add(fHole);
 
-      // Delicate gold rim around each tone hole
       const rimGeo = new THREE.RingGeometry(0.033, 0.046, 24);
-      const rimMesh = new THREE.Mesh(rimGeo, goldRingMat);
+      const rimMesh = new THREE.Mesh(rimGeo, silverRingMat);
       rimMesh.position.set(0, yPos, fluteRadius + 0.005);
       fluteGroup.add(rimMesh);
-      ringMeshes.push(rimMesh);
     });
 
-    // Top End Stopper / Crown Cap
+    // Silver Crown Cap
     const capGeo = new THREE.CylinderGeometry(fluteRadius * 1.05, fluteRadius * 1.05, 0.12, 32);
-    const capMesh = new THREE.Mesh(capGeo, goldRingMat);
+    const capMesh = new THREE.Mesh(capGeo, silverRingMat);
     capMesh.position.y = fluteLength / 2 + 0.04;
     fluteGroup.add(capMesh);
-    ringMeshes.push(capMesh);
 
-    // Position & Angle the 3D Flute diagonally in center space
-    fluteGroup.rotation.z = -Math.PI / 4.2; // ~42° diagonal tilt
+    // Initial Flute Placement (Tilted in center of galaxy)
+    fluteGroup.rotation.z = -Math.PI / 4.2;
     fluteGroup.rotation.x = 0.25;
     fluteGroup.rotation.y = 0.2;
-    fluteGroup.position.set(0, 0.35, 0);
+    fluteGroup.position.set(0, 0.25, 0);
 
-    // 3. Floating Sound Aura / Harmonic Note Particles
-    const particleCount = 420;
-    const particleGeo = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const velocities = new Float32Array(particleCount * 3);
+    // 4. Harmonic Silver Stardust Aura (Emitting from flute)
+    const stardustCount = 380;
+    const stardustGeo = new THREE.BufferGeometry();
+    const stardustPos = new Float32Array(stardustCount * 3);
+    const stardustVel = new Float32Array(stardustCount * 3);
 
-    for (let i = 0; i < particleCount; i++) {
-      // Emanate near the flute tone holes
-      positions[i * 3] = (Math.random() - 0.5) * 2.8;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 2.6;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 1.8;
+    for (let i = 0; i < stardustCount; i++) {
+      stardustPos[i * 3] = (Math.random() - 0.5) * 2.8;
+      stardustPos[i * 3 + 1] = (Math.random() - 0.5) * 2.6;
+      stardustPos[i * 3 + 2] = (Math.random() - 0.5) * 1.8;
 
-      velocities[i * 3] = (Math.random() - 0.5) * 0.006;
-      velocities[i * 3 + 1] = Math.random() * 0.008 + 0.004; // upward melodic drift
-      velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.006;
+      stardustVel[i * 3] = (Math.random() - 0.5) * 0.007;
+      stardustVel[i * 3 + 1] = Math.random() * 0.009 + 0.003;
+      stardustVel[i * 3 + 2] = (Math.random() - 0.5) * 0.007;
     }
 
-    particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-    const particleMat = new THREE.PointsMaterial({
-      color: 0xd97706, // Warm gold music particles
-      size: 0.045,
+    stardustGeo.setAttribute('position', new THREE.BufferAttribute(stardustPos, 3));
+    const stardustMat = new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 0.042,
       transparent: true,
-      opacity: 0.75,
-      blending: THREE.NormalBlending,
+      opacity: 0.85,
+      blending: THREE.AdditiveBlending,
     });
+    const stardustSystem = new THREE.Points(stardustGeo, stardustMat);
+    scene.add(stardustSystem);
 
-    const particleSystem = new THREE.Points(particleGeo, particleMat);
-    particleSystemRef.current = particleSystem;
-    scene.add(particleSystem);
-
-    // 4. Studio Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.4);
+    // 5. Studio Lighting (Pure White & Silver Highlights)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     scene.add(ambientLight);
 
-    const warmLight = new THREE.PointLight(0xd97706, 3.2, 18);
-    warmLight.position.set(3, 4, 4);
-    scene.add(warmLight);
+    const silverKeyLight = new THREE.PointLight(0xffffff, 4.2, 22);
+    silverKeyLight.position.set(3, 4, 5);
+    scene.add(silverKeyLight);
 
-    const coolRimLight = new THREE.PointLight(0x93c5fd, 1.8, 18);
-    coolRimLight.position.set(-4, -2, 3);
-    scene.add(coolRimLight);
+    const silverRimLight = new THREE.PointLight(0xcbd5e1, 3.5, 20);
+    silverRimLight.position.set(-4, -2, 4);
+    scene.add(silverRimLight);
 
-    // 5. Mouse Parallax
+    // 6. Interactive Cursor Parallax
     let mouseX = 0;
     let mouseY = 0;
     let targetMouseX = 0;
     let targetMouseY = 0;
 
     const handleMouseMove = (e: MouseEvent) => {
-      targetMouseX = (e.clientX / width - 0.5) * 0.5;
-      targetMouseY = (e.clientY / height - 0.5) * 0.5;
+      targetMouseX = (e.clientX / width - 0.5) * 0.45;
+      targetMouseY = (e.clientY / height - 0.5) * 0.45;
     };
 
     const handleResize = () => {
@@ -377,7 +423,7 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('resize', handleResize);
 
-    // 6. Animation Loop
+    // 7. Animation Loop: Majestic Spiral Galaxy Spin & Dissolve Control
     let animationId: number;
     const clock = new THREE.Clock();
 
@@ -389,59 +435,61 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
       mouseX += (targetMouseX - mouseX) * 0.05;
       mouseY += (targetMouseY - mouseY) * 0.05;
 
-      // When Step >= 1: The Flute dissolves and disappears
+      // ── Spiral Galaxy Orbit ──
+      if (galaxyPoints) {
+        galaxyPoints.rotation.y = elapsedTime * 0.04 + mouseX * 0.5;
+        galaxyPoints.rotation.x = Math.PI / 3.4 + mouseY * 0.35;
+      }
+
+      // ── Flute Dissolution: Disappears on first scroll (step >= 1) ──
       const currentStepVal = stepRef.current;
       const targetDissolve = currentStepVal >= 1 ? 1 : 0;
       fluteDissolveRef.current.factor += (targetDissolve - fluteDissolveRef.current.factor) * 0.09;
       const dissolve = fluteDissolveRef.current.factor;
 
       if (fluteGroup) {
-        // Idle gentle breathing motion + mouse parallax
-        const idleBob = Math.sin(elapsedTime * 1.6) * 0.08;
-        fluteGroup.position.y = 0.35 + idleBob + mouseY * 0.4;
-        fluteGroup.position.x = mouseX * 0.4;
-        
-        // Dissolution dynamics: spin faster, expand slightly, and fade away
-        fluteGroup.rotation.z = -Math.PI / 4.2 + dissolve * 1.2 + mouseX * 0.3;
-        fluteGroup.rotation.y = 0.2 + elapsedTime * (0.2 + dissolve * 2) + mouseX * 0.4;
+        const idleBob = Math.sin(elapsedTime * 1.5) * 0.07;
+        fluteGroup.position.y = 0.25 + idleBob + mouseY * 0.35;
+        fluteGroup.position.x = mouseX * 0.35;
+
+        // On scroll 1: accelerates, spins, and dissolves into the galaxy
+        fluteGroup.rotation.z = -Math.PI / 4.2 + dissolve * 1.5 + mouseX * 0.25;
+        fluteGroup.rotation.y = 0.2 + elapsedTime * (0.25 + dissolve * 2.5) + mouseX * 0.35;
 
         const currentScale = 1 + dissolve * 0.6;
         fluteGroup.scale.set(currentScale, currentScale, currentScale);
 
-        // Fade materials
-        const fluteOpacity = Math.max(0, 1 - dissolve * 1.3);
+        const fluteOpacity = Math.max(0, 1 - dissolve * 1.35);
         bodyMat.opacity = fluteOpacity;
-        goldRingMat.opacity = fluteOpacity;
+        silverRingMat.opacity = fluteOpacity;
         fluteGroup.visible = fluteOpacity > 0.01;
       }
 
-      // Animate harmonic sound particles
-      if (particleSystem) {
-        const posAttr = particleGeo.attributes.position as THREE.BufferAttribute;
-        const posArray = posAttr.array as Float32Array;
+      // Harmonic Stardust particles
+      if (stardustSystem) {
+        const posAttr = stardustGeo.attributes.position as THREE.BufferAttribute;
+        const posArr = posAttr.array as Float32Array;
 
-        for (let i = 0; i < particleCount; i++) {
-          posArray[i * 3 + 1] += velocities[i * 3 + 1];
-          posArray[i * 3] += velocities[i * 3];
+        for (let i = 0; i < stardustCount; i++) {
+          posArr[i * 3 + 1] += stardustVel[i * 3 + 1];
+          posArr[i * 3] += stardustVel[i * 3];
 
-          // Reset particle to flute position once it drifts away
-          if (posArray[i * 3 + 1] > 3.5 || posArray[i * 3 + 1] < -3.5) {
-            posArray[i * 3 + 1] = (Math.random() - 0.5) * 2.2;
-            posArray[i * 3] = (Math.random() - 0.5) * 2.5;
+          if (posArr[i * 3 + 1] > 3.5 || posArr[i * 3 + 1] < -3.5) {
+            posArr[i * 3 + 1] = (Math.random() - 0.5) * 2.2;
+            posArr[i * 3] = (Math.random() - 0.5) * 2.5;
           }
         }
         posAttr.needsUpdate = true;
 
-        // In step 1: particle burst, then soft background ambient in later steps
         if (dissolve > 0.05 && dissolve < 0.95) {
-          particleMat.size = 0.065;
-          particleMat.opacity = 0.85;
+          stardustMat.size = 0.068;
+          stardustMat.opacity = 0.95;
         } else if (currentStepVal >= 1) {
-          particleMat.size = 0.035;
-          particleMat.opacity = 0.35;
+          stardustMat.size = 0.035;
+          stardustMat.opacity = 0.3;
         } else {
-          particleMat.size = 0.045;
-          particleMat.opacity = 0.75;
+          stardustMat.size = 0.042;
+          stardustMat.opacity = 0.85;
         }
       }
 
@@ -455,16 +503,14 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
       renderer.dispose();
+      galaxyGeometry.dispose();
+      galaxyMaterial.dispose();
       bodyGeo.dispose();
       bodyMat.dispose();
-      goldRingMat.dispose();
+      silverRingMat.dispose();
       holeMat.dispose();
-      particleGeo.dispose();
-      particleMat.dispose();
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
+      stardustGeo.dispose();
+      stardustMat.dispose();
     };
   }, []);
 
@@ -472,16 +518,7 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
     return null;
   }
 
-  // Determine visibility states for each word
-  // Step 0: Flute greeting only
-  // Step 1: Flute dissolves
-  // Step 2: VAIBHAV
-  // Step 3: SHAW
-  // Step 4: WELCOME
-  // Step 5: TO
-  // Step 6: MY
-  // Step 7: PORTFOLIO
-  // Step 8: Unity at Bottom
+  // Word Visibility based on scroll steps
   const isVaibhavVisible = currentStep >= 2;
   const isShawVisible = currentStep >= 3;
   const isWelcomeVisible = currentStep >= 4;
@@ -501,71 +538,30 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
       aria-label="Interactive 3D Flute Welcome Experience"
       onClick={advanceStep}
     >
-      {/* ── 3D Three.js Interactive WebGL Canvas ── */}
+      {/* ── Three.js Spiral Galaxy WebGL Canvas (Black, Silver, White) ── */}
       <canvas ref={canvasRef} className={styles.webglCanvas} />
 
-      {/* Ambient Atmospheric Glow */}
+      {/* Cosmic Vignette */}
       <div className={styles.ambientGlow} />
 
-      {/* ── Top Header Bar (Logo & Controls) ── */}
-      <div className={styles.topNavRow}>
-        {/* Top Center-Left Monogram Logo (Still there from start) */}
-        <div className={styles.topBadge}>
-          <div className={styles.logoCircle}>
-            <Image
-              src="/images/logo.png"
-              alt="Vaibhav Shaw Logo"
-              width={40}
-              height={40}
-              style={{ objectFit: 'cover' }}
-              priority
-            />
-          </div>
-          <span className={styles.monogramText}>VAIBHAV SHAW</span>
+      {/* ── Top Center Monogram Logo (Anchored from start, no buttons) ── */}
+      <div className={styles.topBadge}>
+        <div className={styles.logoCircle}>
+          <Image
+            src="/images/logo.png"
+            alt="Vaibhav Shaw Logo"
+            width={40}
+            height={40}
+            style={{ objectFit: 'cover' }}
+            priority
+          />
         </div>
-
-        {/* Top Controls: Sound Toggle & Skip */}
-        <div className={styles.topControls}>
-          <button
-            type="button"
-            className={styles.controlBtn}
-            onClick={toggleMute}
-            aria-label={isMuted ? 'Unmute flute melody' : 'Mute flute melody'}
-          >
-            <span className={styles.audioPulse} style={{ opacity: isAudioPlaying && !isMuted ? 1 : 0.2 }} />
-            <span>{isMuted ? '🔇 Sound Off' : '🔊 Sound On'}</span>
-          </button>
-
-          <button
-            type="button"
-            className={styles.controlBtn}
-            onClick={handleSkip}
-            aria-label="Skip to Portfolio"
-          >
-            <span>Skip ➔</span>
-          </button>
-        </div>
+        <span className={styles.monogramText}>VAIBHAV SHAW</span>
       </div>
 
       {/* ── Center Stage: Sequential Typographic Revelation ── */}
       <div className={styles.centerStage}>
-        {/* Step 0: Flute Stage Greeting */}
-        {currentStep === 0 && (
-          <div className={styles.fluteGreeting}>
-            <span className={styles.fluteLabel}>3D Melodic Prologue</span>
-            <h2 className={styles.fluteInstruction}>Scroll to hear the melody &amp; begin</h2>
-          </div>
-        )}
-
-        {/* Step 1: Flute Dissolution */}
-        {currentStep === 1 && (
-          <div className={styles.fluteGreeting}>
-            <span className={styles.fluteLabel}>Harmonic Dispersion</span>
-            <h2 className={styles.fluteInstruction}>Scroll to reveal</h2>
-          </div>
-        )}
-
-        {/* Steps 2-8: Sequential Words Emerge */}
+        {/* Steps 2-8: Sequential Words Emerge Note-by-Note */}
         {currentStep >= 2 && (
           <div className={`${styles.storyboardArea} ${isUnifiedBottom ? styles.dockedBottom : ''}`}>
             {/* Primary Name Line: VAIBHAV SHAW */}
@@ -618,10 +614,10 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
               </span>
             </div>
 
-            {/* Step 8: Unified Role Pill & Sub-Tagline */}
+            {/* Step 8: Unified Role Pill in Silver & White */}
             <div className={`${styles.roleBlock} ${isUnifiedBottom ? styles.visible : ''}`}>
               <span className={styles.tagPill}>
-                <span className={styles.greenDot} />
+                <span className={styles.silverDot} />
                 AIML ENGINEER &amp; FULL STACK DEVELOPER
               </span>
             </div>
@@ -629,7 +625,7 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
         )}
       </div>
 
-      {/* ── Bottom Action & Progress Navigation ── */}
+      {/* ── Bottom Action & Progress Navigation (Silver & White Cosmic Glass) ── */}
       <div className={styles.bottomNavRow}>
         <button
           type="button"
@@ -639,19 +635,19 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
         >
           {currentStep === 0 && (
             <>
-              <span>Scroll to Begin Melody</span>
+              <span>Scroll ↓</span>
               <span className={styles.arrowIcon}>↓</span>
             </>
           )}
           {currentStep >= 1 && currentStep < 8 && (
             <>
-              <span>Scroll for Next Note ({currentStep}/8)</span>
+              <span>Scroll ({currentStep}/8)</span>
               <span className={styles.arrowIcon}>↓</span>
             </>
           )}
           {currentStep === 8 && (
             <>
-              <span>Scroll or Click to Enter Portfolio</span>
+              <span>Enter Portfolio</span>
               <span className={styles.arrowIcon}>➔</span>
             </>
           )}

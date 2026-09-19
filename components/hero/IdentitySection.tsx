@@ -40,25 +40,25 @@ export default function IdentitySection({ data }: ProfileProps) {
   const yearSem = data?.university?.year ? `${data.university.year} · ${data.university.semester || 'Sem 3'}` : '2nd Year · 3rd Sem';
   const shortIntro = data?.shortIntro || 'Student of Sister Nivedita University pursuing B.Tech CSE in AIML. Building ideas through curiosity and turning research into reality.';
 
-  // Automatically play welcoming video when in view, and pause when passed
+  // Automatically play welcoming video ONLY when visitor has explicitly scrolled into the Identity section
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     video.playsInline = true;
     video.loop = true;
-    video.volume = 1.0;
+    video.muted = true; // Start muted to prevent any audio overlap
 
     const startPlayback = () => {
+      // Check if splash screen is currently active
+      const splashActive = document.querySelector('aside[aria-label*="Welcome"]') !== null;
+      if (splashActive) {
+        video.pause();
+        return;
+      }
+
       if (video.paused) {
-        // Attempt unmuted first; if restricted by browser, stream with audio unlocked on gesture
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(() => {
-            video.muted = true;
-            video.play().catch(() => {});
-          });
-        }
+        video.play().catch(() => {});
       }
     };
 
@@ -68,23 +68,11 @@ export default function IdentitySection({ data }: ProfileProps) {
       }
     };
 
-    // Auto-unmute when visitor interacts with the page
-    const handleUnlockAudio = () => {
-      if (video) {
-        video.muted = false;
-        video.volume = 1.0;
-      }
-    };
-
-    window.addEventListener('click', handleUnlockAudio, { once: true, passive: true });
-    window.addEventListener('touchstart', handleUnlockAudio, { once: true, passive: true });
-    window.addEventListener('keydown', handleUnlockAudio, { once: true, passive: true });
-
-    // 1. Intersection Observer: plays when reaching section, pauses when passing section
+    // 1. Intersection Observer: strictly trigger only when section is meaningfully in view
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
             startPlayback();
           } else {
             stopPlayback();
@@ -92,35 +80,16 @@ export default function IdentitySection({ data }: ProfileProps) {
         });
       },
       {
-        threshold: 0.15,
-        rootMargin: '0px 0px 0px 0px',
+        threshold: [0, 0.35, 0.7],
+        rootMargin: '-50px 0px -50px 0px',
       }
     );
 
     observer.observe(video);
 
-    // 2. Active scroll fallback: detects when section is currently in view
-    const checkScrollPosition = () => {
-      if (!video) return;
-      const rect = video.getBoundingClientRect();
-      const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-      const inView = rect.bottom > 80 && rect.top < windowHeight - 80;
-      if (inView) {
-        startPlayback();
-      } else {
-        stopPlayback();
-      }
-    };
-
-    window.addEventListener('scroll', checkScrollPosition, { passive: true });
-    checkScrollPosition();
-
     return () => {
       observer.disconnect();
-      window.removeEventListener('scroll', checkScrollPosition);
-      window.removeEventListener('click', handleUnlockAudio);
-      window.removeEventListener('touchstart', handleUnlockAudio);
-      window.removeEventListener('keydown', handleUnlockAudio);
+      if (!video.paused) video.pause();
     };
   }, []);
 
