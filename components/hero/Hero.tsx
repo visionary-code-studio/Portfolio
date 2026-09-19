@@ -68,12 +68,15 @@ export default function Hero({ data }: HeroProps) {
         {/* Interactive 3D Particle Space Coordinate Layer */}
         <Hero3DCanvas />
 
-        {/* ── Top Row: Massive Centered Headline "VAIBHAV SHAW" ── */}
+        {/* ── Top Row: Symmetrically Balanced Headline VAIBHAV (Left) & SHAW (Right) ── */}
         <div className={styles.headlineRow}>
-          <h1 className={styles.massiveTitle}>
-            <span className={styles.massiveOutline}>{firstName}</span>{' '}
+          <div className={styles.headlineLeft}>
+            <span className={styles.massiveOutline}>{firstName}</span>
+          </div>
+          <div className={styles.headlineSpacer} aria-hidden="true" />
+          <div className={styles.headlineRight}>
             <span className={styles.massiveSolid}>{lastName}</span>
-          </h1>
+          </div>
         </div>
 
         {/* ── Center Stage: Portrait (Anchored Center) + Left Editorial + Right Socials ── */}

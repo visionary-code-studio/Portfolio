@@ -26,40 +26,63 @@
   padding: 0.25rem 0;
 }
 
-/* ── 1. Top Headline: VAIBHAV (Left) & SHAW (Right Corner) ────── */
+/* ── 1. Top Headline: Symmetrical Balance VAIBHAV — [Equal Gap] — [Image] — [Equal Gap] — SHAW ── */
 .headlineRow {
   position: relative;
   width: 100%;
   z-index: 3;
   margin-top: 0.25rem;
   pointer-events: none;
-  padding: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.2rem, 3vw, 3.2rem);
+  padding: 0 1rem;
 }
 
-.massiveTitle {
+.headlineLeft {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.headlineSpacer {
+  width: clamp(260px, 30vw, 420px);
+  flex-shrink: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.headlineRight {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.massiveOutline,
+.massiveSolid {
   font-family: var(--font-heading);
-  font-size: clamp(2.4rem, 6.8vw, 6.2rem);
+  font-size: clamp(2.4rem, 6.2vw, 5.8rem);
   font-weight: 800;
   letter-spacing: -0.02em;
   text-transform: uppercase;
   line-height: 1;
   margin: 0;
   padding: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
+  white-space: nowrap;
 }
 
 .massiveOutline {
   color: transparent;
   -webkit-text-stroke: 2px #0f172a;
-  text-align: left;
+  text-align: right;
 }
 
 .massiveSolid {
   color: #0f172a;
-  text-align: right;
+  text-align: left;
 }
 
 /* ── 2. Center Stage Grid: Left Bio & Centered Portrait ───── */
@@ -387,12 +410,23 @@
     gap: 2rem;
   }
   .headlineRow {
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0;
     margin-top: 1rem;
   }
-  .massiveTitle {
+  .headlineSpacer {
+    display: none;
+  }
+  .headlineLeft,
+  .headlineRight {
+    justify-content: center;
+    width: 100%;
+  }
+  .massiveOutline,
+  .massiveSolid {
     font-size: clamp(2rem, 9vw, 3.5rem);
-    flex-direction: column;
-    gap: 0;
+    text-align: center;
   }
   .stageGrid {
     display: flex;
