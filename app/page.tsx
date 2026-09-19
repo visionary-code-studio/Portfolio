@@ -24,14 +24,11 @@ import {
   loadPortfolioContentLocally,
   subscribeToPortfolioSync,
 } from '@/lib/storageSync';
-import VisitorNotification from '@/components/ui/VisitorNotification';
-import InquiryModal from '@/components/contact/InquiryModal';
 
 export default function Home() {
   const [content, setContent] = useState(fallbackData);
   const [pptModal, setPptModal] = useState<Presentation | null>(null);
   const [certModal, setCertModal] = useState<Certification | null>(null);
-  const [inquiryOpen, setInquiryOpen] = useState(false);
 
   // Sync with live data from API and Admin multi-tab events
   useEffect(() => {
@@ -174,16 +171,6 @@ export default function Home() {
           onClose={() => setCertModal(null)}
         />
       )}
-
-      {/* Live Visitor Welcome Notification Toast (Option 1) */}
-      <VisitorNotification onOpenInquiry={() => setInquiryOpen(true)} />
-
-      {/* Floating Interactive Inquiry Pop-Up */}
-      <InquiryModal
-        isOpen={inquiryOpen}
-        onClose={() => setInquiryOpen(false)}
-        defaultEmail={content.profile?.email}
-      />
     </>
   );
 }
