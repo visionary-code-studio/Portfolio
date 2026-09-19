@@ -564,30 +564,24 @@ export default function AdminPage() {
         </button>
 
         <div className={styles.sidebarTop}>
-          {/* macOS Window Controls */}
-          <div className={styles.windowControls}>
-            <span className={`${styles.trafficDot} ${styles.trafficDotClose}`} />
-            <span className={`${styles.trafficDot} ${styles.trafficDotMin}`} />
-            <span className={`${styles.trafficDot} ${styles.trafficDotExpand}`} />
-          </div>
-
-          {/* Workspace Switcher Header Card */}
-          <div className={styles.workspaceHeader}>
-            <div className={styles.workspaceLeft}>
-              <div className={styles.brandIconBox}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="m21.12 6.4-6.05-4.06a2 2 0 0 0-2.17-.05L2.95 8.41a2 2 0 0 0-.95 1.7v5.82a2 2 0 0 0 .88 1.66l6.05 4.07a2 2 0 0 0 2.18.05l9.9-6.13a2 2 0 0 0 .99-1.7V9.74a2 2 0 0 0-.88-1.66Z" />
-                  <polyline points="3.29 7 12 12.67 20.71 8" />
-                  <line x1="12" y1="22.76" x2="12" y2="12.56" />
-                </svg>
-              </div>
-              <div className={styles.workspaceMeta}>
-                <span className={styles.workspaceTitle}>Vaibhav Portfolio</span>
-                <span className={styles.workspaceSub}>admin.vaibhav.dev</span>
+          {/* Executive Signature Brand Logo (Matching Image 2 Reference) */}
+          <Link href="/" className={styles.sidebarBrandBadge} title="Vaibhav Shaw — Return to Live Portfolio">
+            <div className={styles.badgePins} aria-hidden="true">
+              <span className={styles.badgePin} />
+              <span className={styles.badgePin} />
+            </div>
+            <div className={styles.badgeContentFull}>
+              <div className={styles.badgeSignature}>Vaibhav Shaw</div>
+              <div className={styles.badgeDivider} />
+              <div className={styles.badgeDetails}>
+                <span className={styles.badgeSub}>AIML STUDENT</span>
+                <span className={styles.badgeSub}>FULL STACK DEVELOPER</span>
               </div>
             </div>
-            <span className={styles.switcherChevron}>⇅</span>
-          </div>
+            <div className={styles.badgeContentCompact} aria-hidden="true">
+              <span className={styles.compactSignature}>VS</span>
+            </div>
+          </Link>
 
           {/* Structured Navigation Groups */}
           <div className={styles.navContainer}>
@@ -823,7 +817,6 @@ export default function AdminPage() {
             {savedToast && <span className={styles.toast}>✓ Saved &amp; Synced to Live Site</span>}
             <button onClick={handleSave} disabled={loading} className={styles.saveBtn}>
               <span>{loading ? 'Saving...' : 'Save Changes'}</span>
-              <span>💾</span>
             </button>
           </div>
         </div>
