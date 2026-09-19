@@ -2,6 +2,15 @@ import type { Presentation } from '@/types';
 
 export const presentations: Presentation[] = [
   {
+    id: 'ppt-nike-brand-deal',
+    title: "Nike's Brand Deal",
+    description: 'Strategic partnership presentation and brand collaboration deck for Nike campaign.',
+    category: 'AI / ML',
+    year: 2026,
+    preview: '/images/presentations/ai-education.svg',
+    file: '/ppt/nike-brand-deal.pdf',
+  },
+  {
     id: 'ppt-01',
     title: 'AI in Education',
     description: 'Exploring how artificial intelligence can transform personalized learning experiences at scale.',

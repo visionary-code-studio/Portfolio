@@ -20,36 +20,64 @@ import WebGLSplashReveal from '@/components/splash/WebGLSplashReveal';
 
 import fallbackData from '@/data/portfolio-content.json';
 import type { Presentation, Certification } from '@/types';
+import {
+  loadPortfolioContentLocally,
+  subscribeToPortfolioSync,
+} from '@/lib/storageSync';
 
 export default function Home() {
   const [content, setContent] = useState(fallbackData);
   const [pptModal, setPptModal] = useState<Presentation | null>(null);
   const [certModal, setCertModal] = useState<Certification | null>(null);
 
-  // Sync with live data from API
+  // Sync with live data from API and Admin multi-tab events
   useEffect(() => {
-    // 1. Initial fast hydration from local backup before network finishes
-    const localBackup = typeof window !== 'undefined' ? localStorage.getItem('vaibhav_portfolio_content_backup') : null;
-    if (localBackup) {
-      try {
-        setContent((prev) => ({ ...prev, ...JSON.parse(localBackup) }));
-      } catch (e) {}
+    // 1. Initial fast hydration from local customized data
+    const localData = loadPortfolioContentLocally(fallbackData);
+    if (localData) {
+      setContent(localData);
     }
 
-    // 2. Fetch authoritative fresh live data from server API
+    // 2. Real-time multi-tab listener (instant update when Admin changes anything)
+    const unsubscribeSync = subscribeToPortfolioSync((newData) => {
+      if (newData) {
+        setContent((prev) => ({ ...prev, ...newData }));
+      }
+    });
+
+    // 3. Fetch fresh live data from server API
     fetch('/api/content')
       .then((res) => res.json())
       .then((json) => {
         if (json.success && json.data) {
-          setContent(json.data);
-          if (typeof window !== 'undefined') {
-            try {
-              localStorage.setItem('vaibhav_portfolio_content_backup', JSON.stringify(json.data));
-            } catch (e) {}
+          const rawLocal = typeof window !== 'undefined' ? localStorage.getItem('vaibhav_portfolio_content_backup') : null;
+          let parsedLocal: any = null;
+          if (rawLocal) {
+            try { parsedLocal = JSON.parse(rawLocal); } catch {}
+          }
+
+          // If local backup was customized by admin and is newer, keep user's changes!
+          const localIsUserEdited = parsedLocal && parsedLocal._userEdited;
+          const localTime = parsedLocal?._updatedAt || 0;
+          const serverTime = json.data._updatedAt || 0;
+
+          if (localIsUserEdited && localTime >= serverTime) {
+            setContent((prev) => ({ ...prev, ...parsedLocal }));
+          } else {
+            setContent(json.data);
+            if (typeof window !== 'undefined') {
+              try {
+                localStorage.setItem('vaibhav_portfolio_content_backup', JSON.stringify(json.data));
+              } catch (e) {}
+            }
           }
         }
       })
-      .catch((err) => console.log('Using default local portfolio data', err));
+      .catch((err) => console.log('Using default portfolio data', err));
+
+    return () => {
+      unsubscribeSync();
+    };
   }, []);
 
   const visibility = content.sectionVisibility || {};

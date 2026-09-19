@@ -4,9 +4,24 @@ import path from 'path';
 
 const dataFilePath = path.join(process.cwd(), 'data', 'portfolio-content.json');
 
+// In-memory serverless cache across warm lambda invocations
+declare global {
+  // eslint-disable-next-line no-var
+  var __PORTFOLIO_CONTENT_CACHE__: any;
+}
+
 export async function GET() {
   try {
-    // Check if customized content exists in Vercel Blob storage
+    // 1. Check in-memory server cache
+    if (globalThis.__PORTFOLIO_CONTENT_CACHE__) {
+      return NextResponse.json({
+        success: true,
+        data: globalThis.__PORTFOLIO_CONTENT_CACHE__,
+        source: 'server-memory',
+      });
+    }
+
+    // 2. Check if customized content exists in Vercel Blob storage
     if (process.env.BLOB_READ_WRITE_TOKEN) {
       try {
         const { list } = await import('@vercel/blob');
@@ -15,6 +30,7 @@ export async function GET() {
           const res = await fetch(blobs[0].url);
           if (res.ok) {
             const data = await res.json();
+            globalThis.__PORTFOLIO_CONTENT_CACHE__ = data;
             return NextResponse.json({ success: true, data, source: 'vercel-blob' });
           }
         }
@@ -47,17 +63,26 @@ export async function POST(request: Request) {
 
     // Read existing content
     let existingData: any = {};
-    try {
-      const current = await fs.readFile(dataFilePath, 'utf-8');
-      existingData = JSON.parse(current);
-    } catch {
-      existingData = {};
+    if (globalThis.__PORTFOLIO_CONTENT_CACHE__) {
+      existingData = globalThis.__PORTFOLIO_CONTENT_CACHE__;
+    } else {
+      try {
+        const current = await fs.readFile(dataFilePath, 'utf-8');
+        existingData = JSON.parse(current);
+      } catch {
+        existingData = {};
+      }
     }
 
     const updatedData = {
       ...existingData,
       ...body,
+      _updatedAt: Date.now(),
+      _userEdited: true,
     };
+
+    // Update in-memory server cache
+    globalThis.__PORTFOLIO_CONTENT_CACHE__ = updatedData;
 
     // If Vercel Blob is configured, save JSON to Blob storage for permanent cross-session persistence
     if (process.env.BLOB_READ_WRITE_TOKEN) {
@@ -85,7 +110,7 @@ export async function POST(request: Request) {
       ) {
         return NextResponse.json({
           success: true,
-          message: 'Changes received in Vercel serverless environment.',
+          message: 'Changes received and cached in Vercel serverless environment.',
           data: updatedData,
           isVercelReadOnly: true,
         });

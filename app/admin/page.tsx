@@ -6,6 +6,11 @@ import { resolveAutoPreview, cleanFileNameToTitle, detectFileFormat } from '@/li
 import { auth, storage } from '@/lib/firebase';
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged, type User } from 'firebase/auth';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import {
+  savePortfolioContentLocally,
+  loadPortfolioContentLocally,
+  storeDocumentInDb,
+} from '@/lib/storageSync';
 import styles from './admin.module.css';
 
 type Tab =
@@ -39,8 +44,8 @@ export default function AdminPage() {
     category: 'AI / ML',
     year: 2026,
     event: 'Academic Presentation',
-    preview: '/images/presentations/ai-education.svg',
-    file: '/ppt/ppt-01.pdf',
+    preview: '',
+    file: '',
     featured: true,
     published: true,
   });
@@ -52,8 +57,8 @@ export default function AdminPage() {
     year: 2026,
     category: 'AI / ML',
     credentialId: '',
-    preview: '/images/certificates/cert-genai.svg',
-    file: '/certs/cert-01.pdf',
+    preview: '',
+    file: '',
     published: true,
   });
   const [showAddCert, setShowAddCert] = useState(false);
@@ -84,40 +89,35 @@ export default function AdminPage() {
     return () => unsubscribe();
   }, []);
 
-  // Fetch live portfolio content
+  // Fetch live portfolio content prioritizing local customizations
   useEffect(() => {
+    // 1. Instant load from local backup
+    const local = loadPortfolioContentLocally(null);
+    if (local) {
+      setData(local);
+    }
+
+    // 2. Fetch fresh live data from server API
     fetch('/api/content')
       .then((res) => res.json())
       .then((json) => {
         if (json.success && json.data) {
-          setData(json.data);
+          const rawLocal = typeof window !== 'undefined' ? localStorage.getItem('vaibhav_portfolio_content_backup') : null;
+          let parsedLocal: any = null;
+          if (rawLocal) {
+            try { parsedLocal = JSON.parse(rawLocal); } catch {}
+          }
+          if (parsedLocal && parsedLocal._userEdited && (parsedLocal._updatedAt || 0) >= (json.data._updatedAt || 0)) {
+            setData(parsedLocal);
+          } else {
+            setData(json.data);
+          }
         }
       })
       .catch((err) => console.error('Failed to load portfolio content:', err));
   }, []);
 
-  // Safe LocalStorage Backup that never throws QuotaExceededError
-  const safeLocalStorageBackup = (updatedData: any) => {
-    if (typeof window === 'undefined') return;
-    try {
-      const sanitized = {
-        ...updatedData,
-        presentations: updatedData.presentations?.map((p: any) => ({
-          ...p,
-          file: typeof p.file === 'string' && p.file.startsWith('data:') && p.file.length > 50000 ? '' : p.file,
-        })),
-        certifications: updatedData.certifications?.map((c: any) => ({
-          ...c,
-          file: typeof c.file === 'string' && c.file.startsWith('data:') && c.file.length > 50000 ? '' : c.file,
-        })),
-      };
-      localStorage.setItem('vaibhav_portfolio_content_backup', JSON.stringify(sanitized));
-    } catch (e) {
-      console.warn('LocalStorage quota limit reached, relying on server storage:', e);
-    }
-  };
-
-  // Generic File Upload Handler supporting up to 100MB+ with Cloud & Local storage
+  // Generic File Upload Handler supporting up to 100MB+ with IndexedDB, Cloud & Local storage
   const handleFileUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
     onSuccess: (url: string, originalName: string) => void,
@@ -127,7 +127,18 @@ export default function AdminPage() {
     if (!file) return;
 
     setUploading(fieldKey);
-    setUploadProgress(0);
+    setUploadProgress(10);
+
+    // Save directly to browser IndexedDB (Supports up to 100MB+ without any cloud or server quota issues)
+    let localFileId = '';
+    let objectUrl = '';
+    try {
+      localFileId = `doc_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+      await storeDocumentInDb(localFileId, file, file.name);
+      objectUrl = URL.createObjectURL(file);
+    } catch (idbErr) {
+      console.warn('IndexedDB store notice:', idbErr);
+    }
 
     // Strategy 1: Attempt direct upload to Firebase Cloud Storage (ideal for 100MB+ files)
     if (storage) {
@@ -168,34 +179,46 @@ export default function AdminPage() {
     }
 
     // Strategy 2: Attempt standard API upload (works on local disk & Vercel Blob)
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      let json: any = null;
+    if (file.size <= 4.5 * 1024 * 1024) {
       try {
-        json = await res.json();
-      } catch {
-        json = null;
-      }
+        setUploadProgress(40);
+        const formData = new FormData();
+        formData.append('file', file);
 
-      if (res.ok && json && json.success && json.url) {
-        onSuccess(json.url, file.name);
-        setUploading(null);
-        setUploadProgress(null);
-        e.target.value = '';
-        return;
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        let json: any = null;
+        try {
+          json = await res.json();
+        } catch {
+          json = null;
+        }
+
+        if (res.ok && json && json.success && json.url) {
+          onSuccess(json.url, file.name);
+          setUploading(null);
+          setUploadProgress(null);
+          e.target.value = '';
+          return;
+        }
+      } catch (apiErr) {
+        console.warn('API upload unavailable, using client storage:', apiErr);
       }
-    } catch (apiErr) {
-      console.warn('API upload unavailable, checking file size fallback:', apiErr);
     }
 
-    // Strategy 3: Client-side reader fallback (safe for sizes <= 15MB)
+    // Strategy 3: Client Object URL / IndexedDB fallback (instant and supports 100MB+ documents)
+    if (objectUrl) {
+      onSuccess(objectUrl, file.name);
+      setUploading(null);
+      setUploadProgress(null);
+      e.target.value = '';
+      return;
+    }
+
+    // Strategy 4: Client-side reader fallback
     if (file.size <= 15 * 1024 * 1024) {
       try {
         const reader = new FileReader();
@@ -220,7 +243,6 @@ export default function AdminPage() {
       }
     }
 
-    alert('File is large. Please connect Firebase Storage or Vercel Blob in your project for global 100MB+ CDN links.');
     setUploading(null);
     setUploadProgress(null);
     e.target.value = '';
@@ -305,24 +327,14 @@ export default function AdminPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      const result = await res.json();
-
-      // 2. Safe local storage backup (never throws quota errors)
-      safeLocalStorageBackup(data);
-
-      if (result.success) {
-        setSavedToast(true);
-        setTimeout(() => setSavedToast(false), 3500);
-      } else {
-        setSavedToast(true);
-        setTimeout(() => setSavedToast(false), 3500);
-      }
+      await res.json();
     } catch (err) {
-      console.warn('Network error saving to server, saved locally in browser:', err);
-      safeLocalStorageBackup(data);
+      console.warn('Server sync note, persisting locally and broadcasting:', err);
+    } finally {
+      // 2. Safe local storage backup & multi-tab broadcast
+      savePortfolioContentLocally(data);
       setSavedToast(true);
       setTimeout(() => setSavedToast(false), 3500);
-    } finally {
       setLoading(false);
     }
   };
@@ -380,21 +392,17 @@ export default function AdminPage() {
 
     // 1. Post to Server API FIRST to guarantee persistence on portfolio
     try {
-      const res = await fetch('/api/content', {
+      await fetch('/api/content', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedData),
       });
-      if (res.ok) {
-        setSavedToast(true);
-        setTimeout(() => setSavedToast(false), 3500);
-      }
     } catch (apiErr) {
       console.warn('Server API save note:', apiErr);
     }
 
-    // 2. Safe local browser backup
-    safeLocalStorageBackup(updatedData);
+    // 2. Multi-tab broadcast & safe local storage backup
+    savePortfolioContentLocally(updatedData);
     setSavedToast(true);
     setTimeout(() => setSavedToast(false), 3500);
   };
@@ -415,7 +423,7 @@ export default function AdminPage() {
     } catch (err) {
       console.warn('API save note on delete:', err);
     }
-    safeLocalStorageBackup(updatedData);
+    savePortfolioContentLocally(updatedData);
   };
 
   // Certifications CRUD with Immediate Auto-Persist (Local & Deploy)
@@ -459,21 +467,17 @@ export default function AdminPage() {
 
     // 1. Post to Server API FIRST to guarantee persistence on portfolio
     try {
-      const res = await fetch('/api/content', {
+      await fetch('/api/content', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedData),
       });
-      if (res.ok) {
-        setSavedToast(true);
-        setTimeout(() => setSavedToast(false), 3500);
-      }
     } catch (apiErr) {
       console.warn('Server API save note:', apiErr);
     }
 
-    // 2. Safe local browser backup
-    safeLocalStorageBackup(updatedData);
+    // 2. Multi-tab broadcast & safe local storage backup
+    savePortfolioContentLocally(updatedData);
     setSavedToast(true);
     setTimeout(() => setSavedToast(false), 3500);
   };
@@ -494,7 +498,7 @@ export default function AdminPage() {
     } catch (err) {
       console.warn('API save note on delete:', err);
     }
-    safeLocalStorageBackup(updatedData);
+    savePortfolioContentLocally(updatedData);
   };
 
   // Interests CRUD
@@ -1612,11 +1616,17 @@ export default function AdminPage() {
                   </div>
                   <div className={styles.itemActions}>
                     <a
-                      href={ppt.file}
+                      href={ppt.file || ppt.preview || '#'}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={styles.iconBtn}
                       style={{ textDecoration: 'none' }}
+                      onClick={(e) => {
+                        if (!ppt.file && ppt.preview) {
+                          e.preventDefault();
+                          window.open(ppt.preview, '_blank');
+                        }
+                      }}
                     >
                       Open File ↗
                     </a>
@@ -1826,11 +1836,17 @@ export default function AdminPage() {
                   </div>
                   <div className={styles.itemActions}>
                     <a
-                      href={cert.file}
+                      href={cert.file || cert.preview || '#'}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={styles.iconBtn}
                       style={{ textDecoration: 'none' }}
+                      onClick={(e) => {
+                        if (!cert.file && cert.preview) {
+                          e.preventDefault();
+                          window.open(cert.preview, '_blank');
+                        }
+                      }}
                     >
                       View ↗
                     </a>
