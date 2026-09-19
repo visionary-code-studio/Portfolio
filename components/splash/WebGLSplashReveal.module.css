@@ -11,7 +11,7 @@
   justify-content: center;
   user-select: none;
   background: #f8f9fc;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: default;
 }
 
@@ -25,35 +25,51 @@
   pointer-events: none;
 }
 
-.contentWrap {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 1400px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 3rem var(--margin-desktop) 2.5rem;
-  text-align: center;
+/* Background Atmospheric Gradient & Glow */
+.ambientGlow {
+  position: absolute;
+  inset: 0;
   pointer-events: none;
-  will-change: opacity, transform;
+  z-index: 1;
+  background: radial-gradient(circle at 50% 50%, rgba(217, 119, 6, 0.05) 0%, transparent 70%);
+  transition: opacity 0.6s ease;
 }
 
-/* Top Monogram */
+/* ── Top Header Bar (Monogram Logo + Audio & Skip Controls) ── */
+.topNavRow {
+  position: absolute;
+  top: 1.75rem;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 clamp(1.25rem, 4vw, 3.5rem);
+  pointer-events: none;
+}
+
 .topBadge {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: inline-flex;
   align-items: center;
   gap: 0.85rem;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(0, 0, 0, 0.08);
   padding: 0.35rem 1.15rem 0.35rem 0.45rem;
   border-radius: 999px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
   pointer-events: auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.topBadge:hover {
+  transform: translateX(-50%) translateY(-1px);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.08);
 }
 
 .logoCircle {
@@ -77,53 +93,204 @@
   color: #0f172a;
 }
 
-/* Bold Main Title */
-.headlineBlock {
+.topControls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  pointer-events: auto;
+}
+
+.controlBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+.controlBtn:hover {
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.15);
+}
+
+.audioPulse {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #d97706;
+  box-shadow: 0 0 10px #d97706;
+  animation: audioPulseAnim 1.4s infinite ease-in-out;
+}
+
+@keyframes audioPulseAnim {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.5; }
+}
+
+/* ── Center Stage & Sequential Typographic Experience ── */
+.centerStage {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1300px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 1.5rem 6rem;
+  pointer-events: none;
+  text-align: center;
+}
+
+/* Step 0: Flute Stage Instruction */
+.fluteGreeting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: 17rem;
+  animation: fadeInGreeting 1s ease-out forwards;
+}
+
+@keyframes fadeInGreeting {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fluteLabel {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #d97706;
+  background: rgba(217, 119, 6, 0.08);
+  border: 1px solid rgba(217, 119, 6, 0.2);
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+}
+
+.fluteInstruction {
+  font-family: var(--font-heading);
+  font-size: clamp(1.15rem, 2.2vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #0f172a;
+  margin: 0;
+}
+
+/* Word Reveal Flow (Steps 1 through 7) */
+.storyboardArea {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin: auto 0;
-  gap: 0.75rem;
+  max-width: 1100px;
+  min-height: 280px;
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.mainTitle {
+/* In Step 8 (Unity at Bottom), the text scales and docks gracefully to the bottom */
+.storyboardArea.dockedBottom {
+  margin-top: auto;
+  margin-bottom: 2rem;
+  transform: translateY(0);
+}
+
+.wordLinePrimary {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.85rem;
-  margin: 0;
-  padding: 0;
-  text-transform: uppercase;
-}
-
-.titleLineOne {
+  justify-content: center;
+  gap: clamp(0.6rem, 1.8vw, 1.8rem);
   font-family: var(--font-heading);
-  font-size: clamp(2.2rem, 6.5vw, 5.8rem);
+  font-size: clamp(2.6rem, 7.5vw, 6.4rem);
   font-weight: 800;
   letter-spacing: -0.03em;
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 2px #0f172a;
+  line-height: 1.05;
+  text-transform: uppercase;
+  margin: 0;
 }
 
-.titleLineTwo {
+.wordLineSecondary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.5rem, 1.4vw, 1.4rem);
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 5.8vw, 5.2rem);
+  font-size: clamp(1.8rem, 5.2vw, 4.2rem);
   font-weight: 800;
   letter-spacing: -0.025em;
-  line-height: 1.05;
-  color: #0f172a;
+  line-height: 1.1;
+  text-transform: uppercase;
+  margin: 0.75rem 0 0;
 }
 
-/* Subtitle & Role */
-.subBlock {
+/* Individual Animated Word */
+.wordToken {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(35px) scale(0.92);
+  filter: blur(8px);
+  transition: all 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity, filter;
+}
+
+.wordToken.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+/* Stroke vs Solid styles matching portfolio palette */
+.tokenStroke {
+  color: transparent;
+  -webkit-text-stroke: 2.2px #0f172a;
+}
+
+.tokenSolid {
+  color: #0f172a;
+  text-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+}
+
+.tokenAccent {
+  color: #d97706;
+  text-shadow: 0 0 35px rgba(217, 119, 6, 0.3);
+}
+
+/* Sub-role and tagline for the unified layout */
+.roleBlock {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
-  max-width: 680px;
+  gap: 0.65rem;
+  margin-top: 1.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.roleBlock.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .tagPill {
@@ -132,7 +299,7 @@
   gap: 0.55rem;
   background: rgba(15, 23, 42, 0.05);
   border: 1px solid rgba(15, 23, 42, 0.1);
-  padding: 0.4rem 1.1rem;
+  padding: 0.4rem 1.15rem;
   border-radius: 999px;
   font-family: var(--font-mono);
   font-size: 0.72rem;
@@ -156,28 +323,24 @@
   50% { opacity: 0.4; transform: scale(0.8); }
 }
 
-.tagline {
-  font-family: var(--font-body);
-  font-size: clamp(0.95rem, 1.3vw, 1.1rem);
-  font-weight: 500;
-  color: #64748b;
-  line-height: 1.55;
-  margin: 0;
-}
-
-/* Bottom Reveal Cue */
-.bottomCue {
+/* ── Bottom Action & Step Indicators ── */
+.bottomNavRow {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.85rem;
-  margin-top: 1.5rem;
+  pointer-events: auto;
 }
 
-.revealBtn {
+.scrollActionBtn {
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.7rem;
   padding: 0.85rem 1.85rem;
   border-radius: 999px;
   background: #0f172a;
@@ -188,20 +351,30 @@
   letter-spacing: 0.02em;
   border: none;
   cursor: pointer;
-  pointer-events: auto;
-  transition: all 0.25s var(--ease-out-expo);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18);
 }
 
-.revealBtn:hover {
+.scrollActionBtn:hover {
   background: #000000;
   transform: translateY(-2px);
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.28);
 }
 
+.scrollActionBtn.finalAction {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  box-shadow: 0 8px 28px rgba(217, 119, 6, 0.35);
+}
+
+.scrollActionBtn.finalAction:hover {
+  background: linear-gradient(135deg, #b45309, #92400e);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 34px rgba(217, 119, 6, 0.45);
+}
+
 .arrowIcon {
   font-size: 1rem;
-  animation: bounceArrow 2s infinite ease-in-out;
+  animation: bounceArrow 1.8s infinite ease-in-out;
 }
 
 @keyframes bounceArrow {
@@ -209,36 +382,67 @@
   50% { transform: translateY(4px); }
 }
 
-.scrollIndicatorLine {
-  width: 1px;
-  height: 28px;
-  background: linear-gradient(to bottom, #0f172a, transparent);
-  animation: scrollPulse 2s infinite ease-in-out;
+/* Step Progress Indicator Dots */
+.stepDotsTrack {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
 }
 
-@keyframes scrollPulse {
-  0% { transform: scaleY(0); transform-origin: top; }
-  50% { transform: scaleY(1); transform-origin: top; }
-  50.1% { transform: scaleY(1); transform-origin: bottom; }
-  100% { transform: scaleY(0); transform-origin: bottom; }
+.stepDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.2);
+  transition: all 0.3s ease;
 }
 
-/* Responsive */
+.stepDot.activeDot {
+  background: #d97706;
+  transform: scale(1.3);
+}
+
+.stepDot.passedDot {
+  background: #0f172a;
+}
+
+/* ── Responsive adjustments ── */
 @media (max-width: 768px) {
-  .contentWrap {
-    padding: 2.5rem 1.25rem 2rem;
+  .topNavRow {
+    padding: 0 1rem;
+    top: 1.25rem;
   }
-  .mainTitle {
-    gap: 0.5rem;
+  .monogramText {
+    display: none;
   }
-  .titleLineOne {
-    font-size: clamp(1.8rem, 8vw, 3.2rem);
+  .centerStage {
+    padding: 4.5rem 1rem 5rem;
+  }
+  .fluteGreeting {
+    margin-top: 12rem;
+  }
+  .wordLinePrimary {
+    font-size: clamp(2rem, 9.5vw, 3.4rem);
+    gap: 0.45rem;
+  }
+  .tokenStroke {
     -webkit-text-stroke: 1.5px #0f172a;
   }
-  .titleLineTwo {
-    font-size: clamp(1.6rem, 7.2vw, 2.8rem);
+  .wordLineSecondary {
+    font-size: clamp(1.4rem, 6.8vw, 2.3rem);
+    gap: 0.35rem;
   }
-  .scrollIndicatorLine {
-    display: none;
+  .controlBtn {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.72rem;
+  }
+  .scrollActionBtn {
+    padding: 0.75rem 1.4rem;
+    font-size: 0.8rem;
   }
 }
