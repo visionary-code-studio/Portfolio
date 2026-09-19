@@ -105,9 +105,14 @@ export default function Home() {
           />
         )}
 
-        {/* 02 — Identity: New profile_update image + technical badge + stats */}
+        {/* 02 — Identity: Welcoming intro video with scroll auto-play + technical badge + stats */}
         {visibility.identity !== false && (
-          <IdentitySection data={content.profile} />
+          <IdentitySection
+            data={{
+              ...content.profile,
+              heroVideo: content.hero?.heroVideo || content.profile?.heroVideo || '/video/Intro.mp4',
+            }}
+          />
         )}
 
         {/* Kinetic marquee separator */}

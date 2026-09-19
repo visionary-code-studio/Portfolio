@@ -1,5 +1,6 @@
 'use client';
 
+import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Card3D from '@/components/ui/Card3D';
 import ScrollImageReveal from '@/components/ui/ScrollImageReveal';
@@ -13,6 +14,7 @@ interface ProfileProps {
     tagline?: string;
     shortIntro?: string;
     profileImage?: string;
+    heroVideo?: string;
     university?: {
       name?: string;
       degree?: string;
@@ -30,11 +32,76 @@ interface ProfileProps {
 }
 
 export default function IdentitySection({ data }: ProfileProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
   const fullName = data?.fullName || 'Vaibhav Shaw';
   const profileImage = data?.profileImage || '/images/profile_update.png';
+  const videoSrc = data?.heroVideo || '/video/Intro.mp4';
   const cgpa = data?.university?.cgpa || '9.38';
   const yearSem = data?.university?.year ? `${data.university.year} · ${data.university.semester || 'Sem 3'}` : '2nd Year · 3rd Sem';
   const shortIntro = data?.shortIntro || 'Student of Sister Nivedita University pursuing B.Tech CSE in AIML. Building ideas through curiosity and turning research into reality.';
+
+  // Automatically start playing the intro welcoming video as soon as the user scrolls to this section
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Enforce necessary attributes for seamless, unrestricted autoplay across mobile and desktop
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.loop = true;
+
+    const startPlayback = () => {
+      if (video.paused) {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // Autoplay deferred by browser until interaction or in-view visibility
+          });
+        }
+      }
+    };
+
+    // 1. Intersection Observer: instantly triggers when user scrolls into the intro video section
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            startPlayback();
+          } else {
+            // Pause when scrolled away to conserve device memory & battery
+            if (!video.paused) {
+              video.pause();
+            }
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: '60px 0px 60px 0px', // Pre-trigger 60px before arriving for seamless immediate start
+      }
+    );
+
+    observer.observe(video);
+
+    // 2. Active scroll fallback
+    const checkScrollPosition = () => {
+      if (!video) return;
+      const rect = video.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+      if (isVisible) {
+        startPlayback();
+      }
+    };
+
+    window.addEventListener('scroll', checkScrollPosition, { passive: true });
+    checkScrollPosition();
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', checkScrollPosition);
+    };
+  }, []);
 
   const stats = [
     { value: cgpa, label: 'CGPA (Cumulative)' },
@@ -97,11 +164,13 @@ export default function IdentitySection({ data }: ProfileProps) {
             <div className={styles.photoWrap}>
               <ScrollImageReveal direction="up" delay={150} glare={true}>
                 <video
-                  src="/video/Intro.mp4"
+                  ref={videoRef}
+                  src={videoSrc}
                   autoPlay
                   loop
                   muted
                   playsInline
+                  preload="auto"
                   className={styles.photo}
                   style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                 />
