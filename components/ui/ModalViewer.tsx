@@ -42,8 +42,17 @@ export default function ModalViewer({ item, type, onClose }: Props) {
 
   const targetFile = item.file || item.preview || '';
   const format = detectFileFormat(targetFile);
-  const isPdf = format.ext === 'pdf' || targetFile.startsWith('data:application/pdf');
-  const isPpt = format.iconType === 'presentation';
+  const isPdf = format.ext === 'pdf' || targetFile.startsWith('data:application/pdf') || targetFile.toLowerCase().includes('.pdf');
+  
+  // Is this a presentation slides format (PPT, PPTX, etc.)
+  const isPptx =
+    format.ext === 'pptx' ||
+    format.ext === 'ppt' ||
+    format.ext === 'pps' ||
+    format.ext === 'ppsx' ||
+    format.ext === 'key' ||
+    format.ext === 'odp' ||
+    (type === 'ppt' && !isPdf);
 
   const autoResolved = resolveAutoPreview(
     item.preview || item.file || '',
@@ -53,6 +62,14 @@ export default function ModalViewer({ item, type, onClose }: Props) {
   );
   const displayImageSrc = autoResolved.previewUrl;
 
+  // Resolve safe fallback view and download targets (never undefined or broken)
+  const defaultFallbackPath = type === 'ppt' ? '/ppt/nike-brand-deal.pdf' : '/certs/cert-01.pdf';
+  const effectiveTarget = item.file || item.preview || displayImageSrc || defaultFallbackPath;
+  const viewTarget = effectiveTarget;
+  const downloadTarget = effectiveTarget;
+  const downloadExt = isPptx ? 'pptx' : (isPdf ? 'pdf' : (format.ext !== 'file' ? format.ext : (type === 'ppt' ? 'pptx' : 'pdf')));
+  const downloadFileName = `${(item.title || 'document').toLowerCase().replace(/[^a-z0-9_-]/g, '_')}.${downloadExt}`;
+
   return (
     <div
       className={styles.backdrop}
@@ -61,7 +78,7 @@ export default function ModalViewer({ item, type, onClose }: Props) {
       aria-modal="true"
       aria-label={item.title}
     >
-      <div className={`${styles.modal} ${isPdf || isPpt ? styles.modalWide : ''}`}>
+      <div className={`${styles.modal} ${isPdf ? styles.modalWide : ''}`}>
         {/* Preview / Interactive Document Stage */}
         <div className={`${styles.preview} ${isPdf ? styles.previewPdf : ''}`}>
           {isPdf && item.file ? (
@@ -82,14 +99,6 @@ export default function ModalViewer({ item, type, onClose }: Props) {
                   Open in Tab ↗
                 </a>
               </div>
-            </div>
-          ) : isPpt && item.file?.startsWith('http') ? (
-            <div className={styles.iframeWrapper}>
-              <iframe
-                src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(item.file)}`}
-                title={item.title}
-                className={styles.docIframe}
-              />
             </div>
           ) : displayImageSrc ? (
             <Image
@@ -150,24 +159,38 @@ export default function ModalViewer({ item, type, onClose }: Props) {
           </div>
 
           <div className={styles.actions}>
-            {item.file && (
+            {isPptx ? (
+              /* For PPTX format files: show ONLY Download button + Close because PPT has multiple slides */
               <a
-                href={item.file}
+                href={downloadTarget}
+                download={downloadFileName}
+                className={`${styles.actionBtn} ${styles.primary}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${styles.actionBtn} ${styles.primary}`}
               >
-                {type === 'ppt' ? 'Open Presentation →' : 'View Certificate →'}
+                Download Presentation ↓
               </a>
-            )}
-            {item.file && (
-              <a
-                href={item.file}
-                download
-                className={styles.actionBtn}
-              >
-                Download
-              </a>
+            ) : (
+              /* For PDF presentations and all certificates: ALWAYS show View, Download, and Close (matching Image 2) */
+              <>
+                <a
+                  href={viewTarget}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${styles.actionBtn} ${styles.primary}`}
+                >
+                  {type === 'ppt' ? 'View Presentation →' : 'View Certificate →'}
+                </a>
+                <a
+                  href={downloadTarget}
+                  download={downloadFileName}
+                  className={styles.actionBtn}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Download
+                </a>
+              </>
             )}
             <button className={styles.actionBtn} onClick={onClose}>
               Close

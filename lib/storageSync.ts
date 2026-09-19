@@ -105,11 +105,15 @@ export function savePortfolioContentLocally(data: any) {
       ...taggedData,
       presentations: taggedData.presentations?.map((p: any) => ({
         ...p,
-        file: typeof p.file === 'string' && p.file.startsWith('data:') && p.file.length > 50000 ? (p.preview || '') : p.file,
+        file: typeof p.file === 'string' && p.file.startsWith('data:') && p.file.length > 50000 
+          ? (p.preview || '/ppt/nike-brand-deal.pdf') 
+          : (p.file || p.preview || '/ppt/nike-brand-deal.pdf'),
       })),
       certifications: taggedData.certifications?.map((c: any) => ({
         ...c,
-        file: typeof c.file === 'string' && c.file.startsWith('data:') && c.file.length > 50000 ? (c.preview || '') : c.file,
+        file: typeof c.file === 'string' && c.file.startsWith('data:') && c.file.length > 50000 
+          ? (c.preview || '/certs/cert-01.pdf') 
+          : (c.file || c.preview || '/certs/cert-01.pdf'),
       })),
     };
 

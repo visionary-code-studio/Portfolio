@@ -359,6 +359,7 @@ export default function AdminPage() {
       id: `ppt-${Date.now()}`,
       ...newPpt,
       title: effectiveTitle,
+      file: newPpt.file || newPpt.preview || autoResolved.previewUrl,
       preview: isRasterImage(newPpt.preview) ? newPpt.preview : autoResolved.previewUrl,
     };
 
@@ -435,6 +436,7 @@ export default function AdminPage() {
       id: `cert-${Date.now()}`,
       ...newCert,
       title: effectiveTitle,
+      file: newCert.file || newCert.preview || autoResolved.previewUrl,
       preview: isRasterImage(newCert.preview) ? newCert.preview : autoResolved.previewUrl,
     };
 
