@@ -15,7 +15,11 @@ interface HeroProps {
 }
 
 export default function Hero({ data }: HeroProps) {
-  const posterImage = data?.posterImage || '/images/vaibhav_speaker.png';
+  const rawPoster = data?.posterImage;
+  const posterImage =
+    rawPoster && !rawPoster.includes('profile_update') && rawPoster !== '/images/profile_update.png'
+      ? rawPoster
+      : '/images/vaibhav_speaker.png';
   const firstName = data?.firstName || 'VAIBHAV';
   const lastName = data?.lastName || 'SHAW';
   const role = data?.role || 'AIML Student · Full Stack Developer';
@@ -83,7 +87,7 @@ export default function Hero({ data }: HeroProps) {
           {/* Center Portrait Anchor */}
           <div className={styles.portraitWrap}>
             <img
-              src={posterImage}
+              src={`${posterImage}?v=speaker`}
               alt={`${firstName} ${lastName}`}
               className={styles.portraitImg}
             />

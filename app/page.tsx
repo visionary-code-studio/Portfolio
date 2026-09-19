@@ -35,6 +35,9 @@ export default function Home() {
     // 1. Initial fast hydration from local customized data
     const localData = loadPortfolioContentLocally(fallbackData);
     if (localData) {
+      if (localData.hero && (localData.hero.posterImage === '/images/profile_update.png' || !localData.hero.posterImage)) {
+        localData.hero.posterImage = '/images/vaibhav_speaker.png';
+      }
       setContent(localData);
     }
 
@@ -62,6 +65,12 @@ export default function Home() {
           const serverTime = json.data._updatedAt || 0;
 
           if (localIsUserEdited && localTime >= serverTime) {
+            if (parsedLocal.hero && (parsedLocal.hero.posterImage === '/images/profile_update.png' || !parsedLocal.hero.posterImage)) {
+              parsedLocal.hero.posterImage = '/images/vaibhav_speaker.png';
+              try {
+                localStorage.setItem('vaibhav_portfolio_content_backup', JSON.stringify(parsedLocal));
+              } catch {}
+            }
             setContent((prev) => ({ ...prev, ...parsedLocal }));
           } else {
             setContent(json.data);
