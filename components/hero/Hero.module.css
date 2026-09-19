@@ -26,19 +26,19 @@
   padding: 0.25rem 0;
 }
 
-/* ── 1. Top Headline "VAIBHAV SHAW" ──────────────────────────── */
+/* ── 1. Top Headline: VAIBHAV (Left) & SHAW (Right Corner) ────── */
 .headlineRow {
   position: relative;
   width: 100%;
-  text-align: center;
   z-index: 3;
   margin-top: 0.25rem;
   pointer-events: none;
+  padding: 0 0.5rem;
 }
 
 .massiveTitle {
   font-family: var(--font-heading);
-  font-size: clamp(2.2rem, 7.2vw, 6.2rem);
+  font-size: clamp(2.4rem, 6.8vw, 6.2rem);
   font-weight: 800;
   letter-spacing: -0.02em;
   text-transform: uppercase;
@@ -46,18 +46,20 @@
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 1.5vw;
+  width: 100%;
 }
 
 .massiveOutline {
   color: transparent;
   -webkit-text-stroke: 2px #0f172a;
+  text-align: left;
 }
 
 .massiveSolid {
   color: #0f172a;
+  text-align: right;
 }
 
 /* ── 2. Center Stage Grid: Left Bio & Centered Portrait ───── */

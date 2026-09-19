@@ -126,17 +126,17 @@ export default function Hero({ data }: HeroProps) {
                 '--spotlight-active': spotlight.active ? '1' : '0',
               } as React.CSSProperties}
             >
-              {/* Base Layer: Black & White Keynote Speaker */}
+              {/* Base Layer: Black & White Keynote Speaker (1:1 Pixel Match) */}
               <img
-                src="/images/vaibhav_speaker_bw.png?v=bw"
+                src="/images/vaibhav_speaker_bw.png?v=v2_aligned"
                 alt={`${firstName} ${lastName}`}
                 className={styles.portraitImgBw}
                 draggable={false}
               />
 
-              {/* Top Layer: Full Color Revealed by Cursor Torch Spotlight */}
+              {/* Top Layer: Full Color Revealed by Cursor Torch Spotlight (1:1 Pixel Match) */}
               <img
-                src="/images/vaibhav_speaker.png?v=color"
+                src="/images/vaibhav_speaker.png?v=v2_aligned"
                 alt={`${firstName} ${lastName} in Color`}
                 className={styles.portraitImgColor}
                 draggable={false}
