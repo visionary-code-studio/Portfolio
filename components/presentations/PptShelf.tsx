@@ -4,13 +4,52 @@ import { useState, useRef } from 'react';
 import Image from 'next/image';
 import Card3D from '@/components/ui/Card3D';
 import ScrollImageReveal from '@/components/ui/ScrollImageReveal';
-import { resolveAutoPreview } from '@/lib/previewEngine';
+import { resolveAutoPreview, generateDocumentPreviewSvg } from '@/lib/previewEngine';
 import styles from './PptShelf.module.css';
 import type { Presentation } from '@/types';
 
 interface Props {
   items: Presentation[];
   onOpen: (item: Presentation) => void;
+}
+
+function PptCardThumb({
+  previewSrc,
+  fallbackSrc,
+  title,
+  delay,
+}: {
+  previewSrc: string;
+  fallbackSrc: string;
+  title: string;
+  delay: number;
+}) {
+  const [imgSrc, setImgSrc] = useState(previewSrc);
+  const [errored, setErrored] = useState(false);
+
+  return (
+    <div className={styles.cardThumb}>
+      <ScrollImageReveal direction="up" delay={delay} glare={true}>
+        <Image
+          src={errored ? fallbackSrc : imgSrc}
+          alt={title}
+          fill
+          unoptimized={true}
+          onError={() => {
+            if (!errored) {
+              setErrored(true);
+              setImgSrc(fallbackSrc);
+            }
+          }}
+          className={styles.cardThumbImg}
+          sizes="320px"
+        />
+      </ScrollImageReveal>
+      <div className={styles.cardOverlay}>
+        <span className={styles.cardOpenLabel}>View Slides ↗</span>
+      </div>
+    </div>
+  );
 }
 
 export default function PptShelf({ items, onOpen }: Props) {
@@ -97,6 +136,12 @@ export default function PptShelf({ items, onOpen }: Props) {
               ppt.category
             );
             const previewSrc = autoResolved.previewUrl;
+            const fallbackVector = generateDocumentPreviewSvg({
+              title: ppt.title,
+              issuer: ppt.event || 'Research Archive',
+              category: ppt.category,
+              format: autoResolved.detectedFormat.ext,
+            });
 
             const isHovered = hoveredIdx === i;
             const isLeft = hoveredIdx !== null && i < hoveredIdx;
@@ -131,40 +176,30 @@ export default function PptShelf({ items, onOpen }: Props) {
                     aria-label={`Open presentation: ${ppt.title}`}
                   >
                     <div className={styles.cardTopRow}>
-                      <span className={styles.cardNum}>
-                        {String(i + 1).padStart(2, '0')} // ARCHIVE
-                      </span>
+                      <div className={styles.cardTopLeft}>
+                        <span className={styles.verifiedBadge}>
+                          <span>✓</span>
+                          <span>{ppt.category || 'Presentation'}</span>
+                        </span>
+                        <span
+                          className={styles.formatTag}
+                          style={{
+                            borderColor: autoResolved.detectedFormat.color,
+                            color: autoResolved.detectedFormat.color,
+                          }}
+                        >
+                          {autoResolved.detectedFormat.ext.toUpperCase()}
+                        </span>
+                      </div>
                       <span className={styles.cardYearBadge}>{ppt.year}</span>
                     </div>
 
-                    <div className={styles.cardThumb}>
-                      {previewSrc ? (
-                        <ScrollImageReveal direction="up" delay={(i % 3) * 100} glare={true}>
-                          <Image
-                            src={previewSrc}
-                            alt={ppt.title}
-                            fill
-                            unoptimized={true}
-                            className={styles.cardThumbImg}
-                            sizes="320px"
-                          />
-                        </ScrollImageReveal>
-                      ) : (
-                        <div className={styles.thumbPlaceholder}>
-                          <Image
-                            src="/images/powerpoint-icon.png"
-                            alt="PowerPoint Presentation"
-                            width={60}
-                            height={60}
-                            className={styles.pptBrandLogo}
-                          />
-                          <span className={styles.thumbCat}>{ppt.category || 'PRESENTATION'}</span>
-                        </div>
-                      )}
-                      <div className={styles.cardOverlay}>
-                        <span className={styles.cardOpenLabel}>View Slides ↗</span>
-                      </div>
-                    </div>
+                    <PptCardThumb
+                      previewSrc={previewSrc}
+                      fallbackSrc={fallbackVector}
+                      title={ppt.title}
+                      delay={(i % 3) * 100}
+                    />
 
                     <div className={styles.cardMeta}>
                       <span className={styles.cardCategory}>{ppt.category}</span>

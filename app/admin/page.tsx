@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { resolveAutoPreview, cleanFileNameToTitle, detectFileFormat } from '@/lib/previewEngine';
-import { auth } from '@/lib/firebase';
+import { auth, storage } from '@/lib/firebase';
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged, type User } from 'firebase/auth';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import styles from './admin.module.css';
 
 type Tab =
@@ -24,6 +25,7 @@ export default function AdminPage() {
   const [authError, setAuthError] = useState('');
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState<string | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
 
   const [activeTab, setActiveTab] = useState<Tab>('overview');
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -94,7 +96,28 @@ export default function AdminPage() {
       .catch((err) => console.error('Failed to load portfolio content:', err));
   }, []);
 
-  // Generic File Upload Handler with Fail-Safe Browser Fallback
+  // Safe LocalStorage Backup that never throws QuotaExceededError
+  const safeLocalStorageBackup = (updatedData: any) => {
+    if (typeof window === 'undefined') return;
+    try {
+      const sanitized = {
+        ...updatedData,
+        presentations: updatedData.presentations?.map((p: any) => ({
+          ...p,
+          file: typeof p.file === 'string' && p.file.startsWith('data:') && p.file.length > 50000 ? '' : p.file,
+        })),
+        certifications: updatedData.certifications?.map((c: any) => ({
+          ...c,
+          file: typeof c.file === 'string' && c.file.startsWith('data:') && c.file.length > 50000 ? '' : c.file,
+        })),
+      };
+      localStorage.setItem('vaibhav_portfolio_content_backup', JSON.stringify(sanitized));
+    } catch (e) {
+      console.warn('LocalStorage quota limit reached, relying on server storage:', e);
+    }
+  };
+
+  // Generic File Upload Handler supporting up to 100MB+ with Cloud & Local storage
   const handleFileUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
     onSuccess: (url: string, originalName: string) => void,
@@ -104,8 +127,47 @@ export default function AdminPage() {
     if (!file) return;
 
     setUploading(fieldKey);
+    setUploadProgress(0);
 
-    // Strategy 1: Attempt standard API upload (works on local disk & Vercel Blob)
+    // Strategy 1: Attempt direct upload to Firebase Cloud Storage (ideal for 100MB+ files)
+    if (storage) {
+      try {
+        const uniqueName = `portfolio_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+        const storageRef = ref(storage, `uploads/${uniqueName}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        await new Promise<void>((resolve, reject) => {
+          uploadTask.on(
+            'state_changed',
+            (snapshot) => {
+              const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+              setUploadProgress(progress);
+            },
+            (error) => {
+              console.warn('Firebase Storage upload notice (falling back):', error);
+              reject(error);
+            },
+            async () => {
+              try {
+                const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
+                onSuccess(downloadUrl, file.name);
+                setUploading(null);
+                setUploadProgress(null);
+                e.target.value = '';
+                resolve();
+              } catch (urlErr) {
+                reject(urlErr);
+              }
+            }
+          );
+        });
+        return;
+      } catch (fbErr) {
+        console.warn('Direct cloud upload unavailable, attempting server upload:', fbErr);
+      }
+    }
+
+    // Strategy 2: Attempt standard API upload (works on local disk & Vercel Blob)
     try {
       const formData = new FormData();
       formData.append('file', file);
@@ -125,35 +187,43 @@ export default function AdminPage() {
       if (res.ok && json && json.success && json.url) {
         onSuccess(json.url, file.name);
         setUploading(null);
+        setUploadProgress(null);
         e.target.value = '';
         return;
       }
     } catch (apiErr) {
-      console.warn('API upload unavailable, switching to browser-side local reader:', apiErr);
+      console.warn('API upload unavailable, checking file size fallback:', apiErr);
     }
 
-    // Strategy 2: Automatic Browser-Side FileReader (Fail-safe for Vercel serverless)
-    try {
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (typeof reader.result === 'string') {
-          onSuccess(reader.result, file.name);
-        }
-        setUploading(null);
-        e.target.value = '';
-      };
-      reader.onerror = () => {
-        alert('Could not read the file from your computer.');
-        setUploading(null);
-        e.target.value = '';
-      };
-      reader.readAsDataURL(file);
-    } catch (fallbackErr) {
-      console.error(fallbackErr);
-      alert('Unable to process file on this browser.');
-      setUploading(null);
-      e.target.value = '';
+    // Strategy 3: Client-side reader fallback (safe for sizes <= 15MB)
+    if (file.size <= 15 * 1024 * 1024) {
+      try {
+        const reader = new FileReader();
+        reader.onload = () => {
+          if (typeof reader.result === 'string') {
+            onSuccess(reader.result, file.name);
+          }
+          setUploading(null);
+          setUploadProgress(null);
+          e.target.value = '';
+        };
+        reader.onerror = () => {
+          alert('Could not read the file from your computer.');
+          setUploading(null);
+          setUploadProgress(null);
+          e.target.value = '';
+        };
+        reader.readAsDataURL(file);
+        return;
+      } catch (fallbackErr) {
+        console.error(fallbackErr);
+      }
     }
+
+    alert('File is large. Please connect Firebase Storage or Vercel Blob in your project for global 100MB+ CDN links.');
+    setUploading(null);
+    setUploadProgress(null);
+    e.target.value = '';
   };
 
   // Handle Login with Firebase Enterprise Auth + Local Redundancy
@@ -229,13 +299,7 @@ export default function AdminPage() {
     setLoading(true);
 
     try {
-      // Always store locally so changes survive even on read-only serverless
-      try {
-        localStorage.setItem('vaibhav_portfolio_content_backup', JSON.stringify(data));
-      } catch (storageErr) {
-        console.warn('LocalStorage save error:', storageErr);
-      }
-
+      // 1. Save directly to server API
       const res = await fetch('/api/content', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -243,16 +307,19 @@ export default function AdminPage() {
       });
       const result = await res.json();
 
+      // 2. Safe local storage backup (never throws quota errors)
+      safeLocalStorageBackup(data);
+
       if (result.success) {
         setSavedToast(true);
         setTimeout(() => setSavedToast(false), 3500);
       } else {
-        // Even if server is read-only, local copy is saved
         setSavedToast(true);
         setTimeout(() => setSavedToast(false), 3500);
       }
     } catch (err) {
       console.warn('Network error saving to server, saved locally in browser:', err);
+      safeLocalStorageBackup(data);
       setSavedToast(true);
       setTimeout(() => setSavedToast(false), 3500);
     } finally {
@@ -311,22 +378,25 @@ export default function AdminPage() {
       published: true,
     });
 
+    // 1. Post to Server API FIRST to guarantee persistence on portfolio
     try {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('vaibhav_portfolio_content_backup', JSON.stringify(updatedData));
-      }
-      await fetch('/api/content', {
+      const res = await fetch('/api/content', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedData),
       });
-      setSavedToast(true);
-      setTimeout(() => setSavedToast(false), 3500);
-    } catch (err) {
-      console.warn('Auto-saved to local browser backup:', err);
-      setSavedToast(true);
-      setTimeout(() => setSavedToast(false), 3500);
+      if (res.ok) {
+        setSavedToast(true);
+        setTimeout(() => setSavedToast(false), 3500);
+      }
+    } catch (apiErr) {
+      console.warn('Server API save note:', apiErr);
     }
+
+    // 2. Safe local browser backup
+    safeLocalStorageBackup(updatedData);
+    setSavedToast(true);
+    setTimeout(() => setSavedToast(false), 3500);
   };
 
   const deletePresentation = async (id: string) => {
@@ -337,17 +407,15 @@ export default function AdminPage() {
     };
     setData(updatedData);
     try {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('vaibhav_portfolio_content_backup', JSON.stringify(updatedData));
-      }
       await fetch('/api/content', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedData),
       });
     } catch (err) {
-      console.warn(err);
+      console.warn('API save note on delete:', err);
     }
+    safeLocalStorageBackup(updatedData);
   };
 
   // Certifications CRUD with Immediate Auto-Persist (Local & Deploy)
@@ -389,22 +457,25 @@ export default function AdminPage() {
       published: true,
     });
 
+    // 1. Post to Server API FIRST to guarantee persistence on portfolio
     try {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('vaibhav_portfolio_content_backup', JSON.stringify(updatedData));
-      }
-      await fetch('/api/content', {
+      const res = await fetch('/api/content', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedData),
       });
-      setSavedToast(true);
-      setTimeout(() => setSavedToast(false), 3500);
-    } catch (err) {
-      console.warn('Auto-saved to local browser backup:', err);
-      setSavedToast(true);
-      setTimeout(() => setSavedToast(false), 3500);
+      if (res.ok) {
+        setSavedToast(true);
+        setTimeout(() => setSavedToast(false), 3500);
+      }
+    } catch (apiErr) {
+      console.warn('Server API save note:', apiErr);
     }
+
+    // 2. Safe local browser backup
+    safeLocalStorageBackup(updatedData);
+    setSavedToast(true);
+    setTimeout(() => setSavedToast(false), 3500);
   };
 
   const deleteCertification = async (id: string) => {
@@ -415,17 +486,15 @@ export default function AdminPage() {
     };
     setData(updatedData);
     try {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('vaibhav_portfolio_content_backup', JSON.stringify(updatedData));
-      }
       await fetch('/api/content', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedData),
       });
     } catch (err) {
-      console.warn(err);
+      console.warn('API save note on delete:', err);
     }
+    safeLocalStorageBackup(updatedData);
   };
 
   // Interests CRUD
@@ -1380,7 +1449,9 @@ export default function AdminPage() {
                     <span className={styles.uploadIcon}>📊</span>
                     <span className={styles.uploadTitle}>
                       {uploading === 'pptFile'
-                        ? 'Uploading presentation...'
+                        ? uploadProgress !== null && uploadProgress > 0
+                          ? `Uploading presentation: ${uploadProgress}%...`
+                          : 'Uploading presentation to cloud...'
                         : 'Select PowerPoint / Presentation File (.PPTX, .PPT, .PDF, Slides)'}
                     </span>
                     <span className={styles.uploadHint}>
@@ -1609,7 +1680,11 @@ export default function AdminPage() {
                     />
                     <span className={styles.uploadIcon}>📜</span>
                     <span className={styles.uploadTitle}>
-                      {uploading === 'certFile' ? 'Uploading certificate...' : 'Select Certificate File (PDF, Images, or Documents)'}
+                      {uploading === 'certFile'
+                        ? uploadProgress !== null && uploadProgress > 0
+                          ? `Uploading certificate: ${uploadProgress}%...`
+                          : 'Uploading certificate to cloud...'
+                        : 'Select Certificate File (PDF, Images, or Documents)'}
                     </span>
                     <span className={styles.uploadHint}>Any size supported. Upload PDF, JPG, PNG, WEBP, or Document</span>
                     {newCert.file && (

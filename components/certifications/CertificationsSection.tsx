@@ -5,13 +5,52 @@ import Image from 'next/image';
 import Card3D from '@/components/ui/Card3D';
 import ScrollImageReveal from '@/components/ui/ScrollImageReveal';
 import { ScrollReveal, ScrollStagger, ScrollStaggerItem } from '@/components/ui/ScrollTriggered';
-import { resolveAutoPreview } from '@/lib/previewEngine';
+import { resolveAutoPreview, generateDocumentPreviewSvg } from '@/lib/previewEngine';
 import styles from './Certifications.module.css';
 import type { Certification } from '@/types';
 
 interface Props {
   items: Certification[];
   onOpen: (item: Certification) => void;
+}
+
+function CertCardThumb({
+  previewSrc,
+  fallbackSrc,
+  title,
+  delay,
+}: {
+  previewSrc: string;
+  fallbackSrc: string;
+  title: string;
+  delay: number;
+}) {
+  const [imgSrc, setImgSrc] = useState(previewSrc);
+  const [errored, setErrored] = useState(false);
+
+  return (
+    <div className={styles.cardThumb}>
+      <ScrollImageReveal direction="up" delay={delay} glare={true}>
+        <Image
+          src={errored ? fallbackSrc : imgSrc}
+          alt={title}
+          fill
+          unoptimized={true}
+          onError={() => {
+            if (!errored) {
+              setErrored(true);
+              setImgSrc(fallbackSrc);
+            }
+          }}
+          className={styles.cardThumbImg}
+          sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+        />
+      </ScrollImageReveal>
+      <div className={styles.cardOverlay}>
+        <span className={styles.viewLabel}>Inspect Document ↗</span>
+      </div>
+    </div>
+  );
 }
 
 export default function CertificationsSection({ items, onOpen }: Props) {
@@ -74,6 +113,12 @@ export default function CertificationsSection({ items, onOpen }: Props) {
             cert.category
           );
           const previewSrc = autoResolved.previewUrl;
+          const fallbackVector = generateDocumentPreviewSvg({
+            title: cert.title,
+            issuer: cert.issuer || 'Verified Credential',
+            category: cert.category,
+            format: autoResolved.detectedFormat.ext,
+          });
 
           return (
             <ScrollStaggerItem key={cert.id} style={{ display: 'flex' }}>
@@ -110,37 +155,20 @@ export default function CertificationsSection({ items, onOpen }: Props) {
                     <span className={styles.cardYear}>{cert.year}</span>
                   </div>
 
-                  <div className={styles.cardThumb}>
-                    {previewSrc ? (
-                      <ScrollImageReveal direction="up" delay={(i % 3) * 120} glare={true}>
-                        <Image
-                          src={previewSrc}
-                          alt={cert.title}
-                          fill
-                          unoptimized={true}
-                          className={styles.cardThumbImg}
-                          sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
-                        />
-                      </ScrollImageReveal>
-                    ) : (
-                      <div className={styles.thumbPlaceholder}>
-                        <span className={styles.thumbLetter}>
-                          {String(i + 1).padStart(2, '0')}
-                        </span>
-                      </div>
-                    )}
-                    <div className={styles.cardOverlay}>
-                      <span className={styles.viewLabel}>Inspect Document ↗</span>
-                    </div>
-                  </div>
+                  <CertCardThumb
+                    previewSrc={previewSrc}
+                    fallbackSrc={fallbackVector}
+                    title={cert.title}
+                    delay={(i % 3) * 120}
+                  />
 
-                <div className={styles.cardInfo}>
-                  <span className={styles.cardIssuer}>{cert.issuer}</span>
-                  <h3 className={styles.cardTitle}>{cert.title}</h3>
-                  {cert.credentialId && (
-                    <span className={styles.credentialId}>ID: {cert.credentialId}</span>
-                  )}
-                </div>
+                  <div className={styles.cardInfo}>
+                    <span className={styles.cardIssuer}>{cert.issuer}</span>
+                    <h3 className={styles.cardTitle}>{cert.title}</h3>
+                    {cert.credentialId && (
+                      <span className={styles.credentialId}>ID: {cert.credentialId}</span>
+                    )}
+                  </div>
               </div>
             </Card3D>
           </ScrollStaggerItem>

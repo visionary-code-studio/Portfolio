@@ -1,5 +1,6 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { getStorage } from 'firebase/storage';
 
 // Your web app's Firebase configuration provided by user
 const firebaseConfig = {
@@ -14,4 +15,5 @@ const firebaseConfig = {
 // Safe initialization for Next.js (avoids duplicate app initialization in SSR / HMR)
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 export const auth = getAuth(app);
+export const storage = getStorage(app);
 export default app;

@@ -28,7 +28,7 @@ export default function Home() {
 
   // Sync with live data from API
   useEffect(() => {
-    // Check if client has locally saved updates
+    // 1. Initial fast hydration from local backup before network finishes
     const localBackup = typeof window !== 'undefined' ? localStorage.getItem('vaibhav_portfolio_content_backup') : null;
     if (localBackup) {
       try {
@@ -36,17 +36,17 @@ export default function Home() {
       } catch (e) {}
     }
 
+    // 2. Fetch authoritative fresh live data from server API
     fetch('/api/content')
       .then((res) => res.json())
       .then((json) => {
         if (json.success && json.data) {
-          if (localBackup) {
+          setContent(json.data);
+          if (typeof window !== 'undefined') {
             try {
-              setContent({ ...json.data, ...JSON.parse(localBackup) });
-              return;
+              localStorage.setItem('vaibhav_portfolio_content_backup', JSON.stringify(json.data));
             } catch (e) {}
           }
-          setContent(json.data);
         }
       })
       .catch((err) => console.log('Using default local portfolio data', err));
