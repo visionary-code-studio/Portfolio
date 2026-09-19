@@ -1,197 +1,400 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import * as THREE from 'three';
 import styles from './Hero3DCanvas.module.css';
 
-interface Point3D {
-  x: number;
-  y: number;
-  z: number;
-  baseX: number;
-  baseY: number;
-  baseZ: number;
-  vx: number;
-  vy: number;
-  vz: number;
-}
-
 export default function Hero3DCanvas() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    let animId: number;
+    let width = container.clientWidth || window.innerWidth;
+    let height = container.clientHeight || window.innerHeight;
 
-    let animationId: number;
-    let width = (canvas.width = canvas.parentElement?.clientWidth || window.innerWidth);
-    let height = (canvas.height = canvas.parentElement?.clientHeight || window.innerHeight);
+    // ── 1. Scene, Camera & WebGL Renderer ─────────────────────────
+    const scene = new THREE.Scene();
 
-    // Damped Mouse / Tilt Coordinates
-    let mouseX = 0;
-    let mouseY = 0;
-    let targetRotX = 0;
-    let targetRotY = 0;
-    let rotX = 0;
-    let rotY = 0;
+    const camera = new THREE.PerspectiveCamera(48, width / height, 0.1, 100);
+    camera.position.set(0, 0.2, 16);
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true,
+      powerPreference: 'high-performance',
+    });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+    // ── 2. Create Soft Glowing Circle Texture for Particles ───────
+    const createCircleTexture = () => {
+      const size = 64;
+      const offCanvas = document.createElement('canvas');
+      offCanvas.width = size;
+      offCanvas.height = size;
+      const ctx = offCanvas.getContext('2d');
+      if (!ctx) return null;
+
+      const gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+      gradient.addColorStop(0.3, 'rgba(56, 189, 248, 0.85)');
+      gradient.addColorStop(0.7, 'rgba(16, 185, 129, 0.35)');
+      gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, size, size);
+
+      const texture = new THREE.CanvasTexture(offCanvas);
+      texture.needsUpdate = true;
+      return texture;
+    };
+
+    const particleTexture = createCircleTexture();
+
+    // ── 3. 3D Keynote Holographic Stage Floor (Under Speaker's Feet) ───
+    // Positioned horizontally beneath the speaker's grounded stance
+    const stageGroup = new THREE.Group();
+    stageGroup.position.set(0, -4.9, 0);
+    stageGroup.rotation.x = Math.PI * 0.44; // Angled in 3D perspective
+
+    // Concentric glowing rings
+    const ringColors = [0x0284c7, 0x10b981, 0x6366f1, 0xf59e0b];
+    const ringRadii = [5.6, 4.2, 2.8, 1.5];
+
+    ringRadii.forEach((radius, idx) => {
+      const segments = 96;
+      const ringPoints: THREE.Vector3[] = [];
+      for (let i = 0; i <= segments; i++) {
+        const theta = (i / segments) * Math.PI * 2;
+        ringPoints.push(new THREE.Vector3(Math.cos(theta) * radius, Math.sin(theta) * radius, 0));
+      }
+      const ringGeo = new THREE.BufferGeometry().setFromPoints(ringPoints);
+      const ringMat = new THREE.LineBasicMaterial({
+        color: ringColors[idx % ringColors.length],
+        transparent: true,
+        opacity: 0.35 - idx * 0.05,
+        blending: THREE.NormalBlending,
+      });
+      const ringLine = new THREE.Line(ringGeo, ringMat);
+      stageGroup.add(ringLine);
+    });
+
+    // Holographic radial spokes spanning stage floor
+    const numSpokes = 12;
+    for (let s = 0; s < numSpokes; s++) {
+      const angle = (s / numSpokes) * Math.PI * 2;
+      const spokePoints = [
+        new THREE.Vector3(Math.cos(angle) * 1.5, Math.sin(angle) * 1.5, 0),
+        new THREE.Vector3(Math.cos(angle) * 5.6, Math.sin(angle) * 5.6, 0),
+      ];
+      const spokeGeo = new THREE.BufferGeometry().setFromPoints(spokePoints);
+      const spokeMat = new THREE.LineBasicMaterial({
+        color: 0x38bdf8,
+        transparent: true,
+        opacity: 0.15,
+        blending: THREE.NormalBlending,
+      });
+      stageGroup.add(new THREE.Line(spokeGeo, spokeMat));
+    }
+
+    scene.add(stageGroup);
+
+    // ── 4. Speech / Microphone Acoustic Waveform Ribbons ───────────
+    // Dynamic sinusoidal soundwaves undulating across stage in depth
+    const waveCount = 3;
+    const waveSegments = 140;
+    const waveLines: { line: THREE.Line; baseY: number; baseZ: number; speed: number; freq: number; amp: number }[] = [];
+    const waveColors = [0x0284c7, 0x10b981, 0x8b5cf6];
+
+    for (let w = 0; w < waveCount; w++) {
+      const positions = new Float32Array(waveSegments * 3);
+      const waveGeo = new THREE.BufferGeometry();
+      waveGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+      const waveMat = new THREE.LineBasicMaterial({
+        color: waveColors[w],
+        transparent: true,
+        opacity: 0.45,
+        blending: THREE.NormalBlending,
+        linewidth: 2,
+      });
+
+      const line = new THREE.Line(waveGeo, waveMat);
+      scene.add(line);
+
+      waveLines.push({
+        line,
+        baseY: 0.5 - w * 1.1,
+        baseZ: -1.5 - w * 1.2,
+        speed: 1.6 + w * 0.5,
+        freq: 0.38 + w * 0.15,
+        amp: 0.65 - w * 0.1,
+      });
+    }
+
+    // ── 5. AI Neural Constellation (Data Nodes & Graphs) ───────────
+    const particleCount = 130;
+    const particlePositions = new Float32Array(particleCount * 3);
+    const particleVelocities: { x: number; y: number; z: number }[] = [];
+
+    for (let i = 0; i < particleCount; i++) {
+      const i3 = i * 3;
+      particlePositions[i3] = (Math.random() - 0.5) * 22;
+      particlePositions[i3 + 1] = (Math.random() - 0.5) * 14;
+      particlePositions[i3 + 2] = (Math.random() - 0.5) * 12 - 2;
+
+      particleVelocities.push({
+        x: (Math.random() - 0.5) * 0.006,
+        y: (Math.random() - 0.5) * 0.006,
+        z: (Math.random() - 0.5) * 0.006,
+      });
+    }
+
+    const particleGeo = new THREE.BufferGeometry();
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+
+    const particleMat = new THREE.PointsMaterial({
+      size: 0.45,
+      map: particleTexture || undefined,
+      transparent: true,
+      opacity: 0.85,
+      blending: THREE.NormalBlending,
+      depthWrite: false,
+    });
+
+    const particles = new THREE.Points(particleGeo, particleMat);
+    scene.add(particles);
+
+    // Dynamic neural connection lines
+    const maxConnections = 240;
+    const linePositions = new Float32Array(maxConnections * 6);
+    const connectionGeo = new THREE.BufferGeometry();
+    connectionGeo.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+
+    const connectionMat = new THREE.LineBasicMaterial({
+      color: 0x0284c7,
+      transparent: true,
+      opacity: 0.28,
+      blending: THREE.NormalBlending,
+    });
+
+    const connectionMesh = new THREE.LineSegments(connectionGeo, connectionMat);
+    scene.add(connectionMesh);
+
+    // ── 6. Microphone Acoustic Radial Pulse Rings ───────────────────
+    // Expanding sound waves emanating from speaker microphone coordinate
+    const micPulses: { mesh: THREE.Line; scale: number; maxScale: number; speed: number }[] = [];
+    const pulseSegments = 64;
+    const pulsePoints: THREE.Vector3[] = [];
+    for (let i = 0; i <= pulseSegments; i++) {
+      const theta = (i / pulseSegments) * Math.PI * 2;
+      pulsePoints.push(new THREE.Vector3(Math.cos(theta), Math.sin(theta), 0));
+    }
+    const pulseBaseGeo = new THREE.BufferGeometry().setFromPoints(pulsePoints);
+
+    for (let p = 0; p < 3; p++) {
+      const pMat = new THREE.LineBasicMaterial({
+        color: 0x38bdf8,
+        transparent: true,
+        opacity: 0.5,
+        blending: THREE.NormalBlending,
+      });
+      const pMesh = new THREE.Line(pulseBaseGeo, pMat);
+      pMesh.position.set(-0.25, 0.95, 0.4); // Centered on microphone
+      scene.add(pMesh);
+
+      micPulses.push({
+        mesh: pMesh,
+        scale: 0.2 + p * 1.3,
+        maxScale: 4.8,
+        speed: 0.022,
+      });
+    }
+
+    // ── 7. Interactive Cursor Parallax & Inertia ────────────────────
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
 
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left - width / 2;
-      const y = e.clientY - rect.top - height / 2;
-      targetRotY = (x / width) * 0.8;
-      targetRotX = -(y / height) * 0.8;
-      mouseX = x;
-      mouseY = y;
+      const rect = container.getBoundingClientRect();
+      const nx = ((e.clientX - rect.left) / width) * 2 - 1;
+      const ny = -(((e.clientY - rect.top) / height) * 2 - 1);
+      targetX = nx;
+      targetY = ny;
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
-    // Handle Resize
+    // Handle Resize smoothly
     const handleResize = () => {
-      if (!canvas || !canvas.parentElement) return;
-      width = canvas.width = canvas.parentElement.clientWidth;
-      height = canvas.height = canvas.parentElement.clientHeight;
+      if (!container) return;
+      width = container.clientWidth;
+      height = container.clientHeight;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     };
 
     window.addEventListener('resize', handleResize);
 
-    // Generate 3D Spherical & Lattice Points
-    const numPoints = 72;
-    const points: Point3D[] = [];
-    const radius = Math.min(width, height) * 0.26;
+    // ── 8. Render & Animation Loop ─────────────────────────────────
+    let clock = new THREE.Clock();
 
-    // Golden spiral sphere distribution (Fibonacci Sphere)
-    const phi = Math.PI * (3 - Math.sqrt(5));
-    for (let i = 0; i < numPoints; i++) {
-      const y = 1 - (i / (numPoints - 1)) * 2;
-      const radiusAtY = Math.sqrt(1 - y * y);
-      const theta = phi * i;
+    const animate = () => {
+      animId = requestAnimationFrame(animate);
 
-      const x = Math.cos(theta) * radiusAtY;
-      const z = Math.sin(theta) * radiusAtY;
+      const elapsedTime = clock.getElapsedTime();
 
-      points.push({
-        x: x * radius,
-        y: y * radius,
-        z: z * radius,
-        baseX: x * radius,
-        baseY: y * radius,
-        baseZ: z * radius,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        vz: (Math.random() - 0.5) * 0.3,
+      // Smooth camera parallax
+      currentX += (targetX - currentX) * 0.05;
+      currentY += (targetY - currentY) * 0.05;
+
+      camera.position.x = currentX * 2.2;
+      camera.position.y = 0.2 + currentY * 1.3;
+      camera.lookAt(0, -0.6, 0);
+
+      // Rotate holographic stage floor
+      stageGroup.rotation.z += 0.002;
+
+      // Update speech soundwave ribbons
+      waveLines.forEach(({ line, baseY, baseZ, speed, freq, amp }, idx) => {
+        const geo = line.geometry;
+        const posAttr = geo.attributes.position;
+        const array = posAttr.array as Float32Array;
+
+        const xSpan = 24;
+        const dynamicAmp = amp * (1 + Math.abs(currentX) * 0.35);
+
+        for (let i = 0; i < waveSegments; i++) {
+          const u = i / (waveSegments - 1);
+          const x = (u - 0.5) * xSpan;
+          const sine1 = Math.sin(x * freq + elapsedTime * speed);
+          const sine2 = Math.cos(x * (freq * 1.8) - elapsedTime * (speed * 0.7)) * 0.4;
+          const y = baseY + (sine1 + sine2) * dynamicAmp;
+          const z = baseZ + Math.sin(x * 0.2 + elapsedTime) * 0.5;
+
+          const idx3 = i * 3;
+          array[idx3] = x;
+          array[idx3 + 1] = y;
+          array[idx3 + 2] = z;
+        }
+
+        posAttr.needsUpdate = true;
       });
-    }
 
-    // Perspective parameters
-    const fov = 420;
+      // Update floating AI neural constellation
+      const pArray = particleGeo.attributes.position.array as Float32Array;
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3;
+        const v = particleVelocities[i];
 
-    let autoRot = 0;
+        pArray[i3] += v.x;
+        pArray[i3 + 1] += v.y;
+        pArray[i3 + 2] += v.z;
 
-    // Render Loop
-    const render = () => {
-      ctx.clearRect(0, 0, width, height);
-
-      // Inertial smoothing
-      rotX += (targetRotX - rotX) * 0.05;
-      rotY += (targetRotY - rotY) * 0.05;
-      autoRot += 0.003;
-
-      const currentRotY = rotY + autoRot;
-      const cosY = Math.cos(currentRotY);
-      const sinY = Math.sin(currentRotY);
-      const cosX = Math.cos(rotX);
-      const sinX = Math.sin(rotX);
-
-      // Projected points
-      const projected: { x: number; y: number; z: number; scale: number; alpha: number }[] = [];
-
-      for (let i = 0; i < points.length; i++) {
-        const p = points[i];
-
-        // Micro motion
-        p.baseX += p.vx;
-        p.baseY += p.vy;
-        p.baseZ += p.vz;
-        if (Math.abs(p.baseX) > radius * 1.1) p.vx *= -1;
-        if (Math.abs(p.baseY) > radius * 1.1) p.vy *= -1;
-        if (Math.abs(p.baseZ) > radius * 1.1) p.vz *= -1;
-
-        // 3D Rotations around Y then X
-        const x1 = p.baseX * cosY - p.baseZ * sinY;
-        const z1 = p.baseZ * cosY + p.baseX * sinY;
-
-        const y2 = p.baseY * cosX - z1 * sinX;
-        const z2 = z1 * cosX + p.baseY * sinX;
-
-        // Perspective projection
-        const scale = fov / (fov + z2);
-        const projX = width / 2 + x1 * scale;
-        const projY = height / 2 + y2 * scale;
-        const alpha = Math.max(0.12, Math.min(0.9, (z2 + radius) / (radius * 2)));
-
-        projected.push({ x: projX, y: projY, z: z2, scale, alpha });
+        if (Math.abs(pArray[i3]) > 11) v.x *= -1;
+        if (Math.abs(pArray[i3 + 1]) > 7) v.y *= -1;
+        if (Math.abs(pArray[i3 + 2]) > 7) v.z *= -1;
       }
+      particleGeo.attributes.position.needsUpdate = true;
 
-      // Draw 3D Connecting Lines
-      const maxDist = 95;
-      for (let i = 0; i < projected.length; i++) {
-        for (let j = i + 1; j < projected.length; j++) {
-          const p1 = projected[i];
-          const p2 = projected[j];
-          const dx = p1.x - p2.x;
-          const dy = p1.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+      // Calculate neural connections between nearest neighbors
+      const connPos = connectionGeo.attributes.position.array as Float32Array;
+      let lineIdx = 0;
+      const maxDist = 3.2;
 
-          if (dist < maxDist * ((p1.scale + p2.scale) / 2)) {
-            const lineAlpha = (1 - dist / (maxDist * p1.scale)) * 0.18 * ((p1.alpha + p2.alpha) / 2);
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(30, 41, 59, ${lineAlpha * 0.45})`;
-            ctx.lineWidth = 0.85;
-            ctx.stroke();
+      for (let i = 0; i < particleCount && lineIdx < maxConnections; i++) {
+        const i3 = i * 3;
+        for (let j = i + 1; j < particleCount && lineIdx < maxConnections; j++) {
+          const j3 = j * 3;
+          const dx = pArray[i3] - pArray[j3];
+          const dy = pArray[i3 + 1] - pArray[j3 + 1];
+          const dz = pArray[i3 + 2] - pArray[j3 + 2];
+          const distSq = dx * dx + dy * dy + dz * dz;
+
+          if (distSq < maxDist * maxDist) {
+            const baseIndex = lineIdx * 6;
+            connPos[baseIndex] = pArray[i3];
+            connPos[baseIndex + 1] = pArray[i3 + 1];
+            connPos[baseIndex + 2] = pArray[i3 + 2];
+
+            connPos[baseIndex + 3] = pArray[j3];
+            connPos[baseIndex + 4] = pArray[j3 + 1];
+            connPos[baseIndex + 5] = pArray[j3 + 2];
+
+            lineIdx++;
           }
         }
       }
 
-      // Draw 3D Nodes
-      for (let i = 0; i < projected.length; i++) {
-        const p = projected[i];
-        const dotSize = Math.max(1.4, 3 * p.scale);
-
-        // Core dot
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, dotSize, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(15, 23, 42, ${p.alpha * 0.7})`;
-        ctx.fill();
-
-        // Subtle glowing accent on nearest nodes
-        if (p.z > 0) {
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, dotSize * 2, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(15, 23, 42, ${p.alpha * 0.14})`;
-          ctx.fill();
-        }
+      // Zero out remaining unused line segments
+      for (let k = lineIdx * 6; k < maxConnections * 6; k++) {
+        connPos[k] = 0;
       }
+      connectionGeo.attributes.position.needsUpdate = true;
 
-      animationId = requestAnimationFrame(render);
+      // Update microphone acoustic ripple pulses
+      micPulses.forEach((pulse) => {
+        pulse.scale += pulse.speed;
+        if (pulse.scale > pulse.maxScale) {
+          pulse.scale = 0.2;
+        }
+        pulse.mesh.scale.set(pulse.scale, pulse.scale, 1);
+
+        const progress = (pulse.scale - 0.2) / (pulse.maxScale - 0.2);
+        const mat = pulse.mesh.material as THREE.LineBasicMaterial;
+        mat.opacity = Math.sin((1 - progress) * Math.PI) * 0.45;
+      });
+
+      renderer.render(scene, camera);
     };
 
-    render();
+    animate();
 
+    // ── 9. Cleanup on Unmount ──────────────────────────────────────
     return () => {
+      cancelAnimationFrame(animId);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationId);
+
+      // Dispose Three.js objects
+      renderer.dispose();
+      particleGeo.dispose();
+      particleMat.dispose();
+      connectionGeo.dispose();
+      connectionMat.dispose();
+      pulseBaseGeo.dispose();
+      if (particleTexture) particleTexture.dispose();
+
+      stageGroup.traverse((child) => {
+        if (child instanceof THREE.Line) {
+          child.geometry.dispose();
+          if (child.material instanceof THREE.Material) child.material.dispose();
+        }
+      });
+
+      waveLines.forEach(({ line }) => {
+        line.geometry.dispose();
+        if (line.material instanceof THREE.Material) line.material.dispose();
+      });
+
+      micPulses.forEach(({ mesh }) => {
+        if (mesh.material instanceof THREE.Material) mesh.material.dispose();
+      });
     };
   }, []);
 
   return (
-    <div className={styles.canvasContainer} aria-hidden="true">
+    <div ref={containerRef} className={styles.canvasContainer} aria-hidden="true">
       <canvas ref={canvasRef} className={styles.canvas} />
       <div className={styles.vignette} />
     </div>

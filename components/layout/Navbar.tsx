@@ -114,10 +114,7 @@ export default function Navbar({ profile }: NavbarProps) {
           }}
           data-cursor-hover
         >
-          <div className={styles.brandLogoGlyph} aria-hidden="true">
-            <Image src="/images/logo.png" alt="VS Logo" width={44} height={44} style={{ objectFit: 'cover' }} />
-          </div>
-          <span className={styles.brandText}>Vaibhav</span>
+          <span className={styles.brandSignature}>Vaibhav Shaw</span>
         </a>
 
         {/* Center: Floating Pill Dock (Inspired by Reference) */}

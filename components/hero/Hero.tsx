@@ -15,7 +15,7 @@ interface HeroProps {
 }
 
 export default function Hero({ data }: HeroProps) {
-  const posterImage = data?.posterImage || '/images/profile_update.png';
+  const posterImage = data?.posterImage || '/images/vaibhav_speaker.png';
   const firstName = data?.firstName || 'VAIBHAV';
   const lastName = data?.lastName || 'SHAW';
   const role = data?.role || 'AIML Student · Full Stack Developer';
