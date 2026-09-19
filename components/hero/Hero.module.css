@@ -203,16 +203,51 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  cursor: crosshair;
+  user-select: none;
 }
 
-.portraitImg {
+.portraitImgBw {
+  width: auto;
+  height: 100%;
+  max-height: 72vh;
+  object-fit: contain;
+  object-position: bottom;
+  filter: contrast(1.08) brightness(1.02) drop-shadow(0 20px 45px rgba(0, 0, 0, 0.12));
+  animation: portraitEntrance 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+  user-select: none;
+}
+
+.portraitImgColor {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
   width: auto;
   height: 100%;
   max-height: 72vh;
   object-fit: contain;
   object-position: bottom;
   filter: contrast(1.04) brightness(1.01) drop-shadow(0 20px 45px rgba(0, 0, 0, 0.1));
-  animation: portraitEntrance 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+  user-select: none;
+  opacity: var(--spotlight-active, 0);
+  transition: opacity 0.3s ease;
+  -webkit-mask-image: radial-gradient(
+    circle 160px at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.9) 35%,
+    rgba(0, 0, 0, 0.45) 65%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-image: radial-gradient(
+    circle 160px at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.9) 35%,
+    rgba(0, 0, 0, 0.45) 65%,
+    rgba(0, 0, 0, 0) 100%
+  );
 }
 
 @keyframes portraitEntrance {
