@@ -109,8 +109,8 @@ export default function InquiryModal({ isOpen, onClose, defaultEmail }: InquiryM
     `Hello Vaibhav, I submitted an inquiry on your portfolio (Ref: ${inquiryRef || 'INQ-NEW'}). Name: ${name || 'Visitor'}, Phone: ${fullPhone}, Scope: ${projectType}. Let's connect!`
   );
 
-  const smsUri = `sms:${phone.replace(/\D/g, '')}?body=${whatsappMessage}`;
-  const whatsappUri = `https://wa.me/918777855018?text=${whatsappMessage}`;
+  const smsUri = `sms:+917278283666?body=${whatsappMessage}`;
+  const whatsappUri = `https://wa.me/917278283666?text=${whatsappMessage}`;
 
   return (
     <div className={styles.backdrop} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
