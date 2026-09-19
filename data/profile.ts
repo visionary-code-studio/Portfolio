@@ -65,7 +65,7 @@ export const profileData: Profile = {
     class10Score: "85.5%",
     class12Score: "75.8%",
   },
-  email: "vaibhav.shaw.dev@gmail.com",
+  email: "vaibhavsnu2025@gmail.com",
   location: "Kolkata, West Bengal, India",
   socialLinks: [
     {

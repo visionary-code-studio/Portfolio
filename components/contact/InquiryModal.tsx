@@ -92,7 +92,7 @@ export default function InquiryModal({ isOpen, onClose, defaultEmail }: InquiryM
         try {
           const notifyTitle = channel === 'whatsapp'
             ? '✦ WhatsApp Inquiry Dispatched to Vaibhav Shaw'
-            : '✦ Gmail Inquiry Routed to vaibhawshaw@gmail.com';
+            : '✦ Gmail Inquiry Routed to vaibhavsnu2025@gmail.com';
           const notifyBody = channel === 'whatsapp'
             ? `Mobile alert triggered for ${fullPhone}. We will connect shortly!`
             : `Email confirmation routed for ${email}. We will reply via Gmail!`;
@@ -131,7 +131,7 @@ export default function InquiryModal({ isOpen, onClose, defaultEmail }: InquiryM
           `Hello Vaibhav,\n\nI am sending this inquiry regarding your portfolio (Ref: ${assignedRef}).\n\nName / Organization: ${name || 'Visitor'}\nSender Email: ${email}\nCategory: ${projectType}\n\nProject Scope & Goals:\n${message || 'Looking forward to discussing project collaboration.'}\n\nBest regards,\n${name || 'Visitor'}`
         );
         window.open(
-          `https://mail.google.com/mail/?view=cm&fs=1&to=vaibhawshaw@gmail.com&su=${mailSubject}&body=${mailBody}`,
+          `https://mail.google.com/mail/?view=cm&fs=1&to=vaibhavsnu2025@gmail.com&su=${mailSubject}&body=${mailBody}`,
           '_blank'
         );
       }
@@ -158,8 +158,8 @@ export default function InquiryModal({ isOpen, onClose, defaultEmail }: InquiryM
   const gmailBodyText = encodeURIComponent(
     `Hello Vaibhav,\n\nI am sending this inquiry regarding your portfolio (Ref: ${inquiryRef || 'INQ-NEW'}).\n\nName / Organization: ${name || 'Visitor'}\nSender Email: ${email}\nCategory: ${projectType}\n\nProject Scope & Goals:\n${message || 'Looking forward to discussing project collaboration.'}\n\nBest regards,\n${name || 'Visitor'}`
   );
-  const gmailWebUri = `https://mail.google.com/mail/?view=cm&fs=1&to=vaibhawshaw@gmail.com&su=${gmailSubjectText}&body=${gmailBodyText}`;
-  const mailtoUri = `mailto:vaibhawshaw@gmail.com?subject=${gmailSubjectText}&body=${gmailBodyText}`;
+  const gmailWebUri = `https://mail.google.com/mail/?view=cm&fs=1&to=vaibhavsnu2025@gmail.com&su=${gmailSubjectText}&body=${gmailBodyText}`;
+  const mailtoUri = `mailto:vaibhavsnu2025@gmail.com?subject=${gmailSubjectText}&body=${gmailBodyText}`;
 
   return (
     <div className={styles.backdrop} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
@@ -206,7 +206,7 @@ export default function InquiryModal({ isOpen, onClose, defaultEmail }: InquiryM
               <>
                 <div className={`${styles.badge} ${styles.badgeGmail}`}>
                   <span>✉️</span>
-                  <span>Direct Gmail Channel (vaibhawshaw@gmail.com)</span>
+                  <span>Direct Gmail Channel (vaibhavsnu2025@gmail.com)</span>
                 </div>
                 <h3 className={styles.title}>Send Gmail Inquiry</h3>
                 <p className={styles.subtitle}>
@@ -356,7 +356,7 @@ export default function InquiryModal({ isOpen, onClose, defaultEmail }: InquiryM
               <p className={styles.phoneNotificationNotice}>
                 {channel === 'whatsapp'
                   ? '🔒 Direct route to +91 7278283666. Encrypted and never shared.'
-                  : '🔒 Direct route to vaibhawshaw@gmail.com. Verified delivery.'}
+                  : '🔒 Direct route to vaibhavsnu2025@gmail.com. Verified delivery.'}
               </p>
             </form>
           </>
@@ -370,7 +370,7 @@ export default function InquiryModal({ isOpen, onClose, defaultEmail }: InquiryM
             </h3>
             <p className={styles.successDesc}>
               Thank you, <strong>{name || 'Valued Visitor'}</strong>! Your inquiry has been routed to Vaibhav Shaw
-              {channel === 'whatsapp' ? ` (+91 7278283666) for ${fullPhone}.` : ` (vaibhawshaw@gmail.com) for ${email}.`}
+              {channel === 'whatsapp' ? ` (+91 7278283666) for ${fullPhone}.` : ` (vaibhavsnu2025@gmail.com) for ${email}.`}
             </p>
 
             <div className={styles.refPill}>

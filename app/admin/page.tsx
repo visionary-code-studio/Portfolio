@@ -77,7 +77,7 @@ export default function AdminPage() {
     localStorage.removeItem('vaibhav_admin_session');
     localStorage.removeItem('vaibhav_firebase_uid');
     // Pre-fill email for convenience
-    setAuthEmail('vaibhawshaw@gmail.com');
+    setAuthEmail('vaibhavsnu2025@gmail.com');
   }, []);
 
   // Fetch live portfolio content prioritizing local customizations
@@ -193,7 +193,7 @@ export default function AdminPage() {
     setAuthError('');
     setLoading(true);
 
-    const email = authEmail.trim() || 'vaibhawshaw@gmail.com';
+    const email = authEmail.trim() || 'vaibhavsnu2025@gmail.com';
     const password = authPassword.trim();
 
     // 1. Attempt Firebase Authentication
@@ -507,7 +507,7 @@ export default function AdminPage() {
               <label className={styles.label}>Email Address</label>
               <input
                 type="email"
-                placeholder="vaibhawshaw@gmail.com"
+                placeholder="vaibhavsnu2025@gmail.com"
                 value={authEmail}
                 onChange={(e) => setAuthEmail(e.target.value)}
                 className={styles.input}
