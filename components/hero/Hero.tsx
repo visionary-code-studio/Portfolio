@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Hero3DCanvas from '@/components/3d/Hero3DCanvas';
 import styles from './Hero.module.css';
 
@@ -21,11 +21,13 @@ export default function Hero({ data }: HeroProps) {
   const role = data?.role || 'AIML Student · Full Stack Developer';
   const location = data?.location || 'Kolkata, West Bengal, India';
 
-  // Interactive Cursor Torch: B&W to Color Spotlight
+  // Interactive Cursor Torch: B&W to Color Spotlight with zero-offset precision
   const [spotlight, setSpotlight] = useState({ x: 0, y: 0, active: false });
+  const portraitInnerRef = useRef<HTMLDivElement>(null);
 
   const handlePortraitMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
+    if (!portraitInnerRef.current) return;
+    const rect = portraitInnerRef.current.getBoundingClientRect();
     setSpotlight({
       x: e.clientX - rect.left,
       y: e.clientY - rect.top,
@@ -38,8 +40,8 @@ export default function Hero({ data }: HeroProps) {
   };
 
   const handlePortraitTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (e.touches.length > 0) {
-      const rect = e.currentTarget.getBoundingClientRect();
+    if (portraitInnerRef.current && e.touches.length > 0) {
+      const rect = portraitInnerRef.current.getBoundingClientRect();
       setSpotlight({
         x: e.touches[0].clientX - rect.left,
         y: e.touches[0].clientY - rect.top,
@@ -114,27 +116,32 @@ export default function Hero({ data }: HeroProps) {
             onMouseLeave={handlePortraitMouseLeave}
             onTouchMove={handlePortraitTouchMove}
             onTouchEnd={handlePortraitMouseLeave}
-            style={{
-              '--spotlight-x': `${spotlight.x}px`,
-              '--spotlight-y': `${spotlight.y}px`,
-              '--spotlight-active': spotlight.active ? '1' : '0',
-            } as React.CSSProperties}
           >
-            {/* Base Layer: Black & White Keynote Speaker */}
-            <img
-              src="/images/vaibhav_speaker_bw.png?v=bw"
-              alt={`${firstName} ${lastName}`}
-              className={styles.portraitImgBw}
-              draggable={false}
-            />
+            <div
+              ref={portraitInnerRef}
+              className={styles.portraitInner}
+              style={{
+                '--spotlight-x': `${spotlight.x}px`,
+                '--spotlight-y': `${spotlight.y}px`,
+                '--spotlight-active': spotlight.active ? '1' : '0',
+              } as React.CSSProperties}
+            >
+              {/* Base Layer: Black & White Keynote Speaker */}
+              <img
+                src="/images/vaibhav_speaker_bw.png?v=bw"
+                alt={`${firstName} ${lastName}`}
+                className={styles.portraitImgBw}
+                draggable={false}
+              />
 
-            {/* Top Layer: Full Color Revealed by Cursor Torch Spotlight */}
-            <img
-              src="/images/vaibhav_speaker.png?v=color"
-              alt={`${firstName} ${lastName} in Color`}
-              className={styles.portraitImgColor}
-              draggable={false}
-            />
+              {/* Top Layer: Full Color Revealed by Cursor Torch Spotlight */}
+              <img
+                src="/images/vaibhav_speaker.png?v=color"
+                alt={`${firstName} ${lastName} in Color`}
+                className={styles.portraitImgColor}
+                draggable={false}
+              />
+            </div>
           </div>
         </div>
 
