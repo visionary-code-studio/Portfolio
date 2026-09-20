@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import InquiryModal from '@/components/contact/InquiryModal';
 import styles from './Footer.module.css';
 
@@ -267,7 +266,6 @@ export default function Footer({ data, socials }: FooterProps) {
                 <button onClick={() => scrollToSection('ppt')} className={styles.navLinkItem} data-cursor-hover>Archive</button>
                 <button onClick={() => scrollToSection('certs')} className={styles.navLinkItem} data-cursor-hover>Proof</button>
                 <button onClick={() => scrollToSection('contact')} className={styles.navLinkItem} data-cursor-hover>Contacts</button>
-                <Link href="/admin" className={styles.navLinkItem} data-cursor-hover>Admin</Link>
               </nav>
 
               {/* Square Scroll-To-Top Button */}
@@ -365,7 +363,6 @@ export default function Footer({ data, socials }: FooterProps) {
         {/* Bottom Copyright & Colophon Bar */}
         <div className={styles.colophonBar}>
           <span className={styles.copyrightText}>© 2026 {fullName}</span>
-          <span className={styles.colophonNote}>Handcrafted with Next.js &amp; PyTorch</span>
         </div>
       </div>
 
