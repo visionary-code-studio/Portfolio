@@ -32,7 +32,7 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
   const [currentStep, setCurrentStep] = useState(0);
   const [isRevealed, setIsRevealed] = useState(false);
 
-  // Audio Reference: flute-song.mp3 starts immediately from the begin of website on every reload
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Three.js References
@@ -45,52 +45,71 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
   const stepRef = useRef(0);
   stepRef.current = currentStep;
 
-  // Initialize and continuously play flute-song.mp3 from the start
-  useEffect(() => {
-    let audio: HTMLAudioElement;
+  // Function to ensure audio is playing immediately
+  const ensureAudioPlaying = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
 
-    try {
+    if (audio.paused) {
+      audio.play().then(() => {
+        setIsPlayingAudio(true);
+      }).catch(() => {});
+    }
+  }, []);
+
+  // Initialize and play flute-song.mp3 from the initial load of the website
+  useEffect(() => {
+    let audio = audioRef.current;
+    if (!audio) {
       audio = new Audio('/audio/flute-song.mp3');
       audio.loop = true;
       audio.volume = 0.85;
-
-      audio.onerror = () => {
-        if (audio.src.includes('/audio/')) {
-          audio.src = '/flute-song.mp3';
-          audio.play().catch(() => {});
-        }
-      };
-
-      // Attempt immediate autoplay on reload
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // If browser restricts unprompted autoplay, immediately unlock on ANY first micro-interaction
-          const unlockAudio = () => {
-            if (audio && audio.paused) {
-              audio.play().catch(() => {});
-            }
-            window.removeEventListener('pointerdown', unlockAudio);
-            window.removeEventListener('touchstart', unlockAudio);
-            window.removeEventListener('keydown', unlockAudio);
-            window.removeEventListener('wheel', unlockAudio);
-          };
-
-          window.addEventListener('pointerdown', unlockAudio, { once: true, passive: true });
-          window.addEventListener('touchstart', unlockAudio, { once: true, passive: true });
-          window.addEventListener('keydown', unlockAudio, { once: true, passive: true });
-          window.addEventListener('wheel', unlockAudio, { once: true, passive: true });
-        });
-      }
-
+      audio.preload = 'auto';
       audioRef.current = audio;
-    } catch {
-      // Audio fallback
     }
 
-    return () => {
-      // Keep playing smoothly into portfolio, or pause if unmounted
+    audio.onerror = () => {
+      if (audio && audio.src.includes('/audio/')) {
+        audio.src = '/flute-song.mp3';
+        audio.load();
+        audio.play().then(() => setIsPlayingAudio(true)).catch(() => {});
+      }
     };
+
+    // 1. Attempt immediate unmuted autoplay on initial load
+    const startImmediatePlay = () => {
+      if (!audio) return;
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          setIsPlayingAudio(true);
+        }).catch(() => {
+          // 2. If browser requires a user gesture, immediately unlock on ANY user touch or click
+          const onFirstGesture = () => {
+            if (audio) {
+              audio.play().then(() => {
+                setIsPlayingAudio(true);
+              }).catch(() => {});
+            }
+            window.removeEventListener('click', onFirstGesture);
+            window.removeEventListener('mousedown', onFirstGesture);
+            window.removeEventListener('pointerdown', onFirstGesture);
+            window.removeEventListener('touchstart', onFirstGesture);
+            window.removeEventListener('keydown', onFirstGesture);
+          };
+
+          window.addEventListener('click', onFirstGesture, { once: true });
+          window.addEventListener('mousedown', onFirstGesture, { once: true });
+          window.addEventListener('pointerdown', onFirstGesture, { once: true });
+          window.addEventListener('touchstart', onFirstGesture, { once: true });
+          window.addEventListener('keydown', onFirstGesture, { once: true });
+        });
+      }
+    };
+
+    startImmediatePlay();
+
+    return () => {};
   }, []);
 
   // Complete Reveal Transition into Landing Page
@@ -119,10 +138,7 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
     if (now - lastAdvanceTimeRef.current < 420) return;
     lastAdvanceTimeRef.current = now;
 
-    // Ensure audio is playing if browser was holding it back
-    if (audioRef.current && audioRef.current.paused) {
-      audioRef.current.play().catch(() => {});
-    }
+    ensureAudioPlaying();
 
     setCurrentStep((prev) => {
       const next = prev + 1;
@@ -132,7 +148,19 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
       }
       return next;
     });
-  }, [completeReveal]);
+  }, [completeReveal, ensureAudioPlaying]);
+
+  // Overlay click handler: starts audio if paused, otherwise advances step
+  const handleOverlayClick = useCallback(() => {
+    ensureAudioPlaying();
+
+    if (currentStep === 0 && !isPlayingAudio) {
+      // Audio started, keep flute visible so user hears it from the start
+      return;
+    }
+
+    advanceStep();
+  }, [currentStep, isPlayingAudio, ensureAudioPlaying, advanceStep]);
 
   // Lock document scroll while splash overlay is active
   useEffect(() => {
@@ -536,8 +564,25 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
         transform: currentStep === TOTAL_STEPS ? 'translateY(-100%)' : 'translateY(0)',
       }}
       aria-label="Interactive 3D Flute Welcome Experience"
-      onClick={advanceStep}
+      onClick={handleOverlayClick}
     >
+      {/* ── Hidden Streaming Audio Element ── */}
+      <audio
+        ref={(el) => {
+          if (el && !audioRef.current) {
+            audioRef.current = el;
+            el.volume = 0.85;
+            el.play().then(() => setIsPlayingAudio(true)).catch(() => {});
+          }
+        }}
+        src="/audio/flute-song.mp3"
+        autoPlay
+        loop
+        preload="auto"
+        playsInline
+        style={{ display: 'none' }}
+      />
+
       {/* ── Three.js Spiral Galaxy WebGL Canvas (Black, Silver, White) ── */}
       <canvas ref={canvasRef} className={styles.webglCanvas} />
 
@@ -630,12 +675,12 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
         <button
           type="button"
           className={`${styles.scrollActionBtn} ${isUnifiedBottom ? styles.finalAction : ''}`}
-          onClick={advanceStep}
+          onClick={handleOverlayClick}
           aria-label="Next Step"
         >
           {currentStep === 0 && (
             <>
-              <span>Scroll ↓</span>
+              <span>{isPlayingAudio ? 'Scroll to Begin ↓' : 'Click or Scroll to Begin ↓'}</span>
               <span className={styles.arrowIcon}>↓</span>
             </>
           )}
