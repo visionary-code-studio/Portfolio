@@ -513,69 +513,288 @@
   font-weight: 700;
 }
 
-/* Academic Card */
-.academic {
-  background: var(--bg-soft);
-  border: 1px solid rgba(17, 17, 17, 0.08);
-  border-radius: 12px;
-  overflow: hidden;
+/* Academic Overview Luxury Showcase (Matches Portfolio Core UI) */
+.academicCard {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.09);
+  border-radius: 24px;
+  padding: 2.2rem 2.5rem;
+  box-shadow: 0 20px 45px -15px rgba(15, 23, 42, 0.07), 0 1px 3px rgba(0, 0, 0, 0.02);
   display: flex;
   flex-direction: column;
+  transition: all 0.3s var(--ease-out-expo);
 }
 
 .academicHeader {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  padding: 1rem 1.4rem;
-  background: rgba(17, 17, 17, 0.02);
-  border-bottom: 1px solid rgba(17, 17, 17, 0.06);
+  padding-bottom: 1.6rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.academicHeaderLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.academicEyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #64748b;
 }
 
 .academicTitle {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  color: var(--text-muted);
-  text-transform: uppercase;
+  font-family: var(--font-signature);
+  font-size: clamp(2.3rem, 4.4vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.05;
+  color: #0f172a;
+  letter-spacing: 0.02em;
+  margin: 0;
+  transform: rotate(-1.5deg);
+  display: inline-block;
+}
+
+.academicStatusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 0.42rem 1.15rem;
+  border-radius: 999px;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.08);
+}
+
+.statusDotPulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+  animation: pulseBlink 2s infinite ease-in-out;
 }
 
 .academicStatus {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.1em;
-  color: #15803d;
-  background: rgba(34, 197, 94, 0.1);
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
-  border: 1px solid rgba(34, 197, 94, 0.25);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  color: #047857;
 }
 
-.academicRow {
+/* Bento Grid */
+.academicBentoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.6rem;
+  width: 100%;
+}
+
+.bentoCol {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+}
+
+.bentoCard {
+  background: #f8fafc;
+  border: 1px solid rgba(15, 23, 42, 0.07);
+  border-radius: 20px;
+  padding: 1.75rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 250px;
+  transition: all 0.3s var(--ease-out-expo);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.bentoCard:hover {
+  transform: translateY(-4px);
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.16);
+  box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.1);
+}
+
+.bentoCardHighlight {
+  background: linear-gradient(180deg, #fcfefe 0%, #f1f5f9 100%);
+  border-color: rgba(15, 23, 42, 0.11);
+}
+
+.bentoCardHighlight:hover {
+  background: #ffffff;
+}
+
+.bentoCardTop {
+  display: flex;
   align-items: center;
-  padding: 0.85rem 1.4rem;
-  border-bottom: 1px solid rgba(17, 17, 17, 0.04);
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
 }
 
-.academicRow:last-child {
-  border-bottom: none;
-}
-
-.academicLabel {
-  font-family: var(--font-body);
-  font-size: 0.88rem;
-  color: var(--text-muted);
-}
-
-.academicValue {
+.bentoTag {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.bentoIconWrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0f172a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.bentoHeading {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.45rem;
+  line-height: 1.3;
+}
+
+.bentoSubtext {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0 0 1.5rem;
   font-weight: 500;
+}
+
+.bentoMetaPill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  margin-top: auto;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+}
+
+.metaLabel {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.metaVal {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #0f172a;
   letter-spacing: 0.04em;
-  color: var(--text);
+}
+
+/* CGPA Card Specifics */
+.cgpaBlock {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0.2rem 0 0.35rem;
+}
+
+.cgpaNumber {
+  font-family: var(--font-heading);
+  font-size: 3.4rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.cgpaScale {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.cgpaCaption {
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  color: #64748b;
+  margin: 0 0 1.35rem;
+  font-weight: 500;
+}
+
+.semScoresRow {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.semPill {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #0f172a;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  padding: 0.4rem 0.85rem;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+}
+
+.schoolScorePill {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 0.6rem 0.85rem;
+  border-radius: 12px;
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: #334155;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+}
+
+.scoreItem strong {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.scoreDivider {
+  color: #cbd5e1;
+}
+
+@media (max-width: 960px) {
+  .academicBentoGrid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .academicCard {
+    padding: 1.8rem 1.4rem;
+  }
+  .academicHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
 }
 
 /* Academic Track Wrapper (Flows after all tags are scrolled through) */

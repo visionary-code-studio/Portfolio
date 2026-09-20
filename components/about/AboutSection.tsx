@@ -303,21 +303,90 @@ export default function AboutSection({ data }: AboutProps) {
         </div>
       </div>
 
-      {/* Academic Track Dossier (Floats into view once all tags are scrolled through) */}
+      {/* Academic Overview Luxury Showcase (Matches Portfolio Core UI) */}
       <div className={styles.academicWrapper}>
-        <ScrollReveal variant="card" delay={0.15} className={styles.academic}>
+        <ScrollReveal variant="card" delay={0.15} className={styles.academicCard}>
+          {/* Header Row */}
           <div className={styles.academicHeader}>
-            <span className={styles.academicTitle}>Academic Dossier</span>
-            <span className={styles.academicStatus}>Active Standing</span>
+            <div className={styles.academicHeaderLeft}>
+              <span className={styles.academicEyebrow}>03 — Scholastic Foundation</span>
+              <h3 className={styles.academicTitle}>Academic Overview</h3>
+            </div>
+            <div className={styles.academicStatusBadge}>
+              <span className={styles.statusDotPulse} />
+              <span className={styles.academicStatus}>Active Standing</span>
+            </div>
           </div>
-          <ScrollStagger staggerDelay={0.05}>
-            {academic.map((row) => (
-              <ScrollStaggerItem key={row.label} className={styles.academicRow}>
-                <span className={styles.academicLabel}>{row.label}</span>
-                <span className={styles.academicValue}>{row.value}</span>
-              </ScrollStaggerItem>
-            ))}
-          </ScrollStagger>
+
+          {/* Core UI Bento Grid */}
+          <div className={styles.academicBentoGrid}>
+            {/* Card 1: University & Degree Track */}
+            <div className={styles.bentoCol}>
+              <div className={styles.bentoCard}>
+                <div className={styles.bentoCardTop}>
+                  <span className={styles.bentoTag}>University &amp; Degree</span>
+                  <div className={styles.bentoIconWrap}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                      <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                    </svg>
+                  </div>
+                </div>
+                <h4 className={styles.bentoHeading}>{universityName}</h4>
+                <p className={styles.bentoSubtext}>{degree}</p>
+                <div className={styles.bentoMetaPill}>
+                  <span className={styles.metaLabel}>Current Term</span>
+                  <span className={styles.metaVal}>{yearSem}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 2: Cumulative CGPA Performance */}
+            <div className={styles.bentoCol}>
+              <div className={`${styles.bentoCard} ${styles.bentoCardHighlight}`}>
+                <div className={styles.bentoCardTop}>
+                  <span className={styles.bentoTag}>Scholastic Distinction</span>
+                  <div className={styles.bentoIconWrap}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                    </svg>
+                  </div>
+                </div>
+                <div className={styles.cgpaBlock}>
+                  <span className={styles.cgpaNumber}>{data?.university?.cgpa || '9.38'}</span>
+                  <span className={styles.cgpaScale}>/ 10.0 CGPA</span>
+                </div>
+                <p className={styles.cgpaCaption}>Cumulative Academic Performance</p>
+                <div className={styles.semScoresRow}>
+                  <span className={styles.semPill}>Sem 1: {data?.university?.sem1 || '9.43'}</span>
+                  <span className={styles.semPill}>Sem 2: {data?.university?.sem2 || '9.35'}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 3: Foundational Schooling */}
+            <div className={styles.bentoCol}>
+              <div className={styles.bentoCard}>
+                <div className={styles.bentoCardTop}>
+                  <span className={styles.bentoTag}>Foundational Schooling</span>
+                  <div className={styles.bentoIconWrap}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
+                      <path d="M6 6h10" />
+                      <path d="M6 10h10" />
+                    </svg>
+                  </div>
+                </div>
+                <h4 className={styles.bentoHeading}>{schoolName}</h4>
+                <p className={styles.bentoSubtext}>Senior Secondary Board Curriculum</p>
+                <div className={styles.schoolScorePill}>
+                  <span className={styles.scoreItem}>Class 10: <strong>{data?.school?.class10 || '85.5%'}</strong></span>
+                  <span className={styles.scoreDivider}>•</span>
+                  <span className={styles.scoreItem}>Class 12: <strong>{data?.school?.class12 || '75.8%'}</strong></span>
+                </div>
+              </div>
+            </div>
+          </div>
         </ScrollReveal>
       </div>
     </section>
