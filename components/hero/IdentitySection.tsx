@@ -32,94 +32,11 @@ interface ProfileProps {
 }
 
 export default function IdentitySection({ data }: ProfileProps) {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const fullName = data?.fullName || 'Vaibhav Shaw';
-  const profileImage = data?.profileImage || '/images/profile_update.png';
-  const videoSrc = data?.heroVideo || '/video/Intro.mp4';
+  const profileImage = data?.profileImage || '/images/intro/panel_office.jpg';
   const cgpa = data?.university?.cgpa || '9.38';
   const yearSem = data?.university?.year ? `${data.university.year} · ${data.university.semester || 'Sem 3'}` : '2nd Year · 3rd Sem';
   const shortIntro = data?.shortIntro || 'Student of Sister Nivedita University pursuing B.Tech CSE in AIML. Building ideas through curiosity and turning research into reality.';
-
-  // Automatically play welcoming video WITH SOUND when reaching this section, and pause when passed
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    video.playsInline = true;
-    video.loop = true;
-
-    const startPlayback = () => {
-      // Never play or make sound while splash screen is active or user is in hero
-      const splashActive = document.querySelector('aside[aria-label*="Welcome"]') !== null;
-      if (splashActive || window.scrollY < 250) {
-        video.pause();
-        video.muted = true;
-        return;
-      }
-
-      // Play with sound
-      video.muted = false;
-      video.volume = 1.0;
-
-      if (video.paused) {
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(() => {
-            // Browser fallback if unmuted play is pending gesture
-            video.muted = true;
-            video.play().then(() => {
-              // Immediately unmute as user scrolls
-              video.muted = false;
-            }).catch(() => {});
-          });
-        }
-      }
-    };
-
-    const stopPlayback = () => {
-      if (!video.paused) {
-        video.pause();
-      }
-      video.muted = true;
-    };
-
-    // User gesture handler to ensure browser audio context is unlocked
-    const unlockVideoAudio = () => {
-      if (video && !video.paused) {
-        video.muted = false;
-        video.volume = 1.0;
-      }
-    };
-
-    window.addEventListener('scroll', unlockVideoAudio, { passive: true });
-    window.addEventListener('click', unlockVideoAudio, { passive: true });
-
-    // 1. Intersection Observer: plays with sound when in view, pauses when passed
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
-            startPlayback();
-          } else {
-            stopPlayback();
-          }
-        });
-      },
-      {
-        threshold: [0, 0.25, 0.6],
-        rootMargin: '0px 0px 0px 0px',
-      }
-    );
-
-    observer.observe(video);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('scroll', unlockVideoAudio);
-      window.removeEventListener('click', unlockVideoAudio);
-      if (!video.paused) video.pause();
-    };
-  }, []);
 
   const stats = [
     { value: cgpa, label: 'CGPA (Cumulative)' },
@@ -181,16 +98,14 @@ export default function IdentitySection({ data }: ProfileProps) {
           <Card3D intensity={10} glare={true} className={styles.card3DPhotoWrap}>
             <div className={styles.photoWrap}>
               <ScrollImageReveal direction="up" delay={150} glare={true}>
-                <video
-                  ref={videoRef}
-                  src={videoSrc}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="auto"
+                <Image
+                  src={profileImage}
+                  alt={fullName}
+                  width={600}
+                  height={750}
                   className={styles.photo}
                   style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                  priority
                 />
               </ScrollImageReveal>
 

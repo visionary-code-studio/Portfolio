@@ -5,13 +5,12 @@ import styles from './ScrollProgressHUD.module.css';
 
 const chapters = [
   { id: 'home', num: '01', title: 'Home' },
-  { id: 'identity', num: '02', title: 'Identity' },
-  { id: 'about', num: '03', title: 'About' },
-  { id: 'ppt', num: '04', title: 'Archive' },
-  { id: 'certs', num: '05', title: 'Proof' },
-  { id: 'interests', num: '06', title: 'Interests' },
-  { id: 'future', num: '07', title: 'Future' },
-  { id: 'contact', num: '08', title: 'Connect' },
+  { id: 'about', num: '02', title: 'About' },
+  { id: 'ppt', num: '03', title: 'Archive' },
+  { id: 'certs', num: '04', title: 'Proof' },
+  { id: 'interests', num: '05', title: 'Interests' },
+  { id: 'future', num: '06', title: 'Future' },
+  { id: 'contact', num: '07', title: 'Connect' },
 ];
 
 export default function ScrollProgressHUD() {

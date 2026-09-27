@@ -1,0 +1,40 @@
+/* Floating Vertical Social Rail on Main Portfolio Page */
+.socialSidebar {
+  position: fixed;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  pointer-events: auto;
+}
+
+.socialLine {
+  width: 1px;
+  height: 2.5rem;
+  background: var(--text-dim, rgba(255, 255, 255, 0.2));
+}
+
+.socialLink {
+  color: var(--text-dim, #94a3b8);
+  transition: all 0.22s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.socialLink:hover {
+  color: var(--text, #ffffff);
+  transform: scale(1.25);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7));
+}
+
+@media (max-width: 1024px) {
+  .socialSidebar {
+    display: none;
+  }
+}

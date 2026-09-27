@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import CustomCursor from '@/components/ui/CustomCursor';
 import Navbar from '@/components/layout/Navbar';
 import Hero from '@/components/hero/Hero';
-import IdentitySection from '@/components/hero/IdentitySection';
 import Marquee from '@/components/ui/Marquee';
 import AboutSection from '@/components/about/AboutSection';
 import PptShelf from '@/components/presentations/PptShelf';
@@ -16,7 +15,9 @@ import ContactSection from '@/components/contact/ContactSection';
 import Footer from '@/components/layout/Footer';
 import ModalViewer from '@/components/ui/ModalViewer';
 import ScrollProgressHUD from '@/components/ui/ScrollProgressHUD';
+import SocialRail from '@/components/ui/SocialRail';
 import WebGLSplashReveal from '@/components/splash/WebGLSplashReveal';
+import PortfolioIntroScene from '@/components/intro/PortfolioIntroScene';
 
 import fallbackData from '@/data/portfolio-content.json';
 import type { Presentation, Certification } from '@/types';
@@ -89,40 +90,50 @@ export default function Home() {
     };
   }, []);
 
+  const [splashComplete, setSplashComplete] = useState(false);
+  const [introComplete, setIntroComplete] = useState(false);
   const visibility = content.sectionVisibility || {};
 
   return (
     <>
-      <WebGLSplashReveal />
-      <CustomCursor />
-      <ScrollProgressHUD />
-      <Navbar profile={content.profile} />
+      {/* 1. Atmospheric Galaxy Splash Screen */}
+      {!splashComplete && (
+        <WebGLSplashReveal onRevealComplete={() => setSplashComplete(true)} />
+      )}
 
-      <main>
-        {/* 01 — Fitted Cinematic Hero Landing Stage */}
-        {visibility.hero !== false && (
-          <Hero
-            data={{
-              eyebrow: content.hero?.eyebrow,
-              firstName: content.hero?.firstName,
-              lastName: content.hero?.lastName,
-              role: content.hero?.role,
-              heroVideo: content.hero?.heroVideo,
-              posterImage: content.hero?.posterImage,
-              location: content.profile?.location,
-            }}
-          />
-        )}
+      {/* 2. Cinematic 3D WebGL Intro Screen: "From Universe to Identity" */}
+      {splashComplete && !introComplete && (
+        <PortfolioIntroScene
+          onIntroComplete={() => {
+            setIntroComplete(true);
+            window.scrollTo({ top: 0, behavior: 'instant' });
+          }}
+        />
+      )}
 
-        {/* 02 — Identity: Welcoming intro video with scroll auto-play + technical badge + stats */}
-        {visibility.identity !== false && (
-          <IdentitySection
-            data={{
-              ...content.profile,
-              heroVideo: content.hero?.heroVideo || content.profile?.heroVideo || '/video/Intro.mp4',
-            }}
-          />
-        )}
+      {/* 3. Main Portfolio Home Page (Rendered only after intro completion) */}
+      {introComplete && (
+        <>
+          <CustomCursor />
+          <ScrollProgressHUD />
+          <Navbar profile={content.profile} />
+          <SocialRail socials={content.profile?.socials} />
+
+          <main>
+            {/* 01 — Original Fitted Cinematic Hero Landing Stage */}
+            {visibility.hero !== false && (
+              <Hero
+                data={{
+                  eyebrow: content.hero?.eyebrow,
+                  firstName: content.hero?.firstName,
+                  lastName: content.hero?.lastName,
+                  role: content.hero?.role,
+                  heroVideo: content.hero?.heroVideo,
+                  posterImage: content.hero?.posterImage,
+                  location: content.profile?.location,
+                }}
+              />
+            )}
 
         {/* Kinetic marquee separator */}
         {visibility.marquee !== false && <Marquee />}
@@ -168,23 +179,25 @@ export default function Home() {
         {visibility.contact !== false && (
           <Footer data={content.profile} socials={content.profile?.socials} />
         )}
-      </main>
+        </main>
 
-      {/* Modals for PPT and Certificates */}
-      {pptModal && (
-        <ModalViewer
-          item={pptModal}
-          type="ppt"
-          onClose={() => setPptModal(null)}
-        />
-      )}
-      {certModal && (
-        <ModalViewer
-          item={certModal}
-          type="cert"
-          onClose={() => setCertModal(null)}
-        />
-      )}
-    </>
-  );
+        {/* Modals for PPT and Certificates */}
+        {pptModal && (
+          <ModalViewer
+            item={pptModal}
+            type="ppt"
+            onClose={() => setPptModal(null)}
+          />
+        )}
+        {certModal && (
+          <ModalViewer
+            item={certModal}
+            type="cert"
+            onClose={() => setCertModal(null)}
+          />
+        )}
+      </>
+    )}
+  </>
+);
 }

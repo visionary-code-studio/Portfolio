@@ -39,6 +39,8 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
   const fluteGroupRef = useRef<THREE.Group | null>(null);
   const galaxyPointsRef = useRef<THREE.Points | null>(null);
   const fluteDissolveRef = useRef<{ factor: number }>({ factor: 0 });
+  const isContractingRef = useRef(false);
+  const contractionProgressRef = useRef(0);
 
   // Input Debounce Control
   const lastAdvanceTimeRef = useRef(0);
@@ -118,19 +120,24 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
     document.body.style.overflow = '';
     if (onRevealComplete) onRevealComplete();
 
-    // Fade out audio gracefully over 1.8 seconds when entering the portfolio
+    // Stop flute audio completely as the intro section takes over with welcoming video
     if (audioRef.current) {
-      const audio = audioRef.current;
-      const fadeInterval = setInterval(() => {
-        if (audio.volume > 0.06) {
-          audio.volume = Math.max(0, audio.volume - 0.08);
-        } else {
-          audio.pause();
-          clearInterval(fadeInterval);
-        }
-      }, 90);
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
     }
   }, [onRevealComplete]);
+
+  // Listener for instant flute audio stop
+  useEffect(() => {
+    const handleStop = () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+    };
+    window.addEventListener('stopFluteAudio', handleStop);
+    return () => window.removeEventListener('stopFluteAudio', handleStop);
+  }, []);
 
   // Advance Step: Scrolling is ONLY to disappear flute and reveal words one by one
   const advanceStep = useCallback(() => {
@@ -143,7 +150,13 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
     setCurrentStep((prev) => {
       const next = prev + 1;
       if (next >= TOTAL_STEPS) {
-        completeReveal();
+        if (!isContractingRef.current) {
+          isContractingRef.current = true;
+          // Immediately smoothly reveal intro without dead waiting time
+          setTimeout(() => {
+            completeReveal();
+          }, 350);
+        }
         return TOTAL_STEPS;
       }
       return next;
@@ -235,14 +248,21 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
     const camera = new THREE.PerspectiveCamera(48, width / height, 0.1, 1000);
     camera.position.set(0, 0, 6.4);
 
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      antialias: true,
-      alpha: true,
-      powerPreference: 'high-performance',
-    });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(width, height);
+    let renderer: THREE.WebGLRenderer | null = null;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+        powerPreference: 'high-performance',
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(width, height);
+    } catch (err) {
+      console.warn('WebGL not available in this browser environment, proceeding to content', err);
+      completeReveal();
+      return;
+    }
 
     // 2. ── Spiral Galaxy Three.js System (Black, Silver, White) ──
     const galaxyParams = {
@@ -463,10 +483,17 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
       mouseX += (targetMouseX - mouseX) * 0.05;
       mouseY += (targetMouseY - mouseY) * 0.05;
 
-      // ── Spiral Galaxy Orbit ──
+      // ── Spiral Galaxy Orbit & Transition Contraction ──
       if (galaxyPoints) {
-        galaxyPoints.rotation.y = elapsedTime * 0.04 + mouseX * 0.5;
-        galaxyPoints.rotation.x = Math.PI / 3.4 + mouseY * 0.35;
+        if (isContractingRef.current) {
+          contractionProgressRef.current += (1.0 - contractionProgressRef.current) * 0.085;
+          const cFactor = Math.max(0.005, 1.0 - contractionProgressRef.current);
+          galaxyPoints.scale.set(cFactor, cFactor, cFactor);
+          galaxyPoints.rotation.y = elapsedTime * 0.12 + mouseX * 0.5;
+        } else {
+          galaxyPoints.rotation.y = elapsedTime * 0.04 + mouseX * 0.5;
+          galaxyPoints.rotation.x = Math.PI / 3.4 + mouseY * 0.35;
+        }
       }
 
       // ── Flute Dissolution: Disappears on first scroll (step >= 1) ──
