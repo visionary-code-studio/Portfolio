@@ -182,15 +182,15 @@ export default function Footer({ data, socials }: FooterProps) {
         <div className={styles.topCard}>
           <div className={styles.availPill}>
             <span className={styles.availDot} />
-            <span>Available for Projects &amp; Research</span>
+            <span>Available for Projects &amp; Collaborations</span>
           </div>
 
           <h2 className={styles.ctaHeading}>
-            Need an intelligent AI system or high-performance frontend build?
+            Need a Website, Design, or AI/ML Solution?
           </h2>
 
           <p className={styles.ctaSub}>
-            I build fast, scalable web applications, intelligent neural systems, and practical automated solutions for modern teams and brands.
+            I build full-stack web applications, create professional graphics and designs with Canva, and develop practical AI/ML projects for students, startups, and modern teams.
           </p>
 
           <button

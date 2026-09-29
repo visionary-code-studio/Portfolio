@@ -39,7 +39,7 @@ export default function InquiryModal({ isOpen, onClose, defaultEmail }: InquiryM
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState(defaultEmail || '');
   const [subject, setSubject] = useState('');
-  const [projectType, setProjectType] = useState('Full-Stack Engineering');
+  const [projectType, setProjectType] = useState('Website & Web Application');
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -339,11 +339,11 @@ export default function InquiryModal({ isOpen, onClose, defaultEmail }: InquiryM
                   onChange={(e) => setProjectType(e.target.value)}
                   className={styles.select}
                 >
-                  <option value="Full-Stack Engineering">Full-Stack Web / Next.js Engineering</option>
-                  <option value="AI / ML Pipeline Design">AI / ML Pipeline &amp; Agentic System</option>
-                  <option value="Technical Hiring / Internship / Role">Technical Hiring / Internship / Role</option>
+                  <option value="Website & Web Application">Website &amp; Full-Stack Web Application</option>
+                  <option value="Graphic & Canva Design">Graphic Design &amp; Visuals (Canva / UI)</option>
+                  <option value="AI / ML Solution">AI / ML Solution (Students, Startups &amp; Research)</option>
                   <option value="Startup Collaboration">Startup Collaboration / MVP Build</option>
-                  <option value="Academic / Research Inquiry">Academic Research &amp; Presentation</option>
+                  <option value="Technical Role / Hiring">Technical Role / Internship / Hiring</option>
                 </select>
               </div>
 
