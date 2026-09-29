@@ -90,121 +90,214 @@
   opacity: 1;
 }
 
-/* ── SINGLE PERSONA SHOWCASE CARD (Steps 0, 1, 2: Rests ~5s per transition) ── */
-.showcaseCard {
+/* ── FULLSCREEN CENTERED CINEMA TELEVISION VIEW (STAGE 1) ── */
+.cinemaFullscreenOverlay {
   position: absolute;
-  right: 6%;
-  top: 50%;
-  transform: translateY(-50%);
-  width: min(440px, 32vw);
-  aspect-ratio: 1 / 1;
-  border-radius: 20px;
-  overflow: hidden;
-  background: #090b10;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9), 0 0 50px rgba(255, 255, 255, 0.08);
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 35;
+  padding: 2rem;
   pointer-events: auto;
-  z-index: 20;
-  animation: cardGlanceIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards, zeroGravityFloat 6s ease-in-out infinite alternate;
+  animation: cinemaFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes cardGlanceIn {
+@keyframes cinemaFadeIn {
   from {
     opacity: 0;
-    transform: translateY(calc(-50% + 35px)) scale(0.92);
+    transform: scale(0.96);
   }
   to {
     opacity: 1;
-    transform: translateY(-50%) scale(1);
+    transform: scale(1);
   }
+}
+
+.cinemaTvBox {
+  position: relative;
+  width: min(1040px, 92vw);
+  max-height: 80vh;
+  aspect-ratio: 16 / 9;
+  border-radius: 20px;
+  background: #040508;
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    0 30px 100px rgba(0, 0, 0, 0.96), 
+    0 0 80px rgba(255, 255, 255, 0.05),
+    inset 0 1px 2px rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cinemaSkipBtn {
+  position: absolute;
+  top: 2rem;
+  right: 2.5rem;
+  z-index: 40;
+  background: rgba(12, 16, 24, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.55rem 1.25rem;
+  border-radius: 999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.25s ease;
+}
+
+.cinemaSkipBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
+}
+
+/* ── VISIONARY B&W FLOATING CARDS STAGE (STAGE 2) ── */
+.visionaryCardsStage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+  pointer-events: auto;
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.visionaryFloatingCard {
+  position: relative;
+  width: min(600px, 88vw);
+  aspect-ratio: 16 / 10;
+  max-height: 72vh;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #080a10;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 
+    0 35px 90px rgba(0, 0, 0, 0.95), 
+    0 0 60px rgba(255, 255, 255, 0.08),
+    inset 0 1px 2px rgba(255, 255, 255, 0.35);
+  animation: zeroGravityFloat 6s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.visionaryCardDriftingUp {
+  animation: cardDriftUp 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
 }
 
 @keyframes zeroGravityFloat {
-  0% {
-    transform: translateY(-50%) rotate(0deg);
-  }
-  50% {
-    transform: translateY(calc(-50% - 12px)) rotate(1.2deg);
-  }
-  100% {
-    transform: translateY(calc(-50% + 8px)) rotate(-1deg);
-  }
+  0% { transform: translateY(0px) rotate(0deg) scale(1); }
+  50% { transform: translateY(-8px) rotate(0.6deg) scale(1.01); }
+  100% { transform: translateY(6px) rotate(-0.5deg) scale(1); }
 }
 
-/* Zero gravity drift upward into space when changing card */
-.cardDriftingUp {
-  animation: zeroGravityDriftUp 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
-}
-
-@keyframes zeroGravityDriftUp {
+@keyframes cardDriftUp {
   0% {
     opacity: 1;
-    transform: translateY(-50%) scale(1) rotate(0deg);
+    transform: translateY(0) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translateY(-135vh) scale(0.82) rotate(-8deg);
+    transform: translateY(-130%) scale(0.9) rotate(-1deg);
   }
 }
 
-.dimensionImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* Minimal Technical Badge on Dimensional Cards */
-.cardBadge {
+.cardTopPill {
   position: absolute;
-  top: 0.85rem;
-  left: 0.85rem;
-  z-index: 5;
-  background: rgba(4, 6, 10, 0.82);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
-  padding: 0.3rem 0.75rem;
-  font-size: 0.64rem;
+  top: 1.15rem;
+  left: 1.25rem;
+  z-index: 15;
+  background: rgba(4, 6, 12, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  padding: 0.38rem 0.95rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.14em;
-  color: #f1f5f9;
+  color: #ffffff;
   text-transform: uppercase;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.cardDot {
-  width: 5px;
-  height: 5px;
+.cardTopDot {
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: #ffffff;
-  box-shadow: 0 0 6px #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
 }
 
-/* ── LARGE HERO VIDEO CARD (At Last, sized according to 2nd image, fills right side) ── */
-.largeVideoCard {
+.cardBottomInfo {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 15;
+  padding: 2.2rem 1.4rem 1.25rem;
+  background: linear-gradient(180deg, transparent 0%, rgba(4, 6, 10, 0.75) 40%, rgba(2, 3, 6, 0.96) 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.cardInfoTitle {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.cardInfoSubtitle {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  color: #94a3b8;
+  letter-spacing: 0.08em;
+}
+
+/* ── FINAL IDENTITY VIEW (STAGE 3 — MATCHES IMAGE 2 WITH FIXES) ── */
+.finalShowcaseBox {
   position: absolute;
   right: 4.5%;
   top: 50%;
   transform: translateY(-50%);
-  width: min(620px, 45vw);
-  height: min(540px, 68vh);
-  border-radius: 22px;
+  width: min(680px, 48vw);
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
   overflow: hidden;
-  background: #050608;
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.95), 0 0 60px rgba(255, 255, 255, 0.08);
+  background: #06080e;
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    0 30px 90px rgba(0, 0, 0, 0.95), 
+    0 0 60px rgba(255, 255, 255, 0.05),
+    inset 0 1px 2px rgba(255, 255, 255, 0.25);
   pointer-events: auto;
   z-index: 25;
-  animation: videoReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: finalBoxReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes videoReveal {
+@keyframes finalBoxReveal {
   from {
     opacity: 0;
-    transform: translateY(calc(-50% + 18px)) scale(0.97);
+    transform: translateY(calc(-50% + 24px)) scale(0.96);
   }
   to {
     opacity: 1;
@@ -212,41 +305,188 @@
   }
 }
 
-.videoElement {
+/* TV Inner Screen with Glassmorphism Curvature */
+.tvScreenGlass {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #020306;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.9);
+}
+
+/* Glass Reflection Curvature Layer */
+.tvGlare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 15;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.02) 28%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.015) 100%
+  );
+  border-radius: 16px;
+}
+
+/* CRT Vignette Barrel Distortion Shadow */
+.tvCrtVignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 14;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.6) 88%,
+    rgba(0, 0, 0, 0.95) 100%
+  );
+}
+
+/* CRT Scanlines Overlay */
+.tvScanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 13;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.32) 0px,
+    rgba(0, 0, 0, 0.32) 1.5px,
+    transparent 1.5px,
+    transparent 3px
+  );
+  opacity: 0.6;
+}
+
+/* Horizontal Rolling Tracking Bar */
+.tvTrackingBar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 14px;
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+  pointer-events: none;
+  z-index: 13;
+  animation: trackingRoll 4.5s linear infinite;
+}
+
+@keyframes trackingRoll {
+  0% { top: -20px; }
+  100% { top: 110%; }
+}
+
+/* Analog Procedural Static Noise Canvas */
+.tvStaticCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none;
+  z-index: 12;
+  opacity: 0.94;
+  mix-blend-mode: screen;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* CRT Power-on Line Flash Expansion */
+.tvPowerOnFlash {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #ffffff;
+  box-shadow: 0 0 20px #ffffff, 0 0 40px #ffffff;
+  z-index: 16;
+  pointer-events: none;
+  animation: crtLineExpand 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes crtLineExpand {
+  0% {
+    transform: scaleX(0.01) scaleY(1);
+    opacity: 1;
+  }
+  45% {
+    transform: scaleX(1) scaleY(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1) scaleY(160);
+    opacity: 0;
+  }
+}
+
+/* Screen Media */
+.tvScreenMedia {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 20px;
   display: block;
 }
 
-.soundDot {
-  width: 6px;
-  height: 6px;
+/* Zero gravity micro-float for card images inside TV */
+.tvCardFloating {
+  animation: zeroGravityFloat 6s ease-in-out infinite alternate;
+}
+
+@keyframes zeroGravityFloat {
+  0% { transform: scale(1) translateY(0) rotate(0deg); }
+  50% { transform: scale(1.01) translateY(-6px) rotate(0.6deg); }
+  100% { transform: scale(1) translateY(5px) rotate(-0.5deg); }
+}
+
+/* Card upward drift transition when changing cards */
+.tvCardDriftingUp {
+  animation: cardDriftUp 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+}
+
+@keyframes cardDriftUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-110%) scale(0.9);
+  }
+}
+
+/* TV Card Tech Badge */
+.tvBadge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 18;
+  background: rgba(4, 6, 12, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #ffffff;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tvDot {
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: #22c55e;
-  box-shadow: 0 0 8px #22c55e;
-  animation: audioPulse 1.8s infinite ease-in-out;
-}
-
-.soundDotMuted {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #ef4444;
-  box-shadow: 0 0 6px #ef4444;
-}
-
-.soundIcon {
-  font-size: 0.75rem;
-  line-height: 1;
-}
-
-@keyframes audioPulse {
-  0%, 100% { transform: scale(0.9); opacity: 0.6; }
-  50% { transform: scale(1.2); opacity: 1; }
+  box-shadow: 0 0 6px #22c55e;
 }
 
 /* ── AUTHENTIC AUTOGRAPHED SIGNATURE BADGE ── */
@@ -626,16 +866,54 @@
   transform: translateX(4px);
 }
 
-/* Mobile Responsive */
+/* ── RESPONSIVE ADAPTATIONS ── */
+@media (max-width: 1200px) {
+  .finalShowcaseBox {
+    width: min(540px, 45vw);
+    right: 3%;
+  }
+}
+
 @media (max-width: 900px) {
+  .introOverlay {
+    overflow-y: auto;
+  }
+
+  .cinemaTvBox {
+    width: 95vw;
+    max-height: 50vh;
+  }
+
+  .cinemaSkipBtn {
+    top: 1rem;
+    right: 1rem;
+  }
+
   .heroDomOverlay {
-    padding: 0 1.5rem;
-    align-items: flex-end;
-    padding-bottom: 3.5rem;
+    position: relative;
+    padding: 2.5rem 1.5rem 4rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-y: auto;
+  }
+
+  .finalShowcaseBox {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    max-width: 480px;
+    margin: 1.5rem auto 1.8rem;
+    flex-shrink: 0;
   }
 
   .heroContentLeft {
     max-width: 100%;
+    width: 100%;
   }
 
   .mainTitle {
@@ -645,19 +923,8 @@
 
   .statsGrid {
     grid-template-columns: 1fr;
-    gap: 0.5rem;
-    margin-bottom: 1.2rem;
-  }
-
-  .videoHeroCard {
-    width: 72vw;
-    top: 10%;
-    right: 50%;
-    transform: translateX(50%);
-  }
-
-  .dimensionCard {
-    display: none;
+    gap: 0.65rem;
+    margin-bottom: 1.5rem;
   }
 
   .constellationSvg {
