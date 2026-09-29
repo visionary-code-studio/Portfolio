@@ -303,18 +303,17 @@ export default function AboutSection({ data }: AboutProps) {
         </div>
       </div>
 
-      {/* Academic Overview Luxury Showcase (Matches Portfolio Core UI) */}
+      {/* Academic Overview Showcase */}
       <div className={styles.academicWrapper}>
         <ScrollReveal variant="card" delay={0.15} className={styles.academicCard}>
           {/* Header Row */}
           <div className={styles.academicHeader}>
             <div className={styles.academicHeaderLeft}>
-              <span className={styles.academicEyebrow}>03 — Scholastic Foundation</span>
+              <span className={styles.academicEyebrow}>03 — Education &amp; Academics</span>
               <h3 className={styles.academicTitle}>Academic Overview</h3>
             </div>
-            <div className={styles.academicStatusBadge}>
-              <span className={styles.statusDotPulse} />
-              <span className={styles.academicStatus}>Active Standing</span>
+            <div className={styles.academicHeaderRight}>
+              <span className={styles.academicMetaTrack}>Sister Nivedita University · B.Tech CSE (AIML Track)</span>
             </div>
           </div>
 
@@ -324,7 +323,7 @@ export default function AboutSection({ data }: AboutProps) {
             <div className={styles.bentoCol}>
               <div className={styles.bentoCard}>
                 <div className={styles.bentoCardTop}>
-                  <span className={styles.bentoTag}>University &amp; Degree</span>
+                  <span className={styles.bentoTag}>Undergraduate Degree</span>
                   <div className={styles.bentoIconWrap}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
@@ -345,7 +344,7 @@ export default function AboutSection({ data }: AboutProps) {
             <div className={styles.bentoCol}>
               <div className={`${styles.bentoCard} ${styles.bentoCardHighlight}`}>
                 <div className={styles.bentoCardTop}>
-                  <span className={styles.bentoTag}>Scholastic Distinction</span>
+                  <span className={styles.bentoTag}>Academic Performance</span>
                   <div className={styles.bentoIconWrap}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
@@ -358,8 +357,8 @@ export default function AboutSection({ data }: AboutProps) {
                 </div>
                 <p className={styles.cgpaCaption}>Cumulative Academic Performance</p>
                 <div className={styles.semScoresRow}>
-                  <span className={styles.semPill}>Sem 1: {data?.university?.sem1 || '9.43'}</span>
-                  <span className={styles.semPill}>Sem 2: {data?.university?.sem2 || '9.35'}</span>
+                  <span className={styles.semPill}>Sem 1: <strong>{data?.university?.sem1 || '9.43'}</strong></span>
+                  <span className={styles.semPill}>Sem 2: <strong>{data?.university?.sem2 || '9.35'}</strong></span>
                 </div>
               </div>
             </div>
