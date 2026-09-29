@@ -144,11 +144,21 @@
 
 .heroBio {
   font-family: var(--font-body);
-  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  font-size: clamp(0.92rem, 1.15vw, 1.02rem);
   font-weight: 500;
   color: #475569;
-  line-height: 1.6;
-  max-width: 400px;
+  line-height: 1.55;
+  max-width: 420px;
+}
+
+.heroLead {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #0f172a;
+  margin-bottom: 0.35rem;
 }
 
 .ctaGroup {

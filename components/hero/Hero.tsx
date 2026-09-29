@@ -18,7 +18,7 @@ interface HeroProps {
 export default function Hero({ data }: HeroProps) {
   const firstName = data?.firstName || 'VAIBHAV';
   const lastName = data?.lastName || 'SHAW';
-  const role = data?.role || 'AIML Student · Full Stack Developer';
+  const role = data?.role || 'Full-Stack Development, AIML Engineer, Mathematics, Graphic Designning, Building with Learning';
   const location = data?.location || 'Kolkata, West Bengal, India';
 
   // Interactive Cursor Torch: B&W to Color Spotlight with zero-offset precision
@@ -89,7 +89,8 @@ export default function Hero({ data }: HeroProps) {
             </div>
 
             <p className={styles.heroBio}>
-              Architecting intelligent neural systems, high-performance web applications, and next-generation digital experiences.
+              <strong className={styles.heroLead}>I CODE. I BUILD. I COMPETE.</strong>
+              Exploring AI/ML and full-stack development through hackathons, coding challenges, and case competitions.
             </p>
 
             <div className={styles.ctaGroup}>
