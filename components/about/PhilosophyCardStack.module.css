@@ -34,14 +34,35 @@
 }
 
 .deckCounter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  color: var(--accent);
-  background: rgba(200, 240, 74, 0.08);
-  border: 1px solid rgba(200, 240, 74, 0.2);
-  padding: 0.2rem 0.6rem;
-  border-radius: 9999px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: #0f172a;
+  background: #f8fafc;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.deckCurrent {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.deckDivider {
+  color: #94a3b8;
+  font-weight: 400;
+  margin: 0 0.1rem;
+}
+
+.deckTotal {
+  color: #64748b;
+  font-weight: 500;
 }
 
 /* ── Viewport & Stacking Geometry ────────────────────────────── */
@@ -150,27 +171,53 @@
   align-items: center;
 }
 
-.categoryPill {
+.categoryBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  padding: 0.3rem 0.75rem;
-  border-radius: 9999px;
-  background: rgba(0, 0, 0, 0.45);
-  border: 1px solid;
-  backdrop-filter: blur(8px);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f8fafc;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  background: rgba(10, 15, 26, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  transition: border-color 0.2s ease;
+}
+
+.categoryBadge:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.categoryDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.categoryText {
+  letter-spacing: 0.08em;
 }
 
 .descriptorBadge {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.1em;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #cbd5e1;
-  background: rgba(255, 255, 255, 0.08);
-  padding: 0.25rem 0.6rem;
-  border-radius: 4px;
+  color: #94a3b8;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
 }
 
 .quoteBlock {

@@ -99,6 +99,9 @@ export default function PhilosophyCardStack({ tagline }: Props) {
   };
 
   const topCard = cards[0];
+  const activeIndex = DEFAULT_PHILOSOPHIES.findIndex((p) => p.id === topCard?.id);
+  const displayIndex = activeIndex >= 0 ? activeIndex + 1 : 1;
+  const totalCount = DEFAULT_PHILOSOPHIES.length;
 
   return (
     <div className={styles.stackSection}>
@@ -107,10 +110,10 @@ export default function PhilosophyCardStack({ tagline }: Props) {
           <span className={styles.motif}>✦</span>
           <span className={styles.sectionTag}>Life Mantra &amp; Philosophy</span>
         </div>
-        <div className={styles.deckCounter}>
-          <span>01</span>
-          <span>/</span>
-          <span>{cards.length}</span>
+        <div className={styles.deckCounter} aria-label={`Card ${displayIndex} of ${totalCount}`}>
+          <span className={styles.deckCurrent}>{String(displayIndex).padStart(2, '0')}</span>
+          <span className={styles.deckDivider}>/</span>
+          <span className={styles.deckTotal}>{String(totalCount).padStart(2, '0')}</span>
         </div>
       </div>
 
@@ -247,12 +250,13 @@ function CardItem({ card, index, isTop, swipeDirection, onSwipe }: CardItemProps
       {/* Card Content & Typographic Poetry */}
       <div className={styles.cardInner}>
         <div className={styles.cardTopBar}>
-          <span
-            className={styles.categoryPill}
-            style={{ borderColor: card.themeColor, color: card.themeColor }}
-          >
-            ✦ {card.category}
-          </span>
+          <div className={styles.categoryBadge}>
+            <span
+              className={styles.categoryDot}
+              style={{ backgroundColor: card.themeColor, boxShadow: `0 0 8px ${card.themeColor}` }}
+            />
+            <span className={styles.categoryText}>{card.category}</span>
+          </div>
           <span className={styles.descriptorBadge}>
             {card.descriptor}
           </span>

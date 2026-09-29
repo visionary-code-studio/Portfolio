@@ -160,14 +160,15 @@
 /* Expansion Detail Drawer */
 .detailBox {
   margin-top: 2.5rem;
-  background: var(--bg-soft);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid rgba(15, 23, 42, 0.09);
+  border-radius: 14px;
   padding: 1.75rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
   animation: fadeIn 0.25s ease;
 }
 
@@ -184,24 +185,26 @@
 
 .detailBadge {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.62rem;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: #0284c7;
 }
 
 .detailTitle {
   font-family: var(--font-display);
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--text);
+  color: #0f172a;
 }
 
 .detailDesc {
   font-family: var(--font-body);
   font-size: 0.92rem;
-  color: var(--text-muted);
+  color: #64748b;
   max-width: 60ch;
+  line-height: 1.5;
 }
 
 .detailPills {
@@ -212,14 +215,16 @@
 
 .detailPill {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.64rem;
+  font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #1e293b;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.12);
   padding: 0.35rem 0.75rem;
   border-radius: 999px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
 @media (max-width: 768px) {

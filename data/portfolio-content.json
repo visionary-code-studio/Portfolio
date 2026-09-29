@@ -219,76 +219,88 @@
   ],
   "interests": [
     {
-      "text": "AI",
+      "text": "AI & Deep Learning",
       "size": "xl",
-      "desc": "Artificial Intelligence",
-      "category": "AI / ML"
+      "desc": "Neural networks, transformer architectures, computer vision, and foundation models.",
+      "category": "AI / ML",
+      "subdomains": ["Transformers", "PyTorch", "Computer Vision", "Fine-Tuning"]
     },
     {
-      "text": "Systems",
+      "text": "Agentic Workflows",
       "size": "lg",
-      "desc": "System Architecture",
-      "category": "Technology"
+      "desc": "Autonomous reasoning loops, multi-agent coordination, and intelligent tool execution.",
+      "category": "AI / ML",
+      "subdomains": ["Autonomous Agents", "LangChain", "Tool Calling", "RAG"]
     },
     {
-      "text": "Design",
-      "size": "md",
-      "desc": "UI / UX & Visual",
-      "category": "Design"
-    },
-    {
-      "text": "GenAI",
-      "size": "md",
-      "desc": "Generative AI",
-      "category": "AI / ML"
-    },
-    {
-      "text": "Blockchain",
-      "size": "lg",
-      "desc": "Web3 & Smart Contracts",
-      "category": "Technology"
-    },
-    {
-      "text": "Web",
+      "text": "Distributed Systems",
       "size": "xl",
-      "desc": "Full-Stack Development",
-      "category": "Technology"
+      "desc": "Resilient backend architectures, microservices, databases, and high-throughput APIs.",
+      "category": "Systems",
+      "subdomains": ["Microservices", "PostgreSQL", "Docker", "REST & GraphQL"]
     },
     {
-      "text": "PIML",
+      "text": "Full-Stack Web",
       "size": "lg",
-      "desc": "Physics-Informed ML",
-      "category": "Research"
+      "desc": "Next.js applications, serverless edge runtimes, modern state management, and real-time sockets.",
+      "category": "Systems",
+      "subdomains": ["Next.js", "React", "TypeScript", "Node.js"]
     },
     {
-      "text": "Startups",
+      "text": "Blockchain & Web3",
       "size": "md",
-      "desc": "Innovation & Building",
-      "category": "Business"
+      "desc": "Cryptographic trust, smart contracts, deterministic state machines, and decentralized protocols.",
+      "category": "Systems",
+      "subdomains": ["Smart Contracts", "EVM", "Cryptography", "Solidity"]
     },
     {
-      "text": "Automation",
+      "text": "Creative Technology",
+      "size": "xl",
+      "desc": "Interactive 3D WebGL, modern editorial UI/UX, and generative motion design.",
+      "category": "Creative",
+      "subdomains": ["Three.js", "WebGL", "Motion Physics", "Editorial Systems"]
+    },
+    {
+      "text": "Spatial Computing",
+      "size": "md",
+      "desc": "3D scene graph rendering, interactive shaders, and immersive viewport interfaces.",
+      "category": "Creative",
+      "subdomains": ["Perspective Projections", "GLSL Shaders", "Viewport Math"]
+    },
+    {
+      "text": "Game Development",
+      "size": "md",
+      "desc": "Interactive physics loops, mechanics design, shader math, and procedural generation.",
+      "category": "Creative",
+      "subdomains": ["Game Loops", "Shaders", "Physics Engines"]
+    },
+    {
+      "text": "Physics-Informed ML",
+      "size": "lg",
+      "desc": "Differential equations embedded inside neural operators for physical and scientific simulations.",
+      "category": "AI / ML",
+      "subdomains": ["Differential Equations", "Neural Operators", "Scientific Computing"]
+    },
+    {
+      "text": "Open Source",
+      "size": "lg",
+      "desc": "Contributing to developer tooling, community hackathons, and reproducible engineering.",
+      "category": "Community",
+      "subdomains": ["GitHub", "Hackathons", "Mentorship", "Documentation"]
+    },
+    {
+      "text": "Product Innovation",
+      "size": "md",
+      "desc": "Transforming late-night ideas into user-centric, deployed products that create real value.",
+      "category": "Community",
+      "subdomains": ["Product Strategy", "User Journey", "Rapid Prototyping"]
+    },
+    {
+      "text": "Mathematical Modeling",
       "size": "sm",
-      "desc": "Agentic Workflows",
-      "category": "AI / ML"
-    },
-    {
-      "text": "GameDev",
-      "size": "md",
-      "desc": "Game Development",
-      "category": "Creative"
-    },
-    {
-      "text": "Innovation",
-      "size": "xl",
-      "desc": "Turning Ideas to Reality",
-      "category": "Innovation"
-    },
-    {
-      "text": "Products",
-      "size": "sm",
-      "desc": "Product Thinking",
-      "category": "Business"
+      "desc": "Linear algebra, calculus, statistical inference, and algorithmic optimizations.",
+      "category": "AI / ML",
+      "subdomains": ["Matrix Calculus", "Optimization", "Linear Algebra"]
     }
   ],
   "future": [

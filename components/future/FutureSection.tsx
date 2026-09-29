@@ -60,7 +60,7 @@ export default function FutureSection({ items }: FutureProps) {
             <Card3D className={styles.card3DWrap} intensity={10} glare={true}>
               <div className={styles.pillarInner}>
                 <div className={styles.pillarTop}>
-                  <span className={styles.pillarNum}>{p.num} // MANIFESTO</span>
+                  <span className={styles.pillarNum}>{p.num} — MANIFESTO</span>
                   <span className={styles.pillarTag}>Future Pillar</span>
                 </div>
                 <h3 className={styles.pillarLabel}>{p.label}</h3>
