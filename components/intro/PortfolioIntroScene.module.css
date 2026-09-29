@@ -164,145 +164,72 @@
   box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
 }
 
-/* ── VISIONARY B&W FLOATING CARDS STAGE (STAGE 2) ── */
-.visionaryCardsStage {
+/* ── RIGHT-SIDE SCENARIO CARD STAGE ── */
+.rightCardStage {
   position: absolute;
-  inset: 0;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 25;
+  pointer-events: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 30;
-  pointer-events: auto;
-  animation: fadeIn 0.6s ease forwards;
 }
 
-.visionaryFloatingCard {
+/* 1st & 3rd Card: Portrait (9:16) */
+.scenarioCardPortrait {
   position: relative;
-  width: min(600px, 88vw);
-  aspect-ratio: 16 / 10;
-  max-height: 72vh;
-  border-radius: 20px;
-  overflow: hidden;
-  background: #080a10;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  box-shadow: 
-    0 35px 90px rgba(0, 0, 0, 0.95), 
-    0 0 60px rgba(255, 255, 255, 0.08),
-    inset 0 1px 2px rgba(255, 255, 255, 0.35);
-  animation: zeroGravityFloat 6s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-.visionaryCardDriftingUp {
-  animation: cardDriftUp 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
-}
-
-@keyframes zeroGravityFloat {
-  0% { transform: translateY(0px) rotate(0deg) scale(1); }
-  50% { transform: translateY(-8px) rotate(0.6deg) scale(1.01); }
-  100% { transform: translateY(6px) rotate(-0.5deg) scale(1); }
-}
-
-@keyframes cardDriftUp {
-  0% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-130%) scale(0.9) rotate(-1deg);
-  }
-}
-
-.cardTopPill {
-  position: absolute;
-  top: 1.15rem;
-  left: 1.25rem;
-  z-index: 15;
-  background: rgba(4, 6, 12, 0.82);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 999px;
-  padding: 0.38rem 0.95rem;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: #ffffff;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.cardTopDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
-}
-
-.cardBottomInfo {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 15;
-  padding: 2.2rem 1.4rem 1.25rem;
-  background: linear-gradient(180deg, transparent 0%, rgba(4, 6, 10, 0.75) 40%, rgba(2, 3, 6, 0.96) 100%);
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.cardInfoTitle {
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: #ffffff;
-  text-transform: uppercase;
-  margin: 0;
-}
-
-.cardInfoSubtitle {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.72rem;
-  color: #94a3b8;
-  letter-spacing: 0.08em;
-}
-
-/* ── FINAL IDENTITY VIEW (STAGE 3 — MATCHES IMAGE 2 WITH FIXES) ── */
-.finalShowcaseBox {
-  position: absolute;
-  right: 4.5%;
-  top: 50%;
-  transform: translateY(-50%);
-  width: min(680px, 48vw);
-  aspect-ratio: 16 / 9;
+  width: min(390px, 31vw);
+  aspect-ratio: 9 / 16;
+  max-height: 78vh;
   border-radius: 18px;
   overflow: hidden;
   background: #06080e;
-  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
   box-shadow: 
     0 30px 90px rgba(0, 0, 0, 0.95), 
-    0 0 60px rgba(255, 255, 255, 0.05),
-    inset 0 1px 2px rgba(255, 255, 255, 0.25);
-  pointer-events: auto;
-  z-index: 25;
+    0 0 60px rgba(255, 255, 255, 0.06),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  animation: zeroGravityFloat 6s ease-in-out infinite alternate;
+}
+
+/* 2nd Card: Portrait but quite wider in breadth (4:5) */
+.scenarioCardWider {
+  position: relative;
+  width: min(470px, 36vw);
+  aspect-ratio: 4 / 5;
+  max-height: 78vh;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #06080e;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 30px 90px rgba(0, 0, 0, 0.95), 
+    0 0 60px rgba(255, 255, 255, 0.06),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  animation: zeroGravityFloat 6s ease-in-out infinite alternate;
+}
+
+/* 4th Card / Final Identity Showcase (9:16 ratio where full-size picture fits perfectly) */
+.finalShowcaseBox {
+  position: relative;
+  width: min(390px, 31vw);
+  aspect-ratio: 9 / 16;
+  max-height: 78vh;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #06080e;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 30px 90px rgba(0, 0, 0, 0.95), 
+    0 0 60px rgba(255, 255, 255, 0.06),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
   animation: finalBoxReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes finalBoxReveal {
-  from {
-    opacity: 0;
-    transform: translateY(calc(-50% + 24px)) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(-50%) scale(1);
-  }
+.scenarioCardDriftingUp {
+  animation: cardDriftUp 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
 }
 
 /* TV Inner Screen with Glassmorphism Curvature */
@@ -868,9 +795,15 @@
 
 /* ── RESPONSIVE ADAPTATIONS ── */
 @media (max-width: 1200px) {
-  .finalShowcaseBox {
-    width: min(540px, 45vw);
+  .rightCardStage {
     right: 3%;
+  }
+  .scenarioCardPortrait,
+  .finalShowcaseBox {
+    width: min(360px, 32vw);
+  }
+  .scenarioCardWider {
+    width: min(440px, 38vw);
   }
 }
 
@@ -900,15 +833,35 @@
     overflow-y: auto;
   }
 
-  .finalShowcaseBox {
+  .rightCardStage {
     position: relative;
     right: auto;
     top: auto;
     transform: none;
     width: 100%;
-    max-width: 480px;
     margin: 1.5rem auto 1.8rem;
-    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    order: -1;
+  }
+
+  .scenarioCardPortrait,
+  .finalShowcaseBox {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: 72vw;
+    max-width: 320px;
+  }
+
+  .scenarioCardWider {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: 82vw;
+    max-width: 360px;
   }
 
   .heroContentLeft {

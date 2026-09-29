@@ -12,10 +12,10 @@ interface PortfolioIntroSceneProps {
 type TvStage =
   | 'static-init' // 0.0s – 1.6s: CRT power-on line flash + analog static noise fullscreen
   | 'video'       // ~1.6s – ~11s: Fullscreen Centered Television with Intro.mp4 auto-playing audibly
-  | 'card-0'      // 4.5s: 01 // AIML ENGINEER [STUDENT] (stage photo with mic) floating in zero-g
-  | 'card-1'      // 4.5s: 02 // GRAPHIC DESIGNER floating in zero-g
-  | 'card-2'      // 4.5s: 03 // FULL-STACK DEVELOPER floating in zero-g
-  | 'final';      // Final Identity View (Photo with mic on right, Sister Nivedita stats on left)
+  | 'card-0'      // 5.0s: 01 // AIML ENGINEER [STUDENT] (Portrait 9:16)
+  | 'card-1'      // 5.0s: 02 // GRAPHIC DESIGNER (Portrait but wider in breadth 4:5)
+  | 'card-2'      // 5.0s: 03 // FULL-STACK DEVELOPER (Portrait 9:16)
+  | 'final';      // Final Identity View (Last one: 9:16 portrait where full picture fits + stats on left)
 
 export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -48,7 +48,6 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
       const playPromise = videoRef.current.play();
       if (playPromise !== undefined) {
         playPromise.catch(() => {
-          // If browser policy blocked unmuted autoplay, unlock on first gesture
           const unlock = () => {
             if (videoRef.current) {
               videoRef.current.muted = false;
@@ -129,7 +128,6 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
     if (tvStage === 'video') {
       playWelcomingVideo();
 
-      // Fallback timer (11.5s) if video ended event does not trigger
       const fallbackTimer = setTimeout(() => {
         setTvStage('card-0');
       }, 11500);
@@ -137,16 +135,16 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
       return () => clearTimeout(fallbackTimer);
     }
 
-    // 3. Card 0: AIML Engineer (stage photo with mic)
+    // 3. Card 0: AIML Engineer (Portrait 9:16)
     if (tvStage === 'card-0') {
       const driftTimer = setTimeout(() => {
         setIsDriftingUp(true);
-      }, 3800);
+      }, 4200);
 
       const nextTimer = setTimeout(() => {
         setIsDriftingUp(false);
         setTvStage('card-1');
-      }, 4500);
+      }, 5000);
 
       return () => {
         clearTimeout(driftTimer);
@@ -154,16 +152,16 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
       };
     }
 
-    // 4. Card 1: Graphic Designer
+    // 4. Card 1: Graphic Designer (Portrait but wider in breadth 4:5)
     if (tvStage === 'card-1') {
       const driftTimer = setTimeout(() => {
         setIsDriftingUp(true);
-      }, 3800);
+      }, 4200);
 
       const nextTimer = setTimeout(() => {
         setIsDriftingUp(false);
         setTvStage('card-2');
-      }, 4500);
+      }, 5000);
 
       return () => {
         clearTimeout(driftTimer);
@@ -171,16 +169,16 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
       };
     }
 
-    // 5. Card 2: Full-Stack Developer
+    // 5. Card 2: Full-Stack Developer (Portrait 9:16)
     if (tvStage === 'card-2') {
       const driftTimer = setTimeout(() => {
         setIsDriftingUp(true);
-      }, 3800);
+      }, 4200);
 
       const nextTimer = setTimeout(() => {
         setIsDriftingUp(false);
         setTvStage('final');
-      }, 4500);
+      }, 5000);
 
       return () => {
         clearTimeout(driftTimer);
@@ -375,15 +373,14 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
       {/* ── 1. FIRST: TELEVISION LIKE ANIMATION WHICH INCLUDES INTRO VIDEO AT THE CENTRE (COVERS ENTIRE PAGE) ── */}
       {(tvStage === 'static-init' || tvStage === 'video') && (
         <div className={styles.cinemaFullscreenOverlay}>
-          {/* Discreet Skip Button */}
           <button
             type="button"
-            onClick={handleEnterPortfolio}
+            onClick={() => setTvStage('card-0')}
             className={styles.cinemaSkipBtn}
             data-cursor-hover
-            aria-label="Skip Intro"
+            aria-label="Skip to Persona Cards"
           >
-            <span>Enter Portfolio</span>
+            <span>Skip to Cards</span>
             <span>➔</span>
           </button>
 
@@ -394,15 +391,12 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
               <div className={styles.tvScanlines} />
               <div className={styles.tvTrackingBar} />
 
-              {/* CRT Power-on Line Flash (At start) */}
               {tvStage === 'static-init' && <div className={styles.tvPowerOnFlash} />}
 
-              {/* Analog Procedural Static Noise */}
               {tvStage === 'static-init' && (
                 <canvas ref={staticCanvasRef} className={styles.tvStaticCanvas} />
               )}
 
-              {/* Centered Intro Video */}
               <video
                 ref={videoRef}
                 src="/video/Intro.mp4"
@@ -420,179 +414,197 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
         </div>
       )}
 
-      {/* ── 2. SECOND: FLOATING CARDS (GALAXY, VISIONARY, BLACK AND WHITE) ── */}
-      {(tvStage === 'card-0' || tvStage === 'card-1' || tvStage === 'card-2') && (
-        <div className={styles.visionaryCardsStage}>
-          {/* Card 0: AIML ENGINEER [STUDENT] */}
-          {tvStage === 'card-0' && (
-            <div
-              className={`${styles.visionaryFloatingCard} ${
-                isDriftingUp ? styles.visionaryCardDriftingUp : ''
-              }`}
-              key="vcard-0"
-            >
-              <div className={styles.cardTopPill}>
-                <span className={styles.cardTopDot} />
-                <span>01 // AIML ENGINEER [STUDENT]</span>
-              </div>
-              <Image
-                src="/images/intro/panel_speaker_stage.jpg"
-                alt="Vaibhav Shaw speaking on stage with mic"
-                fill
-                sizes="(max-width: 900px) 90vw, 600px"
-                style={{ objectFit: 'cover' }}
-                priority
-              />
-              <div className={styles.cardBottomInfo}>
-                <h3 className={styles.cardInfoTitle}>AIML ENGINEER [STUDENT]</h3>
-                <span className={styles.cardInfoSubtitle}>
-                  Sister Nivedita University · B.Tech CSE (AIML Track)
-                </span>
-              </div>
-            </div>
-          )}
-
-          {/* Card 1: GRAPHIC DESIGNER */}
-          {tvStage === 'card-1' && (
-            <div
-              className={`${styles.visionaryFloatingCard} ${
-                isDriftingUp ? styles.visionaryCardDriftingUp : ''
-              }`}
-              key="vcard-1"
-            >
-              <div className={styles.cardTopPill}>
-                <span className={styles.cardTopDot} />
-                <span>02 // GRAPHIC DESIGNER</span>
-              </div>
-              <Image
-                src="/images/intro/panel_music.jpg"
-                alt="Graphic Designer Visual Direction"
-                fill
-                sizes="(max-width: 900px) 90vw, 600px"
-                style={{ objectFit: 'cover' }}
-                priority
-              />
-              <div className={styles.cardBottomInfo}>
-                <h3 className={styles.cardInfoTitle}>GRAPHIC DESIGNER</h3>
-                <span className={styles.cardInfoSubtitle}>
-                  Visual Direction & Cinematic Aesthetics
-                </span>
-              </div>
-            </div>
-          )}
-
-          {/* Card 2: FULL-STACK DEVELOPER */}
-          {tvStage === 'card-2' && (
-            <div
-              className={`${styles.visionaryFloatingCard} ${
-                isDriftingUp ? styles.visionaryCardDriftingUp : ''
-              }`}
-              key="vcard-2"
-            >
-              <div className={styles.cardTopPill}>
-                <span className={styles.cardTopDot} />
-                <span>03 // FULL-STACK DEVELOPER</span>
-              </div>
-              <Image
-                src="/images/intro/panel_executive.jpg"
-                alt="Full-Stack Developer Architecture"
-                fill
-                sizes="(max-width: 900px) 90vw, 600px"
-                style={{ objectFit: 'cover' }}
-                priority
-              />
-              <div className={styles.cardBottomInfo}>
-                <h3 className={styles.cardInfoTitle}>FULL-STACK DEVELOPER</h3>
-                <span className={styles.cardInfoSubtitle}>
-                  Distributed Systems & Scalable Web Architecture
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* ── 3. THIRD: PERMANENT IDENTITY VIEW (MATCHES IMAGE 2 WITH USER FIXES) ── */}
-      {tvStage === 'final' && (
+      {/* ── 2. SCENARIO CARDS HOW IT WAS EARLIER WITH SOME TEXT ON LEFT + PORTRAIT CARDS ON RIGHT ── */}
+      {tvStage !== 'static-init' && tvStage !== 'video' && (
         <div className={styles.heroDomOverlay}>
-          {/* Left Side: Vaibhav Shaw, Pills, Academic Manifesto, Stats, Enter Button */}
+          {/* Left Side: Text Introducing Each Scenario / Card, and Final Identity on 4th */}
           <div className={`${styles.heroContentLeft} ${styles.heroContentVisible}`}>
-            <div>
-              <h1 className={styles.mainTitle}>
-                VAIBHAV
-                <span className={styles.titleSurname}>SHAW</span>
-              </h1>
-
-              <div className={styles.identityPills}>
-                <span className={styles.identityPill}>AIML Engineer [Student]</span>
-                <span className={styles.identityPill}>Graphic Designer</span>
-                <span className={styles.identityPill}>Full-Stack Developer</span>
+            {/* 1st Card Text: AIML ENGINEER [STUDENT] */}
+            {tvStage === 'card-0' && (
+              <div className={styles.stepIntroBox} key="text-0">
+                <div className={styles.stepPill}>01 // AIML ENGINEER [STUDENT]</div>
+                <h2 className={styles.stepTitle}>AIML ENGINEER [STUDENT]</h2>
+                <div className={styles.stepSubtitle}>Sister Nivedita University · B.Tech CSE (AIML Track)</div>
+                <p className={styles.stepDesc}>
+                  Exploring deep neural networks, machine learning models, and transforming theoretical research into intelligent reality.
+                </p>
               </div>
+            )}
 
-              <p className={styles.heroManifesto}>
-                Student of Sister Nivedita University pursuing B.Tech CSE in AIML. Building
-                ideas through curiosity and turning research into reality.
-              </p>
-
-              {/* Sister Nivedita University Academic Dossier Stats Cards */}
-              <div className={styles.statsGrid}>
-                <div className={styles.statCard}>
-                  <span className={styles.statValue}>9.38</span>
-                  <span className={styles.statLabel}>CGPA (Cumulative)</span>
-                  <span className={styles.statSubTrack}>Sister Nivedita University</span>
-                </div>
-
-                <div className={styles.statCard}>
-                  <span className={styles.statValue}>2nd Year · 3rd Sem</span>
-                  <span className={styles.statLabel}>Current Term</span>
-                  <span className={styles.statSubTrack}>2025–2029 Cohort</span>
-                </div>
-
-                <div className={styles.statCard}>
-                  <span className={styles.statValue}>AIML</span>
-                  <span className={styles.statLabel}>B.Tech CSE Track</span>
-                  <span className={styles.statSubTrack}>Sister Nivedita University</span>
-                </div>
+            {/* 2nd Card Text: GRAPHIC DESIGNER */}
+            {tvStage === 'card-1' && (
+              <div className={styles.stepIntroBox} key="text-1">
+                <div className={styles.stepPill}>02 // GRAPHIC DESIGNER</div>
+                <h2 className={styles.stepTitle}>GRAPHIC DESIGNER</h2>
+                <div className={styles.stepSubtitle}>Visual Harmony & Creative Direction</div>
+                <p className={styles.stepDesc}>
+                  Designing dark-mode futuristic aesthetics, cinematic UI systems, and cohesive visual identities for cutting-edge projects.
+                </p>
               </div>
+            )}
 
-              <button
-                type="button"
-                onClick={handleEnterPortfolio}
-                className={styles.enterPortfolioBtn}
-                data-cursor-hover
-              >
-                <span>Enter Portfolio</span>
-                <span className={styles.ctaArrow}>➔</span>
-              </button>
-            </div>
+            {/* 3rd Card Text: FULL-STACK DEVELOPER */}
+            {tvStage === 'card-2' && (
+              <div className={styles.stepIntroBox} key="text-2">
+                <div className={styles.stepPill}>03 // FULL-STACK DEVELOPER</div>
+                <h2 className={styles.stepTitle}>FULL-STACK DEVELOPER</h2>
+                <div className={styles.stepSubtitle}>Modern Engineering & Scalable Systems</div>
+                <p className={styles.stepDesc}>
+                  Architecting performant Next.js applications, distributed microservices, and interactive 3D WebGL digital experiences.
+                </p>
+              </div>
+            )}
+
+            {/* 4th Card / Final Identity Text: Permanent Showcase */}
+            {tvStage === 'final' && (
+              <div key="text-final" style={{ animation: 'fadeInStep 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
+                <h1 className={styles.mainTitle}>
+                  VAIBHAV
+                  <span className={styles.titleSurname}>SHAW</span>
+                </h1>
+
+                <div className={styles.identityPills}>
+                  <span className={styles.identityPill}>AIML Engineer [Student]</span>
+                  <span className={styles.identityPill}>Graphic Designer</span>
+                  <span className={styles.identityPill}>Full-Stack Developer</span>
+                </div>
+
+                <p className={styles.heroManifesto}>
+                  Student of Sister Nivedita University pursuing B.Tech CSE in AIML. Building
+                  ideas through curiosity and turning research into reality.
+                </p>
+
+                <div className={styles.statsGrid}>
+                  <div className={styles.statCard}>
+                    <span className={styles.statValue}>9.38</span>
+                    <span className={styles.statLabel}>CGPA (Cumulative)</span>
+                    <span className={styles.statSubTrack}>Sister Nivedita University</span>
+                  </div>
+
+                  <div className={styles.statCard}>
+                    <span className={styles.statValue}>2nd Year · 3rd Sem</span>
+                    <span className={styles.statLabel}>Current Term</span>
+                    <span className={styles.statSubTrack}>2025–2029 Cohort</span>
+                  </div>
+
+                  <div className={styles.statCard}>
+                    <span className={styles.statValue}>AIML</span>
+                    <span className={styles.statLabel}>B.Tech CSE Track</span>
+                    <span className={styles.statSubTrack}>Sister Nivedita University</span>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleEnterPortfolio}
+                  className={styles.enterPortfolioBtn}
+                  data-cursor-hover
+                >
+                  <span>Enter Portfolio</span>
+                  <span className={styles.ctaArrow}>➔</span>
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* Right Side (Dark Blue Circle from Image 2):
-              Replaced video by the photo where Vaibhav is standing with the mic!
-              Light Blue Circle REMOVED: TV chassis footer deleted! */}
-          <div className={styles.finalShowcaseBox} aria-label="Vaibhav Shaw Identity Frame">
-            <div className={styles.tvScreenGlass}>
-              <div className={styles.tvGlare} />
-              <div className={styles.tvCrtVignette} />
-
-              <Image
-                src="/images/intro/panel_speaker_stage.jpg"
-                alt="Vaibhav Shaw - AIML Engineer speaking on stage with mic"
-                fill
-                sizes="(max-width: 900px) 90vw, 48vw"
-                style={{ objectFit: 'cover' }}
-                priority
-              />
-
-              {/* Authentic Autographed Signature Badge */}
-              <div className={styles.signatureBadge} aria-label="Personal Signature">
-                <div className={styles.signatureScript}>Vaibhav Shaw</div>
-                <div className={styles.signatureDetails}>
-                  <span className={styles.sigSubLine}>AIML Student</span>
-                  <span className={styles.sigSubLine}>Full Stack Developer</span>
+          {/* Right Side: The 4 Scenario Cards (Floating in zero gravity, drifting up into space) */}
+          <div className={styles.rightCardStage}>
+            {/* 1st Card: Portrait (9:16) */}
+            {tvStage === 'card-0' && (
+              <div
+                className={`${styles.scenarioCardPortrait} ${
+                  isDriftingUp ? styles.scenarioCardDriftingUp : ''
+                }`}
+                key="card-stage-0"
+              >
+                <div className={styles.tvScreenGlass}>
+                  <div className={styles.tvGlare} />
+                  <div className={styles.tvCrtVignette} />
+                  <Image
+                    src="/images/intro/panel_speaker_stage.jpg"
+                    alt="Vaibhav Shaw - AIML Engineer speaking with mic on stage"
+                    fill
+                    sizes="(max-width: 900px) 72vw, 390px"
+                    style={{ objectFit: 'cover', objectPosition: 'center 10%' }}
+                    priority
+                  />
                 </div>
               </div>
-            </div>
+            )}
+
+            {/* 2nd Card: Portrait but quite wider in breadth (4:5) */}
+            {tvStage === 'card-1' && (
+              <div
+                className={`${styles.scenarioCardWider} ${
+                  isDriftingUp ? styles.scenarioCardDriftingUp : ''
+                }`}
+                key="card-stage-1"
+              >
+                <div className={styles.tvScreenGlass}>
+                  <div className={styles.tvGlare} />
+                  <div className={styles.tvCrtVignette} />
+                  <Image
+                    src="/images/intro/panel_music.jpg"
+                    alt="Graphic Designer Visual Direction"
+                    fill
+                    sizes="(max-width: 900px) 82vw, 470px"
+                    style={{ objectFit: 'cover' }}
+                    priority
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* 3rd Card: Portrait (9:16) */}
+            {tvStage === 'card-2' && (
+              <div
+                className={`${styles.scenarioCardPortrait} ${
+                  isDriftingUp ? styles.scenarioCardDriftingUp : ''
+                }`}
+                key="card-stage-2"
+              >
+                <div className={styles.tvScreenGlass}>
+                  <div className={styles.tvGlare} />
+                  <div className={styles.tvCrtVignette} />
+                  <Image
+                    src="/images/intro/panel_executive.jpg"
+                    alt="Full-Stack Developer Architecture"
+                    fill
+                    sizes="(max-width: 900px) 72vw, 390px"
+                    style={{ objectFit: 'cover' }}
+                    priority
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* 4th Card / Last one (1st Image): Ratio is 9:16 where full-size picture fits perfectly! */}
+            {tvStage === 'final' && (
+              <div className={styles.finalShowcaseBox} key="card-stage-final" aria-label="Vaibhav Shaw Identity Frame">
+                <div className={styles.tvScreenGlass}>
+                  <div className={styles.tvGlare} />
+                  <div className={styles.tvCrtVignette} />
+
+                  <Image
+                    src="/images/intro/panel_speaker_stage.jpg"
+                    alt="Vaibhav Shaw - AIML Engineer speaking on stage with mic"
+                    fill
+                    sizes="(max-width: 900px) 72vw, 390px"
+                    style={{ objectFit: 'cover', objectPosition: 'center 12%' }}
+                    priority
+                  />
+
+                  {/* Authentic Autographed Signature Badge */}
+                  <div className={styles.signatureBadge} aria-label="Personal Signature">
+                    <div className={styles.signatureScript}>Vaibhav Shaw</div>
+                    <div className={styles.signatureDetails}>
+                      <span className={styles.sigSubLine}>AIML Student</span>
+                      <span className={styles.sigSubLine}>Full Stack Developer</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Floating Vertical Social Rail Fixed to right viewport edge */}
