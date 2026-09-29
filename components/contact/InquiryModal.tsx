@@ -115,7 +115,7 @@ export default function InquiryModal({ isOpen, onClose, defaultEmail }: InquiryM
         try {
           const notifyTitle = channel === 'whatsapp'
             ? '✦ WhatsApp Inquiry Dispatched to Vaibhav Shaw'
-            : '✦ Gmail Inquiry Routed to vaibhavsnu2025@gmail.com';
+            : '✦ Gmail Inquiry Routed to Vaibhav Shaw';
           const notifyBody = channel === 'whatsapp'
             ? `Mobile alert triggered for ${fullPhone}. We will connect shortly!`
             : `Email confirmation routed for ${email}. We will reply via Gmail!`;
@@ -215,10 +215,6 @@ export default function InquiryModal({ isOpen, onClose, defaultEmail }: InquiryM
 
             {channel === 'whatsapp' ? (
               <>
-                <div className={styles.badge}>
-                  <WhatsAppIcon size={14} color="#25D366" />
-                  <span>Direct WhatsApp Channel (+91 7278283666)</span>
-                </div>
                 <h3 className={styles.title}>Send WhatsApp Inquiry</h3>
                 <p className={styles.subtitle}>
                   Enter your mobile number to connect directly with Vaibhav on WhatsApp. Instant notification dispatched to your phone.
@@ -226,10 +222,6 @@ export default function InquiryModal({ isOpen, onClose, defaultEmail }: InquiryM
               </>
             ) : (
               <>
-                <div className={`${styles.badge} ${styles.badgeGmail}`}>
-                  <GmailIcon size={14} />
-                  <span>Direct Gmail Channel (vaibhavsnu2025@gmail.com)</span>
-                </div>
                 <h3 className={styles.title}>Send Gmail Inquiry</h3>
                 <p className={styles.subtitle}>
                   Compose and dispatch an inquiry directly to Vaibhav’s official Gmail inbox with your details.
@@ -381,12 +373,6 @@ export default function InquiryModal({ isOpen, onClose, defaultEmail }: InquiryM
                   </>
                 )}
               </button>
-
-              <p className={styles.phoneNotificationNotice}>
-                {channel === 'whatsapp'
-                  ? '🔒 Direct route to +91 7278283666. Encrypted and never shared.'
-                  : '🔒 Direct route to vaibhavsnu2025@gmail.com. Verified delivery.'}
-              </p>
             </form>
           </>
         ) : (
@@ -398,8 +384,7 @@ export default function InquiryModal({ isOpen, onClose, defaultEmail }: InquiryM
               {channel === 'whatsapp' ? 'WhatsApp Alert Dispatched!' : 'Gmail Inquiry Dispatched!'}
             </h3>
             <p className={styles.successDesc}>
-              Thank you, <strong>{name || 'Valued Visitor'}</strong>! Your inquiry has been routed to Vaibhav Shaw
-              {channel === 'whatsapp' ? ` (+91 7278283666) for ${fullPhone}.` : ` (vaibhavsnu2025@gmail.com) for ${email}.`}
+              Thank you, <strong>{name || 'Valued Visitor'}</strong>! Your inquiry has been routed to Vaibhav Shaw.
             </p>
 
             <div className={styles.refPill}>

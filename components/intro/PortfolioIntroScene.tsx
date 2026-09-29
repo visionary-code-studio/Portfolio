@@ -422,7 +422,6 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
             {/* 1st Card Text: AIML ENGINEER [STUDENT] */}
             {tvStage === 'card-0' && (
               <div className={styles.stepIntroBox} key="text-0">
-                <div className={styles.stepPill}>01 // AIML ENGINEER [STUDENT]</div>
                 <h2 className={styles.stepTitle}>AIML ENGINEER [STUDENT]</h2>
                 <div className={styles.stepSubtitle}>Sister Nivedita University · B.Tech CSE (AIML Track)</div>
                 <p className={styles.stepDesc}>
@@ -434,7 +433,6 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
             {/* 2nd Card Text: GRAPHIC DESIGNER */}
             {tvStage === 'card-1' && (
               <div className={styles.stepIntroBox} key="text-1">
-                <div className={styles.stepPill}>02 // GRAPHIC DESIGNER</div>
                 <h2 className={styles.stepTitle}>GRAPHIC DESIGNER</h2>
                 <div className={styles.stepSubtitle}>Visual Harmony & Creative Direction</div>
                 <p className={styles.stepDesc}>
@@ -446,7 +444,6 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
             {/* 3rd Card Text: FULL-STACK DEVELOPER */}
             {tvStage === 'card-2' && (
               <div className={styles.stepIntroBox} key="text-2">
-                <div className={styles.stepPill}>03 // FULL-STACK DEVELOPER</div>
                 <h2 className={styles.stepTitle}>FULL-STACK DEVELOPER</h2>
                 <div className={styles.stepSubtitle}>Modern Engineering & Scalable Systems</div>
                 <p className={styles.stepDesc}>
