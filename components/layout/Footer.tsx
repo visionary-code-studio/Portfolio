@@ -41,11 +41,81 @@ interface FooterProps {
   };
 }
 
-// Open-source Tech Stack with SVGs for the dynamic hover ribbon
+// Skills & Tools with authentic vector icons for the dynamic hover ribbon
 const techStack = [
   {
+    name: 'AIML Engineer',
+    category: 'Machine Learning & AI',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M12 2a4 4 0 0 1 4 4c0 1.5-.8 2.8-2 3.5V11a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2V9.5C7.8 8.8 7 7.5 7 6a4 4 0 0 1 4-4z" />
+        <path d="M6 18a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-2z" />
+        <circle cx="12" cy="6" r="1.5" fill="currentColor" />
+        <path d="M4 11h2M18 11h2M2 6h2M20 6h2" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Full-Stack Development',
+    category: 'Web & Systems',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <rect x="2" y="3" width="20" height="14" rx="2" />
+        <line x1="8" y1="21" x2="16" y2="21" />
+        <line x1="12" y1="17" x2="12" y2="21" />
+        <path d="M7 8l-2 2 2 2M17 8l2 2-2 2M13 7l-2 6" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Graphic Designing',
+    category: 'Visual & Creative',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 2a14.5 14.5 0 0 0 0 20 10 10 0 0 0 9.54-13.46M7.5 10.5h.01M16.5 10.5h.01M12 15h.01" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Canva',
+    category: 'Brand & Visuals',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 4.2c3.12 0 5.38 1.95 5.38 4.75 0 2.92-2.58 5.75-6.52 7.15l-.66-1.52c3.12-1.12 4.96-3.15 4.96-5.18 0-1.68-1.28-2.82-3.16-2.82-2.78 0-5.22 2.5-5.22 5.58 0 1.98 1.25 3.12 2.82 3.12.85 0 1.62-.35 2.18-.85l.78 1.4c-.95.82-2.12 1.28-3.4 1.28-3.05 0-5.18-2.22-5.18-5.32 0-4.65 3.82-7.59 8.02-7.59z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'MS Office',
+    category: 'Productivity & Docs',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M11.5 2H3a1 1 0 0 0-1 1v8.5h9.5V2zm1 0v9.5H22V3a1 1 0 0 0-1-1h-8.5zM2 12.5V21a1 1 0 0 0 1 1h8.5v-9.5H2zm10.5 0V22H21a1 1 0 0 0 1-1v-8.5h-9.5z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'Github',
+    category: 'Version Control',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'Figma',
+    category: 'UI/UX Prototyping',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0zm-8 4a4 4 0 0 1 4-4h4v4a4 4 0 0 1-4 4 4 4 0 0 1-4-4zm0-8a4 4 0 0 1 4-4h4v8H8a4 4 0 0 1-4-4zm8-4h4a4 4 0 1 1 0 8h-4V4zm-4 16a4 4 0 0 1-4-4h4v4z"/>
+      </svg>
+    ),
+  },
+  {
     name: 'Python',
-    category: 'AI & Core',
+    category: 'AI & Computational Core',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
         <path d="M11.914 0C5.82 0 6.2 2.656 6.2 2.656l.006 2.753h5.814v.826H3.896S0 5.787 0 11.905c0 6.12 3.402 5.908 3.402 5.908h2.033v-2.857s-.11-3.402 3.346-3.402h5.758v-.848h-8.08s-2.42-.275-2.42-3.606c0-3.332 2.91-3.23 2.91-3.23h10.965S24 3.65 24 9.77c0 6.12-3.415 5.93-3.415 5.93h-1.077v-2.857s.07-3.402-3.385-3.402h-5.758v.848h8.08s2.42.276 2.42 3.607c0 3.33-2.91 3.23-2.91 3.23H6.99S0 17.35 0 11.23C0 5.11 3.402 5.3 3.402 5.3h1.077v2.858s-.07 3.4 3.385 3.4h5.758v-.847H5.542s-2.42-.276-2.42-3.607c0-3.33 2.91-3.23 2.91-3.23h11.914z"/>
@@ -53,88 +123,105 @@ const techStack = [
     ),
   },
   {
-    name: 'PyTorch',
-    category: 'Deep Learning',
+    name: 'Tableau',
+    category: 'Data Visualization',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12.783 0a.375.375 0 0 0-.276.12L9.27 3.357a.375.375 0 0 0 .265.64h2.518a.375.375 0 0 1 .375.375v2.81a.375.375 0 0 0 .64.266l3.237-3.238A.375.375 0 0 0 16.039 4h-2.88a.375.375 0 0 1-.376-.375V.375A.375.375 0 0 0 12.408 0h.375zM12.004 5.96a8.04 8.04 0 1 0 7.828 9.878.375.375 0 0 0-.73-.173 7.29 7.29 0 1 1-7.098-9.705h.001c.207 0 .375-.168.375-.375v-.018a.375.375 0 0 0-.376-.375v.768z"/>
+        <path d="M11.25 1.5h1.5v3.75h-1.5zM11.25 18.75h1.5V22.5h-1.5zM18.75 11.25H22.5v1.5h-3.75zM1.5 11.25h3.75v1.5H1.5zM6.5 6.5h1.5v3.25H6.5zM16 6.5h1.5v3.25H16zM6.5 14.25h1.5V17.5H6.5zM16 14.25h1.5V17.5H16zM10.5 7.5h3v9h-3z"/>
       </svg>
     ),
   },
   {
-    name: 'Next.js',
-    category: 'Framework',
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 180 180" fill="currentColor">
-        <mask height="180" id="mask0" maskUnits="userSpaceOnUse" width="180" x="0" y="0" style={{ maskType: 'alpha' }}>
-          <circle cx="90" cy="90" fill="black" r="90" />
-        </mask>
-        <g mask="url(#mask0)">
-          <circle cx="90" cy="90" data-circle="true" fill="currentColor" r="90" />
-          <path d="M149.508 157.52L69.142 54H54V125.97H66.1136V69.3836L139.999 164.845C143.333 162.614 146.509 160.165 149.508 157.52Z" fill="white" />
-          <rect fill="white" height="72" width="12" x="115" y="54" />
-        </g>
-      </svg>
-    ),
-  },
-  {
-    name: 'React',
-    category: 'UI Architecture',
-    icon: (
-      <svg width="24" height="24" viewBox="-11.5 -10.23174 23 20.46348" fill="currentColor">
-        <circle cx="0" cy="0" r="2.05" fill="currentColor"/>
-        <g stroke="currentColor" strokeWidth="1" fill="none">
-          <ellipse rx="11" ry="4.2"/>
-          <ellipse rx="11" ry="4.2" transform="rotate(60)"/>
-          <ellipse rx="11" ry="4.2" transform="rotate(120)"/>
-        </g>
-      </svg>
-    ),
-  },
-  {
-    name: 'TypeScript',
-    category: 'Languages',
+    name: 'XAMP PHP',
+    category: 'Backend & Database',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0H1.125zm16.516 15.047c.29-.02.576.03.842.148.266.117.492.293.66.516.168.223.277.48.316.758.04.277.012.56-.082.824-.094.266-.25.5-.453.691-.203.192-.445.336-.71.426-.266.09-.547.125-.829.102-.281-.024-.555-.106-.797-.242a2.3 2.3 0 0 1-.617-.551 2.5 2.5 0 0 1-.375-.762l1.64-.672c.04.145.117.278.223.387.106.11.238.188.383.227.145.04.297.043.441.011.145-.03.274-.097.375-.195.102-.098.168-.223.192-.359.023-.137.004-.278-.055-.403a.75.75 0 0 0-.25-.308c-.11-.082-.238-.137-.375-.164l-.945-.219c-.395-.086-.762-.27-1.063-.535-.3-.266-.516-.617-.625-1.016a3.06 3.06 0 0 1-.031-1.219c.078-.395.258-.758.523-1.055.266-.297.605-.516.992-.633.387-.117.797-.129 1.192-.035.394.094.75.297 1.031.59.281.293.477.66.566 1.063l-1.602.664a1.23 1.23 0 0 0-.32-.477 1.04 1.04 0 0 0-.523-.234 1.02 1.02 0 0 0-.578.078c-.168.082-.297.215-.367.383-.07.168-.07.355 0 .523.07.168.199.301.367.383.168.082.355.125.547.125l.89.207zm-7.668-5.32h5.137v1.547h-1.71v6.797H11.66v-6.797H9.973V9.727z"/>
+        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-5 15.5H5V8.5h2.5c1.8 0 2.7.8 2.7 2.2 0 1.5-.9 2.3-2.7 2.3h-.5v2.5zm7 0h-2V8.5h2v2.8h1.8v-2.8h2v7h-2v-2.6H14v2.6zm6 0h-2V8.5h2.5c1.8 0 2.7.8 2.7 2.2 0 1.5-.9 2.3-2.7 2.3h-.5v2.5z"/>
       </svg>
     ),
   },
   {
-    name: 'Tailwind CSS',
-    category: 'Styling',
+    name: 'Firebase',
+    category: 'Cloud & Auth',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z"/>
+        <path d="M3.89 15.672L6.255.875A.75.75 0 0 1 7.63.593l3.208 6.012-6.948 9.067zm16.22 0l-1.93-12.21a.75.75 0 0 0-1.328-.358L3.25 18.067l8.28 4.673a1 1 0 0 0 .94 0l7.64-7.068zM14.07 8.78L12.56 5.95a.75.75 0 0 0-1.32.035L8.74 11.23l5.33-2.45z"/>
       </svg>
     ),
   },
   {
-    name: 'Docker',
-    category: 'DevOps & Systems',
+    name: 'Firebase Studio',
+    category: 'App Development',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.186.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.186.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.186.186.186m5.893 2.714h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.185-.186h-2.12a.186.186 0 00-.185.185v1.888c0 .102.084.185.186.185m-2.928 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.185-.186H2.208a.186.186 0 00-.186.185v1.888c0 .102.084.185.186.185M23.99 12.03c-.115-.815-.77-1.427-1.574-1.503-.314-.03-.63.023-.915.15-.41-.54-.993-.935-1.67-.98-.828-.054-1.657.34-2.102 1.026-.065-.008-.13-.013-.197-.013H18.7c-.15 0-.294.03-.427.085-1.127.466-2.17.697-3.097.697-.68 0-1.258-.124-1.72-.37-.894-.476-1.543-1.378-1.737-2.41a4.27 4.27 0 00-.47-1.218 5.62 5.62 0 00-.915-1.19c-.352-.338-.763-.61-1.22-.806A3.87 3.87 0 007.41 5.2c-.378 0-.75.06-1.106.177-.66.216-1.23.63-1.637 1.192-.41.56-.63 1.24-.63 1.942v4.86c0 1.27.35 2.5 1.01 3.56.66 1.05 1.6 1.88 2.7 2.4 1.1.52 2.34.8 3.63.8 1.48 0 2.92-.37 4.16-1.07a10.9 10.9 0 003.12-2.73c.96-1.24 1.54-2.7 1.67-4.22h3.66z"/>
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
     ),
   },
   {
-    name: 'OpenCV',
-    category: 'Computer Vision',
+    name: 'Campus Ambassador',
+    category: 'Outreach & Community',
     icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-        <circle cx="12" cy="7" r="4.5" fill="none" stroke="currentColor" strokeWidth="2.5" />
-        <circle cx="6.5" cy="16.5" r="4.5" fill="none" stroke="currentColor" strokeWidth="2.5" />
-        <circle cx="17.5" cy="16.5" r="4.5" fill="none" stroke="currentColor" strokeWidth="2.5" />
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+        <path d="M6 12v5c3 3 9 3 12 0v-5" />
       </svg>
     ),
   },
   {
-    name: 'Hugging Face',
-    category: 'Neural Models',
+    name: 'Leadership',
+    category: 'Strategy & Direction',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <circle cx="12" cy="12" r="10" />
+        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Google Cloud',
+    category: 'Cloud Infrastructure',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/>
+        <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'ChatGPT',
+    category: 'GenAI & Prompting',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M22.28 9.82a6.43 6.43 0 0 0-.53-5.06 6.57 6.57 0 0 0-6.17-3.23 6.46 6.46 0 0 0-4.63 2.05A6.5 6.5 0 0 0 6.3 2.14 6.58 6.58 0 0 0 1.7 5.38a6.45 6.45 0 0 0-.53 5.06 6.56 6.56 0 0 0 1.55 6.13 6.5 6.5 0 0 0 1.52 4.6 6.58 6.58 0 0 0 4.6 2.06 6.46 6.46 0 0 0 4.63-2.05 6.5 6.5 0 0 0 4.65 1.44 6.58 6.58 0 0 0 4.6-3.24 6.45 6.45 0 0 0 .53-5.06 6.56 6.56 0 0 0-.97-4.5zM12 14.5a2.5 2.5 0 1 1 2.5-2.5 2.5 2.5 0 0 1-2.5 2.5z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'Claude',
+    category: 'Anthropic Reasoning',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'Antigravity',
+    category: 'Agentic AI & Ideation',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <circle cx="12" cy="12" r="9" />
+        <ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(-30 12 12)" />
+        <circle cx="12" cy="12" r="2" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Gemini',
+    category: 'Google DeepMind AI',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0C12 6.627 6.627 12 0 12c6.627 0 12 5.373 12 12 0-6.627 5.373-12 12-12-6.627 0-12-5.373-12-12z"/>
       </svg>
     ),
   },
@@ -208,7 +295,7 @@ export default function Footer({ data, socials }: FooterProps) {
       {/* ── 2. Dynamic Kinetic Tech Stack Ribbon (Hover Interactive) ────── */}
       <div className={styles.ribbonSection}>
         <div className={styles.ribbonLabel}>
-          <span>Core Engineering &amp; AI Stack</span>
+          <span>Skills &amp; Tools</span>
           <span className={styles.ribbonDivider} />
         </div>
 
@@ -266,6 +353,8 @@ export default function Footer({ data, socials }: FooterProps) {
                 <button onClick={() => scrollToSection('ppt')} className={styles.navLinkItem} data-cursor-hover>Archive</button>
                 <button onClick={() => scrollToSection('certs')} className={styles.navLinkItem} data-cursor-hover>Proof</button>
                 <button onClick={() => scrollToSection('contact')} className={styles.navLinkItem} data-cursor-hover>Contacts</button>
+                <a href="/terms" className={styles.navLinkItem} data-cursor-hover>Terms &amp; Conditions</a>
+                <a href="/disclaimer" className={styles.navLinkItem} data-cursor-hover>Disclaimer</a>
               </nav>
 
               {/* Square Scroll-To-Top Button */}
@@ -363,6 +452,11 @@ export default function Footer({ data, socials }: FooterProps) {
         {/* Bottom Copyright & Colophon Bar */}
         <div className={styles.colophonBar}>
           <span className={styles.copyrightText}>© 2026 {fullName}</span>
+          <div className={styles.legalLinks}>
+            <a href="/terms" className={styles.legalLink} data-cursor-hover>Terms &amp; Conditions</a>
+            <span className={styles.legalDivider}>•</span>
+            <a href="/disclaimer" className={styles.legalLink} data-cursor-hover>Disclaimer</a>
+          </div>
         </div>
       </div>
 

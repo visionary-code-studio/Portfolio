@@ -173,7 +173,7 @@
   display: flex;
   gap: 1.25rem;
   width: max-content;
-  animation: ribbonMarquee 32s linear infinite;
+  animation: ribbonMarquee 65s linear infinite;
 }
 
 .ribbonTrackWrapper:hover .ribbonTrack {
@@ -466,8 +466,28 @@
   font-weight: 600;
 }
 
-.colophonNote {
-  color: #94a3b8;
+.legalLinks {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.legalLink {
+  color: #64748b;
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  transition: color 0.2s ease;
+}
+
+.legalLink:hover {
+  color: #0f172a;
+  text-decoration: underline;
+}
+
+.legalDivider {
+  color: #cbd5e1;
+  font-size: 0.65rem;
 }
 
 /* ── Responsive Adaptations ────────────────────────────────── */
