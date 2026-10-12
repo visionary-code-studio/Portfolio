@@ -602,19 +602,6 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
       {/* Cosmic Vignette */}
       <div className={styles.ambientGlow} />
 
-      {/* ── Top Right Sound Toggle Pill ── */}
-      <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          toggleAudio();
-        }}
-        className={styles.soundControlBtn}
-        aria-label={isPlayingAudio ? 'Pause flute music' : 'Play flute music'}
-      >
-        <span>{isPlayingAudio ? '🔊 Music Playing' : '🎵 Tap to Play Music'}</span>
-      </button>
-
       {/* ── Top Center Monogram Logo (Anchored from start, no buttons) ── */}
       <div className={styles.topBadge}>
         <div className={styles.logoCircle}>
@@ -706,7 +693,7 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
         >
           {currentStep === 0 && (
             <>
-              <span>{isPlayingAudio ? 'Scroll to Begin ↓' : 'Tap to Play Music & Begin ↓'}</span>
+              <span>Scroll to Begin ↓</span>
               <span className={styles.arrowIcon}>↓</span>
             </>
           )}

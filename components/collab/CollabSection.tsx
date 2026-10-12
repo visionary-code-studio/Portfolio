@@ -15,6 +15,8 @@ interface TierDefinition {
   tierColor: string;
   isPopular?: boolean;
   audienceTagline: string;
+  priceInr: string;
+  priceUsd: string;
 }
 
 const DEFAULT_SERVICES: CollabService[] = [
@@ -23,7 +25,7 @@ const DEFAULT_SERVICES: CollabService[] = [
     title: 'Graphic Designing',
     category: 'graphic-design',
     tagline: 'High-impact visual brand assets, pitch decks & marketing visuals via Canva & Figma',
-    price: '$149 - $299',
+    price: '₹5,000',
     timeline: '2 - 4 Days',
     featured: false,
     badge: 'Fast Turnaround',
@@ -42,7 +44,7 @@ const DEFAULT_SERVICES: CollabService[] = [
     title: 'Web Development',
     category: 'web-dev',
     tagline: 'Modern, high-performance web applications & responsive landing pages',
-    price: '$299 - $599',
+    price: '₹15,000',
     timeline: '4 - 7 Days',
     featured: true,
     badge: 'High Demand',
@@ -61,7 +63,7 @@ const DEFAULT_SERVICES: CollabService[] = [
     title: 'E-Commerce Website',
     category: 'ecommerce',
     tagline: 'Full-cycle digital stores with dynamic catalogs, carts & secure checkout',
-    price: '$499 - $899',
+    price: '₹45,000',
     timeline: '7 - 12 Days',
     featured: true,
     badge: 'Turnkey Solution',
@@ -82,33 +84,45 @@ const TIER_MAPPINGS: Record<string, TierDefinition> = {
     tierName: 'SILVER',
     tierColor: '#e2e8f0',
     audienceTagline: 'Perfect For Personal Projects And Freelancers',
+    priceInr: '₹5,000',
+    priceUsd: '$59',
   },
   'graphic-design': {
     tierName: 'SILVER',
     tierColor: '#e2e8f0',
     audienceTagline: 'Perfect For Personal Projects And Freelancers',
+    priceInr: '₹5,000',
+    priceUsd: '$59',
   },
   'collab-web-dev': {
     tierName: 'GOLD',
     tierColor: '#f5a623',
     isPopular: true,
     audienceTagline: 'Power And Flexibility For Growing Teams',
+    priceInr: '₹15,000',
+    priceUsd: '$179',
   },
   'web-dev': {
     tierName: 'GOLD',
     tierColor: '#f5a623',
     isPopular: true,
     audienceTagline: 'Power And Flexibility For Growing Teams',
+    priceInr: '₹15,000',
+    priceUsd: '$179',
   },
   'collab-ecommerce': {
     tierName: 'PLATINUM',
     tierColor: '#e0e7ff',
     audienceTagline: 'Tailored Solutions For Enterprise Success',
+    priceInr: '₹45,000',
+    priceUsd: '$539',
   },
   'ecommerce': {
     tierName: 'PLATINUM',
     tierColor: '#e0e7ff',
     audienceTagline: 'Tailored Solutions For Enterprise Success',
+    priceInr: '₹45,000',
+    priceUsd: '$539',
   },
 };
 
@@ -219,261 +233,262 @@ export default function CollabSection({
     }, 2000);
   };
 
-  // Convert or format price cleanly matching the inspiration image style (large bold number + suffix)
+  // Convert or format price cleanly: Silver = 5000, Gold = 15000, Platinum = 45000
   const getFormattedPrice = (service: CollabService) => {
-    const rawPrice = service.price || '';
+    const meta = TIER_MAPPINGS[service.id] || TIER_MAPPINGS[service.category];
+    if (meta) {
+      return {
+        main: currency === 'INR' ? meta.priceInr : meta.priceUsd,
+        period: 'Per Project',
+      };
+    }
+
+    // Fallback for custom admin items
     if (currency === 'INR') {
-      if (rawPrice.includes('149') || service.category === 'graphic-design') {
-        return { main: '₹12,499', period: 'Per Project' };
-      }
-      if (rawPrice.includes('299') || service.category === 'web-dev') {
-        return { main: '₹24,999', period: 'Per Project' };
-      }
-      if (rawPrice.includes('499') || service.category === 'ecommerce') {
-        return { main: '₹41,999', period: 'Per Project' };
-      }
-      if (rawPrice.startsWith('₹')) {
-        return { main: rawPrice, period: 'Per Scope' };
-      }
-      return { main: '₹14,999', period: 'Per Project' };
+      if (service.category === 'graphic-design') return { main: '₹5,000', period: 'Per Project' };
+      if (service.category === 'web-dev') return { main: '₹15,000', period: 'Per Project' };
+      if (service.category === 'ecommerce') return { main: '₹45,000', period: 'Per Project' };
+      return { main: service.price || '₹10,000', period: 'Per Project' };
     } else {
-      // USD mode
-      if (rawPrice.includes('149') || service.category === 'graphic-design') {
-        return { main: '$149', period: 'Per Project' };
-      }
-      if (rawPrice.includes('299') || service.category === 'web-dev') {
-        return { main: '$299', period: 'Per Project' };
-      }
-      if (rawPrice.includes('499') || service.category === 'ecommerce') {
-        return { main: '$499', period: 'Per Project' };
-      }
-      return { main: rawPrice, period: 'Per Project' };
+      if (service.category === 'graphic-design') return { main: '$59', period: 'Per Project' };
+      if (service.category === 'web-dev') return { main: '$179', period: 'Per Project' };
+      if (service.category === 'ecommerce') return { main: '$539', period: 'Per Project' };
+      return { main: '$99', period: 'Per Project' };
     }
   };
 
   return (
-    <section id="collab" className={styles.collabSection} aria-label="Simple Pricing & Powerful Collaboration">
-      {/* Background Lighting Streak & Ambience (Matching Inspiration Image) */}
-      <div className={styles.lightBeam} aria-hidden="true" />
-      <div className={styles.goldAmbientGlow} aria-hidden="true" />
+    <section id="collab" className={styles.collabSectionWrapper} aria-label="Simple Pricing & Powerful Collaboration">
+      <div className={styles.collabInnerContainer}>
+        {/* Background Lighting Streak & Ambience (Matching Inspiration Image) */}
+        <div className={styles.lightBeam} aria-hidden="true" />
+        <div className={styles.goldAmbientGlow} aria-hidden="true" />
 
-      {/* Top Header matching reference image typography */}
-      <div className={styles.sectionHeader}>
-        <div className={styles.topStatusBadge}>
-          <span className={styles.pulseDot} />
-          <span>Available for Q4 2026 Collaboration</span>
-        </div>
-
-        <h2 className={styles.mainTitle}>
-          SIMPLE PRICING. POWERFUL <span className={styles.titleGoldHighlight}>FEATURES.</span>
-        </h2>
-
-        <p className={styles.subDescription}>
-          FLEXIBLE OPTIONS BUILT TO GROW WITH YOUR NEEDS.
-        </p>
-
-        {/* Currency Switcher & Category Filter Bar */}
-        <div className={styles.controlsWrap}>
-          <div className={styles.currencyTogglePill}>
-            <button
-              type="button"
-              className={`${styles.currencyBtn} ${currency === 'INR' ? styles.currencyBtnActive : ''}`}
-              onClick={() => setCurrency('INR')}
-              data-cursor-hover
-            >
-              ₹ INR
-            </button>
-            <button
-              type="button"
-              className={`${styles.currencyBtn} ${currency === 'USD' ? styles.currencyBtnActive : ''}`}
-              onClick={() => setCurrency('USD')}
-              data-cursor-hover
-            >
-              $ USD
-            </button>
+        {/* Top Header matching reference image typography */}
+        <div className={styles.sectionHeader}>
+          <div className={styles.topStatusBadge}>
+            <span className={styles.pulseDot} />
+            <span>Available for Q4 2026 Collaboration</span>
           </div>
 
-          <div className={styles.filterPillsGroup}>
-            <button
-              type="button"
-              className={`${styles.filterPill} ${activeCategory === 'all' ? styles.filterPillActive : ''}`}
-              onClick={() => setActiveCategory('all')}
-              data-cursor-hover
-            >
-              All Tiers
-            </button>
-            <button
-              type="button"
-              className={`${styles.filterPill} ${activeCategory === 'graphic-design' ? styles.filterPillActive : ''}`}
-              onClick={() => setActiveCategory('graphic-design')}
-              data-cursor-hover
-            >
-              Silver · Graphic Design
-            </button>
-            <button
-              type="button"
-              className={`${styles.filterPill} ${activeCategory === 'web-dev' ? styles.filterPillActive : ''}`}
-              onClick={() => setActiveCategory('web-dev')}
-              data-cursor-hover
-            >
-              Gold · Web Dev
-            </button>
-            <button
-              type="button"
-              className={`${styles.filterPill} ${activeCategory === 'ecommerce' ? styles.filterPillActive : ''}`}
-              onClick={() => setActiveCategory('ecommerce')}
-              data-cursor-hover
-            >
-              Platinum · E-Commerce
-            </button>
-          </div>
-        </div>
-      </div>
+          <h2 className={styles.mainTitle}>
+            SIMPLE PRICING. POWERFUL <span className={styles.titleGoldHighlight}>FEATURES.</span>
+          </h2>
 
-      {/* 3-Tier Luxury Pricing Cards Grid */}
-      <div className={styles.pricingGrid}>
-        {filteredServices.map((service) => {
-          const tierMeta =
-            TIER_MAPPINGS[service.id] ||
-            TIER_MAPPINGS[service.category] || {
-              tierName: service.featured ? 'GOLD' : 'SILVER',
-              tierColor: service.featured ? '#f5a623' : '#e2e8f0',
-              isPopular: service.featured,
-              audienceTagline: service.tagline,
-            };
-
-          const isGold = tierMeta.tierName === 'GOLD';
-          const isPlatinum = tierMeta.tierName === 'PLATINUM';
-          const isSilver = tierMeta.tierName === 'SILVER';
-          const priceObj = getFormattedPrice(service);
-
-          return (
-            <article
-              key={service.id}
-              className={`
-                ${styles.pricingCard}
-                ${isGold ? styles.goldCard : ''}
-                ${isPlatinum ? styles.platinumCard : ''}
-                ${isSilver ? styles.silverCard : ''}
-              `}
-            >
-              {/* "MOST POPULAR" Pill Badge pinned to top border for Gold */}
-              {isGold && (
-                <div className={styles.popularBadgeWrap}>
-                  <span className={styles.popularBadgeText}>MOST POPULAR</span>
-                </div>
-              )}
-
-              {/* Header Wave Ribbon Vector Artwork */}
-              <div className={styles.cardHeaderArea}>
-                <WaveRibbon color={tierMeta.tierColor} />
-
-                {/* Tier Title (SILVER, GOLD, PLATINUM) */}
-                <h3
-                  className={`
-                    ${styles.tierHeading}
-                    ${isGold ? styles.tierHeadingGold : ''}
-                    ${isPlatinum ? styles.tierHeadingPlatinum : ''}
-                    ${isSilver ? styles.tierHeadingSilver : ''}
-                  `}
-                >
-                  {tierMeta.tierName}
-                </h3>
-
-                {/* Specific Service Subtitle */}
-                <p className={styles.serviceNameSubtitle}>{service.title}</p>
-
-                {/* Audience Tagline */}
-                <p className={styles.cardAudienceTagline}>
-                  {tierMeta.audienceTagline || service.tagline}
-                </p>
-              </div>
-
-              {/* Big Bold Typography Pricing */}
-              <div className={styles.priceRow}>
-                <span className={`${styles.priceFigure} ${isGold ? styles.priceFigureGold : ''}`}>
-                  {priceObj.main}
-                </span>
-                <span className={styles.pricePeriod}>{priceObj.period}</span>
-              </div>
-
-              {/* Delivery Turnaround Tag */}
-              <div className={styles.turnaroundTag}>
-                <span>⚡ Turnaround: {service.timeline}</span>
-              </div>
-
-              {/* Deliverables Checklist with Circular Icons */}
-              <ul className={styles.featuresList}>
-                {service.deliverables.map((item, idx) => (
-                  <li key={idx} className={styles.featureItem}>
-                    <span className={`${styles.checkCircle} ${isGold ? styles.checkCircleGold : ''}`}>
-                      ✓
-                    </span>
-                    <span className={styles.featureText}>{item}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* Tech Stack Minimal Pills */}
-              <div className={styles.techStackWrap}>
-                {service.techStack.map((tech, idx) => (
-                  <span key={idx} className={styles.techTag}>
-                    {tech}
-                  </span>
-                ))}
-              </div>
-
-              {/* Bottom Action Button (Gold Gradient for Gold, Dark Glass for Silver & Platinum) */}
-              <div className={styles.actionBtnWrap}>
-                <button
-                  type="button"
-                  className={`
-                    ${styles.ctaButton}
-                    ${isGold ? styles.ctaButtonGold : styles.ctaButtonStandard}
-                  `}
-                  onClick={() => openInquiry(service)}
-                  data-cursor-hover
-                >
-                  Get Started
-                </button>
-              </div>
-            </article>
-          );
-        })}
-      </div>
-
-      {/* Recruiter & Executive Fast-Track Banner */}
-      <div className={styles.recruiterBanner}>
-        <div className={styles.recruiterContent}>
-          <div className={styles.recruiterEyebrow}>FAST-TRACK RECRUITMENT</div>
-          <h3 className={styles.recruiterHeading}>Recruiter &amp; Engineering Team Connect</h3>
-          <p className={styles.recruiterDesc}>
-            Looking to recruit for AI/ML engineering, high-performance web systems, or student internships? I maintain top honors (9.38 CGPA) at Sister Nivedita University, combining deep technical curiosity with rapid execution and hackathon-tested problem solving.
+          <p className={styles.subDescription}>
+            FLEXIBLE OPTIONS BUILT TO GROW WITH YOUR NEEDS.
           </p>
-          <div className={styles.recruiterPills}>
-            <span className={styles.recruiterPillItem}>📍 Kolkata / Hybrid / Remote</span>
-            <span className={styles.recruiterPillItem}>🎓 B.Tech CSE (AIML Track)</span>
-            <span className={styles.recruiterPillItem}>⚡ Immediate Availability for 2026</span>
+
+          {/* Currency Switcher & Category Filter Bar */}
+          <div className={styles.controlsWrap}>
+            <div className={styles.currencyTogglePill}>
+              <button
+                type="button"
+                className={`${styles.currencyBtn} ${currency === 'INR' ? styles.currencyBtnActive : ''}`}
+                onClick={() => setCurrency('INR')}
+                data-cursor-hover
+                aria-label="Switch to INR pricing"
+              >
+                ₹ INR
+              </button>
+              <button
+                type="button"
+                className={`${styles.currencyBtn} ${currency === 'USD' ? styles.currencyBtnActive : ''}`}
+                onClick={() => setCurrency('USD')}
+                data-cursor-hover
+                aria-label="Switch to USD pricing"
+              >
+                $ USD
+              </button>
+            </div>
+
+            <div className={styles.filterPillsGroup}>
+              <button
+                type="button"
+                className={`${styles.filterPill} ${activeCategory === 'all' ? styles.filterPillActive : ''}`}
+                onClick={() => setActiveCategory('all')}
+                data-cursor-hover
+              >
+                All Tiers
+              </button>
+              <button
+                type="button"
+                className={`${styles.filterPill} ${activeCategory === 'graphic-design' ? styles.filterPillActive : ''}`}
+                onClick={() => setActiveCategory('graphic-design')}
+                data-cursor-hover
+              >
+                Silver · Graphic Design
+              </button>
+              <button
+                type="button"
+                className={`${styles.filterPill} ${activeCategory === 'web-dev' ? styles.filterPillActive : ''}`}
+                onClick={() => setActiveCategory('web-dev')}
+                data-cursor-hover
+              >
+                Gold · Web Dev
+              </button>
+              <button
+                type="button"
+                className={`${styles.filterPill} ${activeCategory === 'ecommerce' ? styles.filterPillActive : ''}`}
+                onClick={() => setActiveCategory('ecommerce')}
+                data-cursor-hover
+              >
+                Platinum · E-Commerce
+              </button>
+            </div>
           </div>
         </div>
 
-        <div className={styles.recruiterActions}>
-          <a
-            href={`mailto:${profileEmail}?subject=Recruiter%20Inquiry%20%E2%80%94%20Vaibhav%20Shaw%20Opportunities`}
-            className={styles.recruiterPrimaryBtn}
-            data-cursor-hover
-          >
-            <span>✉ Direct Recruiter Connect</span>
-          </a>
-          <a
-            href={resumeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.recruiterSecondaryBtn}
-            data-cursor-hover
-          >
-            <span>📄 Download Official Resume</span>
-          </a>
+        {/* 3-Tier Luxury Pricing Cards Grid */}
+        <div className={styles.pricingGrid}>
+          {filteredServices.map((service) => {
+            const tierMeta =
+              TIER_MAPPINGS[service.id] ||
+              TIER_MAPPINGS[service.category] || {
+                tierName: service.featured ? 'GOLD' : 'SILVER',
+                tierColor: service.featured ? '#f5a623' : '#e2e8f0',
+                isPopular: service.featured,
+                audienceTagline: service.tagline,
+                priceInr: '₹15,000',
+                priceUsd: '$179',
+              };
+
+            const isGold = tierMeta.tierName === 'GOLD';
+            const isPlatinum = tierMeta.tierName === 'PLATINUM';
+            const isSilver = tierMeta.tierName === 'SILVER';
+            const priceObj = getFormattedPrice(service);
+
+            return (
+              <article
+                key={service.id}
+                className={`
+                  ${styles.pricingCard}
+                  ${isGold ? styles.goldCard : ''}
+                  ${isPlatinum ? styles.platinumCard : ''}
+                  ${isSilver ? styles.silverCard : ''}
+                `}
+              >
+                {/* "MOST POPULAR" Pill Badge pinned to top border for Gold (Fully Visible with overflow visible) */}
+                {isGold && (
+                  <div className={styles.popularBadgeWrap}>
+                    <span className={styles.popularBadgeText}>MOST POPULAR</span>
+                  </div>
+                )}
+
+                {/* Header Wave Ribbon Vector Container */}
+                <div className={styles.waveContainer}>
+                  <WaveRibbon color={tierMeta.tierColor} />
+                </div>
+
+                {/* Header Content */}
+                <div className={styles.cardHeaderArea}>
+                  {/* Tier Title (SILVER, GOLD, PLATINUM) */}
+                  <h3
+                    className={`
+                      ${styles.tierHeading}
+                      ${isGold ? styles.tierHeadingGold : ''}
+                      ${isPlatinum ? styles.tierHeadingPlatinum : ''}
+                      ${isSilver ? styles.tierHeadingSilver : ''}
+                    `}
+                  >
+                    {tierMeta.tierName}
+                  </h3>
+
+                  {/* Specific Service Subtitle */}
+                  <p className={styles.serviceNameSubtitle}>{service.title}</p>
+
+                  {/* Audience Tagline */}
+                  <p className={styles.cardAudienceTagline}>
+                    {tierMeta.audienceTagline || service.tagline}
+                  </p>
+                </div>
+
+                {/* Big Bold Typography Pricing */}
+                <div className={styles.priceRow}>
+                  <span className={`${styles.priceFigure} ${isGold ? styles.priceFigureGold : ''}`}>
+                    {priceObj.main}
+                  </span>
+                  <span className={styles.pricePeriod}>{priceObj.period}</span>
+                </div>
+
+                {/* Delivery Turnaround Tag */}
+                <div className={styles.turnaroundTag}>
+                  <span>⚡ Turnaround: {service.timeline}</span>
+                </div>
+
+                {/* Deliverables Checklist with Circular Icons */}
+                <ul className={styles.featuresList}>
+                  {service.deliverables.map((item, idx) => (
+                    <li key={idx} className={styles.featureItem}>
+                      <span className={`${styles.checkCircle} ${isGold ? styles.checkCircleGold : ''}`}>
+                        ✓
+                      </span>
+                      <span className={styles.featureText}>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Tech Stack Minimal Pills */}
+                <div className={styles.techStackWrap}>
+                  {service.techStack.map((tech, idx) => (
+                    <span key={idx} className={styles.techTag}>
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Bottom Action Button (Gold Gradient for Gold, Dark Glass for Silver & Platinum) */}
+                <div className={styles.actionBtnWrap}>
+                  <button
+                    type="button"
+                    className={`
+                      ${styles.ctaButton}
+                      ${isGold ? styles.ctaButtonGold : styles.ctaButtonStandard}
+                    `}
+                    onClick={() => openInquiry(service)}
+                    data-cursor-hover
+                  >
+                    Get Started
+                  </button>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+
+        {/* Recruiter & Executive Fast-Track Banner */}
+        <div className={styles.recruiterBanner}>
+          <div className={styles.recruiterContent}>
+            <div className={styles.recruiterEyebrow}>FAST-TRACK RECRUITMENT</div>
+            <h3 className={styles.recruiterHeading}>Recruiter &amp; Engineering Team Connect</h3>
+            <p className={styles.recruiterDesc}>
+              Looking to recruit for AI/ML engineering, high-performance web systems, or student internships? I maintain top honors (9.38 CGPA) at Sister Nivedita University, combining deep technical curiosity with rapid execution and hackathon-tested problem solving.
+            </p>
+            <div className={styles.recruiterPills}>
+              <span className={styles.recruiterPillItem}>📍 Kolkata / Hybrid / Remote</span>
+              <span className={styles.recruiterPillItem}>🎓 B.Tech CSE (AIML Track)</span>
+              <span className={styles.recruiterPillItem}>⚡ Immediate Availability for 2026</span>
+            </div>
+          </div>
+
+          <div className={styles.recruiterActions}>
+            <a
+              href={`mailto:${profileEmail}?subject=Recruiter%20Inquiry%20%E2%80%94%20Vaibhav%20Shaw%20Opportunities`}
+              className={styles.recruiterPrimaryBtn}
+              data-cursor-hover
+            >
+              <span>✉ Direct Recruiter Connect</span>
+            </a>
+            <a
+              href={resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.recruiterSecondaryBtn}
+              data-cursor-hover
+            >
+              <span>📄 Download Official Resume</span>
+            </a>
+          </div>
         </div>
       </div>
 
