@@ -106,13 +106,28 @@ export default function CertificationsSection({ items, onOpen }: Props) {
       {/* 3D Perspective Document Grid */}
       <ScrollStagger staggerDelay={0.09} className={styles.grid}>
         {filtered.map((cert, i) => {
+          const isRasterImage = (url?: string) =>
+            Boolean(
+              url &&
+                (url.startsWith('data:image/') ||
+                  /\.(png|jpe?g|webp|gif)(\?.*)?$/i.test(url)) &&
+                !url.startsWith('data:image/svg+xml')
+            );
+
+          const realImage =
+            cert.file && isRasterImage(cert.file)
+              ? cert.file
+              : cert.preview && isRasterImage(cert.preview)
+              ? cert.preview
+              : null;
+
           const autoResolved = resolveAutoPreview(
-            cert.preview || cert.file,
+            realImage || cert.preview || cert.file,
             cert.title,
             cert.issuer,
             cert.category
           );
-          const previewSrc = autoResolved.previewUrl;
+          const previewSrc = realImage || autoResolved.previewUrl;
           const fallbackVector = generateDocumentPreviewSvg({
             title: cert.title,
             issuer: cert.issuer || 'Verified Credential',

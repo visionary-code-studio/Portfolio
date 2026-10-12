@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import styles from './Modal.module.css';
 
@@ -42,8 +42,27 @@ export default function ModalViewer({ item, type, onClose }: Props) {
 
   const targetFile = item.file || item.preview || '';
   const format = detectFileFormat(targetFile);
-  const isPdf = format.ext === 'pdf' || targetFile.startsWith('data:application/pdf') || targetFile.toLowerCase().includes('.pdf');
-  
+  const isPdf =
+    format.ext === 'pdf' ||
+    targetFile.startsWith('data:application/pdf') ||
+    targetFile.toLowerCase().includes('.pdf');
+
+  // Detect whether target or preview is a genuine image file/data URI
+  const isRasterImage = (url?: string) =>
+    Boolean(
+      url &&
+        (url.startsWith('data:image/') ||
+          /\.(png|jpe?g|webp|gif)(\?.*)?$/i.test(url)) &&
+        !url.startsWith('data:image/svg+xml')
+    );
+
+  const realImageSrc =
+    item.file && isRasterImage(item.file)
+      ? item.file
+      : item.preview && isRasterImage(item.preview)
+      ? item.preview
+      : null;
+
   // Is this a presentation slides format (PPT, PPTX, etc.)
   const isPptx =
     format.ext === 'pptx' ||
@@ -51,37 +70,80 @@ export default function ModalViewer({ item, type, onClose }: Props) {
     format.ext === 'pps' ||
     format.ext === 'ppsx' ||
     format.ext === 'key' ||
-    format.ext === 'odp' ||
-    (type === 'ppt' && !isPdf);
+    format.ext === 'odp';
 
+  // Fallback auto-generated SVG preview card
   const autoResolved = resolveAutoPreview(
     item.preview || item.file || '',
     item.title,
     item.issuer,
     item.category
   );
-  const displayImageSrc = autoResolved.previewUrl;
+  const displayVectorSrc = autoResolved.previewUrl;
 
-  // Resolve safe fallback view and download targets (never undefined or broken)
   const defaultFallbackPath = type === 'ppt' ? '/ppt/nike-brand-deal.pdf' : '/certs/cert-01.pdf';
-  const effectiveTarget = item.file || item.preview || displayImageSrc || defaultFallbackPath;
+  const effectiveTarget = item.file || item.preview || realImageSrc || displayVectorSrc || defaultFallbackPath;
   const viewTarget = effectiveTarget;
   const downloadTarget = effectiveTarget;
-  const downloadExt = isPptx ? 'pptx' : (isPdf ? 'pdf' : (format.ext !== 'file' ? format.ext : (type === 'ppt' ? 'pptx' : 'pdf')));
+  const downloadExt = isPptx
+    ? 'pptx'
+    : isPdf
+    ? 'pdf'
+    : realImageSrc
+    ? format.ext || 'jpg'
+    : type === 'ppt'
+    ? 'pdf'
+    : 'pdf';
   const downloadFileName = `${(item.title || 'document').toLowerCase().replace(/[^a-z0-9_-]/g, '_')}.${downloadExt}`;
+
+  // Office online viewer URL for PPT slides
+  const officeOnlineViewerUrl =
+    isPptx && item.file && !item.file.startsWith('data:')
+      ? `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(
+          item.file.startsWith('http')
+            ? item.file
+            : `${typeof window !== 'undefined' ? window.location.origin : ''}${item.file}`
+        )}`
+      : null;
 
   return (
     <div
       className={styles.backdrop}
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
       role="dialog"
       aria-modal="true"
       aria-label={item.title}
     >
-      <div className={`${styles.modal} ${isPdf ? styles.modalWide : ''}`}>
+      <div className={`${styles.modal} ${isPdf || realImageSrc ? styles.modalWide : ''}`}>
         {/* Preview / Interactive Document Stage */}
         <div className={`${styles.preview} ${isPdf ? styles.previewPdf : ''}`}>
-          {isPdf && item.file ? (
+          {/* 1. Real Uploaded Certificate / Artifact Image */}
+          {realImageSrc ? (
+            <div className={styles.iframeWrapper}>
+              <Image
+                src={realImageSrc}
+                alt={item.title}
+                fill
+                unoptimized={true}
+                className={styles.previewImg}
+                sizes="(max-width: 900px) 95vw, 860px"
+              />
+              <div className={styles.iframeOverlayBar}>
+                <span className={styles.pdfBadge}>✦ Official Verified Artifact</span>
+                <a
+                  href={realImageSrc}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.openExternalBtn}
+                >
+                  View Full Image ↗
+                </a>
+              </div>
+            </div>
+          ) : isPdf && item.file ? (
+            /* 2. Interactive PDF Viewer */
             <div className={styles.iframeWrapper}>
               <iframe
                 src={`${item.file}#toolbar=1&navpanes=0&scrollbar=1`}
@@ -100,9 +162,10 @@ export default function ModalViewer({ item, type, onClose }: Props) {
                 </a>
               </div>
             </div>
-          ) : displayImageSrc ? (
+          ) : displayVectorSrc ? (
+            /* 3. Generated Official Vector Card Preview */
             <Image
-              src={displayImageSrc}
+              src={displayVectorSrc}
               alt={item.title}
               fill
               unoptimized={true}
@@ -116,6 +179,7 @@ export default function ModalViewer({ item, type, onClose }: Props) {
               </span>
             </div>
           )}
+
           <button
             className={styles.closeBtn}
             onClick={onClose}
@@ -159,19 +223,38 @@ export default function ModalViewer({ item, type, onClose }: Props) {
           </div>
 
           <div className={styles.actions}>
-            {isPptx ? (
-              /* For PPTX format files: show ONLY Download button + Close because PPT has multiple slides */
-              <a
-                href={downloadTarget}
-                download={downloadFileName}
-                className={`${styles.actionBtn} ${styles.primary}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Download Presentation ↓
-              </a>
+            {type === 'ppt' ? (
+              <>
+                {officeOnlineViewerUrl ? (
+                  <a
+                    href={officeOnlineViewerUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${styles.actionBtn} ${styles.primary}`}
+                  >
+                    View Slides Online ↗
+                  </a>
+                ) : (
+                  <a
+                    href={viewTarget}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${styles.actionBtn} ${styles.primary}`}
+                  >
+                    View Presentation →
+                  </a>
+                )}
+                <a
+                  href={downloadTarget}
+                  download={downloadFileName}
+                  className={styles.actionBtn}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Download Presentation ↓
+                </a>
+              </>
             ) : (
-              /* For PDF presentations and all certificates: ALWAYS show View, Download, and Close (matching Image 2) */
               <>
                 <a
                   href={viewTarget}
@@ -179,7 +262,7 @@ export default function ModalViewer({ item, type, onClose }: Props) {
                   rel="noopener noreferrer"
                   className={`${styles.actionBtn} ${styles.primary}`}
                 >
-                  {type === 'ppt' ? 'View Presentation →' : 'View Certificate →'}
+                  View Certificate →
                 </a>
                 <a
                   href={downloadTarget}
@@ -188,7 +271,7 @@ export default function ModalViewer({ item, type, onClose }: Props) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Download
+                  Download Certificate ↓
                 </a>
               </>
             )}

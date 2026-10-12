@@ -26,13 +26,14 @@ import {
   loadPortfolioContentLocally,
   subscribeToPortfolioSync,
 } from '@/lib/storageSync';
+import { subscribeToCloudContent } from '@/lib/firebaseSync';
 
 export default function Home() {
   const [content, setContent] = useState(fallbackData);
   const [pptModal, setPptModal] = useState<Presentation | null>(null);
   const [certModal, setCertModal] = useState<Certification | null>(null);
 
-  // Sync with live data from API and Admin multi-tab events
+  // Sync with live data from API, Cloud Firestore, and Admin multi-tab events
   useEffect(() => {
     // 1. Initial fast hydration from local customized data
     const localData = loadPortfolioContentLocally(fallbackData);
@@ -47,6 +48,18 @@ export default function Home() {
     const unsubscribeSync = subscribeToPortfolioSync((newData) => {
       if (newData) {
         setContent((prev) => ({ ...prev, ...newData }));
+      }
+    });
+
+    // 3. Real-time Cloud Firestore listener for cross-device mobile sync
+    const unsubscribeCloud = subscribeToCloudContent((cloudData) => {
+      if (cloudData) {
+        setContent((prev) => ({ ...prev, ...cloudData }));
+        if (typeof window !== 'undefined') {
+          try {
+            localStorage.setItem('vaibhav_portfolio_content_backup', JSON.stringify(cloudData));
+          } catch {}
+        }
       }
     });
 
@@ -88,6 +101,7 @@ export default function Home() {
 
     return () => {
       unsubscribeSync();
+      unsubscribeCloud();
     };
   }, []);
 

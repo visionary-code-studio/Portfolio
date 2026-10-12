@@ -11,6 +11,7 @@ import {
   loadPortfolioContentLocally,
   storeDocumentInDb,
 } from '@/lib/storageSync';
+import { pushContentToCloud } from '@/lib/firebaseSync';
 import styles from './admin.module.css';
 
 type Tab =
@@ -269,39 +270,34 @@ export default function AdminPage() {
       console.warn('Firebase Cloud Storage fallback to immediate inline data:', fbErr);
     }
 
-    // ── STRATEGY 3: Instant Inline Data URI (Immediate, 0ms latency) ──
-    if (file.size <= 8 * 1024 * 1024) {
-      try {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const dataUri = typeof reader.result === 'string' ? reader.result : objectUrl;
+    // ── STRATEGY 3: Instant Self-Contained Data URI (Universal cross-device compatibility) ──
+    try {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUri = typeof reader.result === 'string' ? reader.result : '';
+        if (dataUri) {
           onSuccess(dataUri, file.name);
-          setUploading(null);
-          setUploadProgress(null);
-          e.target.value = '';
-        };
-        reader.onerror = () => {
-          onSuccess(objectUrl, file.name);
-          setUploading(null);
-          setUploadProgress(null);
-          e.target.value = '';
-        };
-        reader.readAsDataURL(file);
-        return;
-      } catch {}
+        } else {
+          alert('Unable to process file content. Please try another file.');
+        }
+        setUploading(null);
+        setUploadProgress(null);
+        e.target.value = '';
+      };
+      reader.onerror = () => {
+        alert('Error reading uploaded file. Please verify file permissions.');
+        setUploading(null);
+        setUploadProgress(null);
+        e.target.value = '';
+      };
+      reader.readAsDataURL(file);
+      return;
+    } catch (readErr) {
+      console.error('Data URI conversion error:', readErr);
+      setUploading(null);
+      setUploadProgress(null);
+      e.target.value = '';
     }
-
-    // ── Final Immediate Fallback ──
-    onSuccess(objectUrl, file.name);
-    setUploading(null);
-    setUploadProgress(null);
-    e.target.value = '';
-
-    // 3. Fallback: Instant objectUrl
-    onSuccess(objectUrl, file.name);
-    setUploading(null);
-    setUploadProgress(null);
-    e.target.value = '';
   };
 
   // Handle Login with Firebase Enterprise Auth + Local Redundancy
@@ -387,7 +383,10 @@ export default function AdminPage() {
     } catch (err) {
       console.warn('Server sync note, persisting locally and broadcasting:', err);
     } finally {
-      // 2. Safe local storage backup & multi-tab broadcast
+      // 2. Push to Cloud Firestore for real-time sync across mobile & external devices
+      pushContentToCloud(data).catch(() => {});
+
+      // 3. Safe local storage backup & multi-tab broadcast
       savePortfolioContentLocally(data);
       setSavedToast(true);
       setTimeout(() => setSavedToast(false), 3500);
@@ -420,12 +419,13 @@ export default function AdminPage() {
     const isRasterImage = (url?: string) =>
       Boolean(url && (url.startsWith('data:image/') || /\.(png|jpe?g|webp|svg)(\?.*)?$/i.test(url)));
 
+    const pptFile = newPpt.file || newPpt.preview || '';
     const item = {
       id: `ppt-${Date.now()}`,
       ...newPpt,
       title: effectiveTitle,
-      file: newPpt.file || newPpt.preview || autoResolved.previewUrl,
-      preview: isRasterImage(newPpt.preview) ? newPpt.preview : autoResolved.previewUrl,
+      file: pptFile || autoResolved.previewUrl,
+      preview: isRasterImage(pptFile) ? pptFile : (isRasterImage(newPpt.preview) ? newPpt.preview : autoResolved.previewUrl),
     };
 
     const updatedData = {
@@ -458,7 +458,10 @@ export default function AdminPage() {
       console.warn('Server API save note:', apiErr);
     }
 
-    // 2. Multi-tab broadcast & safe local storage backup
+    // 2. Push to Cloud Firestore for cross-device mobile sync
+    pushContentToCloud(updatedData).catch(() => {});
+
+    // 3. Multi-tab broadcast & safe local storage backup
     savePortfolioContentLocally(updatedData);
     setSavedToast(true);
     setTimeout(() => setSavedToast(false), 3500);
@@ -480,6 +483,7 @@ export default function AdminPage() {
     } catch (err) {
       console.warn('API save note on delete:', err);
     }
+    pushContentToCloud(updatedData).catch(() => {});
     savePortfolioContentLocally(updatedData);
   };
 
@@ -497,12 +501,13 @@ export default function AdminPage() {
     const isRasterImage = (url?: string) =>
       Boolean(url && (url.startsWith('data:image/') || /\.(png|jpe?g|webp|svg)(\?.*)?$/i.test(url)));
 
+    const certFile = newCert.file || newCert.preview || '';
     const item = {
       id: `cert-${Date.now()}`,
       ...newCert,
       title: effectiveTitle,
-      file: newCert.file || newCert.preview || autoResolved.previewUrl,
-      preview: isRasterImage(newCert.preview) ? newCert.preview : autoResolved.previewUrl,
+      file: certFile || autoResolved.previewUrl,
+      preview: isRasterImage(certFile) ? certFile : (isRasterImage(newCert.preview) ? newCert.preview : autoResolved.previewUrl),
     };
 
     const updatedData = {
@@ -534,7 +539,10 @@ export default function AdminPage() {
       console.warn('Server API save note:', apiErr);
     }
 
-    // 2. Multi-tab broadcast & safe local storage backup
+    // 2. Push to Cloud Firestore for cross-device mobile sync
+    pushContentToCloud(updatedData).catch(() => {});
+
+    // 3. Multi-tab broadcast & safe local storage backup
     savePortfolioContentLocally(updatedData);
     setSavedToast(true);
     setTimeout(() => setSavedToast(false), 3500);
@@ -556,6 +564,7 @@ export default function AdminPage() {
     } catch (err) {
       console.warn('API save note on delete:', err);
     }
+    pushContentToCloud(updatedData).catch(() => {});
     savePortfolioContentLocally(updatedData);
   };
 

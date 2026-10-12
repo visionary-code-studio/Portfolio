@@ -129,13 +129,28 @@ export default function PptShelf({ items, onOpen }: Props) {
       <div className={styles.shelfOuter} ref={shelfRef} onMouseLeave={() => setHoveredIdx(null)}>
         <div className={styles.shelf}>
           {filtered.map((ppt, i) => {
+            const isRasterImage = (url?: string) =>
+              Boolean(
+                url &&
+                  (url.startsWith('data:image/') ||
+                    /\.(png|jpe?g|webp|gif)(\?.*)?$/i.test(url)) &&
+                  !url.startsWith('data:image/svg+xml')
+              );
+
+            const realImage =
+              ppt.preview && isRasterImage(ppt.preview)
+                ? ppt.preview
+                : ppt.file && isRasterImage(ppt.file)
+                ? ppt.file
+                : null;
+
             const autoResolved = resolveAutoPreview(
-              ppt.preview || ppt.file,
+              realImage || ppt.preview || ppt.file,
               ppt.title,
               ppt.event,
               ppt.category
             );
-            const previewSrc = autoResolved.previewUrl;
+            const previewSrc = realImage || autoResolved.previewUrl;
             const fallbackVector = generateDocumentPreviewSvg({
               title: ppt.title,
               issuer: ppt.event || 'Research Archive',
