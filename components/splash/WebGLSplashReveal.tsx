@@ -47,7 +47,7 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
   const stepRef = useRef(0);
   stepRef.current = currentStep;
 
-  // Function to ensure audio is playing immediately
+  // Function to ensure audio is playing immediately upon any user click or scroll
   const ensureAudioPlaying = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -59,57 +59,50 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
     }
   }, []);
 
-  // Initialize and play flute-song.mp3 from the initial load of the website
-  useEffect(() => {
-    let audio = audioRef.current;
-    if (!audio) {
-      audio = new Audio('/audio/flute-song.mp3');
-      audio.loop = true;
-      audio.volume = 0.85;
-      audio.preload = 'auto';
-      audioRef.current = audio;
+  // Explicit user sound toggle button handler
+  const toggleAudio = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (audio.paused) {
+      audio.play().then(() => setIsPlayingAudio(true)).catch(() => {});
+    } else {
+      audio.pause();
+      setIsPlayingAudio(false);
     }
+  }, []);
 
-    audio.onerror = () => {
-      if (audio && audio.src.includes('/audio/')) {
-        audio.src = '/flute-song.mp3';
-        audio.load();
-        audio.play().then(() => setIsPlayingAudio(true)).catch(() => {});
-      }
-    };
+  // Initialize and play flute-song.mp3 with universal mobile and desktop unlocking
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
 
-    // 1. Attempt immediate unmuted autoplay on initial load
-    const startImmediatePlay = () => {
-      if (!audio) return;
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
+    audio.volume = 0.85;
+
+    // 1. Attempt immediate autoplay
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
           setIsPlayingAudio(true);
-        }).catch(() => {
-          // 2. If browser requires a user gesture, immediately unlock on ANY user touch or click
-          const onFirstGesture = () => {
-            if (audio) {
-              audio.play().then(() => {
-                setIsPlayingAudio(true);
-              }).catch(() => {});
+        })
+        .catch(() => {
+          // 2. On mobile/iOS Safari, attach one-time unlocker to the first user gesture
+          const unlockGesture = () => {
+            if (audioRef.current && audioRef.current.paused) {
+              audioRef.current.play().then(() => setIsPlayingAudio(true)).catch(() => {});
             }
-            window.removeEventListener('click', onFirstGesture);
-            window.removeEventListener('mousedown', onFirstGesture);
-            window.removeEventListener('pointerdown', onFirstGesture);
-            window.removeEventListener('touchstart', onFirstGesture);
-            window.removeEventListener('keydown', onFirstGesture);
+            window.removeEventListener('click', unlockGesture);
+            window.removeEventListener('touchstart', unlockGesture);
+            window.removeEventListener('pointerdown', unlockGesture);
+            window.removeEventListener('keydown', unlockGesture);
           };
 
-          window.addEventListener('click', onFirstGesture, { once: true });
-          window.addEventListener('mousedown', onFirstGesture, { once: true });
-          window.addEventListener('pointerdown', onFirstGesture, { once: true });
-          window.addEventListener('touchstart', onFirstGesture, { once: true });
-          window.addEventListener('keydown', onFirstGesture, { once: true });
+          window.addEventListener('click', unlockGesture, { once: true });
+          window.addEventListener('touchstart', unlockGesture, { once: true });
+          window.addEventListener('pointerdown', unlockGesture, { once: true });
+          window.addEventListener('keydown', unlockGesture, { once: true });
         });
-      }
-    };
-
-    startImmediatePlay();
+    }
 
     return () => {};
   }, []);
@@ -593,17 +586,10 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
       aria-label="Interactive 3D Flute Welcome Experience"
       onClick={handleOverlayClick}
     >
-      {/* ── Hidden Streaming Audio Element ── */}
+      {/* ── High-Performance Audio Element with playsInline for iOS/Safari ── */}
       <audio
-        ref={(el) => {
-          if (el && !audioRef.current) {
-            audioRef.current = el;
-            el.volume = 0.85;
-            el.play().then(() => setIsPlayingAudio(true)).catch(() => {});
-          }
-        }}
+        ref={audioRef}
         src="/audio/flute-song.mp3"
-        autoPlay
         loop
         preload="auto"
         playsInline
@@ -615,6 +601,19 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
 
       {/* Cosmic Vignette */}
       <div className={styles.ambientGlow} />
+
+      {/* ── Top Right Sound Toggle Pill ── */}
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          toggleAudio();
+        }}
+        className={styles.soundControlBtn}
+        aria-label={isPlayingAudio ? 'Pause flute music' : 'Play flute music'}
+      >
+        <span>{isPlayingAudio ? '🔊 Music Playing' : '🎵 Tap to Play Music'}</span>
+      </button>
 
       {/* ── Top Center Monogram Logo (Anchored from start, no buttons) ── */}
       <div className={styles.topBadge}>
@@ -707,7 +706,7 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
         >
           {currentStep === 0 && (
             <>
-              <span>{isPlayingAudio ? 'Scroll to Begin ↓' : 'Click or Scroll to Begin ↓'}</span>
+              <span>{isPlayingAudio ? 'Scroll to Begin ↓' : 'Tap to Play Music & Begin ↓'}</span>
               <span className={styles.arrowIcon}>↓</span>
             </>
           )}

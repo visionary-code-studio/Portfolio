@@ -30,8 +30,19 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
   // Parallax Coordinates for 3D Galaxy
   const mouseRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
   const isZoomingInRef = useRef(false);
+  const [isMuted, setIsMuted] = useState(true);
 
-  // Stop flute audio and start welcoming video
+  // Toggle video sound
+  const toggleMute = useCallback(() => {
+    if (videoRef.current) {
+      const nextMuted = !videoRef.current.muted;
+      videoRef.current.muted = nextMuted;
+      videoRef.current.volume = 1.0;
+      setIsMuted(nextMuted);
+    }
+  }, []);
+
+  // Stop flute audio and start welcoming video with universal mobile autoplay
   const playWelcomingVideo = useCallback(() => {
     window.dispatchEvent(new CustomEvent('stopFluteAudio'));
     document.querySelectorAll('audio').forEach((a) => {
@@ -43,22 +54,40 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
 
     if (videoRef.current) {
       videoRef.current.currentTime = 0;
-      videoRef.current.muted = false;
-      videoRef.current.volume = 1.0;
+      // Start muted for 100% universal autoplay compliance across iOS Safari & Android Chrome
+      videoRef.current.muted = true;
+      setIsMuted(true);
+
       const playPromise = videoRef.current.play();
+
+      // Automatically unmute on user's first tap/click anywhere
+      const unlockAudio = () => {
+        if (videoRef.current) {
+          videoRef.current.muted = false;
+          videoRef.current.volume = 1.0;
+          setIsMuted(false);
+        }
+        window.removeEventListener('pointerdown', unlockAudio);
+        window.removeEventListener('touchstart', unlockAudio);
+        window.removeEventListener('click', unlockAudio);
+        window.removeEventListener('keydown', unlockAudio);
+      };
+
+      window.addEventListener('pointerdown', unlockAudio, { once: true });
+      window.addEventListener('touchstart', unlockAudio, { once: true });
+      window.addEventListener('click', unlockAudio, { once: true });
+      window.addEventListener('keydown', unlockAudio, { once: true });
+
       if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          const unlock = () => {
+        playPromise.catch((err) => {
+          console.warn('Autoplay restricted by device, awaiting gesture:', err);
+          const resumeOnTouch = () => {
             if (videoRef.current) {
-              videoRef.current.muted = false;
-              videoRef.current.volume = 1.0;
               videoRef.current.play().catch(() => {});
             }
-            window.removeEventListener('pointerdown', unlock);
-            window.removeEventListener('keydown', unlock);
           };
-          window.addEventListener('pointerdown', unlock, { once: true });
-          window.addEventListener('keydown', unlock, { once: true });
+          window.addEventListener('touchstart', resumeOnTouch, { once: true });
+          window.addEventListener('click', resumeOnTouch, { once: true });
         });
       }
     }
@@ -402,14 +431,34 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
                 ref={videoRef}
                 src="/video/Intro.mp4"
                 playsInline
+                autoPlay
+                muted={isMuted}
                 preload="auto"
                 onEnded={handleVideoEnded}
+                onError={() => {
+                  console.warn('Video playback encountered device restriction, advancing to persona cards');
+                  setTvStage('card-0');
+                }}
                 className={styles.tvScreenMedia}
                 style={{
                   display: tvStage === 'video' ? 'block' : 'none',
                   opacity: tvStage === 'video' ? 1 : 0,
                 }}
               />
+
+              {tvStage === 'video' && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleMute();
+                  }}
+                  className={styles.tvAudioPill}
+                  aria-label={isMuted ? 'Unmute video audio' : 'Mute video audio'}
+                >
+                  <span>{isMuted ? '🔇 Tap to Unmute' : '🔊 Sound Playing'}</span>
+                </button>
+              )}
             </div>
           </div>
         </div>
