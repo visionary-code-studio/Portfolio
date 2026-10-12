@@ -11,6 +11,7 @@ import PptShelf from '@/components/presentations/PptShelf';
 import CertificationsSection from '@/components/certifications/CertificationsSection';
 import InterestsSection from '@/components/interests/InterestsSection';
 import FutureSection from '@/components/future/FutureSection';
+import CollabSection from '@/components/collab/CollabSection';
 import ContactSection from '@/components/contact/ContactSection';
 import Footer from '@/components/layout/Footer';
 import ModalViewer from '@/components/ui/ModalViewer';
@@ -175,7 +176,16 @@ export default function Home() {
           <FutureSection items={content.future} />
         )}
 
-        {/* 08 — Contact & Executive Finale (Merged Master Footer) */}
+        {/* 08 — Collab & Services Showcase (Recruiter Hub) */}
+        {visibility.collab !== false && (
+          <CollabSection
+            services={(content as any).collabServices}
+            profileEmail={content.profile?.email}
+            resumeUrl={content.profile?.resumeUrl}
+          />
+        )}
+
+        {/* 09 — Contact & Executive Finale (Merged Master Footer) */}
         {visibility.contact !== false && (
           <Footer data={content.profile} socials={content.profile?.socials} />
         )}

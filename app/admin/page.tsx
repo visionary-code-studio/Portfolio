@@ -21,6 +21,7 @@ type Tab =
   | 'certifications'
   | 'interests'
   | 'future'
+  | 'collab'
   | 'visibility';
 
 export default function AdminPage() {
@@ -70,6 +71,20 @@ export default function AdminPage() {
     category: 'Technology',
   });
   const [showAddInterest, setShowAddInterest] = useState(false);
+
+  const [newCollab, setNewCollab] = useState({
+    title: '',
+    category: 'web-dev',
+    tagline: '',
+    price: '$299',
+    timeline: '4 - 7 Days',
+    badge: 'Popular',
+    featured: false,
+    description: '',
+    deliverables: '',
+    techStack: '',
+  });
+  const [showAddCollab, setShowAddCollab] = useState(false);
 
   // Mandatory Authentication on Every Entry (Always requires login, no persistent auto-bypass)
   useEffect(() => {
@@ -127,7 +142,46 @@ export default function AdminPage() {
     // Cache locally in IndexedDB asynchronously
     storeDocumentInDb(localFileId, file, file.name).catch(() => {});
 
-    // 1. Primary: Save via /api/upload to /public/uploads (or Vercel Blob)
+    // 1. Primary: Direct upload to Google Cloud Firebase Storage (Permanent CDN URL for all devices/iOS/smartphones)
+    try {
+      if (storage) {
+        setUploadProgress(35);
+        const storageRef = ref(storage, `portfolio_uploads/${Date.now()}_${cleanName}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        await new Promise<void>((resolve, reject) => {
+          uploadTask.on(
+            'state_changed',
+            (snapshot) => {
+              const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+              setUploadProgress(Math.max(35, progress));
+            },
+            (error) => {
+              console.warn('Firebase Storage upload error, trying server fallback:', error);
+              reject(error);
+            },
+            async () => {
+              try {
+                const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
+                setUploadProgress(100);
+                onSuccess(downloadUrl, file.name);
+                setUploading(null);
+                setUploadProgress(null);
+                e.target.value = '';
+                resolve();
+              } catch (urlErr) {
+                reject(urlErr);
+              }
+            }
+          );
+        });
+        return;
+      }
+    } catch (fbErr) {
+      console.warn('Direct Firebase Storage attempt note, falling back to server /api/upload:', fbErr);
+    }
+
+    // 2. Secondary: Save via /api/upload to /public/uploads (or Vercel Blob)
     try {
       setUploadProgress(50);
       const formData = new FormData();
@@ -460,6 +514,61 @@ export default function AdminPage() {
     }));
   };
 
+  // Collab Services CRUD
+  const addCollabService = () => {
+    if (!newCollab.title.trim()) return alert('Please enter service title');
+    const deliverablesList = newCollab.deliverables
+      .split('\n')
+      .map((s) => s.trim())
+      .filter(Boolean);
+    const techStackList = newCollab.techStack
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    const item = {
+      id: `collab-${Date.now()}`,
+      title: newCollab.title.trim(),
+      category: newCollab.category,
+      tagline: newCollab.tagline.trim(),
+      price: newCollab.price.trim() || 'Custom Quote',
+      timeline: newCollab.timeline.trim() || 'Flexible',
+      badge: newCollab.badge.trim() || 'Available',
+      featured: newCollab.featured,
+      description: newCollab.description.trim(),
+      deliverables: deliverablesList.length > 0 ? deliverablesList : ['Custom Scoped Deliverable'],
+      techStack: techStackList.length > 0 ? techStackList : ['Next.js', 'React'],
+    };
+
+    const updatedData = {
+      ...data,
+      collabServices: [...(data.collabServices || []), item],
+    };
+    setData(updatedData);
+    setShowAddCollab(false);
+    setNewCollab({
+      title: '',
+      category: 'web-dev',
+      tagline: '',
+      price: '$299',
+      timeline: '4 - 7 Days',
+      badge: 'Popular',
+      featured: false,
+      description: '',
+      deliverables: '',
+      techStack: '',
+    });
+  };
+
+  const deleteCollabService = (id: string) => {
+    if (!confirm('Are you sure you want to remove this service?')) return;
+    const updatedData = {
+      ...data,
+      collabServices: (data.collabServices || []).filter((s: any) => s.id !== id),
+    };
+    setData(updatedData);
+  };
+
   if (!isAuthenticated) {
     return (
       <div className={styles.loginWrapper}>
@@ -729,6 +838,31 @@ export default function AdminPage() {
               </ul>
             </div>
 
+            {/* Collab & Services Showcase */}
+            <div className={styles.navGroup}>
+              <span className={styles.groupLabel}>Showcase</span>
+              <ul className={styles.navList}>
+                <li>
+                  <button
+                    className={`${styles.navItem} ${activeTab === 'collab' ? styles.active : ''}`}
+                    onClick={() => setActiveTab('collab')}
+                    title="Collab Services"
+                  >
+                    <div className={styles.navItemLeft}>
+                      <span className={styles.navItemIcon}>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                        </svg>
+                      </span>
+                      <span className={styles.navItemText}>Collab Services</span>
+                    </div>
+                    <span className={styles.navBadge}>{data.collabServices?.length || 3}</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+
             {/* System Settings */}
             <div className={styles.navGroup}>
               <span className={styles.groupLabel}>System</span>
@@ -806,6 +940,7 @@ export default function AdminPage() {
               {activeTab === 'certifications' && 'The Proof — Certification Upload & Gallery'}
               {activeTab === 'interests' && "What I'm Into — Typographic Keywords"}
               {activeTab === 'future' && "What's Next — Manifesto Pillars"}
+              {activeTab === 'collab' && 'Collab & Services Showcase — Catalogues & Pricing'}
               {activeTab === 'visibility' && 'Public Section Visibility Switchboard'}
             </h2>
             <p className={styles.pageDesc}>
@@ -1928,7 +2063,287 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* ── TAB 8: SECTION VISIBILITY ────────────────────────── */}
+        {/* ── TAB 8: COLLAB & SERVICES SHOWCASE ──────────────── */}
+        {activeTab === 'collab' && (
+          <div>
+            <div className={styles.card}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+                <div>
+                  <h3 className={styles.cardTitle}>Collab &amp; Services Catalogues</h3>
+                  <p className={styles.cardSubtitle}>
+                    Manage freelance service packages, pricing, timelines, deliverables, and recruiter menus
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowAddCollab(!showAddCollab)}
+                  className={styles.saveBtn}
+                  style={{ background: showAddCollab ? 'var(--adm-surface-elevated)' : 'var(--accent)' }}
+                >
+                  {showAddCollab ? '✕ Cancel' : '+ Add New Service'}
+                </button>
+              </div>
+
+              {/* Add New Service Inline Form */}
+              {showAddCollab && (
+                <div
+                  style={{
+                    background: 'var(--adm-surface-elevated)',
+                    border: '1px solid var(--adm-border-light)',
+                    borderRadius: '12px',
+                    padding: '1.5rem',
+                    marginBottom: '2rem',
+                  }}
+                >
+                  <h4 style={{ color: '#ffffff', marginBottom: '1rem', fontSize: '1.05rem' }}>
+                    New Service Specification
+                  </h4>
+                  <div className={styles.grid2}>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Service Title *</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Web Development"
+                        value={newCollab.title}
+                        onChange={(e) => setNewCollab({ ...newCollab, title: e.target.value })}
+                        className={styles.input}
+                      />
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Category</label>
+                      <select
+                        value={newCollab.category}
+                        onChange={(e) => setNewCollab({ ...newCollab, category: e.target.value })}
+                        className={styles.input}
+                      >
+                        <option value="web-dev">Web Development</option>
+                        <option value="graphic-design">Graphic Designing</option>
+                        <option value="ecommerce">E-Commerce Website</option>
+                        <option value="custom">Custom Service</option>
+                      </select>
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Pricing String *</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. $299 - $599 or ₹24,999"
+                        value={newCollab.price}
+                        onChange={(e) => setNewCollab({ ...newCollab, price: e.target.value })}
+                        className={styles.input}
+                      />
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Estimated Timeline</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. 4 - 7 Days"
+                        value={newCollab.timeline}
+                        onChange={(e) => setNewCollab({ ...newCollab, timeline: e.target.value })}
+                        className={styles.input}
+                      />
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Badge Pill</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. High Demand / Fast Turnaround"
+                        value={newCollab.badge}
+                        onChange={(e) => setNewCollab({ ...newCollab, badge: e.target.value })}
+                        className={styles.input}
+                      />
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Highlight as Featured?</label>
+                      <select
+                        value={newCollab.featured ? 'true' : 'false'}
+                        onChange={(e) => setNewCollab({ ...newCollab, featured: e.target.value === 'true' })}
+                        className={styles.input}
+                      >
+                        <option value="false">Standard Card</option>
+                        <option value="true">Featured (Highlighted Gradient Border)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className={styles.formGroup} style={{ marginTop: '0.75rem' }}>
+                    <label className={styles.label}>Tagline / One-Liner Summary</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Modern, high-performance web applications & responsive landing pages"
+                      value={newCollab.tagline}
+                      onChange={(e) => setNewCollab({ ...newCollab, tagline: e.target.value })}
+                      className={styles.input}
+                    />
+                  </div>
+
+                  <div className={styles.formGroup} style={{ marginTop: '0.75rem' }}>
+                    <label className={styles.label}>Deliverables Checklist (1 item per line)</label>
+                    <textarea
+                      placeholder={"Custom Next.js & React scalable architecture\nMobile-first responsive UI & fluid layout\nSEO optimization & 95+ speed score"}
+                      value={newCollab.deliverables}
+                      onChange={(e) => setNewCollab({ ...newCollab, deliverables: e.target.value })}
+                      className={styles.textarea}
+                      style={{ minHeight: '90px' }}
+                    />
+                  </div>
+
+                  <div className={styles.formGroup} style={{ marginTop: '0.75rem' }}>
+                    <label className={styles.label}>Tech Stack &amp; Tools (comma separated)</label>
+                    <input
+                      type="text"
+                      placeholder="Next.js, React, TypeScript, Node.js, Tailwind CSS"
+                      value={newCollab.techStack}
+                      onChange={(e) => setNewCollab({ ...newCollab, techStack: e.target.value })}
+                      className={styles.input}
+                    />
+                  </div>
+
+                  <div style={{ marginTop: '1.25rem' }}>
+                    <button onClick={addCollabService} className={styles.saveBtn}>
+                      Save &amp; Add Service
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Existing Services Editable Cards */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+                {(data.collabServices || []).map((service: any, index: number) => (
+                  <div
+                    key={service.id || index}
+                    style={{
+                      background: 'var(--adm-surface-elevated)',
+                      border: '1px solid var(--adm-border-light)',
+                      borderRadius: '12px',
+                      padding: '1.5rem',
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 700 }}>
+                        SERVICE #{index + 1} · {service.category?.toUpperCase()}
+                      </span>
+                      <button
+                        onClick={() => deleteCollabService(service.id)}
+                        style={{
+                          background: 'rgba(255, 75, 75, 0.1)',
+                          border: '1px solid rgba(255, 75, 75, 0.3)',
+                          color: '#ff6b6b',
+                          padding: '0.3rem 0.75rem',
+                          borderRadius: '6px',
+                          cursor: 'pointer',
+                          fontSize: '0.78rem',
+                          fontFamily: 'var(--font-mono)',
+                        }}
+                      >
+                        ✕ Remove
+                      </button>
+                    </div>
+
+                    <div className={styles.grid3}>
+                      <div className={styles.formGroup}>
+                        <label className={styles.label}>Service Title</label>
+                        <input
+                          type="text"
+                          value={service.title}
+                          onChange={(e) => {
+                            const updated = [...data.collabServices];
+                            updated[index].title = e.target.value;
+                            setData({ ...data, collabServices: updated });
+                          }}
+                          className={styles.input}
+                        />
+                      </div>
+                      <div className={styles.formGroup}>
+                        <label className={styles.label}>Price Tag</label>
+                        <input
+                          type="text"
+                          value={service.price}
+                          onChange={(e) => {
+                            const updated = [...data.collabServices];
+                            updated[index].price = e.target.value;
+                            setData({ ...data, collabServices: updated });
+                          }}
+                          className={styles.input}
+                        />
+                      </div>
+                      <div className={styles.formGroup}>
+                        <label className={styles.label}>Estimated Timeline</label>
+                        <input
+                          type="text"
+                          value={service.timeline}
+                          onChange={(e) => {
+                            const updated = [...data.collabServices];
+                            updated[index].timeline = e.target.value;
+                            setData({ ...data, collabServices: updated });
+                          }}
+                          className={styles.input}
+                        />
+                      </div>
+                    </div>
+
+                    <div className={styles.grid2} style={{ marginTop: '0.75rem' }}>
+                      <div className={styles.formGroup}>
+                        <label className={styles.label}>Badge Pill</label>
+                        <input
+                          type="text"
+                          value={service.badge || ''}
+                          onChange={(e) => {
+                            const updated = [...data.collabServices];
+                            updated[index].badge = e.target.value;
+                            setData({ ...data, collabServices: updated });
+                          }}
+                          className={styles.input}
+                        />
+                      </div>
+                      <div className={styles.formGroup}>
+                        <label className={styles.label}>Tagline</label>
+                        <input
+                          type="text"
+                          value={service.tagline}
+                          onChange={(e) => {
+                            const updated = [...data.collabServices];
+                            updated[index].tagline = e.target.value;
+                            setData({ ...data, collabServices: updated });
+                          }}
+                          className={styles.input}
+                        />
+                      </div>
+                    </div>
+
+                    <div className={styles.formGroup} style={{ marginTop: '0.75rem' }}>
+                      <label className={styles.label}>Deliverables (1 item per line)</label>
+                      <textarea
+                        value={Array.isArray(service.deliverables) ? service.deliverables.join('\n') : service.deliverables}
+                        onChange={(e) => {
+                          const updated = [...data.collabServices];
+                          updated[index].deliverables = e.target.value.split('\n').filter(Boolean);
+                          setData({ ...data, collabServices: updated });
+                        }}
+                        className={styles.textarea}
+                        style={{ minHeight: '80px' }}
+                      />
+                    </div>
+
+                    <div className={styles.formGroup} style={{ marginTop: '0.75rem' }}>
+                      <label className={styles.label}>Tech Stack (comma separated)</label>
+                      <input
+                        type="text"
+                        value={Array.isArray(service.techStack) ? service.techStack.join(', ') : service.techStack}
+                        onChange={(e) => {
+                          const updated = [...data.collabServices];
+                          updated[index].techStack = e.target.value.split(',').map((s) => s.trim()).filter(Boolean);
+                          setData({ ...data, collabServices: updated });
+                        }}
+                        className={styles.input}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── TAB 9: SECTION VISIBILITY ────────────────────────── */}
         {activeTab === 'visibility' && (
           <div className={styles.card}>
             <h3 className={styles.cardTitle}>Public Section Visibility Switchboard</h3>

@@ -324,5 +324,64 @@
       "label": "Become",
       "text": "An engineer who builds things that last. A creator who communicates ideas visually. Someone who bridges the gap between technical depth and human clarity."
     }
+  ],
+  "collabServices": [
+    {
+      "id": "collab-web-dev",
+      "title": "Web Development",
+      "category": "web-dev",
+      "tagline": "Modern, high-performance web applications & responsive landing pages",
+      "price": "$299 - $599",
+      "timeline": "4 - 7 Days",
+      "featured": true,
+      "badge": "High Demand",
+      "description": "Custom full-stack web applications and interactive websites built for conversion, speed, and sleek modern aesthetics.",
+      "deliverables": [
+        "Custom Next.js & React scalable architecture",
+        "Mobile-first responsive UI & fluid layout",
+        "SEO optimization & 95+ Google Lighthouse speed score",
+        "Smooth micro-animations & interactive UI elements",
+        "Clean repository, API integration & deployment"
+      ],
+      "techStack": ["Next.js", "React", "TypeScript", "Node.js", "Tailwind CSS", "Vercel"]
+    },
+    {
+      "id": "collab-graphic-design",
+      "title": "Graphic Designing",
+      "category": "graphic-design",
+      "tagline": "High-impact visual brand assets, pitch decks & marketing visuals via Canva & Figma",
+      "price": "$149 - $299",
+      "timeline": "2 - 4 Days",
+      "featured": false,
+      "badge": "Fast Turnaround",
+      "description": "Compelling presentation decks, brand identities, and social media kits designed to captivate audiences and investors.",
+      "deliverables": [
+        "Investor pitch decks & keynote presentation slides",
+        "Social media marketing kits (Instagram, LinkedIn, X)",
+        "Brand identity package (Color scheme, typography, assets)",
+        "Print-ready & web-optimized exports (PDF, PNG, SVG)",
+        "Fully editable Canva Pro & Figma source files"
+      ],
+      "techStack": ["Canva Pro", "Figma", "Photoshop", "Brand Identity", "Visual Direction"]
+    },
+    {
+      "id": "collab-ecommerce",
+      "title": "E-Commerce Website",
+      "category": "ecommerce",
+      "tagline": "Full-cycle digital stores with dynamic catalogs, carts & secure checkout",
+      "price": "$499 - $899",
+      "timeline": "7 - 12 Days",
+      "featured": true,
+      "badge": "Turnkey Solution",
+      "description": "End-to-end modern e-commerce storefronts engineered with smooth checkout flows, payment processing, and AI integrations.",
+      "deliverables": [
+        "Dynamic product showcase with smart filters & search",
+        "Frictionless cart & multi-currency checkout system",
+        "Stripe / Razorpay payment gateway integration",
+        "AI customer support & smart product recommendation readiness",
+        "Inventory management & automated order tracking"
+      ],
+      "techStack": ["Next.js", "Stripe", "Razorpay", "Firebase", "Tailwind CSS", "REST API"]
+    }
   ]
 }

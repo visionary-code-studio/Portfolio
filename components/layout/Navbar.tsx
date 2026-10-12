@@ -26,6 +26,7 @@ const dockItems: DockItem[] = [
   { id: 'about', label: 'About', href: '#about' },
   { id: 'ppt', label: 'The Archive', href: '#ppt' },
   { id: 'certs', label: 'The Proof', href: '#certs' },
+  { id: 'collab', label: 'Collab', href: '#collab' },
   { id: 'contact', label: "Let's Talk", href: '#contact' },
 ];
 
@@ -65,7 +66,7 @@ export default function Navbar({ profile }: NavbarProps) {
       setScrolled(window.scrollY > 40);
 
       // Detect active section
-      const sections = ['contact', 'certs', 'ppt', 'about', 'home'];
+      const sections = ['contact', 'collab', 'certs', 'ppt', 'about', 'home'];
       for (const sectionId of sections) {
         const el = document.getElementById(sectionId);
         if (el) {
@@ -114,6 +115,16 @@ export default function Navbar({ profile }: NavbarProps) {
           }}
           data-cursor-hover
         >
+          <div className={styles.brandLogoWrap}>
+            <Image
+              src="/images/logo_emblem.png"
+              alt="Vaibhav Shaw"
+              width={34}
+              height={34}
+              className={styles.brandLogoImg}
+              priority
+            />
+          </div>
           <span className={styles.brandSignature}>Vaibhav Shaw</span>
         </a>
 

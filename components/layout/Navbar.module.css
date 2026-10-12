@@ -31,6 +31,32 @@
   user-select: none;
 }
 
+.brandLogoWrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1.5px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.brandLink:hover .brandLogoWrap {
+  transform: scale(1.08) rotate(-4deg);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+}
+
+.brandLogoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .brandSignature {
   font-family: var(--font-signature);
   font-size: clamp(1.6rem, 2.2vw, 2.05rem);

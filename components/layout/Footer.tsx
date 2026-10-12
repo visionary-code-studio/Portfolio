@@ -352,7 +352,9 @@ export default function Footer({ data, socials }: FooterProps) {
                 <button onClick={() => scrollToSection('about')} className={styles.navLinkItem} data-cursor-hover>About</button>
                 <button onClick={() => scrollToSection('ppt')} className={styles.navLinkItem} data-cursor-hover>Archive</button>
                 <button onClick={() => scrollToSection('certs')} className={styles.navLinkItem} data-cursor-hover>Proof</button>
+                <button onClick={() => scrollToSection('collab')} className={styles.navLinkItem} data-cursor-hover>Collab</button>
                 <button onClick={() => scrollToSection('contact')} className={styles.navLinkItem} data-cursor-hover>Contacts</button>
+                <a href="/collab" className={styles.navLinkItem} data-cursor-hover>Showcase</a>
                 <a href="/terms" className={styles.navLinkItem} data-cursor-hover>Terms &amp; Conditions</a>
                 <a href="/disclaimer" className={styles.navLinkItem} data-cursor-hover>Disclaimer</a>
               </nav>

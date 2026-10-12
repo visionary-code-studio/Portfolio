@@ -373,16 +373,17 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
       {/* ── 1. FIRST: TELEVISION LIKE ANIMATION WHICH INCLUDES INTRO VIDEO AT THE CENTRE (COVERS ENTIRE PAGE) ── */}
       {(tvStage === 'static-init' || tvStage === 'video') && (
         <div className={styles.cinemaFullscreenOverlay}>
-          <button
-            type="button"
-            onClick={() => setTvStage('card-0')}
-            className={styles.cinemaSkipBtn}
-            data-cursor-hover
-            aria-label="Skip to Persona Cards"
-          >
-            <span>Skip to Cards</span>
-            <span>➔</span>
-          </button>
+          <div className={styles.cinemaBrandLogo}>
+            <Image
+              src="/images/logo_emblem.png"
+              alt="Vaibhav Shaw"
+              width={38}
+              height={38}
+              className={styles.cinemaLogoImg}
+              priority
+            />
+            <span className={styles.cinemaLogoText}>Vaibhav Shaw</span>
+          </div>
 
           <div className={styles.cinemaTvBox}>
             <div className={styles.tvScreenGlass}>
@@ -419,35 +420,35 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
         <div className={styles.heroDomOverlay}>
           {/* Left Side: Text Introducing Each Scenario / Card, and Final Identity on 4th */}
           <div className={`${styles.heroContentLeft} ${styles.heroContentVisible}`}>
-            {/* 1st Card Text: AIML ENGINEER [STUDENT] */}
+            {/* 1st Card Text: AI/ML Engineering | Student [Sister Nivedita University] */}
             {tvStage === 'card-0' && (
               <div className={styles.stepIntroBox} key="text-0">
-                <h2 className={styles.stepTitle}>AIML ENGINEER [STUDENT]</h2>
+                <h2 className={styles.stepTitle}>AI/ML Engineering | Student [Sister Nivedita University]</h2>
                 <div className={styles.stepSubtitle}>Sister Nivedita University · B.Tech CSE (AIML Track)</div>
                 <p className={styles.stepDesc}>
-                  Exploring deep neural networks, machine learning models, and transforming theoretical research into intelligent reality.
+                  As an aspiring AI/ML engineer, I’m passionate about exploring how artificial intelligence and machine learning can solve real-world problems. I’m continuously learning, experimenting with new technologies, and building projects that turn innovative ideas into practical, intelligent solutions.
                 </p>
               </div>
             )}
 
-            {/* 2nd Card Text: GRAPHIC DESIGNER */}
+            {/* 2nd Card Text: Graphic Designing | Canva & Figma */}
             {tvStage === 'card-1' && (
               <div className={styles.stepIntroBox} key="text-1">
-                <h2 className={styles.stepTitle}>GRAPHIC DESIGNER</h2>
+                <h2 className={styles.stepTitle}>Graphic Designing | Canva & Figma</h2>
                 <div className={styles.stepSubtitle}>Visual Harmony & Creative Direction</div>
                 <p className={styles.stepDesc}>
-                  Designing dark-mode futuristic aesthetics, cinematic UI systems, and cohesive visual identities for cutting-edge projects.
+                  I enjoy bringing ideas to life through creative visuals and thoughtful design. Using Canva and Figma, I create engaging graphics, explore UI/UX design, and focus on making digital experiences look appealing, feel intuitive, and communicate ideas effectively.
                 </p>
               </div>
             )}
 
-            {/* 3rd Card Text: FULL-STACK DEVELOPER */}
+            {/* 3rd Card Text: Full-Stack Development */}
             {tvStage === 'card-2' && (
               <div className={styles.stepIntroBox} key="text-2">
-                <h2 className={styles.stepTitle}>FULL-STACK DEVELOPER</h2>
+                <h2 className={styles.stepTitle}>Full-Stack Development</h2>
                 <div className={styles.stepSubtitle}>Modern Engineering & Scalable Systems</div>
                 <p className={styles.stepDesc}>
-                  Architecting performant Next.js applications, distributed microservices, and interactive 3D WebGL digital experiences.
+                  I love turning ideas into real, functional websites and applications. From designing clean user interfaces to building backend logic and connecting databases, I enjoy exploring every part of the development process and creating digital experiences that solve real problems.
                 </p>
               </div>
             )}
@@ -461,9 +462,9 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
                 </h1>
 
                 <div className={styles.identityPills}>
-                  <span className={styles.identityPill}>AIML Engineer [Student]</span>
-                  <span className={styles.identityPill}>Graphic Designer</span>
-                  <span className={styles.identityPill}>Full-Stack Developer</span>
+                  <span className={styles.identityPill}>AI/ML Engineering | Student [Sister Nivedita University]</span>
+                  <span className={styles.identityPill}>Graphic Designing | Canva & Figma</span>
+                  <span className={styles.identityPill}>Full-Stack Development</span>
                 </div>
 
                 <p className={styles.heroManifesto}>
