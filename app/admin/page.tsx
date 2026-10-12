@@ -87,13 +87,25 @@ export default function AdminPage() {
   });
   const [showAddCollab, setShowAddCollab] = useState(false);
 
-  // Mandatory Authentication on Every Entry (Always requires login, no persistent auto-bypass)
+  // Listen to Firebase Authentication state
   useEffect(() => {
-    setIsAuthenticated(false);
-    localStorage.removeItem('vaibhav_admin_session');
-    localStorage.removeItem('vaibhav_firebase_uid');
     // Pre-fill email for convenience
-    setAuthEmail('vaibhavsnu2025@gmail.com');
+    setAuthEmail((prev) => prev || 'vaibhavsnu2025@gmail.com');
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsAuthenticated(true);
+        if (user.email) setAuthEmail(user.email);
+        localStorage.setItem('vaibhav_admin_session', 'true');
+        localStorage.setItem('vaibhav_firebase_uid', user.uid);
+      } else {
+        setIsAuthenticated(false);
+        localStorage.removeItem('vaibhav_admin_session');
+        localStorage.removeItem('vaibhav_firebase_uid');
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   // Fetch live portfolio content prioritizing local customizations
@@ -300,56 +312,50 @@ export default function AdminPage() {
     }
   };
 
-  // Handle Login with Firebase Enterprise Auth + Local Redundancy
+  // Handle Login strictly via Google Firebase Authentication
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthError('');
     setLoading(true);
 
-    const email = authEmail.trim() || 'vaibhavsnu2025@gmail.com';
-    const password = authPassword.trim();
+    const email = authEmail.trim();
+    const password = authPassword;
 
-    // 1. Attempt Firebase Authentication
+    if (!email || !password) {
+      setAuthError('Please enter both your Firebase admin email and password.');
+      setLoading(false);
+      return;
+    }
+
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       if (userCredential && userCredential.user) {
         setIsAuthenticated(true);
         localStorage.setItem('vaibhav_admin_session', 'true');
         localStorage.setItem('vaibhav_firebase_uid', userCredential.user.uid);
-        setLoading(false);
-        return;
       }
     } catch (fbErr: any) {
       console.warn('Firebase auth attempt notice:', fbErr?.code || fbErr?.message);
-    }
-
-    // 2. Server API Verification / Admin Key
-    try {
-      const res = await fetch('/api/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: authEmail, password: authPassword }),
-      });
-      const result = await res.json();
-
-      if (result.success) {
-        setIsAuthenticated(true);
-        localStorage.setItem('vaibhav_admin_session', 'true');
-      } else {
-        if (authPassword === 'vaibhav2026' || authPassword === 'admin') {
-          setIsAuthenticated(true);
-          localStorage.setItem('vaibhav_admin_session', 'true');
-        } else {
-          setAuthError(result.error || 'Authentication rejected. Hint: vaibhav2026');
-        }
+      let errMsg = 'Invalid email or password. Access denied.';
+      const code = fbErr?.code || '';
+      if (
+        code === 'auth/invalid-credential' ||
+        code === 'auth/wrong-password' ||
+        code === 'auth/user-not-found' ||
+        code === 'auth/invalid-login-credentials'
+      ) {
+        errMsg = 'Invalid email or password. Access denied.';
+      } else if (code === 'auth/too-many-requests') {
+        errMsg = 'Too many failed login attempts. Access temporarily locked. Please try again later.';
+      } else if (code === 'auth/network-request-failed') {
+        errMsg = 'Network communication issue. Please check your internet connection.';
+      } else if (code === 'auth/invalid-email') {
+        errMsg = 'Invalid email address format.';
+      } else if (fbErr?.message) {
+        errMsg = fbErr.message;
       }
-    } catch {
-      if (authPassword === 'vaibhav2026' || authPassword === 'admin') {
-        setIsAuthenticated(true);
-        localStorage.setItem('vaibhav_admin_session', 'true');
-      } else {
-        setAuthError('Authentication failed. Hint: vaibhav2026');
-      }
+      setAuthError(errMsg);
+      setIsAuthenticated(false);
     } finally {
       setLoading(false);
     }
@@ -359,7 +365,7 @@ export default function AdminPage() {
     try {
       await signOut(auth);
     } catch (e) {
-      console.warn(e);
+      console.warn('Firebase signout warning:', e);
     }
     await fetch('/api/auth', { method: 'DELETE' }).catch(() => {});
     localStorage.removeItem('vaibhav_admin_session');
@@ -692,6 +698,8 @@ export default function AdminPage() {
                 value={authEmail}
                 onChange={(e) => setAuthEmail(e.target.value)}
                 className={styles.input}
+                required
+                autoComplete="email"
               />
             </div>
 
@@ -704,14 +712,13 @@ export default function AdminPage() {
                 onChange={(e) => setAuthPassword(e.target.value)}
                 className={styles.input}
                 required
+                autoComplete="current-password"
               />
             </div>
 
             <button type="submit" disabled={loading} className={styles.loginBtn}>
-              {loading ? 'Authenticating...' : 'Access Dashboard →'}
+              {loading ? 'Authenticating with Firebase...' : 'Access Dashboard →'}
             </button>
-
-            <p className={styles.loginHint}>Default password: vaibhav2026</p>
           </form>
         </div>
       </div>
