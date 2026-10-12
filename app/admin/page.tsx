@@ -38,6 +38,9 @@ export default function AdminPage() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [data, setData] = useState<any>(null);
   const [savedToast, setSavedToast] = useState(false);
+  const [cloudinaryCloudName, setCloudinaryCloudName] = useState('');
+  const [cloudinaryPreset, setCloudinaryPreset] = useState('');
+  const [cldSavedToast, setCldSavedToast] = useState(false);
 
   // New item modal/inline forms state
   const [newPpt, setNewPpt] = useState({
@@ -107,6 +110,30 @@ export default function AdminPage() {
 
     return () => unsubscribe();
   }, []);
+
+  // Load Cloudinary credentials from localStorage or environment variables
+  useEffect(() => {
+    const savedCldName =
+      (typeof window !== 'undefined' ? localStorage.getItem('vaibhav_cloudinary_cloud_name') : '') ||
+      process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ||
+      '';
+    const savedCldPreset =
+      (typeof window !== 'undefined' ? localStorage.getItem('vaibhav_cloudinary_preset') : '') ||
+      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET ||
+      '';
+    if (savedCldName) setCloudinaryCloudName(savedCldName);
+    if (savedCldPreset) setCloudinaryPreset(savedCldPreset);
+  }, []);
+
+  const handleSaveCloudinary = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('vaibhav_cloudinary_cloud_name', cloudinaryCloudName.trim());
+      localStorage.setItem('vaibhav_cloudinary_preset', cloudinaryPreset.trim());
+      setCldSavedToast(true);
+      setTimeout(() => setCldSavedToast(false), 3000);
+    }
+  };
 
   // Fetch live portfolio content prioritizing local customizations
   useEffect(() => {
@@ -208,6 +235,52 @@ export default function AdminPage() {
 
     // Cache locally in IndexedDB asynchronously without blocking
     storeDocumentInDb(localFileId, file, file.name).catch(() => {});
+
+    // ── STRATEGY 0: Cloudinary Free Cloud Storage (Direct Client-to-CDN, 25GB Free, No Credit Card) ──
+    const effectiveCldName =
+      cloudinaryCloudName.trim() ||
+      (typeof window !== 'undefined' ? localStorage.getItem('vaibhav_cloudinary_cloud_name') || '' : '') ||
+      process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ||
+      '';
+    const effectiveCldPreset =
+      cloudinaryPreset.trim() ||
+      (typeof window !== 'undefined' ? localStorage.getItem('vaibhav_cloudinary_preset') || '' : '') ||
+      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET ||
+      '';
+
+    if (effectiveCldName && effectiveCldPreset) {
+      try {
+        setUploadProgress(40);
+        const cldData = new FormData();
+        cldData.append('file', file);
+        cldData.append('upload_preset', effectiveCldPreset);
+
+        const cldRes = await fetch(
+          `https://api.cloudinary.com/v1_1/${effectiveCldName}/auto/upload`,
+          {
+            method: 'POST',
+            body: cldData,
+          }
+        );
+
+        if (cldRes.ok) {
+          const cldJson = await cldRes.json();
+          if (cldJson && cldJson.secure_url) {
+            setUploadProgress(100);
+            onSuccess(cldJson.secure_url, file.name);
+            setUploading(null);
+            setUploadProgress(null);
+            e.target.value = '';
+            return;
+          }
+        } else {
+          const errData = await cldRes.json().catch(() => ({}));
+          console.warn('Cloudinary upload warning:', errData);
+        }
+      } catch (cldErr) {
+        console.warn('Cloudinary direct upload notice, falling back:', cldErr);
+      }
+    }
 
     // ── STRATEGY 1: Blazing Fast Direct Server Upload (/api/upload, completes in ~150ms) ──
     try {
@@ -1116,6 +1189,65 @@ export default function AdminPage() {
                   </button>
                 </div>
               </div>
+            </div>
+
+            {/* Cloudinary Cloud Storage Card */}
+            <div className={styles.card} style={{ marginTop: '1.5rem', border: '1px solid rgba(56, 189, 248, 0.25)', background: 'linear-gradient(180deg, rgba(56, 189, 248, 0.03) 0%, rgba(15, 23, 42, 0.4) 100%)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                  <span style={{ fontSize: '1.25rem' }}>☁️</span>
+                  <div>
+                    <h3 className={styles.cardTitle} style={{ margin: 0 }}>Cloudinary Free Cloud Storage (25GB)</h3>
+                    <p className={styles.cardSubtitle} style={{ margin: 0 }}>Reliable cloud storage for certificates, presentations & images without credit card</p>
+                  </div>
+                </div>
+                <div>
+                  {(cloudinaryCloudName && cloudinaryPreset) ? (
+                    <span style={{ fontSize: '0.72rem', background: 'rgba(34, 197, 94, 0.15)', color: '#4ade80', border: '1px solid rgba(34, 197, 94, 0.3)', padding: '0.25rem 0.6rem', borderRadius: '100px', fontWeight: 600 }}>
+                      ● Active &amp; Ready
+                    </span>
+                  ) : (
+                    <span style={{ fontSize: '0.72rem', background: 'rgba(234, 179, 8, 0.15)', color: '#facc15', border: '1px solid rgba(234, 179, 8, 0.3)', padding: '0.25rem 0.6rem', borderRadius: '100px', fontWeight: 600 }}>
+                      ○ Setup in 2 mins
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div style={{ background: 'rgba(255,255,255,0.02)', padding: '0.85rem 1rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.06)', margin: '0.75rem 0', fontSize: '0.82rem', lineHeight: 1.6, color: 'var(--adm-text-secondary)' }}>
+                <strong>Quick 3-step setup (Free forever, no credit card needed):</strong><br />
+                1. Sign up free at <a href="https://cloudinary.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>cloudinary.com</a> and copy your <strong>Cloud Name</strong> from the dashboard.<br />
+                2. In Cloudinary, go to <strong>Settings (gear icon) &rarr; Upload &rarr; Upload Presets</strong>, click <strong>Add upload preset</strong>, set Signing Mode to <strong>Unsigned</strong>, and click <strong>Save</strong>.<br />
+                3. Paste your Cloud Name and Preset Name below and click Save. All future uploads will automatically route to Cloudinary global CDN!
+              </div>
+
+              <form onSubmit={handleSaveCloudinary} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: '0.75rem', alignItems: 'flex-end' }}>
+                <div className={styles.formGroup} style={{ margin: 0 }}>
+                  <label className={styles.label}>Cloud Name</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. dxyz123abc"
+                    value={cloudinaryCloudName}
+                    onChange={(e) => setCloudinaryCloudName(e.target.value)}
+                    className={styles.input}
+                  />
+                </div>
+                <div className={styles.formGroup} style={{ margin: 0 }}>
+                  <label className={styles.label}>Upload Preset (Unsigned)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. portfolio_preset"
+                    value={cloudinaryPreset}
+                    onChange={(e) => setCloudinaryPreset(e.target.value)}
+                    className={styles.input}
+                  />
+                </div>
+                <div>
+                  <button type="submit" className={styles.addBtn} style={{ height: '38px', padding: '0 1.25rem' }}>
+                    {cldSavedToast ? '✓ Saved' : 'Save Cloudinary'}
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         )}

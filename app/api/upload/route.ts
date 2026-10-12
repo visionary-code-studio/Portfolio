@@ -27,6 +27,41 @@ export async function POST(request: Request) {
     const uniqueName = `${baseName}_${Date.now()}${ext}`;
     const mimeType = file.type || 'application/octet-stream';
 
+    // ── STRATEGY 0: CLOUDINARY CLOUD STORAGE (Free 25GB Tier, No Credit Card) ──
+    const cldName = process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+    const cldPreset = process.env.CLOUDINARY_UPLOAD_PRESET || process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+
+    if (cldName && cldPreset) {
+      try {
+        const cldFormData = new FormData();
+        const fileBlob = new Blob([buffer], { type: mimeType });
+        cldFormData.append('file', fileBlob, uniqueName);
+        cldFormData.append('upload_preset', cldPreset);
+
+        const cldRes = await fetch(`https://api.cloudinary.com/v1_1/${cldName}/auto/upload`, {
+          method: 'POST',
+          body: cldFormData,
+        });
+
+        if (cldRes.ok) {
+          const cldJson = await cldRes.json();
+          if (cldJson && cldJson.secure_url) {
+            return NextResponse.json({
+              success: true,
+              url: cldJson.secure_url,
+              fileName: uniqueName,
+              originalName,
+              size: file.size,
+              mimeType,
+              storage: 'cloudinary',
+            });
+          }
+        }
+      } catch (cldError) {
+        console.warn('Cloudinary server upload notice:', cldError);
+      }
+    }
+
     // ── STRATEGY 1: VERCEL BLOB STORAGE (Production Cloud CDN) ──
     if (process.env.BLOB_READ_WRITE_TOKEN) {
       try {
