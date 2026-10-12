@@ -10,26 +10,14 @@ interface CollabSectionProps {
   resumeUrl?: string;
 }
 
+interface TierDefinition {
+  tierName: 'SILVER' | 'GOLD' | 'PLATINUM';
+  tierColor: string;
+  isPopular?: boolean;
+  audienceTagline: string;
+}
+
 const DEFAULT_SERVICES: CollabService[] = [
-  {
-    id: 'collab-web-dev',
-    title: 'Web Development',
-    category: 'web-dev',
-    tagline: 'Modern, high-performance web applications & responsive landing pages',
-    price: '$299 - $599',
-    timeline: '4 - 7 Days',
-    featured: true,
-    badge: 'High Demand',
-    description: 'Custom full-stack web applications and interactive websites built for conversion, speed, and sleek modern aesthetics.',
-    deliverables: [
-      'Custom Next.js & React scalable architecture',
-      'Mobile-first responsive UI & fluid layout',
-      'SEO optimization & 95+ Google Lighthouse speed score',
-      'Smooth micro-animations & interactive UI elements',
-      'Clean repository, API integration & deployment',
-    ],
-    techStack: ['Next.js', 'React', 'TypeScript', 'Node.js', 'Tailwind CSS', 'Vercel'],
-  },
   {
     id: 'collab-graphic-design',
     title: 'Graphic Designing',
@@ -41,13 +29,32 @@ const DEFAULT_SERVICES: CollabService[] = [
     badge: 'Fast Turnaround',
     description: 'Compelling presentation decks, brand identities, and social media kits designed to captivate audiences and investors.',
     deliverables: [
+      'Perfect For Solo Creators & Startups',
       'Investor pitch decks & keynote presentation slides',
-      'Social media marketing kits (Instagram, LinkedIn, X)',
-      'Brand identity package (Color scheme, typography, assets)',
-      'Print-ready & web-optimized exports (PDF, PNG, SVG)',
+      'Social media marketing kits (LinkedIn, X, Instagram)',
+      'Brand identity kit (Color scheme, typography & assets)',
       'Fully editable Canva Pro & Figma source files',
     ],
     techStack: ['Canva Pro', 'Figma', 'Photoshop', 'Brand Identity', 'Visual Direction'],
+  },
+  {
+    id: 'collab-web-dev',
+    title: 'Web Development',
+    category: 'web-dev',
+    tagline: 'Modern, high-performance web applications & responsive landing pages',
+    price: '$299 - $599',
+    timeline: '4 - 7 Days',
+    featured: true,
+    badge: 'High Demand',
+    description: 'Custom full-stack web applications and interactive websites built for conversion, speed, and sleek modern aesthetics.',
+    deliverables: [
+      'Collaborate & Grow Together with Scalable Architecture',
+      'Next.js 14, React & TypeScript full-stack integration',
+      'Mobile-first responsive UI & fluid layout',
+      'SEO optimization & 95+ Google Lighthouse speed score',
+      'Fast Answers, Fast Progress with Direct Deployment',
+    ],
+    techStack: ['Next.js', 'React', 'TypeScript', 'Node.js', 'Tailwind CSS', 'Vercel'],
   },
   {
     id: 'collab-ecommerce',
@@ -60,15 +67,103 @@ const DEFAULT_SERVICES: CollabService[] = [
     badge: 'Turnkey Solution',
     description: 'End-to-end modern e-commerce storefronts engineered with smooth checkout flows, payment processing, and AI integrations.',
     deliverables: [
+      'For Growing Brands & Organizations',
       'Dynamic product showcase with smart filters & search',
-      'Frictionless cart & multi-currency checkout system',
-      'Stripe / Razorpay payment gateway integration',
+      'Stripe & Razorpay frictionless payment gateway setup',
       'AI customer support & smart product recommendation readiness',
-      'Inventory management & automated order tracking',
+      'Deep Integrations For Your Workflow & Inventory',
     ],
     techStack: ['Next.js', 'Stripe', 'Razorpay', 'Firebase', 'Tailwind CSS', 'REST API'],
   },
 ];
+
+const TIER_MAPPINGS: Record<string, TierDefinition> = {
+  'collab-graphic-design': {
+    tierName: 'SILVER',
+    tierColor: '#e2e8f0',
+    audienceTagline: 'Perfect For Personal Projects And Freelancers',
+  },
+  'graphic-design': {
+    tierName: 'SILVER',
+    tierColor: '#e2e8f0',
+    audienceTagline: 'Perfect For Personal Projects And Freelancers',
+  },
+  'collab-web-dev': {
+    tierName: 'GOLD',
+    tierColor: '#f5a623',
+    isPopular: true,
+    audienceTagline: 'Power And Flexibility For Growing Teams',
+  },
+  'web-dev': {
+    tierName: 'GOLD',
+    tierColor: '#f5a623',
+    isPopular: true,
+    audienceTagline: 'Power And Flexibility For Growing Teams',
+  },
+  'collab-ecommerce': {
+    tierName: 'PLATINUM',
+    tierColor: '#e0e7ff',
+    audienceTagline: 'Tailored Solutions For Enterprise Success',
+  },
+  'ecommerce': {
+    tierName: 'PLATINUM',
+    tierColor: '#e0e7ff',
+    audienceTagline: 'Tailored Solutions For Enterprise Success',
+  },
+};
+
+// Organic Ethereal Wave Ribbon SVG matching the reference image header artwork
+function WaveRibbon({ color }: { color: string }) {
+  const gradId = `waveGrad-${color.replace(/[^a-zA-Z0-9]/g, '')}`;
+  return (
+    <svg
+      className={styles.cardWaveSvg}
+      viewBox="0 0 420 140"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor={color} stopOpacity="0" />
+          <stop offset="25%" stopColor={color} stopOpacity="0.55" />
+          <stop offset="70%" stopColor={color} stopOpacity="0.45" />
+          <stop offset="100%" stopColor={color} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M-20 68 C75 118, 165 22, 255 86 C325 130, 385 52, 440 68"
+        stroke={`url(#${gradId})`}
+        strokeWidth="1.25"
+      />
+      <path
+        d="M-20 80 C85 130, 175 34, 265 98 C335 142, 395 64, 440 80"
+        stroke={`url(#${gradId})`}
+        strokeWidth="1.0"
+        strokeOpacity="0.8"
+      />
+      <path
+        d="M-20 92 C95 142, 185 46, 275 110 C345 154, 405 76, 440 92"
+        stroke={`url(#${gradId})`}
+        strokeWidth="0.85"
+        strokeOpacity="0.6"
+      />
+      <path
+        d="M-20 56 C65 106, 155 10, 245 74 C315 118, 375 40, 440 56"
+        stroke={`url(#${gradId})`}
+        strokeWidth="0.9"
+        strokeOpacity="0.7"
+      />
+      <path
+        d="M-20 104 C105 154, 195 58, 285 122 C355 166, 415 88, 440 104"
+        stroke={`url(#${gradId})`}
+        strokeWidth="0.7"
+        strokeOpacity="0.4"
+      />
+    </svg>
+  );
+}
 
 export default function CollabSection({
   services = DEFAULT_SERVICES,
@@ -76,6 +171,7 @@ export default function CollabSection({
   resumeUrl = '/resume1.pdf',
 }: CollabSectionProps) {
   const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [currency, setCurrency] = useState<'INR' | 'USD'>('INR');
   const [selectedService, setSelectedService] = useState<CollabService | null>(null);
   const [clientName, setClientName] = useState('');
   const [clientEmail, setClientEmail] = useState('');
@@ -85,10 +181,23 @@ export default function CollabSection({
 
   const displayServices = services && services.length > 0 ? services : DEFAULT_SERVICES;
 
+  // Ensure consistent 3-tier ordering: SILVER (Graphic Design) -> GOLD (Web Dev) -> PLATINUM (E-Commerce)
+  const sortedServices = [...displayServices].sort((a, b) => {
+    const order: Record<string, number> = {
+      'collab-graphic-design': 1,
+      'graphic-design': 1,
+      'collab-web-dev': 2,
+      'web-dev': 2,
+      'collab-ecommerce': 3,
+      'ecommerce': 3,
+    };
+    return (order[a.id] || order[a.category] || 99) - (order[b.id] || order[b.category] || 99);
+  });
+
   const filteredServices =
     activeCategory === 'all'
-      ? displayServices
-      : displayServices.filter((s) => s.category === activeCategory);
+      ? sortedServices
+      : sortedServices.filter((s) => s.category === activeCategory);
 
   const openInquiry = (service: CollabService) => {
     setSelectedService(service);
@@ -110,130 +219,241 @@ export default function CollabSection({
     }, 2000);
   };
 
+  // Convert or format price cleanly matching the inspiration image style (large bold number + suffix)
+  const getFormattedPrice = (service: CollabService) => {
+    const rawPrice = service.price || '';
+    if (currency === 'INR') {
+      if (rawPrice.includes('149') || service.category === 'graphic-design') {
+        return { main: '₹12,499', period: 'Per Project' };
+      }
+      if (rawPrice.includes('299') || service.category === 'web-dev') {
+        return { main: '₹24,999', period: 'Per Project' };
+      }
+      if (rawPrice.includes('499') || service.category === 'ecommerce') {
+        return { main: '₹41,999', period: 'Per Project' };
+      }
+      if (rawPrice.startsWith('₹')) {
+        return { main: rawPrice, period: 'Per Scope' };
+      }
+      return { main: '₹14,999', period: 'Per Project' };
+    } else {
+      // USD mode
+      if (rawPrice.includes('149') || service.category === 'graphic-design') {
+        return { main: '$149', period: 'Per Project' };
+      }
+      if (rawPrice.includes('299') || service.category === 'web-dev') {
+        return { main: '$299', period: 'Per Project' };
+      }
+      if (rawPrice.includes('499') || service.category === 'ecommerce') {
+        return { main: '$499', period: 'Per Project' };
+      }
+      return { main: rawPrice, period: 'Per Project' };
+    }
+  };
+
   return (
-    <section id="collab" className={styles.collabSection} aria-label="Collaboration & Services Catalogue">
-      <div className={styles.ambientGlow} />
+    <section id="collab" className={styles.collabSection} aria-label="Simple Pricing & Powerful Collaboration">
+      {/* Background Lighting Streak & Ambience (Matching Inspiration Image) */}
+      <div className={styles.lightBeam} aria-hidden="true" />
+      <div className={styles.goldAmbientGlow} aria-hidden="true" />
 
-      {/* Section Header */}
+      {/* Top Header matching reference image typography */}
       <div className={styles.sectionHeader}>
-        <div className={styles.eyebrowBadge}>
+        <div className={styles.topStatusBadge}>
           <span className={styles.pulseDot} />
-          <span>Showcase &amp; Hire · Available for Q4 2026 Projects</span>
+          <span>Available for Q4 2026 Collaboration</span>
         </div>
+
         <h2 className={styles.mainTitle}>
-          Collab <span className={styles.titleGradient}>Showcase</span>
+          SIMPLE PRICING. POWERFUL <span className={styles.titleGoldHighlight}>FEATURES.</span>
         </h2>
+
         <p className={styles.subDescription}>
-          Tailored service menus designed for founders, engineering teams, and recruiters. From responsive full-stack web applications to AI commerce and high-impact visual design.
+          FLEXIBLE OPTIONS BUILT TO GROW WITH YOUR NEEDS.
         </p>
-      </div>
 
-      {/* Category Filter Pills */}
-      <div className={styles.filterBar}>
-        <button
-          type="button"
-          className={`${styles.filterBtn} ${activeCategory === 'all' ? styles.filterBtnActive : ''}`}
-          onClick={() => setActiveCategory('all')}
-          data-cursor-hover
-        >
-          All Catalogues ({displayServices.length})
-        </button>
-        <button
-          type="button"
-          className={`${styles.filterBtn} ${activeCategory === 'web-dev' ? styles.filterBtnActive : ''}`}
-          onClick={() => setActiveCategory('web-dev')}
-          data-cursor-hover
-        >
-          Web Development
-        </button>
-        <button
-          type="button"
-          className={`${styles.filterBtn} ${activeCategory === 'graphic-design' ? styles.filterBtnActive : ''}`}
-          onClick={() => setActiveCategory('graphic-design')}
-          data-cursor-hover
-        >
-          Graphic Designing
-        </button>
-        <button
-          type="button"
-          className={`${styles.filterBtn} ${activeCategory === 'ecommerce' ? styles.filterBtnActive : ''}`}
-          onClick={() => setActiveCategory('ecommerce')}
-          data-cursor-hover
-        >
-          E-Commerce Website
-        </button>
-      </div>
-
-      {/* Services Grid */}
-      <div className={styles.servicesGrid}>
-        {filteredServices.map((service) => (
-          <article
-            key={service.id}
-            className={`${styles.serviceCard} ${service.featured ? styles.serviceCardFeatured : ''}`}
-          >
-            <div className={styles.cardTopHeader}>
-              <span className={styles.badgePill}>
-                {service.badge || (service.featured ? 'Featured' : 'Available')}
-              </span>
-              <span className={styles.timelineTag}>
-                ⏱ {service.timeline}
-              </span>
-            </div>
-
-            <h3 className={styles.serviceTitle}>{service.title}</h3>
-            <p className={styles.serviceTagline}>{service.tagline}</p>
-
-            {/* Pricing Tag */}
-            <div className={styles.pricingContainer}>
-              <span className={styles.priceLabel}>Starting at</span>
-              <span className={styles.priceValue}>{service.price}</span>
-              <span className={styles.priceScope}>/ project</span>
-            </div>
-
-            {/* Deliverables Checklist */}
-            <ul className={styles.deliverablesList}>
-              {service.deliverables.map((item, idx) => (
-                <li key={idx} className={styles.deliverableItem}>
-                  <span className={styles.checkIcon}>✓</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-
-            {/* Tech Stack Tags */}
-            <div className={styles.techStackWrap}>
-              {service.techStack.map((tech, idx) => (
-                <span key={idx} className={styles.techPill}>
-                  {tech}
-                </span>
-              ))}
-            </div>
-
-            {/* Inquire CTA Button */}
+        {/* Currency Switcher & Category Filter Bar */}
+        <div className={styles.controlsWrap}>
+          <div className={styles.currencyTogglePill}>
             <button
               type="button"
-              className={styles.cardActionBtn}
-              onClick={() => openInquiry(service)}
+              className={`${styles.currencyBtn} ${currency === 'INR' ? styles.currencyBtnActive : ''}`}
+              onClick={() => setCurrency('INR')}
               data-cursor-hover
             >
-              <span>Approach for {service.title}</span>
-              <span>→</span>
+              ₹ INR
             </button>
-          </article>
-        ))}
+            <button
+              type="button"
+              className={`${styles.currencyBtn} ${currency === 'USD' ? styles.currencyBtnActive : ''}`}
+              onClick={() => setCurrency('USD')}
+              data-cursor-hover
+            >
+              $ USD
+            </button>
+          </div>
+
+          <div className={styles.filterPillsGroup}>
+            <button
+              type="button"
+              className={`${styles.filterPill} ${activeCategory === 'all' ? styles.filterPillActive : ''}`}
+              onClick={() => setActiveCategory('all')}
+              data-cursor-hover
+            >
+              All Tiers
+            </button>
+            <button
+              type="button"
+              className={`${styles.filterPill} ${activeCategory === 'graphic-design' ? styles.filterPillActive : ''}`}
+              onClick={() => setActiveCategory('graphic-design')}
+              data-cursor-hover
+            >
+              Silver · Graphic Design
+            </button>
+            <button
+              type="button"
+              className={`${styles.filterPill} ${activeCategory === 'web-dev' ? styles.filterPillActive : ''}`}
+              onClick={() => setActiveCategory('web-dev')}
+              data-cursor-hover
+            >
+              Gold · Web Dev
+            </button>
+            <button
+              type="button"
+              className={`${styles.filterPill} ${activeCategory === 'ecommerce' ? styles.filterPillActive : ''}`}
+              onClick={() => setActiveCategory('ecommerce')}
+              data-cursor-hover
+            >
+              Platinum · E-Commerce
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* Recruiter Fast-Track Bento Banner */}
+      {/* 3-Tier Luxury Pricing Cards Grid */}
+      <div className={styles.pricingGrid}>
+        {filteredServices.map((service) => {
+          const tierMeta =
+            TIER_MAPPINGS[service.id] ||
+            TIER_MAPPINGS[service.category] || {
+              tierName: service.featured ? 'GOLD' : 'SILVER',
+              tierColor: service.featured ? '#f5a623' : '#e2e8f0',
+              isPopular: service.featured,
+              audienceTagline: service.tagline,
+            };
+
+          const isGold = tierMeta.tierName === 'GOLD';
+          const isPlatinum = tierMeta.tierName === 'PLATINUM';
+          const isSilver = tierMeta.tierName === 'SILVER';
+          const priceObj = getFormattedPrice(service);
+
+          return (
+            <article
+              key={service.id}
+              className={`
+                ${styles.pricingCard}
+                ${isGold ? styles.goldCard : ''}
+                ${isPlatinum ? styles.platinumCard : ''}
+                ${isSilver ? styles.silverCard : ''}
+              `}
+            >
+              {/* "MOST POPULAR" Pill Badge pinned to top border for Gold */}
+              {isGold && (
+                <div className={styles.popularBadgeWrap}>
+                  <span className={styles.popularBadgeText}>MOST POPULAR</span>
+                </div>
+              )}
+
+              {/* Header Wave Ribbon Vector Artwork */}
+              <div className={styles.cardHeaderArea}>
+                <WaveRibbon color={tierMeta.tierColor} />
+
+                {/* Tier Title (SILVER, GOLD, PLATINUM) */}
+                <h3
+                  className={`
+                    ${styles.tierHeading}
+                    ${isGold ? styles.tierHeadingGold : ''}
+                    ${isPlatinum ? styles.tierHeadingPlatinum : ''}
+                    ${isSilver ? styles.tierHeadingSilver : ''}
+                  `}
+                >
+                  {tierMeta.tierName}
+                </h3>
+
+                {/* Specific Service Subtitle */}
+                <p className={styles.serviceNameSubtitle}>{service.title}</p>
+
+                {/* Audience Tagline */}
+                <p className={styles.cardAudienceTagline}>
+                  {tierMeta.audienceTagline || service.tagline}
+                </p>
+              </div>
+
+              {/* Big Bold Typography Pricing */}
+              <div className={styles.priceRow}>
+                <span className={`${styles.priceFigure} ${isGold ? styles.priceFigureGold : ''}`}>
+                  {priceObj.main}
+                </span>
+                <span className={styles.pricePeriod}>{priceObj.period}</span>
+              </div>
+
+              {/* Delivery Turnaround Tag */}
+              <div className={styles.turnaroundTag}>
+                <span>⚡ Turnaround: {service.timeline}</span>
+              </div>
+
+              {/* Deliverables Checklist with Circular Icons */}
+              <ul className={styles.featuresList}>
+                {service.deliverables.map((item, idx) => (
+                  <li key={idx} className={styles.featureItem}>
+                    <span className={`${styles.checkCircle} ${isGold ? styles.checkCircleGold : ''}`}>
+                      ✓
+                    </span>
+                    <span className={styles.featureText}>{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Tech Stack Minimal Pills */}
+              <div className={styles.techStackWrap}>
+                {service.techStack.map((tech, idx) => (
+                  <span key={idx} className={styles.techTag}>
+                    {tech}
+                  </span>
+                ))}
+              </div>
+
+              {/* Bottom Action Button (Gold Gradient for Gold, Dark Glass for Silver & Platinum) */}
+              <div className={styles.actionBtnWrap}>
+                <button
+                  type="button"
+                  className={`
+                    ${styles.ctaButton}
+                    ${isGold ? styles.ctaButtonGold : styles.ctaButtonStandard}
+                  `}
+                  onClick={() => openInquiry(service)}
+                  data-cursor-hover
+                >
+                  Get Started
+                </button>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+      {/* Recruiter & Executive Fast-Track Banner */}
       <div className={styles.recruiterBanner}>
         <div className={styles.recruiterContent}>
-          <h3>Recruiter &amp; Team Fast-Track</h3>
-          <p>
-            Looking to recruit for summer internships, AI/ML engineering, or contract development roles? I am an AIML student at Sister Nivedita University maintaining top honors (9.38 CGPA), experienced in rapid execution and full-stack software delivery.
+          <div className={styles.recruiterEyebrow}>FAST-TRACK RECRUITMENT</div>
+          <h3 className={styles.recruiterHeading}>Recruiter &amp; Engineering Team Connect</h3>
+          <p className={styles.recruiterDesc}>
+            Looking to recruit for AI/ML engineering, high-performance web systems, or student internships? I maintain top honors (9.38 CGPA) at Sister Nivedita University, combining deep technical curiosity with rapid execution and hackathon-tested problem solving.
           </p>
           <div className={styles.recruiterPills}>
             <span className={styles.recruiterPillItem}>📍 Kolkata / Hybrid / Remote</span>
             <span className={styles.recruiterPillItem}>🎓 B.Tech CSE (AIML Track)</span>
-            <span className={styles.recruiterPillItem}>⚡ Available for 2026 Cohorts</span>
+            <span className={styles.recruiterPillItem}>⚡ Immediate Availability for 2026</span>
           </div>
         </div>
 
@@ -272,23 +492,23 @@ export default function CollabSection({
 
             <h3 className={styles.modalTitle}>Inquire: {selectedService.title}</h3>
             <p className={styles.modalSubtitle}>
-              Estimated Scope: {selectedService.price} · Turnaround: {selectedService.timeline}
+              Scope: {getFormattedPrice(selectedService).main} · Turnaround: {selectedService.timeline}
             </p>
 
             {submitted ? (
-              <div style={{ textAlign: 'center', padding: '2rem 0' }}>
-                <p style={{ color: '#10b981', fontWeight: 600, fontSize: '1.1rem' }}>
-                  ✓ Opening email client with pre-filled details...
+              <div style={{ textAlign: 'center', padding: '2.5rem 0' }}>
+                <p style={{ color: '#10b981', fontWeight: 700, fontSize: '1.15rem' }}>
+                  ✓ Opening direct mail client with pre-filled scope...
                 </p>
               </div>
             ) : (
               <form onSubmit={handleInquirySubmit}>
                 <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Your Name / Company *</label>
+                  <label className={styles.formLabel}>Your Name / Organization *</label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Alex Morgan · Acme Studio"
+                    placeholder="e.g. Alex Morgan · Studio Venture"
                     className={styles.formInput}
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
@@ -308,7 +528,7 @@ export default function CollabSection({
                 </div>
 
                 <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Company / Project URL (Optional)</label>
+                  <label className={styles.formLabel}>Company / Website URL (Optional)</label>
                   <input
                     type="text"
                     placeholder="https://company.com"
@@ -319,7 +539,7 @@ export default function CollabSection({
                 </div>
 
                 <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Project Brief &amp; Timeline *</label>
+                  <label className={styles.formLabel}>Project Brief &amp; Requirements *</label>
                   <textarea
                     required
                     placeholder="Tell me about what you need built, target timeline, and any specific preferences..."
