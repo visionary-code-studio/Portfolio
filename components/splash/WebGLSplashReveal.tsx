@@ -246,9 +246,10 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
       renderer = new THREE.WebGLRenderer({
         canvas,
         antialias: true,
-        alpha: true,
+        alpha: false,
         powerPreference: 'high-performance',
       });
+      renderer.setClearColor(0x030508, 1);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setSize(width, height);
     } catch (err) {
@@ -257,25 +258,25 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
       return;
     }
 
-    // 2. ── Spiral Galaxy Three.js System (Black, Silver, White) ──
+    // 2. ── Spiral Galaxy Three.js System (Stellar White, Cyan, Silver, Indigo) ──
     const galaxyParams = {
-      count: 7500,
-      size: 0.038,
-      radius: 9.2,
+      count: 12000,
+      size: 0.065,
+      radius: 9.6,
       branches: 4,
-      spin: 1.25,
-      randomness: 0.45,
+      spin: 1.28,
+      randomness: 0.42,
       power: 3.2,
       coreColor: new THREE.Color('#ffffff'), // Pure brilliant stellar white
-      innerColor: new THREE.Color('#f1f5f9'), // Sterling silver
-      outerColor: new THREE.Color('#94a3b8'), // Metallic silver
-      rimColor: new THREE.Color('#334155'), // Deep cosmic graphite
+      innerColor: new THREE.Color('#93c5fd'), // Soft luminous celestial blue
+      midColor: new THREE.Color('#e2e8f0'), // Sterling silver stardust
+      outerColor: new THREE.Color('#818cf8'), // Cosmic indigo stardust
+      rimColor: new THREE.Color('#475569'), // Slate cosmic dust
     };
 
     const galaxyGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(galaxyParams.count * 3);
     const colors = new Float32Array(galaxyParams.count * 3);
-    const scales = new Float32Array(galaxyParams.count);
 
     for (let i = 0; i < galaxyParams.count; i++) {
       // Position along spiral arms
@@ -292,23 +293,23 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
       positions[i3 + 1] = randomY;
       positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * r + randomZ;
 
-      // Color interpolation: White core -> Silver arms -> Graphite outer space
+      // Color interpolation: White core -> Celestial blue -> Silver -> Indigo -> Slate rim
       const mixedColor = galaxyParams.coreColor.clone();
       const normRadius = r / galaxyParams.radius;
 
-      if (normRadius < 0.25) {
-        mixedColor.lerp(galaxyParams.innerColor, normRadius * 4);
-      } else if (normRadius < 0.65) {
-        mixedColor.lerp(galaxyParams.outerColor, (normRadius - 0.25) * 2.5);
+      if (normRadius < 0.2) {
+        mixedColor.lerp(galaxyParams.innerColor, normRadius * 5);
+      } else if (normRadius < 0.5) {
+        mixedColor.lerp(galaxyParams.midColor, (normRadius - 0.2) * 3.33);
+      } else if (normRadius < 0.8) {
+        mixedColor.lerp(galaxyParams.outerColor, (normRadius - 0.5) * 3.33);
       } else {
-        mixedColor.lerp(galaxyParams.rimColor, (normRadius - 0.65) * 2.8);
+        mixedColor.lerp(galaxyParams.rimColor, (normRadius - 0.8) * 5);
       }
 
       colors[i3] = mixedColor.r;
       colors[i3 + 1] = mixedColor.g;
       colors[i3 + 2] = mixedColor.b;
-
-      scales[i] = Math.random() * 0.8 + 0.4;
     }
 
     galaxyGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -316,9 +317,10 @@ export default function WebGLSplashReveal({ onRevealComplete }: WebGLSplashRevea
 
     const galaxyMaterial = new THREE.PointsMaterial({
       size: galaxyParams.size,
+      sizeAttenuation: true,
       vertexColors: true,
       transparent: true,
-      opacity: 0.88,
+      opacity: 0.95,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });

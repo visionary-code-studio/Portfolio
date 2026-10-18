@@ -2,7 +2,7 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: 99990;
   background: rgba(10, 10, 10, 0.92);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -236,24 +236,62 @@
 /* Close button */
 .closeBtn {
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  background: rgba(10, 10, 10, 0.7);
-  border: 1px solid var(--text-dim);
-  color: var(--text-muted);
-  width: 36px;
-  height: 36px;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(10, 10, 10, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f1f5f9;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.1rem;
   line-height: 1;
-  transition: border-color 0.2s, color 0.2s;
-  z-index: 10;
+  transition: all 0.2s ease;
+  z-index: 20;
 }
 
 .closeBtn:hover {
-  border-color: var(--text);
-  color: var(--text);
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+@media (max-width: 640px) {
+  .backdrop {
+    padding: 0.75rem;
+  }
+
+  .modal {
+    max-height: 94vh;
+  }
+
+  .previewPdf {
+    min-height: 300px;
+    height: 340px;
+  }
+
+  .content {
+    padding: 1.25rem 1rem;
+  }
+
+  .meta {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .actionBtn {
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    font-size: 0.68rem;
+  }
 }

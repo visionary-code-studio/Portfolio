@@ -259,6 +259,24 @@
   gap: 1.25rem;
 }
 
+.footerBrandSignature {
+  display: inline-block;
+  margin-bottom: 0.25rem;
+}
+
+.footerSignatureImg {
+  width: auto;
+  height: clamp(44px, 5.5vw, 64px);
+  max-width: 280px;
+  object-fit: contain;
+  filter: brightness(0);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footerSignatureImg:hover {
+  transform: scale(1.03);
+}
+
 .displayName {
   font-family: var(--font-display);
   font-size: clamp(2.4rem, 4.5vw, 3.8rem);

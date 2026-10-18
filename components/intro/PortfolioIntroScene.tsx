@@ -230,14 +230,14 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
 
     document.body.style.overflow = 'hidden';
 
-    let width = container.clientWidth;
-    let height = container.clientHeight;
+    let width = typeof window !== 'undefined' ? window.innerWidth : container.clientWidth;
+    let height = typeof window !== 'undefined' ? window.innerHeight : container.clientHeight;
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x020305);
 
     const camera = new THREE.PerspectiveCamera(46, width / height, 0.1, 100);
-    camera.position.set(0, 1.2, 7.2);
+    camera.position.set(0, 0.8, 6.8);
 
     let renderer: THREE.WebGLRenderer | null = null;
     try {
@@ -245,6 +245,7 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
         canvas,
         antialias: true,
         alpha: true,
+        powerPreference: 'high-performance',
       });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setSize(width, height);
@@ -253,16 +254,18 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
     }
 
     const galaxyParams = {
-      count: 7200,
-      radius: 9.0,
+      count: 12000,
+      size: 0.065,
+      radius: 9.6,
       branches: 4,
-      spin: 1.35,
+      spin: 1.28,
       randomness: 0.42,
       power: 3.2,
       coreColor: new THREE.Color('#ffffff'),
-      innerColor: new THREE.Color('#f8fafc'),
-      outerColor: new THREE.Color('#94a3b8'),
-      rimColor: new THREE.Color('#1e293b'),
+      innerColor: new THREE.Color('#93c5fd'),
+      midColor: new THREE.Color('#e2e8f0'),
+      outerColor: new THREE.Color('#818cf8'),
+      rimColor: new THREE.Color('#475569'),
     };
 
     const galaxyGeometry = new THREE.BufferGeometry();
@@ -286,12 +289,14 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
       const mixedColor = galaxyParams.coreColor.clone();
       const normRadius = r / galaxyParams.radius;
 
-      if (normRadius < 0.25) {
-        mixedColor.lerp(galaxyParams.innerColor, normRadius * 4);
-      } else if (normRadius < 0.65) {
-        mixedColor.lerp(galaxyParams.outerColor, (normRadius - 0.25) * 2.5);
+      if (normRadius < 0.2) {
+        mixedColor.lerp(galaxyParams.innerColor, normRadius * 5);
+      } else if (normRadius < 0.5) {
+        mixedColor.lerp(galaxyParams.midColor, (normRadius - 0.2) * 3.33);
+      } else if (normRadius < 0.8) {
+        mixedColor.lerp(galaxyParams.outerColor, (normRadius - 0.5) * 3.33);
       } else {
-        mixedColor.lerp(galaxyParams.rimColor, (normRadius - 0.65) * 2.8);
+        mixedColor.lerp(galaxyParams.rimColor, (normRadius - 0.8) * 5);
       }
 
       colors[i3] = mixedColor.r;
@@ -303,17 +308,18 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
     galaxyGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
     const galaxyMaterial = new THREE.PointsMaterial({
-      size: 0.038,
+      size: galaxyParams.size,
       sizeAttenuation: true,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
       vertexColors: true,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.95,
     });
 
     const galaxy = new THREE.Points(galaxyGeometry, galaxyMaterial);
-    galaxy.rotation.x = 0.35;
+    galaxy.rotation.x = Math.PI / 3.4;
+    galaxy.rotation.z = Math.PI / 8;
     scene.add(galaxy);
 
     const handlePointerMove = (e: PointerEvent) => {
@@ -334,24 +340,25 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
     window.addEventListener('keydown', handleKeyDown);
 
     const handleResize = () => {
-      if (!container || !renderer || !camera) return;
-      width = container.clientWidth;
-      height = container.clientHeight;
+      if (!renderer || !camera) return;
+      width = window.innerWidth;
+      height = window.innerHeight;
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
     };
     window.addEventListener('resize', handleResize);
 
+    const clock = new THREE.Clock();
+
     let animationFrameId: number;
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
-
-      galaxy.rotation.y += 0.0016;
+      const elapsedTime = clock.getElapsedTime();
 
       if (isZoomingInRef.current) {
         camera.position.z -= 0.44;
-        galaxy.rotation.y += 0.022;
+        galaxy.rotation.y += 0.035;
         galaxyMaterial.size = 0.055;
       } else {
         mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.045;
@@ -359,8 +366,12 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
 
         const mx = mouseRef.current.x;
         const my = mouseRef.current.y;
-        camera.position.x = mx * 0.7;
-        camera.position.y = 1.2 + my * 0.5;
+
+        galaxy.rotation.y = elapsedTime * 0.045 + mx * 0.5;
+        galaxy.rotation.x = Math.PI / 3.4 + my * 0.35;
+
+        camera.position.x = mx * 0.6;
+        camera.position.y = 0.8 + my * 0.4;
         camera.lookAt(0, 0, 0);
       }
 
@@ -402,16 +413,15 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
       {/* ── 1. FIRST: TELEVISION LIKE ANIMATION WHICH INCLUDES INTRO VIDEO AT THE CENTRE (COVERS ENTIRE PAGE) ── */}
       {(tvStage === 'static-init' || tvStage === 'video') && (
         <div className={styles.cinemaFullscreenOverlay}>
-          <div className={styles.cinemaBrandLogo}>
+          <div className={styles.cinemaBrandLogo} aria-label="Vaibhav Shaw">
             <Image
-              src="/images/logo_emblem.png"
+              src="/images/brand-signature-logo.png"
               alt="Vaibhav Shaw"
-              width={38}
-              height={38}
-              className={styles.cinemaLogoImg}
+              width={160}
+              height={53}
+              className={styles.cinemaSignatureImg}
               priority
             />
-            <span className={styles.cinemaLogoText}>Vaibhav Shaw</span>
           </div>
 
           <div className={styles.cinemaTvBox}>

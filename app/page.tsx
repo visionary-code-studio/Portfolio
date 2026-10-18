@@ -29,7 +29,7 @@ import {
 import { subscribeToCloudContent } from '@/lib/firebaseSync';
 
 export default function Home() {
-  const [content, setContent] = useState(fallbackData);
+  const [content, setContent] = useState<any>(fallbackData);
   const [pptModal, setPptModal] = useState<Presentation | null>(null);
   const [certModal, setCertModal] = useState<Certification | null>(null);
 
@@ -143,7 +143,6 @@ export default function Home() {
                   firstName: content.hero?.firstName,
                   lastName: content.hero?.lastName,
                   role: content.hero?.role,
-                  heroVideo: content.hero?.heroVideo,
                   posterImage: content.hero?.posterImage,
                   location: content.profile?.location,
                 }}

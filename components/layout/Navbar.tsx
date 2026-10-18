@@ -115,17 +115,16 @@ export default function Navbar({ profile }: NavbarProps) {
           }}
           data-cursor-hover
         >
-          <div className={styles.brandLogoWrap}>
+          <div className={styles.brandSignatureLogoWrap} aria-label="Vaibhav Shaw">
             <Image
-              src="/images/logo_emblem.png"
+              src="/images/brand-signature-logo.png"
               alt="Vaibhav Shaw"
-              width={34}
-              height={34}
-              className={styles.brandLogoImg}
+              width={160}
+              height={53}
+              className={styles.navbarSignatureImg}
               priority
             />
           </div>
-          <span className={styles.brandSignature}>Vaibhav Shaw</span>
         </a>
 
         {/* Center: Floating Pill Dock (Inspired by Reference) */}

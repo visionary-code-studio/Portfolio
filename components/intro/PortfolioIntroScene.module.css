@@ -42,10 +42,10 @@
   pointer-events: none;
   z-index: 2;
   background: radial-gradient(
-    circle at 55% 50%,
-    rgba(255, 255, 255, 0.015) 0%,
-    rgba(6, 8, 12, 0.4) 60%,
-    rgba(2, 3, 5, 0.98) 100%
+    ellipse at 50% 50%,
+    transparent 0%,
+    rgba(2, 3, 5, 0.25) 55%,
+    rgba(2, 3, 5, 0.85) 100%
   );
 }
 
@@ -100,6 +100,7 @@
   justify-content: center;
   z-index: 35;
   padding: 2rem;
+  background: transparent !important;
   pointer-events: auto;
   animation: cinemaFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
@@ -140,14 +141,7 @@
   z-index: 40;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.35rem 0.95rem 0.35rem 0.35rem;
-  background: rgba(8, 11, 18, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 999px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  justify-content: center;
   user-select: none;
   animation: logoFadeIn 0.8s ease-out forwards;
 }
@@ -163,23 +157,17 @@
   }
 }
 
-.cinemaLogoImg {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  background: #ffffff;
-  padding: 2px;
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+.cinemaSignatureImg {
+  width: auto;
+  height: clamp(38px, 4.5vw, 48px);
+  max-width: 220px;
+  object-fit: contain;
+  filter: brightness(0) invert(1) drop-shadow(0 2px 14px rgba(255, 255, 255, 0.35));
+  transition: transform 0.3s ease;
 }
 
-.cinemaLogoText {
-  color: #f1f5f9;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+.cinemaSignatureImg:hover {
+  transform: scale(1.04);
 }
 
 .tvAudioPill {

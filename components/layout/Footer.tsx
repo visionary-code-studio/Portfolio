@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import InquiryModal from '@/components/contact/InquiryModal';
 import styles from './Footer.module.css';
 
@@ -320,7 +321,15 @@ export default function Footer({ data, socials }: FooterProps) {
         <div className={styles.bottomGrid}>
           {/* Left Block: Display Name & Personal Message */}
           <div className={styles.leftSignoff}>
-            <h3 className={styles.displayName}>{fullName}</h3>
+            <div className={styles.footerBrandSignature} aria-label={fullName}>
+              <Image
+                src="/images/brand-signature-logo.png"
+                alt={fullName || 'Vaibhav Shaw'}
+                width={210}
+                height={70}
+                className={styles.footerSignatureImg}
+              />
+            </div>
             <p className={styles.signoffText}>
               Thank you for exploring my portfolio! I hope you found some interesting insights here and we could get to know each other from a personal perspective — See you soon!
             </p>
