@@ -111,18 +111,32 @@ export default function AdminPage() {
     return () => unsubscribe();
   }, []);
 
-  // Load Cloudinary credentials from localStorage or environment variables
+  // Load Cloudinary credentials from localStorage, environment variables, or server API
   useEffect(() => {
     const savedCldName =
       (typeof window !== 'undefined' ? localStorage.getItem('vaibhav_cloudinary_cloud_name') : '') ||
       process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ||
-      '';
+      'xme7g8qx';
     const savedCldPreset =
       (typeof window !== 'undefined' ? localStorage.getItem('vaibhav_cloudinary_preset') : '') ||
       process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET ||
-      '';
-    if (savedCldName) setCloudinaryCloudName(savedCldName);
-    if (savedCldPreset) setCloudinaryPreset(savedCldPreset);
+      'portfolio_preset';
+
+    setCloudinaryCloudName(savedCldName);
+    setCloudinaryPreset(savedCldPreset);
+
+    // Fetch server config in case non-public env variables were set in Vercel
+    fetch('/api/upload')
+      .then((res) => res.json())
+      .then((json) => {
+        if (json?.cloudinaryCloudName) {
+          setCloudinaryCloudName(json.cloudinaryCloudName);
+        }
+        if (json?.cloudinaryPreset) {
+          setCloudinaryPreset(json.cloudinaryPreset);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   const handleSaveCloudinary = (e?: React.FormEvent) => {
@@ -241,12 +255,12 @@ export default function AdminPage() {
       cloudinaryCloudName.trim() ||
       (typeof window !== 'undefined' ? localStorage.getItem('vaibhav_cloudinary_cloud_name') || '' : '') ||
       process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ||
-      '';
+      'xme7g8qx';
     const effectiveCldPreset =
       cloudinaryPreset.trim() ||
       (typeof window !== 'undefined' ? localStorage.getItem('vaibhav_cloudinary_preset') || '' : '') ||
       process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET ||
-      '';
+      'portfolio_preset';
 
     if (effectiveCldName && effectiveCldPreset) {
       try {
@@ -289,7 +303,7 @@ export default function AdminPage() {
       formData.append('file', file);
 
       const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 4500);
+      const timer = setTimeout(() => controller.abort(), 45000);
 
       const res = await fetch('/api/upload', {
         method: 'POST',

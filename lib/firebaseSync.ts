@@ -2,6 +2,30 @@ import { doc, setDoc, onSnapshot, getDoc } from 'firebase/firestore';
 import { db } from './firebase';
 
 /**
+ * Recursively sanitizes payload so multi-megabyte base64 blobs never break
+ * Cloud Firestore's strict 1MB (1,048,576 bytes) document size limit.
+ */
+function sanitizeForFirestore(obj: any): any {
+  if (obj === null || typeof obj !== 'object') {
+    if (typeof obj === 'string' && obj.startsWith('data:') && obj.length > 50000) {
+      // Exclude giant raw data blobs; real cloud URLs (https://res.cloudinary.com/...) are preserved
+      return '';
+    }
+    return obj;
+  }
+  if (Array.isArray(obj)) {
+    return obj.map(sanitizeForFirestore);
+  }
+  const clean: any = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (value !== undefined) {
+      clean[key] = sanitizeForFirestore(value);
+    }
+  }
+  return clean;
+}
+
+/**
  * Pushes live portfolio content updates to Firebase Cloud Firestore.
  * This guarantees real-time synchronization across smartphones, iOS, Android,
  * and external visitor browsers globally.
@@ -12,11 +36,12 @@ export async function pushContentToCloud(data: any): Promise<{ success: boolean;
       return { success: false, error: 'Firestore not initialized' };
     }
     const cleanPayload = {
-      ...data,
+      ...sanitizeForFirestore(data),
       _updatedAt: Date.now(),
       _userEdited: true,
     };
     await setDoc(doc(db, 'portfolio', 'content'), cleanPayload, { merge: true });
+    console.log('✅ Real-time Firestore cloud sync successful!');
     return { success: true };
   } catch (err: any) {
     console.warn('Firestore cloud sync notice (Check Firestore rules in Firebase Console):', err?.message);

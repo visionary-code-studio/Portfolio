@@ -5,6 +5,23 @@ import path from 'path';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
+export async function GET() {
+  const cldName =
+    process.env.CLOUDINARY_CLOUD_NAME ||
+    process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ||
+    'xme7g8qx';
+  const cldPreset =
+    process.env.CLOUDINARY_UPLOAD_PRESET ||
+    process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET ||
+    'portfolio_preset';
+
+  return NextResponse.json({
+    success: true,
+    cloudinaryCloudName: cldName,
+    cloudinaryPreset: cldPreset,
+  });
+}
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
@@ -28,14 +45,20 @@ export async function POST(request: Request) {
     const mimeType = file.type || 'application/octet-stream';
 
     // ── STRATEGY 0: CLOUDINARY CLOUD STORAGE (Free 25GB Tier, No Credit Card) ──
-    const cldName = process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-    const cldPreset = process.env.CLOUDINARY_UPLOAD_PRESET || process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+    const cldName =
+      process.env.CLOUDINARY_CLOUD_NAME ||
+      process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ||
+      'xme7g8qx';
+    const cldPreset =
+      process.env.CLOUDINARY_UPLOAD_PRESET ||
+      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET ||
+      'portfolio_preset';
 
     if (cldName && cldPreset) {
       try {
         const cldFormData = new FormData();
-        const fileBlob = new Blob([buffer], { type: mimeType });
-        cldFormData.append('file', fileBlob, uniqueName);
+        const base64Data = `data:${mimeType};base64,${buffer.toString('base64')}`;
+        cldFormData.append('file', base64Data);
         cldFormData.append('upload_preset', cldPreset);
 
         const cldRes = await fetch(`https://api.cloudinary.com/v1_1/${cldName}/auto/upload`, {
@@ -56,6 +79,9 @@ export async function POST(request: Request) {
               storage: 'cloudinary',
             });
           }
+        } else {
+          const errData = await cldRes.json().catch(() => ({}));
+          console.warn('Cloudinary upload warning on server:', errData);
         }
       } catch (cldError) {
         console.warn('Cloudinary server upload notice:', cldError);
