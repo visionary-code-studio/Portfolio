@@ -202,315 +202,508 @@
   width: 100%;
 }
 
-/* ── Physical Hangtag Card (Reference Image 1: Industrial Apparel Tag) ── */
+/* ── Physical Hangtag Card (Reference: Deep Black & Brushed Silver Identity Card) ── */
 .hangtagCard {
   position: relative;
   width: 100%;
-  max-width: 520px;
+  max-width: 540px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Hanging Pin & Cord Assembly */
+/* Hanging Lanyard Strap & Clasp Assembly */
 .tagCordAssembly {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: -10px;
-  z-index: 2;
+  margin-bottom: -18px;
+  z-index: 4;
   position: relative;
 }
 
-.tagPin {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #111111;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.2);
-  border: 2px solid #ffffff;
-}
-
-.tagCord {
-  width: 2.5px;
-  height: 28px;
+.tagLanyardStrap {
+  width: 24px;
+  height: 44px;
   background: repeating-linear-gradient(
-    to bottom,
-    #111111,
-    #111111 4px,
-    #2a2a2a 4px,
-    #2a2a2a 7px
+    90deg,
+    #0c0c0e,
+    #0c0c0e 2.5px,
+    #202026 2.5px,
+    #202026 5px
   );
-  box-shadow: 1px 0 3px rgba(0, 0, 0, 0.2);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
 }
 
-/* Main Hangtag Card Body (Archival Matte Cream Paper) */
+.tagClaspRing {
+  width: 28px;
+  height: 36px;
+  border-radius: 14px;
+  border: 3.5px solid #a1a1aa;
+  background: linear-gradient(135deg, #e4e4e7 0%, #71717a 50%, #e4e4e7 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  margin-top: -6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tagClaspInner {
+  width: 14px;
+  height: 22px;
+  border-radius: 7px;
+  background: #08080a;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+/* Main Identity Card Body (Deep Charcoal & Brushed Silver) */
 .tagBody {
   width: 100%;
-  background: linear-gradient(180deg, #fdfbf7 0%, #f7f1e5 100%);
-  border: 1.5px solid #ded4c1;
-  border-radius: 18px;
+  background:
+    radial-gradient(ellipse 95% 80% at 50% 0%, #17171c 0%, #0c0c0e 65%, #070709 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 26px;
   box-shadow:
-    0 18px 40px -12px rgba(0, 0, 0, 0.09),
-    0 4px 16px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    0 28px 70px -15px rgba(0, 0, 0, 0.9),
+    0 10px 30px -5px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
   position: relative;
-  padding-top: 1.25rem;
+  padding-top: 2.4rem;
   overflow: hidden;
   box-sizing: border-box;
+}
+
+/* 4 Corner Crosshairs */
+.crosshairTL,
+.crosshairTR,
+.crosshairBL,
+.crosshairBR {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.32);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 3;
+}
+
+.crosshairTL {
+  top: 18px;
+  left: 20px;
+}
+
+.crosshairTR {
+  top: 18px;
+  right: 20px;
+}
+
+.crosshairBL {
+  bottom: 18px;
+  left: 20px;
+}
+
+.crosshairBR {
+  bottom: 18px;
+  right: 20px;
 }
 
 /* Metallic Grommet / Eyelet at Tag Top */
 .tagEyelet {
   position: absolute;
-  top: 10px;
+  top: 16px;
   left: 50%;
   transform: translateX(-50%);
-  width: 14px;
-  height: 14px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  background: #f7f1e5;
-  border: 3px solid #111111;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(255, 255, 255, 0.8);
-  z-index: 1;
+  background: #08080a;
+  border: 3.5px solid #a1a1aa;
+  box-shadow:
+    inset 0 2px 5px rgba(0, 0, 0, 0.9),
+    0 1px 3px rgba(255, 255, 255, 0.3);
+  z-index: 2;
 }
 
-/* Tag Header Metadata */
+/* Tag Header */
 .tagHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.1rem 1.8rem 1.1rem;
+}
+
+.tagHeaderTopRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.85rem 1.6rem 0.85rem;
-  border-bottom: 1px dashed rgba(17, 17, 17, 0.16);
-  margin-top: 0.2rem;
 }
 
-.tagMetaLeft {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-}
-
-.tagLabelSmall {
+.tagSpecText {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.14em;
-  color: #8c8273;
+  font-size: 0.65rem;
   font-weight: 500;
+  letter-spacing: 0.18em;
+  color: #8e9096;
   text-transform: uppercase;
 }
 
-.tagBrandSmall {
-  font-family: var(--font-display);
-  font-size: 0.88rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  color: #111111;
-  text-transform: uppercase;
-}
-
-.tagMetaRight {
+.tagRoleTagBadge {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  background: rgba(17, 17, 17, 0.05);
-  border: 1px solid rgba(17, 17, 17, 0.1);
-  padding: 0.25rem 0.55rem;
-  border-radius: 999px;
-}
-
-.tagStatusDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #111111;
-}
-
-.tagStatusText {
+  gap: 0.35rem;
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: #8e9096;
+  text-transform: uppercase;
+}
+
+.sparkleIcon {
+  color: #d4d4d8;
+  opacity: 0.9;
+}
+
+.tagHeaderDivider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0.1rem 0;
+}
+
+.tagNameRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.tagNameCol {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.tagBrandName {
+  font-family: var(--font-serif-display), 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.2rem, 3.4vw, 2.9rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: #f5f5f5;
+  text-transform: uppercase;
+  line-height: 1;
+  margin: 0;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.tagDescriptor {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  color: #8e9096;
+  text-transform: uppercase;
+  margin-top: 0.55rem;
+  line-height: 1.4;
+}
+
+.tagVerifiedBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: linear-gradient(135deg, #e8e8eb 0%, #b8b9bd 100%);
+  border: 1px solid #ffffff;
+  padding: 0.42rem 1.05rem;
+  border-radius: 999px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5), inset 0 1px 1px #ffffff;
+  flex-shrink: 0;
+}
+
+.verifiedDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #111114;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.verifiedText {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  color: #111111;
+  letter-spacing: 0.14em;
+  color: #111114;
+  text-transform: uppercase;
 }
 
 /* Tag Rows Container */
 .tagList {
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
-  padding: 0.9rem 1.25rem;
+  gap: 0.65rem;
+  padding: 0.8rem 1.6rem 1.25rem;
 }
 
-/* Individual Role Card Row */
+/* Individual Role Row */
 .tagRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.85rem 1.1rem;
-  background: #ffffff;
-  border: 1px solid rgba(17, 17, 17, 0.08);
-  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  padding: 0.9rem 1.15rem;
+  gap: 0.85rem;
+  background: linear-gradient(180deg, #151518 0%, #0f0f12 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  box-shadow:
+    0 3px 12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
   cursor: default;
 }
 
 .tagRow:hover,
 .tagRowActive {
-  background: #111111;
-  border-color: #111111;
+  background: linear-gradient(180deg, #1c1c20 0%, #131317 100%);
+  border-color: rgba(255, 255, 255, 0.28);
   transform: translateX(4px);
-  box-shadow: 0 10px 22px -4px rgba(0, 0, 0, 0.22);
+  box-shadow:
+    0 8px 24px -4px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
 }
 
+/* Row 05 Special Highlight (Left silver bevel / lip highlight) */
+.tagRowFifth {
+  border-left: 3.5px solid #ffffff !important;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.5),
+    inset 3.5px 0 0 0 #ffffff,
+    inset 7px 0 14px rgba(255, 255, 255, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
+/* Monochromatic Background Art Layer */
+.rowArtWrap {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 58%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+  mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0) 100%);
+}
+
+.rowArtSvg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Row Left Content */
 .tagRowLeft {
   display: flex;
   align-items: center;
   gap: 0.85rem;
   min-width: 0;
   flex: 1;
+  z-index: 2;
 }
 
 .tagRowNum {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.76rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  color: #8c8273;
-  min-width: 1.5rem;
+  letter-spacing: 0.06em;
+  color: #8e9096;
+  min-width: 1.45rem;
   flex-shrink: 0;
-  transition: color 0.2s ease;
+}
+
+.tagRowDivider {
+  width: 1px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
 }
 
 .tagRowIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  background: #1a1a1e;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #f4f4f6;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 7px;
-  background: #fbf8f1;
-  border: 1px solid rgba(17, 17, 17, 0.08);
-  color: #111111;
   flex-shrink: 0;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.08);
   transition: all 0.2s ease;
+}
+
+.tagRowTextCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  min-width: 0;
 }
 
 .tagRowLabel {
   font-family: var(--font-display);
-  font-size: 0.96rem;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  color: #111111;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #ffffff;
   text-transform: uppercase;
-  transition: color 0.2s ease;
-  line-height: 1.25;
+  line-height: 1.2;
 }
 
-.tagRowBadge {
+.tagRowSubline {
   font-family: var(--font-mono);
   font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  padding: 0.22rem 0.55rem;
-  border-radius: 4px;
-  background: #f2ebd9;
-  color: #4b4435;
-  border: 1px solid rgba(17, 17, 17, 0.08);
+  font-style: italic;
+  letter-spacing: 0.14em;
+  color: #8e9096;
+  text-transform: uppercase;
+}
+
+/* Row Right: Tag Pill & Arrow */
+.tagRowRight {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.tagBadgeDefault {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  padding: 0.32rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: #d4d4d8;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  text-transform: uppercase;
   flex-shrink: 0;
   transition: all 0.2s ease;
 }
 
-/* Hover & Active Color Transitions (Prevent any overlay or text collapse) */
-.tagRow:hover .tagRowNum,
-.tagRowActive .tagRowNum {
-  color: rgba(255, 255, 255, 0.55);
+.tagBadgeSystem {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 0.32rem 0.9rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ebebec 0%, #c5c6c9 100%);
+  color: #0c0c0e;
+  border: 1px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  text-transform: uppercase;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.tagRowArrow {
+  color: #8e9096;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.tagRow:hover .tagRowArrow,
+.tagRowActive .tagRowArrow {
+  transform: translateX(3px);
+  color: #ffffff;
 }
 
 .tagRow:hover .tagRowIcon,
 .tagRowActive .tagRowIcon {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.28);
   color: #ffffff;
 }
 
-.tagRow:hover .tagRowLabel,
-.tagRowActive .tagRowLabel {
-  color: #ffffff;
-}
-
-.tagRow:hover .tagRowBadge,
-.tagRowActive .tagRowBadge {
-  background: #ffffff;
-  color: #111111;
-  border-color: #ffffff;
-}
-
-/* Bottom Industrial Barcode & Spec Stamp */
+/* Bottom Industrial Barcode & Spec Footer */
 .tagFooter {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.8rem 1.4rem;
+  border-top: 1px dashed rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.tagFooterLeft {
+  display: flex;
   flex-direction: column;
-  gap: 0.65rem;
-  padding: 1rem 1.6rem 1.35rem;
-  border-top: 1px dashed rgba(17, 17, 17, 0.16);
-  background: rgba(17, 17, 17, 0.015);
+  gap: 0.45rem;
 }
 
 .barcodeTrack {
   display: flex;
-  align-items: stretch;
-  gap: 2.5px;
-  height: 24px;
-  width: 100%;
-}
-
-.b1 {
-  width: 2px;
-  background: #111111;
-  flex-shrink: 0;
-}
-
-.b2 {
-  width: 3.5px;
-  background: #111111;
-  flex-shrink: 0;
-}
-
-.b3 {
-  width: 5px;
-  background: #111111;
-  flex-shrink: 0;
-}
-
-.b4 {
-  width: 7px;
-  background: #111111;
-  flex-shrink: 0;
-}
-
-.tagFooterMeta {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
 }
 
 .tagFooterSerial {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
   font-family: var(--font-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.12em;
-  color: #8c8273;
-  font-weight: 500;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  color: #8e9096;
+  text-transform: uppercase;
+}
+
+.hollowDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1.2px solid #8e9096;
+  flex-shrink: 0;
+}
+
+.tagFooterDivider {
+  width: 1px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.16);
+  flex-shrink: 0;
+}
+
+.tagFooterRight {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.globeIcon {
+  color: #d4d4d8;
+  flex-shrink: 0;
 }
 
 .tagFooterOrigin {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.12em;
-  color: #111111;
+  font-size: 0.68rem;
   font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #e4e4e7;
+  text-transform: uppercase;
+}
+
+.diagonalArrow {
+  color: #d4d4d8;
+  flex-shrink: 0;
 }
 
 /* Academic Overview Showcase */
@@ -825,12 +1018,36 @@
   }
 
   .tagHeader {
-    padding: 0.75rem 1.1rem;
+    padding: 0.85rem 1.15rem;
+    gap: 0.55rem;
+  }
+
+  .tagNameRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.65rem;
+  }
+
+  .tagBrandName {
+    font-size: 1.85rem;
+  }
+
+  .tagDescriptor {
+    font-size: 0.56rem;
+    letter-spacing: 0.16em;
+  }
+
+  .tagVerifiedBadge {
+    padding: 0.3rem 0.75rem;
+  }
+
+  .verifiedText {
+    font-size: 0.6rem;
   }
 
   .tagList {
     padding: 0.75rem 0.85rem;
-    gap: 0.45rem;
+    gap: 0.5rem;
   }
 
   .tagRow {
@@ -839,36 +1056,52 @@
   }
 
   .tagRowLabel {
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     white-space: normal;
     word-break: break-word;
   }
 
+  .tagRowSubline {
+    font-size: 0.52rem;
+    letter-spacing: 0.1em;
+  }
+
   .tagRowIcon {
-    width: 26px;
-    height: 26px;
+    width: 28px;
+    height: 28px;
   }
 
   .tagRowIcon svg {
-    width: 14px;
-    height: 14px;
+    width: 15px;
+    height: 15px;
   }
 
   .tagRowNum {
     min-width: 1.25rem;
-    font-size: 0.62rem;
+    font-size: 0.68rem;
   }
 
-  .tagRowBadge {
-    padding: 0.18rem 0.42rem;
-    font-size: 0.52rem;
+  .tagBadgeDefault,
+  .tagBadgeSystem {
+    padding: 0.22rem 0.55rem;
+    font-size: 0.54rem;
   }
 
   .tagFooter {
     padding: 0.85rem 1.1rem 1.1rem;
+    gap: 0.65rem;
   }
 
-  .barcodeTrack {
-    height: 18px;
+  .tagFooterOrigin {
+    font-size: 0.58rem;
+  }
+
+  .tagFooterSerial {
+    font-size: 0.52rem;
+    letter-spacing: 0.1em;
+  }
+
+  .tagFooterDivider {
+    height: 26px;
   }
 }
