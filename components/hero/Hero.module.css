@@ -1,474 +1,626 @@
-/* ── Hero: Boxed Cinematic Landing (Synth Era Reference Concept) ── */
+/* ── Hero: Sticker-Themed Editorial Composition ───────────────── */
 .hero {
   position: relative;
   width: 100%;
   min-height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg);
-  padding: 5.2rem var(--margin-desktop) 1.2rem;
-  user-select: none;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #ffffff;
+  padding: 5.6rem 3vw 1.2rem;
   overflow: hidden;
+  user-select: none;
 }
 
-/* ── Enclosed Hero Box ────────────────────────────────────────── */
-.heroBox {
+/* ── Container Enclosing Hero Content ────────────────────────── */
+.heroContainer {
   position: relative;
   width: 100%;
-  height: calc(100vh - 6.6rem);
-  min-height: 580px;
   max-width: 1560px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: transparent;
-  padding: 0.25rem 0;
+  flex: 1;
+  z-index: 5;
 }
 
-/* ── 1. Top Headline: Symmetrical Balance VAIBHAV — [Equal Gap] — [Image] — [Equal Gap] — SHAW ── */
-.headlineRow {
+/* ── Two-Column Main Grid ─────────────────────────────────────── */
+.mainGrid {
   position: relative;
   width: 100%;
-  z-index: 3;
-  margin-top: 0.25rem;
-  pointer-events: none;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(480px, 1.15fr) minmax(380px, 0.85fr);
   align-items: center;
-  justify-content: center;
-  gap: clamp(1.2rem, 3vw, 3.2rem);
-  padding: 0 1rem;
-}
-
-.headlineLeft {
+  gap: 2rem;
   flex: 1;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  padding: 0.5rem 0 1.5rem;
 }
 
-.headlineSpacer {
-  width: clamp(260px, 30vw, 420px);
-  flex-shrink: 0;
-  pointer-events: none;
-  visibility: hidden;
-}
-
-.headlineRight {
-  flex: 1;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.massiveOutline,
-.massiveSolid {
-  font-family: var(--font-heading);
-  font-size: clamp(2.4rem, 6.2vw, 5.8rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-  line-height: 1;
-  margin: 0;
-  padding: 0;
-  white-space: nowrap;
-}
-
-.massiveOutline {
-  color: transparent;
-  -webkit-text-stroke: 2px #0f172a;
-  text-align: right;
-}
-
-.massiveSolid {
-  color: #0f172a;
-  text-align: left;
-}
-
-/* ── 2. Center Stage Grid: Left Bio & Centered Portrait ───── */
-.stageGrid {
-  position: relative;
-  width: 100%;
-  flex: 1;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-end;
-  min-height: 380px;
-  z-index: 4;
-}
-
-/* Left Column: Role & Action */
+/* ── Left Column: Typography, Badges, Manifesto Card & CTAs ──── */
 .leftCol {
   position: relative;
-  z-index: 5;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1.25rem;
-  max-width: 440px;
-  padding-bottom: 2rem;
+  gap: 1.15rem;
+  z-index: 10;
+  max-width: 580px;
 }
 
-.roleBadge {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #0f172a;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  padding: 0.45rem 1rem;
-  border-radius: 999px;
-  border: 1px solid rgba(0, 0, 0, 0.09);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+/* ── Oversized 2-Line Headline: VAIBHAV SHAW ─────────────────── */
+.headlineWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-bottom: 0.25rem;
+}
+
+.headingLineOne {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
 }
 
-.livePulse {
-  width: 6px;
-  height: 6px;
+.sparkleDoodleLeft {
+  position: absolute;
+  left: -2.2rem;
+  top: 15%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  color: #000000;
+  pointer-events: none;
+}
+
+.sparkleSmall {
+  font-size: 0.95rem;
+  line-height: 1;
+  animation: sparkleTwinkle 3s infinite ease-in-out;
+}
+
+.sparkleLarge {
+  font-size: 1.35rem;
+  line-height: 1;
+  animation: sparkleTwinkle 3s infinite ease-in-out 1.5s;
+}
+
+@keyframes sparkleTwinkle {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  50% { transform: scale(0.8) rotate(15deg); opacity: 0.7; }
+}
+
+.topRightSketchRays {
+  position: absolute;
+  right: -2.4rem;
+  top: -0.4rem;
+  color: #000000;
+  pointer-events: none;
+  animation: rayWiggle 4s infinite ease-in-out alternate;
+}
+
+@keyframes rayWiggle {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(5deg) scale(1.05); }
+}
+
+/* Line 1: VAIBHAV (White fill, 3D black outline, dimensional sticker drop shadow) */
+.titleVaibhav {
+  font-family: var(--font-heading);
+  font-size: clamp(3.2rem, 6.2vw, 5.4rem);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  line-height: 0.92;
+  margin: 0;
+  padding: 0;
+  color: #ffffff;
+  -webkit-text-stroke: 3px #000000;
+  text-shadow:
+    3px 3px 0 #000000,
+    5px 5px 0 #000000,
+    7px 7px 0 #000000;
+  filter: drop-shadow(4px 6px 12px rgba(0, 0, 0, 0.2));
+  white-space: nowrap;
+}
+
+/* Line 2: SHAW (Dark gradient fill, strong outline, 3D paper shadow) */
+.headingLineTwo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.titleShaw {
+  font-family: var(--font-heading);
+  font-size: clamp(3.2rem, 6.2vw, 5.4rem);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  line-height: 0.92;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(180deg, #374151 0%, #111827 50%, #000000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 2.5px #000000;
+  filter: drop-shadow(4px 4px 0 #000000) drop-shadow(6px 8px 14px rgba(0, 0, 0, 0.25));
+  white-space: nowrap;
+}
+
+.sparkleDoodleRight {
+  position: absolute;
+  right: -2.4rem;
+  top: 15%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  color: #000000;
+  pointer-events: none;
+}
+
+/* ── Segmented Pill Badges ───────────────────────────────────── */
+.badgeRowsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  width: 100%;
+}
+
+.badgeRowOneWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.badgeRowDoodle {
+  position: absolute;
+  left: -1.4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #000000;
+  pointer-events: none;
+}
+
+.segmentedCapsule {
+  display: inline-flex;
+  align-items: center;
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 999px;
+  padding: 0.42rem 1.05rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  gap: 0.75rem;
+  width: fit-content;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.segmentedCapsule:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+}
+
+.capsuleSegment {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #000000;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.capsuleDivider {
+  display: inline-block;
+  width: 1.5px;
+  height: 13px;
+  background: #cbd5e1;
+  flex-shrink: 0;
+}
+
+/* ── Manifesto Section ───────────────────────────────────────── */
+.manifestoSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 999px;
+  padding: 0.32rem 0.95rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.greenPulseDot {
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #10b981;
-  box-shadow: 0 0 8px #10b981;
+  box-shadow: 0 0 6px #10b981;
   animation: pulseBlink 2s infinite ease-in-out;
 }
 
 @keyframes pulseBlink {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.8); }
+  50% { opacity: 0.4; transform: scale(0.85); }
 }
 
-.heroBio {
-  font-family: var(--font-body);
-  font-size: clamp(0.92rem, 1.15vw, 1.02rem);
-  font-weight: 500;
-  color: #475569;
-  line-height: 1.55;
-  max-width: 420px;
+.statusPillText {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #000000;
+  text-transform: uppercase;
 }
 
-.heroLead {
-  display: block;
-  font-family: var(--font-heading);
-  font-size: 1.02rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  color: #0f172a;
-  margin-bottom: 0.35rem;
+/* Die-Cut Torn Paper Card */
+.tornCard {
+  position: relative;
+  background: #ffffff;
+  border: 2.5px solid #000000;
+  border-radius: 14px 22px 14px 20px;
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.12),
+    4px 4px 0 #000000;
+  padding: 1.25rem 1.6rem;
+  max-width: 470px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
 }
 
-.ctaGroup {
+.tornCard:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.16),
+    5px 5px 0 #000000;
+}
+
+.cardHeaderWrap {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
+  gap: 0.45rem;
+}
+
+.cardHeadline {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: #000000;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.headlineDoodle {
+  color: #000000;
+  flex-shrink: 0;
+}
+
+.cardDescription {
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  color: #334155;
+  line-height: 1.48;
+  font-weight: 500;
+  margin: 0;
+}
+
+.cardSupportingCopy {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: #64748b;
+  line-height: 1.45;
+  font-weight: 500;
+  margin: 0;
+  border-top: 1px dashed #e2e8f0;
+  padding-top: 0.45rem;
+}
+
+/* ── CTA Action Buttons ──────────────────────────────────────── */
+.ctaRow {
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+  margin-top: 0.35rem;
+}
+
+.primaryCtaWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ctaLeftDoodle {
+  position: absolute;
+  left: -1.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #000000;
+  pointer-events: none;
 }
 
 .primaryBtn {
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-  padding: 0.85rem 1.65rem;
-  border-radius: 999px;
-  background: #0f172a;
+  padding: 0.78rem 1.65rem;
+  background: #000000;
   color: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 999px;
   font-family: var(--font-body);
-  font-size: 0.82rem;
-  font-weight: 600;
+  font-size: 0.84rem;
+  font-weight: 700;
   letter-spacing: 0.02em;
-  border: none;
   cursor: pointer;
-  transition: all 0.25s var(--ease-out-expo);
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.16);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease;
+  user-select: none;
 }
 
 .primaryBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25);
-  background: #000000;
+  box-shadow: 0 9px 24px rgba(0, 0, 0, 0.3);
 }
 
 .btnArrow {
   font-size: 0.95rem;
-  transition: transform 0.2s ease;
+  transition: transform 0.18s ease;
 }
 
 .primaryBtn:hover .btnArrow {
-  transform: translateY(2px);
+  transform: translateX(3px);
 }
 
 .secondaryBtn {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.85rem 1.5rem;
+  padding: 0.78rem 1.5rem;
+  background: #ffffff;
+  color: #000000;
+  border: 2px solid #000000;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  color: #0f172a;
   font-family: var(--font-body);
-  font-size: 0.82rem;
-  font-weight: 600;
+  font-size: 0.84rem;
+  font-weight: 700;
   letter-spacing: 0.02em;
   cursor: pointer;
-  transition: all 0.25s var(--ease-out-expo);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease;
+  user-select: none;
 }
 
 .secondaryBtn:hover {
-  background: #ffffff;
-  border-color: rgba(0, 0, 0, 0.22);
   transform: translateY(-2px);
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.16);
+  background: #f8fafc;
 }
 
-/* Center Portrait Anchor: Dead-Centered with WebGL Keynote Stage */
-.portraitWrap {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: clamp(380px, 46vw, 700px);
-  height: clamp(580px, 83vh, 88vh);
-  max-height: calc(100vh - 7.5rem);
-  z-index: 4;
-  pointer-events: auto;
+.btnLightning {
+  font-size: 0.9rem;
+}
+
+/* ── Right Column: Large Die-Cut Portrait Sticker ────────────── */
+.rightCol {
+  position: relative;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  cursor: crosshair;
-  user-select: none;
+  align-items: center;
+  z-index: 8;
+  pointer-events: none;
 }
 
-.portraitInner {
+.portraitStickerCard {
   position: relative;
-  height: 100%;
-  width: auto;
   display: inline-flex;
   justify-content: center;
-  align-items: flex-end;
-  animation: portraitEntrance 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.portraitImgBw {
-  height: 100%;
-  width: auto;
-  max-height: 100%;
-  object-fit: contain;
-  object-position: bottom;
-  display: block;
-  pointer-events: none;
+  align-items: center;
+  pointer-events: auto;
   user-select: none;
-  filter: contrast(1.08) brightness(1.02) drop-shadow(0 24px 50px rgba(0, 0, 0, 0.14));
+  animation: stickerFloat 6s ease-in-out infinite alternate;
 }
 
-.portraitImgColor {
+@keyframes stickerFloat {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-6px) rotate(0.4deg); }
+}
+
+/* Washi Tape Accent */
+.washiTapeTopRight {
   position: absolute;
-  inset: 0;
+  right: 25px;
+  top: -12px;
+  width: 90px;
+  height: 34px;
+  background: rgba(248, 250, 252, 0.82);
+  border: 1px dashed rgba(0, 0, 0, 0.25);
+  transform: rotate(24deg);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  z-index: 12;
+  pointer-events: none;
+}
+
+.washiTexture {
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  object-position: bottom;
-  display: block;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 4px,
+    rgba(0, 0, 0, 0.04) 4px,
+    rgba(0, 0, 0, 0.04) 8px
+  );
+}
+
+.portraitTopDoodle {
+  position: absolute;
+  right: -10px;
+  top: 15px;
+  color: #000000;
   pointer-events: none;
-  user-select: none;
-  filter: contrast(1.04) brightness(1.01) drop-shadow(0 24px 50px rgba(0, 0, 0, 0.12));
-  opacity: var(--spotlight-active, 0);
-  transition: opacity 0.22s ease;
-  -webkit-mask-image: radial-gradient(
-    circle 180px at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 0.92) 38%,
-    rgba(0, 0, 0, 0.45) 68%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  mask-image: radial-gradient(
-    circle 180px at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 0.92) 38%,
-    rgba(0, 0, 0, 0.45) 68%,
-    rgba(0, 0, 0, 0) 100%
-  );
+  z-index: 12;
 }
 
-@keyframes portraitEntrance {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.portraitImgWrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter:
+    drop-shadow(0 14px 28px rgba(0, 0, 0, 0.26))
+    drop-shadow(0 4px 10px rgba(0, 0, 0, 0.16));
 }
 
-/* ── 3. Bottom HUD Status Bar ───────────────────────────────── */
+.portraitStickerImg {
+  width: auto;
+  height: clamp(480px, 68vh, 660px);
+  max-width: 100%;
+  object-fit: contain;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.portraitStickerCard:hover .portraitStickerImg {
+  transform: scale(1.02);
+}
+
+.portraitBottomSparkles {
+  position: absolute;
+  right: 15px;
+  bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  color: #000000;
+  pointer-events: none;
+  z-index: 12;
+}
+
+/* ── 3. Bottom Information HUD Row ───────────────────────────── */
 .bottomBar {
   position: relative;
-  z-index: 4;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   width: 100%;
-  padding-top: 0.5rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.hudRole {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 0.95rem 0 0.25rem;
   display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-}
-
-.hudRoleTitle {
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #94a3b8;
-}
-
-.hudRoleDesc {
-  font-family: var(--font-body);
-  font-size: 0.76rem;
-  font-weight: 600;
-  color: #1e293b;
-}
-
-.scrollCue {
-  background: none;
-  border: none;
-  color: #64748b;
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.35rem;
-  cursor: pointer;
-  padding: 0.2rem;
-  transition: color 0.2s ease;
+  justify-content: space-between;
+  z-index: 10;
 }
 
-.scrollCue:hover {
+.hudBlockLeft,
+.hudBlockRight {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.hudBlockRight {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.hudLabel {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.hudValue {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
   color: #0f172a;
 }
 
-.scrollLabel {
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
-.scrollLine {
-  width: 1px;
-  height: 20px;
-  background: linear-gradient(to bottom, currentColor, transparent);
-  animation: scrollPulse 2s infinite ease-in-out;
-}
-
-@keyframes scrollPulse {
-  0% { transform: scaleY(0); transform-origin: top; }
-  50% { transform: scaleY(1); transform-origin: top; }
-  50.1% { transform: scaleY(1); transform-origin: bottom; }
-  100% { transform: scaleY(0); transform-origin: bottom; }
-}
-
-/* Kolkata Postcard Card in Right Corner */
-.locationCardWrap {
-  position: relative;
-  width: clamp(140px, 11vw, 180px);
-  aspect-ratio: 1.5 / 1;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s ease;
+.hudScrollCue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  background: transparent;
+  border: none;
   cursor: pointer;
-  flex-shrink: 0;
+  padding: 0;
+  transition: transform 0.18s ease;
 }
 
-.locationCardWrap:hover {
-  transform: translateY(-3px) scale(1.04);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+.hudScrollCue:hover {
+  transform: translateY(2px);
 }
 
-.locationCardImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.hudScrollTick {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0f172a;
+  animation: tickBounce 2s infinite ease-in-out;
 }
 
-/* ── Responsive Design ───────────────────────────────────────── */
+@keyframes tickBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+
+/* ── Responsive Behavior ─────────────────────────────────────── */
 @media (max-width: 1100px) {
-  .portraitWrap {
-    width: 36vw;
+  .mainGrid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .rightCol {
+    order: -1;
+  }
+
+  .portraitStickerImg {
+    height: clamp(340px, 48vh, 460px);
   }
 }
 
 @media (max-width: 768px) {
   .hero {
-    height: auto;
-    min-height: 100vh;
-    padding: 5rem 1.25rem 2rem;
+    padding: 4.8rem 4vw 1rem;
   }
-  .heroBox {
-    height: auto;
-    min-height: calc(100vh - 6rem);
-    gap: 2rem;
+
+  .titleVaibhav,
+  .titleShaw {
+    font-size: clamp(2.4rem, 11vw, 3.8rem);
   }
-  .headlineRow {
-    flex-direction: column;
-    gap: 0.25rem;
-    padding: 0;
-    margin-top: 1rem;
+
+  .segmentedCapsule {
+    flex-wrap: wrap;
+    border-radius: 14px;
+    padding: 0.5rem 0.85rem;
   }
-  .headlineSpacer {
-    display: none;
-  }
-  .headlineLeft,
-  .headlineRight {
-    justify-content: center;
-    width: 100%;
-  }
-  .massiveOutline,
-  .massiveSolid {
-    font-size: clamp(2rem, 9vw, 3.5rem);
-    text-align: center;
-  }
-  .stageGrid {
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-    gap: 1.5rem;
-    min-height: auto;
-  }
-  .portraitWrap {
-    position: relative;
-    left: auto;
-    bottom: auto;
-    transform: none;
-    width: 70vw;
-    max-width: 300px;
-    max-height: 45vh;
-  }
-  .leftCol {
-    align-items: center;
-    text-align: center;
+
+  .tornCard {
     max-width: 100%;
-    padding-bottom: 0;
   }
-  .heroBio {
-    text-align: center;
-  }
+
   .bottomBar {
     flex-direction: column;
     gap: 0.75rem;
-    text-align: center;
+    align-items: flex-start;
   }
-  .scrollCue {
-    display: none;
+
+  .hudBlockRight {
+    align-items: flex-start;
+    text-align: left;
   }
 }

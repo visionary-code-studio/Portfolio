@@ -49,34 +49,29 @@ export default function ScrollProgressHUD() {
 
   return (
     <aside className={styles.hud} aria-label="Chapter progress navigation">
-      {/* Chapter Counter Badge */}
+      {/* Chapter Counter Badge Sticker */}
       <div className={styles.chapterBadge}>
-        <span className={styles.activeStar}>✦</span>
+        <span className={styles.badgeDot}>●</span>
         <span className={styles.chapterText}>
           {current.num} / {String(chapters.length).padStart(2, '0')}
         </span>
         <span className={styles.chapterTitle}>{current.title}</span>
       </div>
 
-      {/* Progress Track with Dots */}
-      <div className={styles.trackWrapper}>
-        <div className={styles.trackBar}>
-          <div className={styles.progressFill} style={{ height: `${scrollPercent}%` }} />
-        </div>
-
-        <div className={styles.dotList}>
-          {chapters.map((ch, idx) => (
-            <button
-              key={ch.id}
-              onClick={() => scrollTo(ch.id)}
-              className={`${styles.dotBtn} ${idx === activeIdx ? styles.activeDot : ''}`}
-              aria-label={`Jump to Chapter ${ch.num}: ${ch.title}`}
-              data-cursor-hover
-            >
-              <span className={styles.dotTooltip}>{ch.num} {ch.title}</span>
-            </button>
-          ))}
-        </div>
+      {/* Vertical Sequence of 7 Dots */}
+      <div className={styles.dotList}>
+        {chapters.map((ch, idx) => (
+          <button
+            key={ch.id}
+            onClick={() => scrollTo(ch.id)}
+            className={`${styles.dotBtn} ${idx === activeIdx ? styles.activeDot : ''}`}
+            aria-label={`Jump to Chapter ${ch.num}: ${ch.title}`}
+            data-cursor-hover
+          >
+            <span className={styles.dotShape} />
+            <span className={styles.dotTooltip}>{ch.num} {ch.title}</span>
+          </button>
+        ))}
       </div>
     </aside>
   );

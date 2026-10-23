@@ -105,8 +105,8 @@ export default function Home() {
     };
   }, []);
 
-  const [splashComplete, setSplashComplete] = useState(false);
-  const [introComplete, setIntroComplete] = useState(false);
+  const [splashComplete, setSplashComplete] = useState(true);
+  const [introComplete, setIntroComplete] = useState(true);
   const visibility = content.sectionVisibility || {};
 
   return (

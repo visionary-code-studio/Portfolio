@@ -54,21 +54,31 @@ export default function SocialRail({ socials }: SocialRailProps) {
 
   return (
     <aside className={styles.socialSidebar} aria-label="Social connections">
-      <span className={styles.socialLine} />
-      {items.map((s) => (
-        <a
-          key={s.label}
-          href={s.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={s.label}
-          className={styles.socialLink}
-          data-cursor-hover
-        >
-          {s.icon}
-        </a>
-      ))}
-      <span className={styles.socialLine} />
+      {/* 3 Top radiating sketch marks */}
+      <div className={styles.socialTopDoodle} aria-hidden="true">
+        <svg width="22" height="16" viewBox="0 0 24 18" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+          <path d="M4 14L1 9" />
+          <path d="M12 12L12 3" />
+          <path d="M20 14L23 9" />
+        </svg>
+      </div>
+
+      {/* Die-cut white vertical sticker pill */}
+      <div className={styles.socialPillCard}>
+        {items.map((s) => (
+          <a
+            key={s.label}
+            href={s.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={s.label}
+            className={styles.socialLink}
+            data-cursor-hover
+          >
+            {s.icon}
+          </a>
+        ))}
+      </div>
     </aside>
   );
 }

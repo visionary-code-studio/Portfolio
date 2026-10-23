@@ -105,7 +105,7 @@ export default function Navbar({ profile }: NavbarProps) {
     <>
       {/* ── Fixed Top Navigation Bar ─────────────────────────── */}
       <header className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
-        {/* Left: Brand Monogram & Wordmark */}
+        {/* Left: Brand Monogram & Wordmark with Sketch Doodles */}
         <a
           href="#home"
           className={styles.brandLink}
@@ -116,6 +116,12 @@ export default function Navbar({ profile }: NavbarProps) {
           data-cursor-hover
         >
           <div className={styles.brandSignatureLogoWrap} aria-label="Vaibhav Shaw">
+            {/* Hand-drawn sketch rays on top-left of signature */}
+            <svg className={styles.signatureDoodle} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+              <path d="M4 14L1 11" />
+              <path d="M6 8L3 4" />
+              <path d="M12 5L12 1" />
+            </svg>
             <Image
               src="/images/brand-signature-logo.png"
               alt="Vaibhav Shaw"
@@ -127,16 +133,71 @@ export default function Navbar({ profile }: NavbarProps) {
           </div>
         </a>
 
-        {/* Center: Floating Pill Dock (Inspired by Reference) */}
+        {/* Center: Individual Sticker Pill Navigation Dock */}
         <nav className={styles.centerDock} aria-label="Primary Navigation">
+          {/* Sketch rays doodle on top-left of Home button */}
+          <div className={styles.navDoodleTopLeft} aria-hidden="true">
+            <svg width="22" height="18" viewBox="0 0 24 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+              <path d="M4 16L1 11" />
+              <path d="M8 12L6 5" />
+              <path d="M14 11L15 4" />
+            </svg>
+          </div>
+
           {dockItems.map((item) => (
             <button
               key={item.id}
-              className={`${styles.dockItem} ${activeSection === item.id ? styles.active : ''}`}
+              className={`${styles.dockItem} ${activeSection === item.id ? styles.active : ''} ${item.id === 'contact' ? styles.contactSticker : ''}`}
               onClick={() => scrollToSection(item.href, item.id)}
               data-cursor-hover
             >
-              {item.label}
+              {/* Sticker Icon */}
+              {item.id === 'home' && (
+                <svg className={styles.dockIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                  <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+              )}
+              {item.id === 'about' && (
+                <svg className={styles.dockIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              )}
+              {item.id === 'ppt' && (
+                <svg className={styles.dockIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                </svg>
+              )}
+              {item.id === 'certs' && (
+                <svg className={styles.dockIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                  <polyline points="10 9 9 9 8 9" />
+                </svg>
+              )}
+              {item.id === 'collab' && (
+                <svg className={styles.dockIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+              )}
+              {item.id === 'contact' && (
+                <svg className={styles.dockIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+              )}
+
+              <span className={styles.dockLabel}>{item.label}</span>
+
+              {/* Sparkle doodle on top-right of Let's Talk */}
+              {item.id === 'contact' && (
+                <span className={styles.talkDoodleSparkle} aria-hidden="true">✦</span>
+              )}
             </button>
           ))}
         </nav>
@@ -149,7 +210,7 @@ export default function Navbar({ profile }: NavbarProps) {
             data-cursor-hover
           >
             <span className={styles.pulseDot} aria-hidden="true" />
-            <span className={styles.clockText}>{timeString || '10:45:00 PM'}</span>
+            <span className={styles.clockText}>{timeString || '09:45:15 PM'}</span>
             <span className={styles.clockZone}>IST</span>
           </div>
 
