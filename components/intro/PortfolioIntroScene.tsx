@@ -557,35 +557,35 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
                   </h1>
                 </div>
 
-                {/* ── Professional Role Sticker Badges ── */}
+                {/* ── Professional Role Sticker Badges (Matching Reference Image 2) ── */}
                 <div className={styles.identityPillsStickerRow}>
                   <div className={styles.identityStickerBadge}>
                     <span className={styles.badgeStickerIcon} aria-hidden="true">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="12" cy="12" r="3" />
-                        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04z" />
+                        <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04z" />
                       </svg>
                     </span>
-                    <span>AI/ML Engineering | Student [Sister Nivedita University]</span>
+                    <span>AI/ML Practitioner</span>
                   </div>
 
                   <div className={styles.identityStickerBadge}>
                     <span className={styles.badgeStickerIcon} aria-hidden="true">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="16 18 22 12 16 6" />
                         <polyline points="8 6 2 12 8 18" />
                       </svg>
                     </span>
-                    <span>Full-Stack Development</span>
+                    <span>Full Stack Developer</span>
                   </div>
 
                   <div className={styles.identityStickerBadge}>
                     <span className={styles.badgeStickerIcon} aria-hidden="true">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M12 2l2.4 7.2L21 12l-6.6 2.8L12 22l-2.4-7.2L3 12l6.6-2.8L12 2z" />
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                       </svg>
                     </span>
-                    <span>Graphic Designing | Canva & Figma</span>
+                    <span>Creative Tech Explorer</span>
                   </div>
                 </div>
 
@@ -657,16 +657,24 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
                   </div>
                 </div>
 
-                {/* ── Die-Cut White Sticker CTA Button ── */}
-                <button
-                  type="button"
-                  onClick={handleEnterPortfolio}
-                  className={styles.enterPortfolioStickerBtn}
-                  data-cursor-hover
-                >
-                  <span>Enter Portfolio</span>
-                  <span className={styles.ctaArrow}>➔</span>
-                </button>
+                {/* ── Die-Cut White Sticker CTA Button with Left Doodle ── */}
+                <div className={styles.ctaButtonRow}>
+                  <div className={styles.ctaDoodleAccent} aria-hidden="true">
+                    <svg width="20" height="34" viewBox="0 0 20 34" fill="none">
+                      <path d="M16 4C12 10 7 16 3 22" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" />
+                      <path d="M18 12C14 18 9 24 5 30" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleEnterPortfolio}
+                    className={styles.enterPortfolioStickerBtn}
+                    data-cursor-hover
+                  >
+                    <span>Enter Portfolio</span>
+                    <span className={styles.ctaArrow}>➔</span>
+                  </button>
+                </div>
               </div>
             )}
           </div>
