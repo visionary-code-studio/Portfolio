@@ -922,3 +922,546 @@
     display: none;
   }
 }
+
+/* ==========================================================================
+   PREMIUM STICKER-THEMED HERO UI/UX DESIGN SYSTEM
+   ========================================================================== */
+
+.heroStickerContentWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  z-index: 20;
+}
+
+/* ── A. NAME / MAIN HEADING STICKER ── */
+.nameStickerContainer {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1.4rem;
+  padding: 0.2rem;
+}
+
+/* Doodle: Star (Replacing Crown) */
+.starCrownBadge {
+  position: absolute;
+  top: -26px;
+  left: 20px;
+  z-index: 10;
+  transform: rotate(-12deg);
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.6));
+  animation: stickerGentleWiggle 5s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes stickerGentleWiggle {
+  0% { transform: rotate(-12deg) scale(1); }
+  50% { transform: rotate(-8deg) scale(1.04); }
+  100% { transform: rotate(-14deg) scale(0.98); }
+}
+
+/* Doodle: Sparkle Star on Right of Shaw */
+.sparkleStarBadge {
+  position: absolute;
+  right: -24px;
+  top: 42%;
+  z-index: 10;
+  transform: rotate(10deg);
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.5));
+  pointer-events: none;
+}
+
+/* Doodle: Angle Accent on Left of Vaibhav */
+.leftDoodleAngle {
+  position: absolute;
+  left: -28px;
+  top: 24%;
+  z-index: 10;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* Main Die-Cut Heading Badge */
+.mainTitleSticker {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #090b10;
+  border: 4px solid #ffffff;
+  outline: 2px solid #000000;
+  outline-offset: -3px;
+  border-radius: 28px 32px 26px 30px;
+  padding: 0.85rem 1.6rem 0.95rem;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.4),
+    0 12px 32px rgba(0, 0, 0, 0.85),
+    0 4px 12px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  transform: rotate(-1.5deg);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+  user-select: none;
+}
+
+.mainTitleSticker:hover {
+  transform: rotate(-0.5deg) translateY(-2px);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.6),
+    0 16px 40px rgba(0, 0, 0, 0.9),
+    0 6px 16px rgba(0, 0, 0, 0.6);
+}
+
+.stickerWordVaibhav {
+  font-family: var(--font-heading, system-ui, -apple-system, sans-serif);
+  font-size: clamp(2.4rem, 5.2vw, 4.4rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #ffffff;
+  -webkit-text-stroke: 1.5px #000000;
+  text-shadow:
+    -2px -2px 0 #ffffff,
+    2px -2px 0 #ffffff,
+    -2px 2px 0 #ffffff,
+    2px 2px 0 #ffffff,
+    0 4px 12px rgba(0, 0, 0, 0.8);
+  display: block;
+}
+
+.stickerWordShaw {
+  font-family: var(--font-heading, system-ui, -apple-system, sans-serif);
+  font-size: clamp(2.6rem, 5.6vw, 4.8rem);
+  font-weight: 950;
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 45%, #94a3b8 75%, #64748b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 3px 0 #000000) drop-shadow(0 5px 0 #1e293b);
+  display: block;
+  margin-top: 0.1rem;
+}
+
+/* ── B. PROFESSIONAL ROLE STICKER BADGES ── */
+.identityPillsStickerRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-bottom: 1.3rem;
+  max-width: 620px;
+}
+
+.identityStickerBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: #0f121a;
+  color: #f1f5f9;
+  font-family: var(--font-heading, system-ui, sans-serif);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.48rem 0.95rem;
+  border: 2.5px solid #ffffff;
+  outline: 1.5px solid #000000;
+  outline-offset: -1px;
+  border-radius: 999px;
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.6),
+    0 1px 3px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
+}
+
+.identityStickerBadge:hover {
+  background: #1e2433;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+.badgeStickerIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fbbf24;
+}
+
+/* ── C. INTRODUCTION TEXT & UNIVERSITY AFFILIATION ── */
+.manifestoStickerBlock {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin-bottom: 1.5rem;
+  max-width: 580px;
+}
+
+.heroManifestoSticker {
+  font-family: var(--font-body, system-ui, sans-serif);
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: #f8fafc;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+  position: relative;
+  margin: 0;
+}
+
+.underlineDoodleSvg {
+  width: min(280px, 80%);
+  height: 9px;
+  margin-top: -0.2rem;
+  margin-bottom: 0.25rem;
+  opacity: 0.95;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.universityAffiliationPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(18, 22, 32, 0.85);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  padding: 0.28rem 0.85rem;
+  color: #cbd5e1;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.affiliationDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fbbf24;
+  box-shadow: 0 0 6px #fbbf24;
+}
+
+/* ── D. ACADEMIC & INFORMATION STICKER CARDS ── */
+.statsStickerGrid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+  margin-bottom: 1.7rem;
+  width: 100%;
+  max-width: 590px;
+}
+
+/* Left tick marks accent next to cards */
+.statsDoodleAccent {
+  position: absolute;
+  left: -26px;
+  top: 18%;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.statCardSticker {
+  background: #0d1017;
+  border: 3.5px solid #ffffff;
+  outline: 1.5px solid #000000;
+  outline-offset: -1px;
+  border-radius: 18px 20px 17px 19px;
+  padding: 0.85rem 1rem 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.75),
+    0 2px 6px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.12);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  user-select: none;
+}
+
+.statCardSticker:nth-child(2) {
+  transform: rotate(-0.8deg);
+}
+
+.statCardSticker:nth-child(3) {
+  transform: rotate(0.6deg);
+}
+
+.statCardSticker:nth-child(4) {
+  transform: rotate(-0.5deg);
+}
+
+.statCardSticker:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.statCardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.statCornerIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  padding-top: 0.1rem;
+}
+
+/* ── E. PORTFOLIO ENTRY BUTTON STICKER ── */
+.enterPortfolioStickerBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #ffffff;
+  color: #050608;
+  font-family: var(--font-heading, system-ui, sans-serif);
+  font-size: 0.88rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.85rem;
+  border: 3.5px solid #ffffff;
+  outline: 2px solid #000000;
+  outline-offset: -1px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow:
+    0 6px 20px rgba(255, 255, 255, 0.2),
+    0 8px 24px rgba(0, 0, 0, 0.7),
+    0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), background 0.22s ease, box-shadow 0.22s ease;
+  user-select: none;
+}
+
+.enterPortfolioStickerBtn:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow:
+    0 10px 30px rgba(255, 255, 255, 0.35),
+    0 12px 30px rgba(0, 0, 0, 0.85);
+}
+
+.enterPortfolioStickerBtn:active {
+  transform: translateY(0) scale(0.99);
+}
+
+.enterPortfolioStickerBtn .ctaArrow {
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.22s ease;
+}
+
+.enterPortfolioStickerBtn:hover .ctaArrow {
+  transform: translateX(4px);
+}
+
+/* ── F. POLAROID-INSPIRED PORTRAIT FRAME STICKER ── */
+.finalStickerPolaroidWrap {
+  position: relative;
+  display: inline-block;
+  user-select: none;
+}
+
+/* Textured translucent washi tape strip at top-right */
+.washiTapeStrip {
+  position: absolute;
+  top: -16px;
+  right: 18px;
+  width: 96px;
+  height: 32px;
+  background: rgba(220, 225, 235, 0.45);
+  backdrop-filter: blur(4px);
+  border: 1px dashed rgba(255, 255, 255, 0.4);
+  transform: rotate(18deg);
+  z-index: 35;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+
+/* White Star Doodle on Top Left */
+.polaroidTopStar {
+  position: absolute;
+  top: -18px;
+  left: -18px;
+  z-index: 36;
+  transform: rotate(-10deg);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+  pointer-events: none;
+}
+
+/* Yellow Scribble Doodle on Top Right */
+.polaroidYellowScribble {
+  position: absolute;
+  top: -24px;
+  right: -14px;
+  z-index: 36;
+  pointer-events: none;
+}
+
+/* Torn paper / collage backdrop layer */
+.tornPaperBackdrop {
+  position: absolute;
+  inset: -10px -12px -10px -8px;
+  background: #11141d;
+  border: 2px dashed rgba(255, 255, 255, 0.28);
+  border-radius: 28px 24px 30px 22px;
+  transform: rotate(2deg);
+  z-index: 5;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.85);
+  pointer-events: none;
+}
+
+/* Main Polaroid Photo Container */
+.polaroidPhotoContainer {
+  position: relative;
+  z-index: 10;
+  border: 4.5px solid #ffffff;
+  outline: 2px solid #000000;
+  outline-offset: -2px;
+  border-radius: 24px 26px 22px 25px;
+  overflow: hidden;
+  box-shadow:
+    0 16px 44px rgba(0, 0, 0, 0.85),
+    0 4px 12px rgba(0, 0, 0, 0.5);
+  transform: rotate(-1deg);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  aspect-ratio: 10 / 14;
+}
+
+.polaroidPhotoContainer:hover {
+  transform: rotate(0deg) translateY(-3px);
+  box-shadow:
+    0 20px 52px rgba(0, 0, 0, 0.95),
+    0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+/* Polaroid Signature Sticker Badge */
+.signatureStickerBadge {
+  position: absolute;
+  bottom: 1.1rem;
+  left: 1.1rem;
+  right: 1.1rem;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  padding: 0.65rem 1rem 0.75rem;
+  background: #090b10;
+  border: 3px solid #ffffff;
+  outline: 1.5px solid #000000;
+  outline-offset: -1px;
+  border-radius: 14px;
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.9),
+    0 2px 6px rgba(0, 0, 0, 0.5);
+  transform: rotate(-1.5deg);
+  user-select: none;
+  pointer-events: auto;
+}
+
+.sigYellowUnderline {
+  width: 100%;
+  max-width: 150px;
+  height: 6px;
+  margin-top: -0.1rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Yellow Star Doodle on Bottom Right of Frame */
+.polaroidBottomStar {
+  position: absolute;
+  bottom: -14px;
+  right: -14px;
+  z-index: 36;
+  transform: rotate(14deg);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+  pointer-events: none;
+}
+
+/* ── G. SOCIAL MEDIA STICKER LINKS ── */
+.socialStickerLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: #0d1017;
+  color: #e2e8f0;
+  border: 2.5px solid #ffffff;
+  outline: 1.5px solid #000000;
+  outline-offset: -1px;
+  border-radius: 50%;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.6),
+    0 1px 3px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+}
+
+.socialStickerLink:hover {
+  background: #ffffff;
+  color: #000000;
+  transform: scale(1.18) rotate(4deg);
+  box-shadow:
+    0 8px 20px rgba(255, 255, 255, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.8);
+}
+
+/* ── RESPONSIVE ADAPTATIONS FOR STICKERS ── */
+@media (max-width: 900px) {
+  .heroStickerContentWrap {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+  }
+
+  .nameStickerContainer {
+    margin: 0.5rem auto 1.2rem;
+  }
+
+  .mainTitleSticker {
+    align-items: center;
+    padding: 0.75rem 1.2rem;
+  }
+
+  .identityPillsStickerRow {
+    justify-content: center;
+  }
+
+  .manifestoStickerBlock {
+    align-items: center;
+    text-align: center;
+  }
+
+  .statsStickerGrid {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .statsDoodleAccent {
+    display: none;
+  }
+
+  .leftDoodleAngle {
+    display: none;
+  }
+
+  .finalStickerPolaroidWrap {
+    margin: 0 auto;
+    width: 78vw;
+    max-width: 320px;
+  }
+}
+

@@ -512,49 +512,156 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
               </div>
             )}
 
-            {/* 4th Card / Final Identity Text: Permanent Showcase */}
+            {/* 4th Card / Final Identity Text: Permanent Showcase (Sticker Theme) */}
             {tvStage === 'final' && (
-              <div key="text-final" style={{ animation: 'fadeInStep 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
-                <h1 className={styles.mainTitle}>
-                  VAIBHAV
-                  <span className={styles.titleSurname}>SHAW</span>
-                </h1>
+              <div key="text-final" className={styles.heroStickerContentWrap} style={{ animation: 'fadeInStep 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
+                {/* ── Main Name Die-Cut Sticker ── */}
+                <div className={styles.nameStickerContainer}>
+                  {/* Star Doodle Replacing Crown (as requested) */}
+                  <div className={styles.starCrownBadge} aria-hidden="true">
+                    <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+                      <path
+                        d="M22 2.5L27 15.5H41L30 23.5L34 37L22 28.5L10 37L14 23.5L3 15.5H17L22 2.5Z"
+                        fill="#fbbf24"
+                        stroke="#ffffff"
+                        strokeWidth="3.2"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
 
-                <div className={styles.identityPills}>
-                  <span className={styles.identityPill}>AI/ML Engineering | Student [Sister Nivedita University]</span>
-                  <span className={styles.identityPill}>Graphic Designing | Canva & Figma</span>
-                  <span className={styles.identityPill}>Full-Stack Development</span>
+                  {/* Right Sparkle Star Doodle */}
+                  <div className={styles.sparkleStarBadge} aria-hidden="true">
+                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+                      <path
+                        d="M15 0L18.5 11.5L30 15L18.5 18.5L15 30L11.5 18.5L0 15L11.5 11.5L15 0Z"
+                        fill="#fbbf24"
+                        stroke="#ffffff"
+                        strokeWidth="2.5"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+
+                  {/* Left Side Doodle Markings */}
+                  <div className={styles.leftDoodleAngle} aria-hidden="true">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M4 18C7 12 12 6 18 2" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" />
+                      <path d="M2 22C6 17 11 11 16 7" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                  </div>
+
+                  <h1 className={styles.mainTitleSticker}>
+                    <span className={styles.stickerWordVaibhav}>VAIBHAV</span>
+                    <span className={styles.stickerWordShaw}>SHAW</span>
+                  </h1>
                 </div>
 
-                <p className={styles.heroManifesto}>
-                  Student of Sister Nivedita University pursuing B.Tech CSE in AIML. Building
-                  ideas through curiosity and turning research into reality.
-                </p>
+                {/* ── Professional Role Sticker Badges ── */}
+                <div className={styles.identityPillsStickerRow}>
+                  <div className={styles.identityStickerBadge}>
+                    <span className={styles.badgeStickerIcon} aria-hidden="true">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="3" />
+                        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+                      </svg>
+                    </span>
+                    <span>AI/ML Engineering | Student [Sister Nivedita University]</span>
+                  </div>
 
-                <div className={styles.statsGrid}>
-                  <div className={styles.statCard}>
-                    <span className={styles.statValue}>9.38</span>
+                  <div className={styles.identityStickerBadge}>
+                    <span className={styles.badgeStickerIcon} aria-hidden="true">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="16 18 22 12 16 6" />
+                        <polyline points="8 6 2 12 8 18" />
+                      </svg>
+                    </span>
+                    <span>Full-Stack Development</span>
+                  </div>
+
+                  <div className={styles.identityStickerBadge}>
+                    <span className={styles.badgeStickerIcon} aria-hidden="true">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 2l2.4 7.2L21 12l-6.6 2.8L12 22l-2.4-7.2L3 12l6.6-2.8L12 2z" />
+                      </svg>
+                    </span>
+                    <span>Graphic Designing | Canva & Figma</span>
+                  </div>
+                </div>
+
+                {/* ── Introduction Text & Affiliation (Exact Content Specification) ── */}
+                <div className={styles.manifestoStickerBlock}>
+                  <p className={styles.heroManifestoSticker}>
+                    Blending technology, creativity and curiosity to build impactful digital experiences
+                  </p>
+                  <svg className={styles.underlineDoodleSvg} viewBox="0 0 360 14" fill="none" aria-hidden="true">
+                    <path d="M3 8C60 3 150 4 240 6C280 7 325 5 357 8" stroke="#ffffff" strokeWidth="2.8" strokeLinecap="round" />
+                    <path d="M18 12C90 9 200 9.5 280 10.5C310 11 335 10 348 11.5" stroke="rgba(255,255,255,0.4)" strokeWidth="1.6" strokeLinecap="round" />
+                  </svg>
+                  <div className={styles.universityAffiliationPill}>
+                    <span className={styles.affiliationDot}>●</span>
+                    <span>Student of Sister Nivedita University</span>
+                  </div>
+                </div>
+
+                {/* ── 3 Academic & Information Cards (Die-Cut Sticker Style) ── */}
+                <div className={styles.statsStickerGrid}>
+                  {/* Left Side 3 cute accent doodle strokes */}
+                  <div className={styles.statsDoodleAccent} aria-hidden="true">
+                    <svg width="22" height="38" viewBox="0 0 22 38" fill="none">
+                      <path d="M18 4C14 12 8 20 3 28" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" />
+                      <path d="M20 12C16 19 11 27 6 35" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
+                      <path d="M16 22C13 27 10 32 7 37" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" />
+                    </svg>
+                  </div>
+
+                  {/* Card 1: CGPA */}
+                  <div className={`${styles.statCardSticker} ${styles.statCardSticker1}`}>
+                    <div className={styles.statCardHeader}>
+                      <span className={styles.statValue}>9.38</span>
+                      <svg className={styles.statCornerIcon} width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10" />
+                        <line x1="12" y1="20" x2="12" y2="4" />
+                        <line x1="6" y1="20" x2="6" y2="14" />
+                      </svg>
+                    </div>
                     <span className={styles.statLabel}>CGPA (Cumulative)</span>
                     <span className={styles.statSubTrack}>Sister Nivedita University</span>
                   </div>
 
-                  <div className={styles.statCard}>
-                    <span className={styles.statValue}>2nd Year · 3rd Sem</span>
+                  {/* Card 2: Term */}
+                  <div className={`${styles.statCardSticker} ${styles.statCardSticker2}`}>
+                    <div className={styles.statCardHeader}>
+                      <span className={styles.statValue}>2nd Year · 3rd Sem</span>
+                      <svg className={styles.statCornerIcon} width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                        <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                      </svg>
+                    </div>
                     <span className={styles.statLabel}>Current Term</span>
                     <span className={styles.statSubTrack}>2025–2029 Cohort</span>
                   </div>
 
-                  <div className={styles.statCard}>
-                    <span className={styles.statValue}>AIML</span>
+                  {/* Card 3: Track */}
+                  <div className={`${styles.statCardSticker} ${styles.statCardSticker3}`}>
+                    <div className={styles.statCardHeader}>
+                      <span className={styles.statValue}>AIML</span>
+                      <svg className={styles.statCornerIcon} width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                        <line x1="12" y1="22.08" x2="12" y2="12" />
+                      </svg>
+                    </div>
                     <span className={styles.statLabel}>B.Tech CSE Track</span>
                     <span className={styles.statSubTrack}>Sister Nivedita University</span>
                   </div>
                 </div>
 
+                {/* ── Die-Cut White Sticker CTA Button ── */}
                 <button
                   type="button"
                   onClick={handleEnterPortfolio}
-                  className={styles.enterPortfolioBtn}
+                  className={styles.enterPortfolioStickerBtn}
                   data-cursor-hover
                 >
                   <span>Enter Portfolio</span>
@@ -635,30 +742,76 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
               </div>
             )}
 
-            {/* 4th Card / Last one (1st Image): Ratio is 9:16 where full-size picture fits perfectly! */}
+            {/* 4th Card / Last one (1st Image): Polaroid Layered Sticker Frame */}
             {tvStage === 'final' && (
-              <div className={styles.finalShowcaseBox} key="card-stage-final" aria-label="Vaibhav Shaw Identity Frame">
-                <div className={styles.tvScreenGlass}>
-                  <div className={styles.tvGlare} />
-                  <div className={styles.tvCrtVignette} />
+              <div className={styles.finalStickerPolaroidWrap} key="card-stage-final" aria-label="Vaibhav Shaw Identity Frame">
+                {/* Washi Tape Accent at Top Right */}
+                <div className={styles.washiTapeStrip} aria-hidden="true" />
 
-                  <Image
-                    src="/images/intro/panel_speaker_stage.jpg"
-                    alt="Vaibhav Shaw - AIML Engineer speaking on stage with mic"
-                    fill
-                    sizes="(max-width: 900px) 72vw, 390px"
-                    style={{ objectFit: 'cover', objectPosition: 'center 12%' }}
-                    priority
-                  />
+                {/* Doodle: White Star on Top Left */}
+                <div className={styles.polaroidTopStar} aria-hidden="true">
+                  <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+                    <path
+                      d="M17 2L20.5 12.5L31 15.5L22.5 22.5L25.5 33L17 26.5L8.5 33L11.5 22.5L3 15.5L13.5 12.5L17 2Z"
+                      stroke="#ffffff"
+                      strokeWidth="2.6"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
 
-                  {/* Authentic Autographed Signature Badge */}
-                  <div className={styles.signatureBadge} aria-label="Personal Signature">
-                    <div className={styles.signatureScript}>Vaibhav Shaw</div>
-                    <div className={styles.signatureDetails}>
-                      <span className={styles.sigSubLine}>AIML Student</span>
-                      <span className={styles.sigSubLine}>Full Stack Developer</span>
+                {/* Doodle: Yellow Double Scribble on Top Right */}
+                <div className={styles.polaroidYellowScribble} aria-hidden="true">
+                  <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+                    <ellipse cx="8" cy="13" rx="4" ry="10" stroke="#fbbf24" strokeWidth="3" fill="none" transform="rotate(-15 8 13)" />
+                    <ellipse cx="18" cy="13" rx="4" ry="10" stroke="#fbbf24" strokeWidth="3" fill="none" transform="rotate(-15 18 13)" />
+                  </svg>
+                </div>
+
+                {/* Torn paper / collage backing layer */}
+                <div className={styles.tornPaperBackdrop} aria-hidden="true" />
+
+                {/* The Polaroid Photo Box */}
+                <div className={styles.polaroidPhotoContainer}>
+                  <div className={styles.tvScreenGlass}>
+                    <div className={styles.tvGlare} />
+                    <div className={styles.tvCrtVignette} />
+
+                    <Image
+                      src="/images/intro/panel_speaker_stage.jpg"
+                      alt="Vaibhav Shaw - AIML Engineer speaking on stage with mic"
+                      fill
+                      sizes="(max-width: 900px) 72vw, 390px"
+                      style={{ objectFit: 'cover', objectPosition: 'center 12%' }}
+                      priority
+                    />
+
+                    {/* Authentic Autographed Signature Sticker Badge */}
+                    <div className={styles.signatureStickerBadge} aria-label="Personal Signature">
+                      <div className={styles.signatureScript}>Vaibhav Shaw</div>
+                      {/* Hand-drawn yellow underline */}
+                      <svg className={styles.sigYellowUnderline} viewBox="0 0 160 8" fill="none" aria-hidden="true">
+                        <path d="M2 4C35 2 95 3 158 5" stroke="#fbbf24" strokeWidth="2.5" strokeLinecap="round" />
+                      </svg>
+                      <div className={styles.signatureDetails}>
+                        <span className={styles.sigSubLine}>AIML Student</span>
+                        <span className={styles.sigSubLine}>Full Stack Developer</span>
+                      </div>
                     </div>
                   </div>
+                </div>
+
+                {/* Doodle: Yellow Star on Bottom Right */}
+                <div className={styles.polaroidBottomStar} aria-hidden="true">
+                  <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+                    <path
+                      d="M13 1L16 9.5H24.5L17.5 14.5L20 23L13 18L6 23L8.5 14.5L1.5 9.5H10L13 1Z"
+                      fill="#fbbf24"
+                      stroke="#ffffff"
+                      strokeWidth="2"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 </div>
               </div>
             )}
@@ -672,7 +825,7 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
-              className={styles.socialLink}
+              className={styles.socialStickerLink}
               data-cursor-hover
             >
               <svg width="17" height="17" viewBox="0 0 496 512" fill="currentColor">
@@ -684,7 +837,7 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
-              className={styles.socialLink}
+              className={styles.socialStickerLink}
               data-cursor-hover
             >
               <svg width="16" height="16" viewBox="0 0 448 512" fill="currentColor">
@@ -696,11 +849,11 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
-              className={styles.socialLink}
+              className={styles.socialStickerLink}
               data-cursor-hover
             >
               <svg width="16" height="16" viewBox="0 0 448 512" fill="currentColor">
-                <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1z" />
+                <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
               </svg>
             </a>
             <a
@@ -708,7 +861,7 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
               target="_blank"
               rel="noopener noreferrer"
               aria-label="X"
-              className={styles.socialLink}
+              className={styles.socialStickerLink}
               data-cursor-hover
             >
               <svg width="15" height="15" viewBox="0 0 512 512" fill="currentColor">
