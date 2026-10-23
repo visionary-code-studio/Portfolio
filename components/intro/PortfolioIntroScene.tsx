@@ -562,11 +562,12 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
                   <div className={styles.identityStickerBadge}>
                     <span className={styles.badgeStickerIcon} aria-hidden="true">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04z" />
-                        <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04z" />
+                        <path d="M12 2a4 4 0 0 0-4 4v1a4 4 0 0 0-3 3.87A4 4 0 0 0 3 15a4 4 0 0 0 4 4h1a4 4 0 0 0 8 0h1a4 4 0 0 0 4-4 4 4 0 0 0-2-4.13A4 4 0 0 0 16 7V6a4 4 0 0 0-4-4z" />
+                        <path d="M9 12h6" />
+                        <path d="M12 9v6" />
                       </svg>
                     </span>
-                    <span>AI/ML Practitioner</span>
+                    <span>AIML Engineering Student</span>
                   </div>
 
                   <div className={styles.identityStickerBadge}>
@@ -585,7 +586,7 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
                         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                       </svg>
                     </span>
-                    <span>Creative Tech Explorer</span>
+                    <span>Graphic Designer [Canva & Figma]</span>
                   </div>
                 </div>
 
@@ -609,9 +610,9 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
                   {/* Left Side 3 cute accent doodle strokes */}
                   <div className={styles.statsDoodleAccent} aria-hidden="true">
                     <svg width="22" height="38" viewBox="0 0 22 38" fill="none">
-                      <path d="M18 4C14 12 8 20 3 28" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" />
-                      <path d="M20 12C16 19 11 27 6 35" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
-                      <path d="M16 22C13 27 10 32 7 37" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" />
+                      <path d="M18 4C14 12 8 20 3 28" stroke="#ffffff" strokeWidth="2.8" strokeLinecap="round" />
+                      <path d="M20 12C16 19 11 27 6 35" stroke="#ffffff" strokeWidth="2.8" strokeLinecap="round" />
+                      <path d="M16 22C13 27 10 32 7 37" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
                     </svg>
                   </div>
 
@@ -619,13 +620,13 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
                   <div className={`${styles.statCardSticker} ${styles.statCardSticker1}`}>
                     <div className={styles.statCardHeader}>
                       <span className={styles.statValue}>9.38</span>
-                      <svg className={styles.statCornerIcon} width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <svg className={styles.statCornerIcon} width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="18" y1="20" x2="18" y2="10" />
                         <line x1="12" y1="20" x2="12" y2="4" />
                         <line x1="6" y1="20" x2="6" y2="14" />
                       </svg>
                     </div>
-                    <span className={styles.statLabel}>CGPA (Cumulative)</span>
+                    <span className={styles.statLabel}>CGPA (B.Tech CSE)</span>
                     <span className={styles.statSubTrack}>Sister Nivedita University</span>
                   </div>
 
@@ -633,12 +634,12 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
                   <div className={`${styles.statCardSticker} ${styles.statCardSticker2}`}>
                     <div className={styles.statCardHeader}>
                       <span className={styles.statValue}>2nd Year · 3rd Sem</span>
-                      <svg className={styles.statCornerIcon} width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <svg className={styles.statCornerIcon} width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
                         <path d="M6 12v5c3 3 9 3 12 0v-5" />
                       </svg>
                     </div>
-                    <span className={styles.statLabel}>Current Term</span>
+                    <span className={styles.statLabel}>B.Tech CSE</span>
                     <span className={styles.statSubTrack}>2025–2029 Cohort</span>
                   </div>
 
@@ -646,13 +647,13 @@ export default function PortfolioIntroScene({ onIntroComplete }: PortfolioIntroS
                   <div className={`${styles.statCardSticker} ${styles.statCardSticker3}`}>
                     <div className={styles.statCardHeader}>
                       <span className={styles.statValue}>AIML</span>
-                      <svg className={styles.statCornerIcon} width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <svg className={styles.statCornerIcon} width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
                         <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
                         <line x1="12" y1="22.08" x2="12" y2="12" />
                       </svg>
                     </div>
-                    <span className={styles.statLabel}>B.Tech CSE Track</span>
+                    <span className={styles.statLabel}>Core Interest</span>
                     <span className={styles.statSubTrack}>Sister Nivedita University</span>
                   </div>
                 </div>
