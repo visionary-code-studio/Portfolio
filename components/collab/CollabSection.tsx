@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import type { CollabService } from '@/types';
+import RazorpayButton from '@/components/ui/RazorpayButton';
 import styles from './CollabSection.module.css';
 
 interface CollabSectionProps {
@@ -567,6 +568,40 @@ export default function CollabSection({
                 <button type="submit" className={styles.modalSubmitBtn} data-cursor-hover>
                   Dispatch Inquiry via Direct Mail ➔
                 </button>
+
+                <div style={{ marginTop: '1.25rem', paddingTop: '1.25rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                  <p style={{ fontSize: '0.82rem', color: '#94a3b8', marginBottom: '0.65rem', textAlign: 'center' }}>
+                    Or initiate instant project booking &amp; retainer deposit:
+                  </p>
+                  <RazorpayButton
+                    amount={
+                      selectedService.category === 'graphic-design'
+                        ? 500000 // ₹5,000 in paise
+                        : selectedService.category === 'web-dev'
+                        ? 1500000 // ₹15,000 in paise
+                        : selectedService.category === 'ecommerce'
+                        ? 4500000 // ₹45,000 in paise
+                        : 500000
+                    }
+                    currency="INR"
+                    name="Vaibhav Shaw · Collaboration"
+                    description={`Booking deposit: ${selectedService.title}`}
+                    buttonText={`Pay Deposit with Razorpay (${getFormattedPrice(selectedService).main})`}
+                    prefill={{
+                      name: clientName,
+                      email: clientEmail,
+                    }}
+                    notes={{
+                      service: selectedService.title,
+                      service_id: selectedService.id,
+                      client_name: clientName,
+                      client_email: clientEmail,
+                    }}
+                    onSuccess={(res) => {
+                      setSubmitted(true);
+                    }}
+                  />
+                </div>
               </form>
             )}
           </div>
