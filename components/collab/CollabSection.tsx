@@ -5,6 +5,8 @@ import Image from 'next/image';
 import RazorpayButton from '@/components/ui/RazorpayButton';
 import styles from './CollabSection.module.css';
 
+export type ServiceFilterGroup = 'all' | 'web-desktop' | 'design-video' | 'ai-automation';
+
 interface MenuItem {
   name: string;
   price: string;
@@ -15,10 +17,10 @@ interface MenuItem {
 
 interface MenuCategory {
   id: string;
+  filterGroup: 'web-desktop' | 'design-video' | 'ai-automation';
   title: string;
   subtitle: string;
   badge: string;
-  badgeColor?: string;
   isPopular?: boolean;
   accentColor: string;
   items: MenuItem[];
@@ -28,6 +30,7 @@ interface MenuCategory {
 const MENU_CATEGORIES: MenuCategory[] = [
   {
     id: 'graphic-designing',
+    filterGroup: 'design-video',
     title: 'Graphic Designing',
     subtitle: 'Canva Pro & Figma Creative Direction',
     badge: 'Fast Turnaround (24 - 48h)',
@@ -57,13 +60,13 @@ const MENU_CATEGORIES: MenuCategory[] = [
         tag: 'High Impact',
       },
       {
-        name: 'Academic Presentation (Research & Seminars)',
+        name: 'Presentation: Academic (Research & Seminars)',
         price: 'Rs. 999',
         priceNumeric: 999,
         note: 'For Academic',
       },
       {
-        name: 'Business Presentation (Investor Pitch Decks)',
+        name: 'Presentation: Business (Investor Pitch Decks)',
         price: 'Rs. 2,999',
         priceNumeric: 2999,
         note: 'For Business',
@@ -79,9 +82,10 @@ const MENU_CATEGORIES: MenuCategory[] = [
   },
   {
     id: 'website-development',
+    filterGroup: 'web-desktop',
     title: 'Website Development',
-    subtitle: 'Modern Full-Stack Engineering & Conversion UI',
-    badge: 'MOST POPULAR · HIGH DEMAND',
+    subtitle: 'Full-Stack Web Engineering & Conversion UI',
+    badge: 'High Demand · Signature',
     isPopular: true,
     accentColor: '#f5a623',
     items: [
@@ -109,32 +113,153 @@ const MENU_CATEGORIES: MenuCategory[] = [
     ],
   },
   {
-    id: 'saas-products',
-    title: 'SaaS & Custom Products',
-    subtitle: 'Custom Software, Automations & Intelligent Tools',
-    badge: 'Engineered Solutions',
-    accentColor: '#60a5fa',
+    id: 'desktop-applications',
+    filterGroup: 'web-desktop',
+    title: 'Desktop Level Applications',
+    subtitle: 'Cross-Platform Native Apps with Electron & AI Vibe Coding',
+    badge: 'Core: Electron.js',
+    accentColor: '#38bdf8',
     items: [
       {
-        name: 'Chrome & Browser Extensions',
-        price: 'Based on Extension Scope',
+        name: 'Native Electron Desktop App [Mac, Windows, Linux]',
+        price: 'Based on App Scope',
         priceNumeric: 0,
-        note: 'Custom scrapers, productivity shortcuts, API integrations',
-        tag: 'Bespoke',
+        tag: 'Electron Core',
+        note: 'Core Electron framework, local SQLite/JSON storage, native OS system tray & notifications',
       },
       {
-        name: 'Python-Based Products & AI Tools',
+        name: 'AI Vibe-Coded Utility & Productivity Tool',
         price: 'Based on Product Scope',
         priceNumeric: 0,
-        note: 'AI/ML pipelines, automated backend bots, data utilities',
-        tag: 'AI Powered',
+        tag: 'AI Vibe Coding',
+        note: 'Rapidly iterated native software built with modern AI pair programming & TS runtime',
+      },
+      {
+        name: 'Offline-First Dashboard & Client System',
+        price: 'Custom Scope',
+        priceNumeric: 0,
+        note: 'Local hardware hooks, file system persistence, zero cloud downtime',
+      },
+    ],
+    deliverables: [
+      'Multi-platform binary installers (.exe, .dmg, .deb / AppImage)',
+      'Hardened Electron IPC architecture & sandboxed renderer security',
+      'Native OS menus, tray icons, global keyboard shortcuts & auto-update setup',
+      'Full source repository delivery with setup runbook and build scripts',
+    ],
+  },
+  {
+    id: 'saas-products',
+    filterGroup: 'web-desktop',
+    title: 'SaaS Products',
+    subtitle: 'Browser Extensions & Custom Backend Software',
+    badge: 'Engineered Solutions',
+    accentColor: '#818cf8',
+    items: [
+      {
+        name: 'Chrome Extensions',
+        price: 'Based on Extensions',
+        priceNumeric: 0,
+        tag: 'Manifest V3',
+        note: 'Custom scrapers, productivity shortcuts, DOM injection & API integrations',
+      },
+      {
+        name: 'Python Based Products',
+        price: 'Based on Products',
+        priceNumeric: 0,
+        tag: 'Python Core',
+        note: 'AI/ML pipelines, automated backend bots, microservices & data utilities',
       },
     ],
     deliverables: [
       'Clean, documented, scalable & unit-tested codebase',
-      'Packaging, store manifest & deployment instructions',
-      'API webhooks, cloud database sync & credential security',
+      'Chrome Web Store manifest packaging & deployment walkthrough',
+      'API webhooks, cloud database sync & credential encryption',
       'Direct developer consultation & architecture walkthrough',
+    ],
+  },
+  {
+    id: 'video-motion',
+    filterGroup: 'design-video',
+    title: 'Video and Motion Graphics',
+    subtitle: 'Dynamic Storytelling, Kinetic Typography & Promo Edits',
+    badge: 'Visual Craft',
+    accentColor: '#ec4899',
+    items: [
+      {
+        name: 'Social Reels, Shorts & Promo Cut [Up to 60s]',
+        price: 'Rs. 799',
+        priceNumeric: 799,
+        tag: 'High Retention',
+        note: 'Kinetic captions, sound design, hook retention editing & 9:16 vertical delivery',
+      },
+      {
+        name: 'Brand Explainer & Product Demo Video',
+        price: 'Rs. 2,499',
+        priceNumeric: 2499,
+        tag: '2D & UI Motion',
+        note: 'Motion graphics, 2D vector animations, screen recordings & UI showcases',
+      },
+      {
+        name: 'Motion Logo & Title Intro / Outro',
+        price: 'Rs. 599',
+        priceNumeric: 599,
+        note: 'Seamless custom animated logo stings for YouTube, webinars & presentations',
+      },
+      {
+        name: 'Kinetic Presentation Video',
+        price: 'Rs. 1,499',
+        priceNumeric: 1499,
+        note: 'Animated slide decks with pacing, narrative sync & dynamic cues',
+      },
+    ],
+    deliverables: [
+      'Crisp 4K / 1080p 60fps renders tailored for Instagram, YouTube & LinkedIn',
+      'Layered sound design with licensed royalty-free audio tracks',
+      'Full project files and exported assets upon request',
+      '2 rounds of timing adjustments and review cycles',
+    ],
+  },
+  {
+    id: 'ai-automation',
+    filterGroup: 'ai-automation',
+    title: 'AI & Automation',
+    subtitle: 'Autonomous Agents, n8n Pipelines & Custom LLM Integrations',
+    badge: 'Force Multipliers',
+    accentColor: '#10b981',
+    items: [
+      {
+        name: 'Automated Workflow Pipeline [n8n / Zapier / Make]',
+        price: 'Rs. 1,999',
+        priceNumeric: 1999,
+        tag: 'Zero-Maintenance',
+        note: 'Multi-app triggers, webhook dispatch, Google Sheets / Airtable / CRM sync',
+      },
+      {
+        name: 'Autonomous AI Agent & Custom LLM Assistant',
+        price: 'Based on Scope',
+        priceNumeric: 0,
+        tag: 'Gemini / Claude',
+        note: 'Function calling, custom knowledge base RAG, and Discord/Telegram/Slack bots',
+      },
+      {
+        name: 'Smart Web Scraping & Data Extraction Bot',
+        price: 'Rs. 1,499',
+        priceNumeric: 1499,
+        note: 'Automated headless browser scrapers, scheduled cron jobs & clean data export',
+      },
+      {
+        name: 'Custom API Integration & Webhook Bridge',
+        price: 'Based on Scope',
+        priceNumeric: 0,
+        note: 'Secure payment gateway webhooks, authentication & internal notifications',
+      },
+    ],
+    deliverables: [
+      'Live automated workflow setup with testing and error handling',
+      'Immediate incident alerts via Telegram, Discord, or Email',
+      'Recorded screen walkthrough explaining how the automation runs',
+      'Complete configuration export for seamless self-hosting',
     ],
   },
 ];
@@ -149,6 +274,13 @@ const VALID_OWNER_KEYS = [
   'ADMIN2026',
 ];
 
+const FILTER_TABS: { id: ServiceFilterGroup; label: string; count: number }[] = [
+  { id: 'all', label: 'All Offerings', count: 6 },
+  { id: 'web-desktop', label: 'Web & Desktop', count: 3 },
+  { id: 'design-video', label: 'Design & Motion', count: 2 },
+  { id: 'ai-automation', label: 'AI & Automation', count: 1 },
+];
+
 interface CollabSectionProps {
   profileEmail?: string;
   resumeUrl?: string;
@@ -160,6 +292,9 @@ export default function CollabSection({
   resumeUrl = '/resume1.pdf',
   services,
 }: CollabSectionProps) {
+  // Filter state
+  const [activeFilter, setActiveFilter] = useState<ServiceFilterGroup>('all');
+
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTab, setModalTab] = useState<'inquiry' | 'payment' | 'qr'>('inquiry');
@@ -178,6 +313,10 @@ export default function CollabSection({
   const [qrUnlocked, setQrUnlocked] = useState(false);
   const [qrKeyError, setQrKeyError] = useState<string | null>(null);
   const [copiedUpi, setCopiedUpi] = useState(false);
+
+  const displayedCategories = activeFilter === 'all'
+    ? MENU_CATEGORIES
+    : MENU_CATEGORIES.filter((c) => c.filterGroup === activeFilter);
 
   const openServiceModal = (category: MenuCategory, item?: MenuItem) => {
     const title = item ? `${category.title}: ${item.name}` : category.title;
@@ -228,7 +367,7 @@ export default function CollabSection({
         <div className={styles.sectionHeader}>
           <div className={styles.topStatusBadge}>
             <span className={styles.pulseDot} />
-            <span>Available for Q4 2026 Collaboration</span>
+            <span>Available for Selected Projects &amp; Collaborations</span>
           </div>
 
           <h2 className={styles.mainTitle}>
@@ -236,7 +375,7 @@ export default function CollabSection({
           </h2>
 
           <p className={styles.subDescription}>
-            TRANSPARENT VALUE. BESPOKE EXECUTION. EXPLORE SHOWCASE PRICING BELOW.
+            HANDCRAFTED DIGITAL EXPERIENCES · TRANSPARENT BASELINES · CUSTOM ARCHITECTURE
           </p>
 
           {/* ATTENTIVE & APPROACHING NOTICE BANNER */}
@@ -264,11 +403,31 @@ export default function CollabSection({
               Send Inquiry First ➔
             </button>
           </div>
+
+          {/* Filter Tabs Bar */}
+          <div className={styles.filterTabBar} role="tablist" aria-label="Service category filters">
+            {FILTER_TABS.map((tab) => {
+              const isActive = activeFilter === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  className={`${styles.filterPillBtn} ${isActive ? styles.filterPillActive : ''}`}
+                  onClick={() => setActiveFilter(tab.id)}
+                >
+                  <span>{tab.label}</span>
+                  <span className={styles.filterBadgeCount}>({tab.count})</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* 3-Pillar Creative Menu Showcase Grid */}
+        {/* 6-Category Creative Menu Showcase Grid */}
         <div className={styles.menuGrid}>
-          {MENU_CATEGORIES.map((category) => (
+          {displayedCategories.map((category) => (
             <article
               key={category.id}
               className={`${styles.menuCard} ${category.isPopular ? styles.menuCardPopular : ''}`}
@@ -299,12 +458,11 @@ export default function CollabSection({
                     key={idx}
                     className={styles.menuItemRow}
                     onClick={() => openServiceModal(category, item)}
-                    title="Click to discuss this package"
-                    data-cursor-hover
+                    title={`Click to discuss: ${item.name}`}
                   >
                     <div className={styles.itemLeft}>
                       <div className={styles.itemNameWrap}>
-                        <span className={styles.itemBullet}>✦</span>
+                        <span className={styles.itemBullet}>▸</span>
                         <span className={styles.itemName}>{item.name}</span>
                         {item.tag && <span className={styles.itemTagPill}>{item.tag}</span>}
                       </div>
@@ -319,18 +477,18 @@ export default function CollabSection({
 
               {/* Deliverables Checklist */}
               <div className={styles.deliverablesSection}>
-                <h4 className={styles.deliverablesTitle}>What&apos;s Included:</h4>
+                <h4 className={styles.deliverablesTitle}>What&apos;s Included In Execution:</h4>
                 <ul className={styles.deliverablesList}>
-                  {category.deliverables.map((item, dIdx) => (
+                  {category.deliverables.map((deliv, dIdx) => (
                     <li key={dIdx} className={styles.deliverableItem}>
                       <span className={styles.checkIcon}>✓</span>
-                      <span>{item}</span>
+                      <span>{deliv}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              {/* Bottom Card Action */}
+              {/* Card Bottom CTA */}
               <div className={styles.cardFooterActions}>
                 <button
                   type="button"
@@ -338,150 +496,275 @@ export default function CollabSection({
                   onClick={() => openServiceModal(category)}
                   data-cursor-hover
                 >
-                  <span>Discuss &amp; Inquire</span>
+                  <span>Book Consultation &amp; Quote</span>
                   <span className={styles.btnArrow}>➔</span>
                 </button>
-                <span className={styles.cardDisclaimer}>*Custom modifications discussed per scope</span>
+                <span className={styles.cardDisclaimer}>
+                  Final pricing &amp; roadmap confirmed upon mutual agreement
+                </span>
               </div>
             </article>
           ))}
         </div>
 
-        {/* Recruiter & Direct Fast-Track Section */}
+        {/* Recruiter / Direct Connect Banner */}
         <div className={styles.recruiterBanner}>
-          <div className={styles.recruiterContent}>
-            <div className={styles.recruiterEyebrow}>FAST-TRACK RECRUITMENT &amp; HIRING</div>
-            <h3 className={styles.recruiterHeading}>Direct Engineering &amp; Team Collaboration</h3>
+          <div className={styles.recruiterLeft}>
+            <div className={styles.recruiterEyebrow}>FULL-TIME · APPRENTICESHIP · CONTRACT ROLES</div>
+            <h3 className={styles.recruiterHeading}>
+              Hiring for Engineering, Design or AI Roles?
+            </h3>
             <p className={styles.recruiterDesc}>
-              Looking for an AI/ML engineer, creative frontend developer, or technical lead? 
-              I maintain high academic honors (9.38 CGPA) at Sister Nivedita University, combining strong research discipline with hackathon-tested speed and practical execution.
+              Available for high-velocity software engineering, desktop app development, full-stack product building, or technical design internships.
+              Review verified credentials, academic research, and presentation archives above.
             </p>
             <div className={styles.recruiterPills}>
               <span className={styles.recruiterPillItem}>📍 Kolkata / Hybrid / Remote</span>
-              <span className={styles.recruiterPillItem}>🎓 B.Tech CSE (AIML Track)</span>
               <span className={styles.recruiterPillItem}>⚡ Immediate Availability</span>
+              <span className={styles.recruiterPillItem}>🎓 B.Tech Computer Science (2025–2029)</span>
             </div>
           </div>
-
           <div className={styles.recruiterActions}>
-            <a
-              href={`mailto:${profileEmail}?subject=Direct%20Collaboration%20Inquiry%20%E2%80%94%20Vaibhav%20Shaw`}
-              className={styles.recruiterPrimaryBtn}
-              data-cursor-hover
-            >
-              <span>✉ Direct Mail Connect</span>
-            </a>
             <a
               href={resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
+              className={styles.recruiterPrimaryBtn}
+              data-cursor-hover
+            >
+              <span>Download Verified Resume</span>
+              <span>↗</span>
+            </a>
+            <a
+              href={`mailto:${profileEmail}?subject=Recruitment%20Inquiry%20%E2%80%94%20Vaibhav%20Shaw`}
               className={styles.recruiterSecondaryBtn}
               data-cursor-hover
             >
-              <span>📄 View Official Resume</span>
+              <span>Direct Recruiter Email</span>
+              <span>✉</span>
             </a>
           </div>
         </div>
       </div>
 
-      {/* ── HIGH-CONVERSION POP-UP WINDOW (NOTICE, INQUIRY & PROTECTED PAYMENT) ── */}
+      {/* ════════════════════════════════════════════════════════════════════════════
+          MULTI-TAB POPUP WINDOW (PINNED HEADER, COMPLETE TOUCH VISIBILITY)
+          ════════════════════════════════════════════════════════════════════════════ */}
       {modalOpen && (
-        <div className={styles.modalBackdrop} onClick={() => setModalOpen(false)}>
-          <div className={styles.modalBox} onClick={(e) => e.stopPropagation()}>
-            {/* Modal Close Button */}
-            <button
-              type="button"
-              className={styles.modalCloseBtn}
-              onClick={() => setModalOpen(false)}
-              aria-label="Close pop up"
-              data-cursor-hover
-            >
-              ×
-            </button>
+        <div
+          className={styles.modalBackdrop}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setModalOpen(false);
+          }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Project Consultation and Booking Protocol"
+        >
+          <div className={styles.modalBox}>
+            {/* PINNED HEADER: Stays fixed at top on all screens */}
+            <div className={styles.modalPinnedHeader}>
+              <div className={styles.modalHeaderTop}>
+                <div className={styles.modalTitleBlock}>
+                  <span className={styles.modalRefNumber}>PROTOCOL // BOOKING &amp; CONSULTATION</span>
+                  <h3 className={styles.modalTitle}>Project Consultation &amp; Allowance</h3>
+                  <p className={styles.modalSelectedService}>
+                    Selected Scope: <strong>{selectedServiceTitle}</strong>
+                  </p>
+                </div>
 
-            {/* Modal Header */}
-            <div className={styles.modalHeader}>
-              <span className={styles.modalBadge}>OFFICIAL PORTFOLIO GATEWAY</span>
-              <h3 className={styles.modalTitle}>Project Consultation &amp; Booking</h3>
-              <p className={styles.modalSelectedService}>Selected Scope: <strong>{selectedServiceTitle}</strong></p>
-            </div>
-
-            {/* Policy & Notice Callout Box */}
-            <div className={styles.modalNoticeBox}>
-              <div className={styles.modalNoticeHeader}>
-                <span className={styles.noticePinIcon}>📌</span>
-                <strong>Important Policy Notice:</strong>
+                <button
+                  type="button"
+                  className={styles.modalCloseBtn}
+                  onClick={() => setModalOpen(false)}
+                  aria-label="Close dialog"
+                >
+                  ✕
+                </button>
               </div>
-              <ul className={styles.modalNoticeBullets}>
-                <li><strong>Send Inquiry First:</strong> Pricing on the menu is baseline. Pricing can be modified and tailored based on discussion.</li>
-                <li><strong>Allowance Required:</strong> Payments are processed <strong>only from this portfolio</strong> once allowance is explicitly granted by Vaibhav Shaw.</li>
-                <li><strong>Zero Predefined Lock-in:</strong> No blind or unverified payment is required. You can enter the exact agreed amount discussed.</li>
-              </ul>
+
+              {/* Personal Human Policy Callout */}
+              <div className={styles.modalNoticeBox}>
+                <div className={styles.modalNoticeHeader}>
+                  <span className={styles.authorBadge}>Direct Collaboration</span>
+                  <span className={styles.modalNoticeSubtitle}>Handcrafted by Vaibhav Shaw</span>
+                </div>
+                <p className={styles.modalNoticeText}>
+                  Every project is scoped, coded, and shipped directly by me. Submit your inquiry first to confirm deliverables and agreed pricing. Payments are accepted only after mutual agreement.
+                </p>
+              </div>
+
+              {/* Segmented Tactile Navigation Tabs */}
+              <div className={styles.modalNavTabs} role="tablist">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={modalTab === 'inquiry'}
+                  className={`${styles.modalTabBtn} ${modalTab === 'inquiry' ? styles.modalTabBtnActive : ''}`}
+                  onClick={() => setModalTab('inquiry')}
+                >
+                  <span>1. Send Inquiry</span>
+                  <span className={styles.tabBadgeReq}>Required First</span>
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={modalTab === 'payment'}
+                  className={`${styles.modalTabBtn} ${modalTab === 'payment' ? styles.modalTabBtnActive : ''}`}
+                  onClick={() => setModalTab('payment')}
+                >
+                  <span>2. Razorpay Deposit</span>
+                  <span className={styles.tabBadgeOpt}>Agreed Amount</span>
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={modalTab === 'qr'}
+                  className={`${styles.modalTabBtn} ${modalTab === 'qr' ? styles.modalTabBtnActive : ''}`}
+                  onClick={() => setModalTab('qr')}
+                >
+                  <span>3. UPI QR Code</span>
+                  <span className={styles.tabBadgeKey}>🔐 Key Protected</span>
+                </button>
+              </div>
             </div>
 
-            {/* Modal Tabs */}
-            <div className={styles.modalNavTabs}>
-              <button
-                type="button"
-                className={`${styles.modalTabBtn} ${modalTab === 'inquiry' ? styles.modalTabBtnActive : ''}`}
-                onClick={() => setModalTab('inquiry')}
-              >
-                1. Send Inquiry First
-              </button>
-              <button
-                type="button"
-                className={`${styles.modalTabBtn} ${modalTab === 'payment' ? styles.modalTabBtnActive : ''}`}
-                onClick={() => setModalTab('payment')}
-              >
-                2. Razorpay Gateway
-              </button>
-              <button
-                type="button"
-                className={`${styles.modalTabBtn} ${modalTab === 'qr' ? styles.modalTabBtnActive : ''}`}
-                onClick={() => setModalTab('qr')}
-              >
-                3. Direct QR Code (Key-Locked)
-              </button>
-            </div>
+            {/* SCROLLABLE BODY: Scrolls smoothly on any screen without cutting off */}
+            <div className={styles.modalScrollBody}>
+              {/* TAB 1: SEND INQUIRY FIRST */}
+              {modalTab === 'inquiry' && (
+                <div className={styles.tabContent}>
+                  {inquirySubmitted ? (
+                    <div className={styles.inquirySuccessBox}>
+                      <span className={styles.successIcon}>✓</span>
+                      <h4>Inquiry Dispatched to Vaibhav Shaw</h4>
+                      <p>
+                        Your default email client opened with your project brief. 
+                        Once I review your requirements, we will confirm the final scope and provide your payment allowance code.
+                      </p>
+                      <button
+                        type="button"
+                        className={styles.proceedPayBtn}
+                        onClick={() => setModalTab('payment')}
+                      >
+                        Already Agreed on Pricing? Proceed to Payment ➔
+                      </button>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleInquirySubmit} className={styles.inquiryForm}>
+                      <div className={styles.formGridTwo}>
+                        <div className={styles.formGroup}>
+                          <label className={styles.formLabel}>Your Name *</label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="e.g. Alex Morgan"
+                            className={styles.formInput}
+                            value={clientName}
+                            onChange={(e) => setClientName(e.target.value)}
+                          />
+                        </div>
+                        <div className={styles.formGroup}>
+                          <label className={styles.formLabel}>Your Email *</label>
+                          <input
+                            type="email"
+                            required
+                            placeholder="alex@example.com"
+                            className={styles.formInput}
+                            value={clientEmail}
+                            onChange={(e) => setClientEmail(e.target.value)}
+                          />
+                        </div>
+                      </div>
 
-            {/* TAB 1: INQUIRY FORM */}
-            {modalTab === 'inquiry' && (
-              <div className={styles.tabContent}>
-                {inquirySubmitted ? (
-                  <div className={styles.inquirySuccessBox}>
-                    <span className={styles.successTick}>✓</span>
-                    <h4>Inquiry Dispatched via Mail Client</h4>
+                      <div className={styles.formGridTwo}>
+                        <div className={styles.formGroup}>
+                          <label className={styles.formLabel}>Company / Org (Optional)</label>
+                          <input
+                            type="text"
+                            placeholder="Company, Startup or Studio"
+                            className={styles.formInput}
+                            value={clientCompany}
+                            onChange={(e) => setClientCompany(e.target.value)}
+                          />
+                        </div>
+                        <div className={styles.formGroup}>
+                          <label className={styles.formLabel}>Estimated Budget / Target (Rs.)</label>
+                          <input
+                            type="number"
+                            min="99"
+                            step="1"
+                            className={styles.formInput}
+                            value={customAmount}
+                            onChange={(e) => setCustomAmount(Number(e.target.value))}
+                          />
+                        </div>
+                      </div>
+
+                      <div className={styles.formGroup}>
+                        <label className={styles.formLabel}>Project Scope &amp; Deliverables *</label>
+                        <textarea
+                          required
+                          rows={3}
+                          placeholder="Describe your project vision, target timeline, key features, and any custom modifications..."
+                          className={styles.formTextarea}
+                          value={clientBrief}
+                          onChange={(e) => setClientBrief(e.target.value)}
+                        />
+                      </div>
+
+                      <button type="submit" className={styles.modalSubmitBtn} data-cursor-hover>
+                        <span>Dispatch Inquiry to Vaibhav ➔</span>
+                      </button>
+                    </form>
+                  )}
+                </div>
+              )}
+
+              {/* TAB 2: RAZORPAY PAYMENT (CUSTOM / DYNAMIC AMOUNT) */}
+              {modalTab === 'payment' && (
+                <div className={styles.tabContent}>
+                  <div className={styles.paymentNoticeBox}>
                     <p>
-                      Your email client has opened with your project scope. Vaibhav will review your requirements and reply with tailored pricing and allowance.
+                      💳 <strong>Custom Agreed Deposit:</strong> Enter the exact amount in INR discussed with Vaibhav. 
+                      No predefined locked payment is enforced.
                     </p>
-                    <button
-                      type="button"
-                      className={styles.secondaryTabSwitchBtn}
-                      onClick={() => setModalTab('payment')}
-                    >
-                      Already Agreed on Pricing? Proceed to Payment ➔
-                    </button>
                   </div>
-                ) : (
-                  <form onSubmit={handleInquirySubmit} className={styles.inquiryForm}>
+
+                  <div className={styles.paymentForm}>
+                    <div className={styles.formGroup}>
+                      <label className={styles.formLabel}>Agreed Amount (in INR ₹) *</label>
+                      <div className={styles.amountInputWrap}>
+                        <span className={styles.currencyPrefix}>₹</span>
+                        <input
+                          type="number"
+                          min="1"
+                          step="1"
+                          className={styles.amountInput}
+                          value={customAmount}
+                          onChange={(e) => setCustomAmount(Math.max(1, Number(e.target.value)))}
+                        />
+                      </div>
+                      <span className={styles.inputHintText}>
+                        Agreed deposit for: {selectedServiceTitle}
+                      </span>
+                    </div>
+
                     <div className={styles.formGridTwo}>
                       <div className={styles.formGroup}>
-                        <label className={styles.formLabel}>Your Name *</label>
+                        <label className={styles.formLabel}>Client Name</label>
                         <input
                           type="text"
-                          required
-                          placeholder="e.g. Alex Morgan"
+                          placeholder="Your Name"
                           className={styles.formInput}
                           value={clientName}
                           onChange={(e) => setClientName(e.target.value)}
                         />
                       </div>
                       <div className={styles.formGroup}>
-                        <label className={styles.formLabel}>Your Email *</label>
+                        <label className={styles.formLabel}>Client Email</label>
                         <input
                           type="email"
-                          required
-                          placeholder="alex@example.com"
+                          placeholder="Your Email"
                           className={styles.formInput}
                           value={clientEmail}
                           onChange={(e) => setClientEmail(e.target.value)}
@@ -489,241 +772,146 @@ export default function CollabSection({
                       </div>
                     </div>
 
-                    <div className={styles.formGridTwo}>
-                      <div className={styles.formGroup}>
-                        <label className={styles.formLabel}>Company / Org (Optional)</label>
-                        <input
-                          type="text"
-                          placeholder="Company, Startup or Studio"
-                          className={styles.formInput}
-                          value={clientCompany}
-                          onChange={(e) => setClientCompany(e.target.value)}
-                        />
-                      </div>
-                      <div className={styles.formGroup}>
-                        <label className={styles.formLabel}>Estimated Budget / Target (Rs.)</label>
-                        <input
-                          type="number"
-                          min="99"
-                          step="1"
-                          className={styles.formInput}
-                          value={customAmount}
-                          onChange={(e) => setCustomAmount(Number(e.target.value))}
-                        />
-                      </div>
-                    </div>
-
-                    <div className={styles.formGroup}>
-                      <label className={styles.formLabel}>Project Scope &amp; Deliverables *</label>
-                      <textarea
-                        required
-                        rows={3}
-                        placeholder="Describe your vision, target timeline, key features, and any custom cards or modifications..."
-                        className={styles.formTextarea}
-                        value={clientBrief}
-                        onChange={(e) => setClientBrief(e.target.value)}
+                    <div className={styles.razorpayActionWrap}>
+                      <RazorpayButton
+                        amount={customAmount * 100} // Convert INR to paise
+                        currency="INR"
+                        name="Vaibhav Shaw · Collaboration"
+                        description={`Agreed deposit: ${selectedServiceTitle}`}
+                        buttonText={`Pay ₹${customAmount.toLocaleString('en-IN')} with Razorpay`}
+                        prefill={{
+                          name: clientName,
+                          email: clientEmail,
+                        }}
+                        notes={{
+                          service: selectedServiceTitle,
+                          client_name: clientName,
+                          client_email: clientEmail,
+                          approved_amount: `Rs. ${customAmount}`,
+                        }}
+                        onSwitchToQr={() => setModalTab('qr')}
                       />
                     </div>
 
-                    <button type="submit" className={styles.modalSubmitBtn} data-cursor-hover>
-                      <span>Dispatch Inquiry to Vaibhav ➔</span>
-                    </button>
-                  </form>
-                )}
-              </div>
-            )}
-
-            {/* TAB 2: RAZORPAY PAYMENT (CUSTOM / DYNAMIC AMOUNT) */}
-            {modalTab === 'payment' && (
-              <div className={styles.tabContent}>
-                <div className={styles.paymentNoticeBox}>
-                  <p>
-                    💳 <strong>Custom Agreed Deposit:</strong> Enter the exact amount in INR discussed with Vaibhav. 
-                    No predefined lock-in payment is enforced.
-                  </p>
-                </div>
-
-                <div className={styles.paymentForm}>
-                  <div className={styles.formGroup}>
-                    <label className={styles.formLabel}>Agreed Amount (in INR ₹) *</label>
-                    <div className={styles.amountInputWrap}>
-                      <span className={styles.currencyPrefix}>₹</span>
-                      <input
-                        type="number"
-                        min="1"
-                        step="1"
-                        className={styles.amountInput}
-                        value={customAmount}
-                        onChange={(e) => setCustomAmount(Math.max(1, Number(e.target.value)))}
-                      />
-                    </div>
-                    <span className={styles.inputHintText}>
-                      Agreed deposit for: {selectedServiceTitle}
-                    </span>
-                  </div>
-
-                  <div className={styles.formGridTwo}>
-                    <div className={styles.formGroup}>
-                      <label className={styles.formLabel}>Client Name</label>
-                      <input
-                        type="text"
-                        placeholder="Your Name"
-                        className={styles.formInput}
-                        value={clientName}
-                        onChange={(e) => setClientName(e.target.value)}
-                      />
-                    </div>
-                    <div className={styles.formGroup}>
-                      <label className={styles.formLabel}>Client Email</label>
-                      <input
-                        type="email"
-                        placeholder="Your Email"
-                        className={styles.formInput}
-                        value={clientEmail}
-                        onChange={(e) => setClientEmail(e.target.value)}
-                      />
-                    </div>
-                  </div>
-
-                  <div className={styles.razorpayActionWrap}>
-                    <RazorpayButton
-                      amount={customAmount * 100} // Convert INR to paise
-                      currency="INR"
-                      name="Vaibhav Shaw · Collaboration"
-                      description={`Agreed deposit: ${selectedServiceTitle}`}
-                      buttonText={`Pay ₹${customAmount.toLocaleString('en-IN')} with Razorpay`}
-                      prefill={{
-                        name: clientName,
-                        email: clientEmail,
-                      }}
-                      notes={{
-                        service: selectedServiceTitle,
-                        client_name: clientName,
-                        client_email: clientEmail,
-                        approved_amount: `Rs. ${customAmount}`,
-                      }}
-                      onSwitchToQr={() => setModalTab('qr')}
-                    />
-                  </div>
-
-                  <div className={styles.qrFallbackRow}>
-                    <span>Razorpay experiencing gateway delay or verification check?</span>
-                    <button
-                      type="button"
-                      className={styles.qrInlineLink}
-                      onClick={() => setModalTab('qr')}
-                    >
-                      Use Direct UPI QR Code (Key-Secured) ➔
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* TAB 3: KEY-SECRET PROTECTED QR CODE */}
-            {modalTab === 'qr' && (
-              <div className={styles.tabContent}>
-                {!qrUnlocked ? (
-                  <div className={styles.qrLockContainer}>
-                    <div className={styles.qrLockShield}>
-                      <span className={styles.lockIcon}>🔐</span>
-                      <h4>Direct QR Code Payment is Protected</h4>
-                      <p>
-                        To ensure payments occur <strong>only after allowance is granted</strong>, direct QR Code payment requires the Owner Authorization Passcode provided by Vaibhav Shaw.
-                      </p>
-                    </div>
-
-                    <form onSubmit={handleUnlockQr} className={styles.qrUnlockForm}>
-                      <div className={styles.formGroup}>
-                        <label className={styles.formLabel}>Owner Authorization Key-Secret *</label>
-                        <div className={styles.keyInputRow}>
-                          <input
-                            type="text"
-                            required
-                            placeholder="Enter Key-Secret (e.g. VSNU2026)"
-                            className={styles.formInput}
-                            value={secretKeyInput}
-                            onChange={(e) => {
-                              setSecretKeyInput(e.target.value);
-                              setQrKeyError(null);
-                            }}
-                          />
-                          <button type="submit" className={styles.unlockBtn}>
-                            Unlock QR ➔
-                          </button>
-                        </div>
-                        {qrKeyError && <span className={styles.keyErrorText}>{qrKeyError}</span>}
-                      </div>
-                    </form>
-
-                    <div className={styles.requestKeyArea}>
-                      <span>Don&apos;t have the authorization key yet?</span>
-                      <a
-                        href={`mailto:${profileEmail}?subject=Request%20QR%20Code%20Allowance%20Key%20%E2%80%94%20${encodeURIComponent(selectedServiceTitle)}&body=Hi%20Vaibhav,%20I%20would%20like%20to%20request%20the%20Owner%20Allowance%20Key%20to%20complete%20my%20deposit%20payment%20for%20${encodeURIComponent(selectedServiceTitle)}.%20Agreed%20amount:%20Rs.%20${customAmount}.`}
-                        className={styles.requestKeyBtn}
-                        data-cursor-hover
+                    <div className={styles.qrFallbackRow}>
+                      <span>Razorpay gateway unavailable or auth failed?</span>
+                      <button
+                        type="button"
+                        className={styles.qrInlineLink}
+                        onClick={() => setModalTab('qr')}
                       >
-                        Request Key from Vaibhav via Mail ✉
-                      </a>
+                        Use Direct UPI QR Code (Key-Secured) ➔
+                      </button>
                     </div>
                   </div>
-                ) : (
-                  <div className={styles.qrRevealedContainer}>
-                    <div className={styles.qrSuccessBanner}>
-                      <span>✓ Key-Secret Verified: Owner Allowance Granted</span>
-                    </div>
+                </div>
+              )}
 
-                    <div className={styles.qrCardBox}>
-                      <div className={styles.qrImageWrap}>
-                        <Image
-                          src="/images/QrCode.jpeg"
-                          alt="Official UPI QR Code — Vaibhav Shaw"
-                          width={260}
-                          height={260}
-                          className={styles.qrImg}
-                          priority
-                        />
+              {/* TAB 3: KEY-SECRET PROTECTED QR CODE */}
+              {modalTab === 'qr' && (
+                <div className={styles.tabContent}>
+                  {!qrUnlocked ? (
+                    <div className={styles.qrLockContainer}>
+                      <div className={styles.qrLockShield}>
+                        <span className={styles.lockIcon}>🔐</span>
+                        <h4>Direct QR Code Payment is Protected</h4>
+                        <p>
+                          To ensure payments occur <strong>only after allowance is granted</strong>, direct QR Code payment requires the Owner Authorization Passcode provided by Vaibhav Shaw.
+                        </p>
                       </div>
 
-                      <div className={styles.qrMetaDetails}>
-                        <span className={styles.upiLabel}>Official UPI Virtual Address</span>
-                        <div className={styles.upiCopyBox}>
-                          <code className={styles.upiCode}>vaibhavsnu2025@okaxis</code>
-                          <button
-                            type="button"
-                            className={styles.copyBtn}
-                            onClick={copyUpiId}
-                          >
-                            {copiedUpi ? 'Copied! ✓' : 'Copy UPI'}
-                          </button>
+                      <form onSubmit={handleUnlockQr} className={styles.qrUnlockForm}>
+                        <div className={styles.formGroup}>
+                          <label className={styles.formLabel}>Owner Authorization Key-Secret *</label>
+                          <div className={styles.keyInputRow}>
+                            <input
+                              type="text"
+                              required
+                              placeholder="Enter Key-Secret (e.g. VSNU2026)"
+                              className={styles.formInput}
+                              value={secretKeyInput}
+                              onChange={(e) => {
+                                setSecretKeyInput(e.target.value);
+                                setQrKeyError(null);
+                              }}
+                            />
+                            <button type="submit" className={styles.unlockBtn}>
+                              Unlock QR ➔
+                            </button>
+                          </div>
+                          {qrKeyError && <span className={styles.keyErrorText}>{qrKeyError}</span>}
                         </div>
+                      </form>
 
-                        <div className={styles.qrDepositRow}>
-                          <span>Target Deposit:</span>
-                          <strong>₹{customAmount.toLocaleString('en-IN')}</strong>
-                        </div>
+                      <div className={styles.requestKeyArea}>
+                        <span>Don&apos;t have the authorization key yet?</span>
+                        <a
+                          href={`mailto:${profileEmail}?subject=Request%20QR%20Code%20Allowance%20Key%20%E2%80%94%20${encodeURIComponent(selectedServiceTitle)}&body=Hi%20Vaibhav,%20I%20would%20like%20to%20request%20the%20Owner%20Allowance%20Key%20to%20complete%20my%20deposit%20payment%20for%20${encodeURIComponent(selectedServiceTitle)}.%20Agreed%20amount:%20Rs.%20${customAmount}.`}
+                          className={styles.requestKeyBtn}
+                          data-cursor-hover
+                        >
+                          Request Key from Vaibhav via Mail ✉
+                        </a>
                       </div>
                     </div>
+                  ) : (
+                    <div className={styles.qrRevealedContainer}>
+                      <div className={styles.qrSuccessBanner}>
+                        <span>✓ Key-Secret Verified: Owner Allowance Granted</span>
+                      </div>
 
-                    <div className={styles.qrInstructions}>
-                      <ol>
-                        <li>Scan with Google Pay, PhonePe, Paytm, or any BHIM UPI application.</li>
-                        <li>Enter the agreed amount (₹{customAmount.toLocaleString('en-IN')}) and mention your project name in the UPI notes.</li>
-                        <li>After transferring, dispatch your transaction reference or screenshot to <strong>{profileEmail}</strong>.</li>
-                      </ol>
+                      <div className={styles.qrCardBox}>
+                        <div className={styles.qrImageWrap}>
+                          <Image
+                            src="/images/QrCode.jpeg"
+                            alt="Official UPI QR Code — Vaibhav Shaw"
+                            width={220}
+                            height={220}
+                            className={styles.qrImg}
+                            priority
+                          />
+                        </div>
+
+                        <div className={styles.qrMetaDetails}>
+                          <span className={styles.upiLabel}>Official UPI Virtual Address</span>
+                          <div className={styles.upiCopyBox}>
+                            <code className={styles.upiCode}>vaibhavsnu2025@okaxis</code>
+                            <button
+                              type="button"
+                              className={styles.copyBtn}
+                              onClick={copyUpiId}
+                            >
+                              {copiedUpi ? 'Copied! ✓' : 'Copy UPI'}
+                            </button>
+                          </div>
+
+                          <div className={styles.qrDepositRow}>
+                            <span>Target Deposit:</span>
+                            <strong>₹{customAmount.toLocaleString('en-IN')}</strong>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={styles.qrInstructions}>
+                        <ol>
+                          <li>Scan with Google Pay, PhonePe, Paytm, or any BHIM UPI application.</li>
+                          <li>Enter the agreed amount (₹{customAmount.toLocaleString('en-IN')}) and mention your project name in the UPI notes.</li>
+                          <li>After transferring, dispatch your transaction reference or screenshot to <strong>{profileEmail}</strong>.</li>
+                        </ol>
+                      </div>
+
+                      <button
+                        type="button"
+                        className={styles.lockAgainBtn}
+                        onClick={() => setQrUnlocked(false)}
+                      >
+                        🔒 Lock QR Code
+                      </button>
                     </div>
-
-                    <button
-                      type="button"
-                      className={styles.lockAgainBtn}
-                      onClick={() => setQrUnlocked(false)}
-                    >
-                      🔒 Lock QR Code
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
