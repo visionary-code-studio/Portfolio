@@ -22,6 +22,7 @@ interface RazorpayButtonProps {
     razorpay_signature: string;
   }) => void;
   onFailure?: (error: any) => void;
+  onSwitchToQr?: () => void;
 }
 
 declare global {
@@ -33,18 +34,20 @@ declare global {
 export default function RazorpayButton({
   amount = 100, // 100 paise = ₹1.00
   currency = 'INR',
-  name = 'Vaibhav Shaw Portfolio',
-  description = 'Collaboration & Services Payment',
-  buttonText = 'Pay with Razorpay',
+  name = 'Vaibhav Shaw · Official Portfolio',
+  description = 'Authorized Collaboration & Services Deposit',
+  buttonText = 'Pay with Razorpay Gateway',
   className = '',
   prefill = {},
   notes = {},
   onSuccess,
   onFailure,
+  onSwitchToQr,
 }: RazorpayButtonProps) {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [showQrSuggestion, setShowQrSuggestion] = useState(false);
 
   // Helper to load Razorpay Checkout script dynamically if not present
   const loadRazorpayScript = (): Promise<boolean> => {
@@ -71,15 +74,17 @@ export default function RazorpayButton({
     setLoading(true);
     setErrorMessage(null);
     setSuccessMessage(null);
+    setShowQrSuggestion(false);
 
     try {
       // 1. Ensure Razorpay script is loaded
       const scriptLoaded = await loadRazorpayScript();
       if (!scriptLoaded) {
-        throw new Error('Failed to load Razorpay checkout script. Please check your internet connection.');
+        setShowQrSuggestion(true);
+        throw new Error('Could not connect to Razorpay. You can use Direct UPI QR Code payment below.');
       }
 
-      // 2. Call backend endpoint to create order (STEP 1)
+      // 2. Call backend endpoint to create order
       const orderRes = await fetch('/api/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -94,13 +99,16 @@ export default function RazorpayButton({
       const orderData = await orderRes.json();
 
       if (!orderRes.ok || !orderData.order_id) {
-        throw new Error(orderData.error || 'Failed to create order on server');
+        if (orderData.fallbackToQr) {
+          setShowQrSuggestion(true);
+        }
+        throw new Error(orderData.error || 'Payment gateway could not generate order. Please use Direct UPI QR Code.');
       }
 
-      // 3. Open Razorpay modal with order_id (STEP 2)
+      // 3. Open Razorpay modal with order_id
       const keyId =
         process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID ||
-        'rzp_test_U0AOaYUsTdOIKQ';
+        'rzp_test_U0B6DL8ARP7MF8';
 
       const options = {
         key: keyId,
@@ -133,7 +141,7 @@ export default function RazorpayButton({
           razorpay_signature: string;
         }) {
           try {
-            // 4. Send payment details to verification endpoint (STEP 3)
+            // 4. Send payment details to verification endpoint
             const verifyRes = await fetch('/api/verify-payment', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -147,7 +155,7 @@ export default function RazorpayButton({
             const verifyData = await verifyRes.json();
 
             if (verifyRes.ok && verifyData.success) {
-              setSuccessMessage(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
+              setSuccessMessage(`Payment confirmed! Reference ID: ${response.razorpay_payment_id}`);
               if (onSuccess) onSuccess(response);
             } else {
               throw new Error(verifyData.error || 'Payment verification failed');
@@ -167,10 +175,11 @@ export default function RazorpayButton({
       // Handle payment failure event
       razorpayInstance.on('payment.failed', function (response: any) {
         console.error('Razorpay payment failed:', response.error);
+        setShowQrSuggestion(true);
         setErrorMessage(
           response?.error?.description ||
             response?.error?.reason ||
-            'Payment failed. Please try again or use another payment method.'
+            'Payment could not be completed via card/gateway. Please use Direct UPI QR Code option.'
         );
         setLoading(false);
         if (onFailure) onFailure(response.error);
@@ -179,7 +188,7 @@ export default function RazorpayButton({
       razorpayInstance.open();
     } catch (err: any) {
       console.error('Payment checkout error:', err);
-      setErrorMessage(err.message || 'Something went wrong during checkout.');
+      setErrorMessage(err.message || 'Gateway currently unavailable. Please use Direct UPI QR Code.');
       setLoading(false);
       if (onFailure) onFailure(err);
     }
@@ -197,7 +206,7 @@ export default function RazorpayButton({
         {loading ? (
           <span className={styles.loadingContent}>
             <span className={styles.spinner} />
-            Processing Order...
+            Initializing Secure Gateway...
           </span>
         ) : (
           <span className={styles.btnContent}>
@@ -221,11 +230,23 @@ export default function RazorpayButton({
 
       {errorMessage && (
         <div className={styles.errorAlert} role="alert">
-          <span>⚠️ {errorMessage}</span>
+          <div className={styles.errorAlertContent}>
+            <span>⚠️ {errorMessage}</span>
+            {showQrSuggestion && onSwitchToQr && (
+              <button
+                type="button"
+                className={styles.qrSwitchBtn}
+                onClick={onSwitchToQr}
+              >
+                📱 Click to Pay via Direct UPI QR Code (Key-Secured) ➔
+              </button>
+            )}
+          </div>
           <button
             type="button"
             className={styles.closeAlert}
             onClick={() => setErrorMessage(null)}
+            aria-label="Dismiss message"
           >
             ×
           </button>
@@ -239,6 +260,7 @@ export default function RazorpayButton({
             type="button"
             className={styles.closeAlert}
             onClick={() => setSuccessMessage(null)}
+            aria-label="Dismiss message"
           >
             ×
           </button>

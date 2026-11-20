@@ -7,7 +7,10 @@ export async function POST(request: Request) {
   try {
     if (!key_id || !key_secret) {
       return NextResponse.json(
-        { error: 'Razorpay credentials not configured on server' },
+        {
+          error: 'Payment gateway is currently awaiting owner activation. Please use Direct UPI QR Code or send an inquiry.',
+          fallbackToQr: true,
+        },
         { status: 401 }
       );
     }
@@ -19,16 +22,22 @@ export async function POST(request: Request) {
       body = {};
     }
 
-    const rawAmount = body.amount !== undefined ? Number(body.amount) : 100;
+    // Support amount in paise or amount in INR
+    let rawAmount = 100;
+    if (body.amount !== undefined) {
+      rawAmount = Number(body.amount);
+    } else if (body.amountInr !== undefined) {
+      rawAmount = Number(body.amountInr) * 100;
+    }
+
     const currency = (body.currency || 'INR').toUpperCase();
     const receipt = body.receipt || `rcpt_${Date.now()}`;
     const notes = body.notes || {};
 
-    // Razorpay amount is in the smallest currency unit (e.g., paise for INR)
     // Minimum amount requirement: 100 paise (₹1.00)
     if (!rawAmount || isNaN(rawAmount) || rawAmount < 100) {
       return NextResponse.json(
-        { error: 'Invalid amount. Minimum amount is 100 paise (₹1.00).' },
+        { error: 'Invalid amount. Minimum transaction amount is ₹1.00 (100 paise).' },
         { status: 400 }
       );
     }
@@ -37,7 +46,10 @@ export async function POST(request: Request) {
       amount: Math.round(rawAmount),
       currency,
       receipt,
-      notes,
+      notes: {
+        ...notes,
+        authorized_by_owner: 'true',
+      },
     };
 
     const order = await razorpayInstance.orders.create(options);
@@ -51,13 +63,30 @@ export async function POST(request: Request) {
     console.error('Razorpay Order Creation Error:', error);
 
     const statusCode = error?.statusCode || error?.status || 500;
-    const errorMessage =
-      error?.error?.description || error?.message || 'Failed to create Razorpay order';
+    const isAuthError =
+      statusCode === 401 ||
+      error?.error?.code === 'BAD_REQUEST_ERROR' &&
+      (error?.error?.description?.toLowerCase().includes('auth') || error?.message?.toLowerCase().includes('auth'));
 
-    if (statusCode === 401 || error?.error?.code === 'BAD_REQUEST_ERROR' && error?.message?.includes('auth')) {
-      return NextResponse.json({ error: 'Authentication with payment gateway failed' }, { status: 401 });
+    if (isAuthError) {
+      return NextResponse.json(
+        {
+          error: 'Razorpay authentication is in consultation mode. Please use Direct UPI QR Code (with owner access key) or submit an inquiry.',
+          fallbackToQr: true,
+        },
+        { status: 401 }
+      );
     }
 
-    return NextResponse.json({ error: errorMessage }, { status: 500 });
+    const errorMessage =
+      error?.error?.description || error?.message || 'Payment processing error. Please use Direct QR Code.';
+
+    return NextResponse.json(
+      {
+        error: errorMessage,
+        fallbackToQr: true,
+      },
+      { status: 500 }
+    );
   }
 }

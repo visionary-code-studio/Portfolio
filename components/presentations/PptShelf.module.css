@@ -6,7 +6,7 @@
 .section {
   position: relative;
   background: #04060a;
-  background-image: 
+  background-image:
     radial-gradient(circle at 80% 20%, rgba(30, 41, 59, 0.45) 0%, transparent 45%),
     radial-gradient(circle at 20% 80%, rgba(15, 23, 42, 0.6) 0%, transparent 55%),
     radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
@@ -107,10 +107,8 @@
   letter-spacing: 0.04em;
   line-height: 1.25;
   border: 1px solid rgba(0, 0, 0, 0.12);
-  clip-path: polygon(
-    0% 0%, 100% 0%, 100% 98%, 94% 100%, 86% 97%, 74% 100%, 62% 98%,
-    48% 100%, 35% 97%, 22% 100%, 10% 98%, 0% 100%
-  );
+  clip-path: polygon(0% 0%, 100% 0%, 100% 98%, 94% 100%, 86% 97%, 74% 100%, 62% 98%,
+      48% 100%, 35% 97%, 22% 100%, 10% 98%, 0% 100%);
 }
 
 .curiositySketch {
@@ -157,9 +155,11 @@
 .container {
   max-width: 1360px;
   margin: 0 auto;
-  padding: 0 clamp(1.5rem, 5vw, 4.5rem);
+  padding: 0 clamp(1rem, 3.5vw, 4.5rem);
   position: relative;
   z-index: 10;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* ── 1. RIPPED PAPER HEADER BANNER (1:1 REFERENCE) ── */
@@ -180,14 +180,12 @@
   justify-content: space-between;
   gap: 2rem;
   /* Authentic Torn/Deckle Edge Irregular Cutout */
-  clip-path: polygon(
-    0% 2px, 3% 0px, 7% 3px, 12% 1px, 18% 4px, 24% 1px, 31% 3px, 38% 0px,
-    45% 4px, 52% 1px, 59% 3px, 67% 0px, 74% 4px, 82% 1px, 89% 3px, 95% 0px, 100% 3px,
-    100% calc(100% - 3px), 96% 100%, 91% calc(100% - 4px), 84% calc(100% - 1px), 77% calc(100% - 4px),
-    70% calc(100% - 2px), 63% calc(100% - 4px), 55% calc(100% - 1px), 47% calc(100% - 4px),
-    40% calc(100% - 2px), 32% calc(100% - 4px), 25% calc(100% - 1px), 17% calc(100% - 4px),
-    10% calc(100% - 2px), 4% 100%, 0% calc(100% - 3px)
-  );
+  clip-path: polygon(0% 2px, 3% 0px, 7% 3px, 12% 1px, 18% 4px, 24% 1px, 31% 3px, 38% 0px,
+      45% 4px, 52% 1px, 59% 3px, 67% 0px, 74% 4px, 82% 1px, 89% 3px, 95% 0px, 100% 3px,
+      100% calc(100% - 3px), 96% 100%, 91% calc(100% - 4px), 84% calc(100% - 1px), 77% calc(100% - 4px),
+      70% calc(100% - 2px), 63% calc(100% - 4px), 55% calc(100% - 1px), 47% calc(100% - 4px),
+      40% calc(100% - 2px), 32% calc(100% - 4px), 25% calc(100% - 1px), 17% calc(100% - 4px),
+      10% calc(100% - 2px), 4% 100%, 0% calc(100% - 3px));
 }
 
 .bannerLeft {
@@ -723,23 +721,39 @@
 
 /* ── RESPONSIVE RULES ── */
 @media (max-width: 1200px) {
+
   .leftRail,
   .curiosityNoteWrap,
   .rightRailText {
     display: none;
   }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
 }
 
 @media (max-width: 1024px) {
+  .container {
+    padding: 0 1.25rem;
+  }
+
   .grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
   }
 
   .rippedBanner {
     flex-direction: column;
     align-items: flex-start;
-    padding: 1.5rem 1.8rem;
+    padding: 1.4rem 1.6rem;
     gap: 1.25rem;
+  }
+
+  .bannerCenter {
+    max-width: 100%;
+    padding: 0;
   }
 
   .bannerRight {
@@ -748,17 +762,46 @@
     padding-left: 0;
     padding-top: 1rem;
     width: 100%;
+    justify-content: flex-start;
   }
 }
 
 @media (max-width: 768px) {
   .section {
-    padding: 4.5rem 0 3.5rem 0;
+    padding: 4rem 0 3rem 0;
+  }
+
+  .container {
+    padding: 0 1rem;
   }
 
   .grid {
     grid-template-columns: 1fr;
     gap: 1.25rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .rippedBanner {
+    padding: 1.25rem 1.15rem;
+    clip-path: none;
+    border-radius: 8px;
+    gap: 1rem;
+  }
+
+  .previewStage {
+    height: clamp(170px, 46vw, 220px);
+  }
+
+  .bannerMainTitle {
+    font-size: clamp(1.8rem, 7vw, 2.8rem);
+  }
+
+  .blueprintLineIcon {
+    width: 40px;
+    height: 40px;
   }
 
   .controlsRow {
@@ -769,9 +812,10 @@
 
   .filterPills {
     overflow-x: auto;
-    padding-bottom: 0.4rem;
+    padding-bottom: 0.5rem;
     scrollbar-width: none;
     flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
   }
 
   .filterPills::-webkit-scrollbar {
@@ -780,6 +824,7 @@
 
   .controlsRight {
     justify-content: space-between;
+    width: 100%;
   }
 
   .searchInput {
@@ -792,5 +837,11 @@
 
   .handwrittenScript {
     display: none;
+  }
+
+  .subFooterLine {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
 }
