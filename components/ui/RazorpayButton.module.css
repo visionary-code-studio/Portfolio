@@ -14,21 +14,21 @@
   padding: 0.85rem 1.4rem;
   font-family: inherit;
   font-size: 0.92rem;
-  font-weight: 700;
-  color: #0b0d13;
-  background: linear-gradient(135deg, #f5a623 0%, #e08b1a 100%);
-  border: 1px solid rgba(245, 166, 35, 0.4);
-  border-radius: 12px;
+  font-weight: 750;
+  color: #07090e;
+  background: #ffffff;
+  border: none;
+  border-radius: 999px;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 18px rgba(245, 166, 35, 0.3);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 18px rgba(255, 255, 255, 0.2);
   user-select: none;
 }
 
 .payButton:hover:not(:disabled) {
   transform: translateY(-2px);
-  filter: brightness(1.08);
-  box-shadow: 0 6px 24px rgba(245, 166, 35, 0.45);
+  background: #f1f5f9;
+  box-shadow: 0 6px 24px rgba(255, 255, 255, 0.35);
 }
 
 .payButton:disabled {

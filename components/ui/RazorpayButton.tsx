@@ -107,8 +107,9 @@ export default function RazorpayButton({
 
       // 3. Open Razorpay modal with order_id
       const keyId =
+        orderData.key_id ||
         process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID ||
-        'rzp_test_U0B6DL8ARP7MF8';
+        'rzp_live_U2YDuoQaXVUCbb';
 
       const options = {
         key: keyId,
@@ -127,7 +128,7 @@ export default function RazorpayButton({
           order_id: orderData.order_id,
         },
         theme: {
-          color: '#0f172a',
+          color: '#07090e',
         },
         modal: {
           ondismiss: function () {
@@ -178,8 +179,8 @@ export default function RazorpayButton({
         setShowQrSuggestion(true);
         setErrorMessage(
           response?.error?.description ||
-            response?.error?.reason ||
-            'Payment could not be completed via card/gateway. Please use Direct UPI QR Code option.'
+          response?.error?.reason ||
+          'Payment could not be completed via card/gateway. Please use Direct UPI QR Code option.'
         );
         setLoading(false);
         if (onFailure) onFailure(response.error);

@@ -17,6 +17,7 @@ interface MenuItem {
 
 interface MenuCategory {
   id: string;
+  indexNumber: string;
   filterGroup: 'web-desktop' | 'design-video' | 'ai-automation';
   title: string;
   subtitle: string;
@@ -30,10 +31,11 @@ interface MenuCategory {
 const MENU_CATEGORIES: MenuCategory[] = [
   {
     id: 'graphic-designing',
+    indexNumber: '01',
     filterGroup: 'design-video',
     title: 'Graphic Designing',
     subtitle: 'Canva Pro & Figma Creative Direction',
-    badge: 'Fast Turnaround (24 - 48h)',
+    badge: 'Turnaround: 24 - 48h',
     accentColor: '#e2e8f0',
     items: [
       {
@@ -74,7 +76,7 @@ const MENU_CATEGORIES: MenuCategory[] = [
       },
     ],
     deliverables: [
-      'Fully editable Canva Pro & Figma source files',
+      'Editable Canva Pro & Figma source files',
       'High-resolution PNG, JPG, PDF & SVG vector formats',
       'Modern typography, custom color palette & branding rules',
       'Rapid revisions until scope satisfaction',
@@ -82,6 +84,7 @@ const MENU_CATEGORIES: MenuCategory[] = [
   },
   {
     id: 'website-development',
+    indexNumber: '02',
     filterGroup: 'web-desktop',
     title: 'Website Development',
     subtitle: 'Full-Stack Web Engineering & Conversion UI',
@@ -114,6 +117,7 @@ const MENU_CATEGORIES: MenuCategory[] = [
   },
   {
     id: 'desktop-applications',
+    indexNumber: '03',
     filterGroup: 'web-desktop',
     title: 'Desktop Level Applications',
     subtitle: 'Cross-Platform Native Apps with Electron & AI Vibe Coding',
@@ -150,6 +154,7 @@ const MENU_CATEGORIES: MenuCategory[] = [
   },
   {
     id: 'saas-products',
+    indexNumber: '04',
     filterGroup: 'web-desktop',
     title: 'SaaS Products',
     subtitle: 'Browser Extensions & Custom Backend Software',
@@ -158,14 +163,14 @@ const MENU_CATEGORIES: MenuCategory[] = [
     items: [
       {
         name: 'Chrome Extensions',
-        price: 'Based on Extensions',
+        price: 'Based on the Extensions',
         priceNumeric: 0,
         tag: 'Manifest V3',
         note: 'Custom scrapers, productivity shortcuts, DOM injection & API integrations',
       },
       {
         name: 'Python Based Products',
-        price: 'Based on Products',
+        price: 'Based on the Products',
         priceNumeric: 0,
         tag: 'Python Core',
         note: 'AI/ML pipelines, automated backend bots, microservices & data utilities',
@@ -180,6 +185,7 @@ const MENU_CATEGORIES: MenuCategory[] = [
   },
   {
     id: 'video-motion',
+    indexNumber: '05',
     filterGroup: 'design-video',
     title: 'Video and Motion Graphics',
     subtitle: 'Dynamic Storytelling, Kinetic Typography & Promo Edits',
@@ -222,6 +228,7 @@ const MENU_CATEGORIES: MenuCategory[] = [
   },
   {
     id: 'ai-automation',
+    indexNumber: '06',
     filterGroup: 'ai-automation',
     title: 'AI & Automation',
     subtitle: 'Autonomous Agents, n8n Pipelines & Custom LLM Integrations',
@@ -297,9 +304,9 @@ export default function CollabSection({
 
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalTab, setModalTab] = useState<'inquiry' | 'payment' | 'qr'>('inquiry');
-  const [selectedServiceTitle, setSelectedServiceTitle] = useState<string>('Portfolio & Static Website');
-  const [customAmount, setCustomAmount] = useState<number>(14999);
+  const [modalTab, setModalTab] = useState<'inquiry' | 'payment' | 'qr'>('payment');
+  const [selectedServiceTitle, setSelectedServiceTitle] = useState<string>('Graphic Designing');
+  const [customAmount, setCustomAmount] = useState<number>(1);
 
   // Inquiry Form state
   const [clientName, setClientName] = useState('');
@@ -323,6 +330,8 @@ export default function CollabSection({
     setSelectedServiceTitle(title);
     if (item && item.priceNumeric > 0) {
       setCustomAmount(item.priceNumeric);
+    } else {
+      setCustomAmount(1);
     }
     setModalTab('inquiry');
     setInquirySubmitted(false);
@@ -380,9 +389,6 @@ export default function CollabSection({
 
           {/* ATTENTIVE & APPROACHING NOTICE BANNER */}
           <div className={styles.officialNoticeBanner}>
-            <div className={styles.noticeIconWrap}>
-              <span className={styles.noticeShieldIcon}>🛡️</span>
-            </div>
             <div className={styles.noticeTextWrap}>
               <h4 className={styles.noticeTitle}>Official Collaboration &amp; Payment Notice</h4>
               <p className={styles.noticeBody}>
@@ -400,7 +406,7 @@ export default function CollabSection({
               }}
               data-cursor-hover
             >
-              Send Inquiry First ➔
+              Send Inquiry First →
             </button>
           </div>
 
@@ -441,7 +447,10 @@ export default function CollabSection({
 
               {/* Card Header */}
               <div className={styles.cardHeaderArea}>
-                <span className={styles.cardPillarTag}>{category.badge}</span>
+                <div className={styles.cardIndexRow}>
+                  <span className={styles.cardIndexNumber}>{category.indexNumber} //</span>
+                  <span className={styles.cardPillarTag}>{category.badge}</span>
+                </div>
                 <h3 className={styles.cardMainTitle}>{category.title}</h3>
                 <p className={styles.cardSubtitle}>{category.subtitle}</p>
               </div>
@@ -462,7 +471,6 @@ export default function CollabSection({
                   >
                     <div className={styles.itemLeft}>
                       <div className={styles.itemNameWrap}>
-                        <span className={styles.itemBullet}>▸</span>
                         <span className={styles.itemName}>{item.name}</span>
                         {item.tag && <span className={styles.itemTagPill}>{item.tag}</span>}
                       </div>
@@ -477,11 +485,11 @@ export default function CollabSection({
 
               {/* Deliverables Checklist */}
               <div className={styles.deliverablesSection}>
-                <h4 className={styles.deliverablesTitle}>What&apos;s Included In Execution:</h4>
+                <h4 className={styles.deliverablesTitle}>Deliverables Included:</h4>
                 <ul className={styles.deliverablesList}>
                   {category.deliverables.map((deliv, dIdx) => (
                     <li key={dIdx} className={styles.deliverableItem}>
-                      <span className={styles.checkIcon}>✓</span>
+                      <span className={styles.checkMarker}>—</span>
                       <span>{deliv}</span>
                     </li>
                   ))}
@@ -497,7 +505,7 @@ export default function CollabSection({
                   data-cursor-hover
                 >
                   <span>Book Consultation &amp; Quote</span>
-                  <span className={styles.btnArrow}>➔</span>
+                  <span className={styles.btnArrow}>→</span>
                 </button>
                 <span className={styles.cardDisclaimer}>
                   Final pricing &amp; roadmap confirmed upon mutual agreement
@@ -507,48 +515,58 @@ export default function CollabSection({
           ))}
         </div>
 
-        {/* Recruiter / Direct Connect Banner */}
+        {/* ════════════════════════════════════════════════════════════════════════
+            RECRUITER / FREELANCE BANNER (1:1 Match with Reference Image 4)
+            ════════════════════════════════════════════════════════════════════════ */}
         <div className={styles.recruiterBanner}>
           <div className={styles.recruiterLeft}>
-            <div className={styles.recruiterEyebrow}>FULL-TIME · APPRENTICESHIP · CONTRACT ROLES</div>
+            <div className={styles.recruiterEyebrow}>SERVICES / FREELANCE / PROJECT WORK —</div>
             <h3 className={styles.recruiterHeading}>
               Hiring for Engineering, Design or AI Roles?
             </h3>
             <p className={styles.recruiterDesc}>
-              Available for high-velocity software engineering, desktop app development, full-stack product building, or technical design internships.
-              Review verified credentials, academic research, and presentation archives above.
+              I&apos;m available for freelance project work across development, design, AI/ML and more — from quick tasks to full-featured solutions.
             </p>
             <div className={styles.recruiterPills}>
-              <span className={styles.recruiterPillItem}>📍 Kolkata / Hybrid / Remote</span>
-              <span className={styles.recruiterPillItem}>⚡ Immediate Availability</span>
-              <span className={styles.recruiterPillItem}>🎓 B.Tech Computer Science (2025–2029)</span>
+              <span className={styles.recruiterPillItem}>&lt;/&gt; Web / App Development</span>
+              <span className={styles.recruiterPillItem}>UI/UX &amp; Graphic Design</span>
+              <span className={styles.recruiterPillItem}>AI &amp; ML Projects</span>
+              <span className={styles.recruiterPillItem}>MVPs, Prototypes &amp; More</span>
             </div>
           </div>
           <div className={styles.recruiterActions}>
-            <a
-              href={resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.recruiterPrimaryBtn}
+            <button
+              type="button"
+              className={styles.recruiterPrimaryPillBtn}
+              onClick={() => {
+                setSelectedServiceTitle('Freelance Project Work');
+                setModalTab('inquiry');
+                setModalOpen(true);
+              }}
               data-cursor-hover
             >
-              <span>Download Verified Resume</span>
+              <span>Only Remote Work as Freelancing</span>
+              <span>→</span>
+            </button>
+            <button
+              type="button"
+              className={styles.recruiterSecondaryOutlineBtn}
+              onClick={() => {
+                setSelectedServiceTitle('Project Inquiry');
+                setModalTab('inquiry');
+                setModalOpen(true);
+              }}
+              data-cursor-hover
+            >
+              <span>Send a Project Inquiry</span>
               <span>↗</span>
-            </a>
-            <a
-              href={`mailto:${profileEmail}?subject=Recruitment%20Inquiry%20%E2%80%94%20Vaibhav%20Shaw`}
-              className={styles.recruiterSecondaryBtn}
-              data-cursor-hover
-            >
-              <span>Direct Recruiter Email</span>
-              <span>✉</span>
-            </a>
+            </button>
           </div>
         </div>
       </div>
 
       {/* ════════════════════════════════════════════════════════════════════════════
-          MULTI-TAB POPUP WINDOW (PINNED HEADER, COMPLETE TOUCH VISIBILITY)
+          MULTI-TAB POPUP WINDOW (1:1 Match with Reference Image 3)
           ════════════════════════════════════════════════════════════════════════════ */}
       {modalOpen && (
         <div
@@ -565,11 +583,15 @@ export default function CollabSection({
             <div className={styles.modalPinnedHeader}>
               <div className={styles.modalHeaderTop}>
                 <div className={styles.modalTitleBlock}>
-                  <span className={styles.modalRefNumber}>PROTOCOL // BOOKING &amp; CONSULTATION</span>
+                  <span className={styles.modalRefNumber}>PROTOCOL / BOOKING &amp; CONSULTATION —</span>
                   <h3 className={styles.modalTitle}>Project Consultation &amp; Allowance</h3>
-                  <p className={styles.modalSelectedService}>
-                    Selected Scope: <strong>{selectedServiceTitle}</strong>
-                  </p>
+                  <div className={styles.scopeRow}>
+                    <span className={styles.scopeLabel}>Selected Scope:</span>
+                    <span className={styles.scopePill}>
+                      <span className={styles.scopeIcon}>✦</span>
+                      <span>{selectedServiceTitle}</span>
+                    </span>
+                  </div>
                 </div>
 
                 <button
@@ -582,53 +604,61 @@ export default function CollabSection({
                 </button>
               </div>
 
-              {/* Personal Human Policy Callout */}
-              <div className={styles.modalNoticeBox}>
-                <div className={styles.modalNoticeHeader}>
-                  <span className={styles.authorBadge}>Direct Collaboration</span>
-                  <span className={styles.modalNoticeSubtitle}>Handcrafted by Vaibhav Shaw</span>
+              {/* 2-Column Notice Box Matching Reference Image 3 */}
+              <div className={styles.modalNoticeTwoCol}>
+                <div className={styles.noticeColLeft}>
+                  <div className={styles.noticeLeftTitle}>Direct Collaboration</div>
+                  <div className={styles.noticeLeftSub}>Handcrafted by Vaibhav Shaw</div>
                 </div>
-                <p className={styles.modalNoticeText}>
+                <div className={styles.noticeColRight}>
                   Every project is scoped, coded, and shipped directly by me. Submit your inquiry first to confirm deliverables and agreed pricing. Payments are accepted only after mutual agreement.
-                </p>
+                </div>
               </div>
 
-              {/* Segmented Tactile Navigation Tabs */}
-              <div className={styles.modalNavTabs} role="tablist">
+              {/* Stepper Navigation Matching Reference Image 3 */}
+              <div className={styles.modalStepperRow} role="tablist">
                 <button
                   type="button"
                   role="tab"
                   aria-selected={modalTab === 'inquiry'}
-                  className={`${styles.modalTabBtn} ${modalTab === 'inquiry' ? styles.modalTabBtnActive : ''}`}
+                  className={`${styles.stepItem} ${modalTab === 'inquiry' ? styles.stepItemActive : ''}`}
                   onClick={() => setModalTab('inquiry')}
                 >
-                  <span>1. Send Inquiry</span>
-                  <span className={styles.tabBadgeReq}>Required First</span>
+                  <span className={styles.stepNum}>1</span>
+                  <span className={styles.stepText}>Send Inquiry</span>
+                  <span className={styles.stepBadgeReq}>Required First</span>
                 </button>
+
+                <div className={styles.stepDividerLine} />
+
                 <button
                   type="button"
                   role="tab"
                   aria-selected={modalTab === 'payment'}
-                  className={`${styles.modalTabBtn} ${modalTab === 'payment' ? styles.modalTabBtnActive : ''}`}
+                  className={`${styles.stepItem} ${modalTab === 'payment' ? styles.stepItemActive : ''}`}
                   onClick={() => setModalTab('payment')}
                 >
-                  <span>2. Razorpay Deposit</span>
-                  <span className={styles.tabBadgeOpt}>Agreed Amount</span>
+                  <span className={styles.stepNum}>2</span>
+                  <span className={styles.stepText}>Razorpay Deposit</span>
+                  <span className={styles.stepBadgeOpt}>Agreed Amount</span>
                 </button>
+
+                <div className={styles.stepDividerLine} />
+
                 <button
                   type="button"
                   role="tab"
                   aria-selected={modalTab === 'qr'}
-                  className={`${styles.modalTabBtn} ${modalTab === 'qr' ? styles.modalTabBtnActive : ''}`}
+                  className={`${styles.stepItem} ${modalTab === 'qr' ? styles.stepItemActive : ''}`}
                   onClick={() => setModalTab('qr')}
                 >
-                  <span>3. UPI QR Code</span>
-                  <span className={styles.tabBadgeKey}>🔐 Key Protected</span>
+                  <span className={styles.stepNum}>3</span>
+                  <span className={styles.stepText}>UPI QR Code</span>
                 </button>
               </div>
             </div>
 
-            {/* SCROLLABLE BODY: Scrolls smoothly on any screen without cutting off */}
+            {/* SCROLLABLE BODY */}
             <div className={styles.modalScrollBody}>
               {/* TAB 1: SEND INQUIRY FIRST */}
               {modalTab === 'inquiry' && (
@@ -646,29 +676,29 @@ export default function CollabSection({
                         className={styles.proceedPayBtn}
                         onClick={() => setModalTab('payment')}
                       >
-                        Already Agreed on Pricing? Proceed to Payment ➔
+                        Already Agreed on Pricing? Proceed to Payment →
                       </button>
                     </div>
                   ) : (
                     <form onSubmit={handleInquirySubmit} className={styles.inquiryForm}>
                       <div className={styles.formGridTwo}>
                         <div className={styles.formGroup}>
-                          <label className={styles.formLabel}>Your Name *</label>
+                          <label className={styles.formLabel}>Client Name *</label>
                           <input
                             type="text"
                             required
-                            placeholder="e.g. Alex Morgan"
+                            placeholder="Your Name"
                             className={styles.formInput}
                             value={clientName}
                             onChange={(e) => setClientName(e.target.value)}
                           />
                         </div>
                         <div className={styles.formGroup}>
-                          <label className={styles.formLabel}>Your Email *</label>
+                          <label className={styles.formLabel}>Client Email *</label>
                           <input
                             type="email"
                             required
-                            placeholder="alex@example.com"
+                            placeholder="Your Email"
                             className={styles.formInput}
                             value={clientEmail}
                             onChange={(e) => setClientEmail(e.target.value)}
@@ -691,7 +721,7 @@ export default function CollabSection({
                           <label className={styles.formLabel}>Estimated Budget / Target (Rs.)</label>
                           <input
                             type="number"
-                            min="99"
+                            min="1"
                             step="1"
                             className={styles.formInput}
                             value={customAmount}
@@ -713,20 +743,21 @@ export default function CollabSection({
                       </div>
 
                       <button type="submit" className={styles.modalSubmitBtn} data-cursor-hover>
-                        <span>Dispatch Inquiry to Vaibhav ➔</span>
+                        <span>Dispatch Inquiry to Vaibhav →</span>
                       </button>
                     </form>
                   )}
                 </div>
               )}
 
-              {/* TAB 2: RAZORPAY PAYMENT (CUSTOM / DYNAMIC AMOUNT) */}
+              {/* TAB 2: RAZORPAY PAYMENT (1:1 Reference Image 3) */}
               {modalTab === 'payment' && (
                 <div className={styles.tabContent}>
-                  <div className={styles.paymentNoticeBox}>
+                  {/* Info Callout Bar */}
+                  <div className={styles.customAgreedBar}>
+                    <span className={styles.infoIcon}>ⓘ</span>
                     <p>
-                      💳 <strong>Custom Agreed Deposit:</strong> Enter the exact amount in INR discussed with Vaibhav. 
-                      No predefined locked payment is enforced.
+                      <strong>Custom Agreed Deposit:</strong> Enter the exact amount in INR discussed with Vaibhav. No predefined locked payment is enforced.
                     </p>
                   </div>
 
@@ -793,6 +824,21 @@ export default function CollabSection({
                       />
                     </div>
 
+                    {/* Direct UPI QR Code Alternative Box Matching Reference Image 3 */}
+                    <div className={styles.directQrBannerRow}>
+                      <div className={styles.directQrBannerText}>
+                        Razorpay authentication is in consultation mode. Please use Direct UPI QR Code (with owner access key) or submit an inquiry.
+                      </div>
+                      <button
+                        type="button"
+                        className={styles.directQrBannerBtn}
+                        onClick={() => setModalTab('qr')}
+                      >
+                        <span>Pay via Direct UPI QR Code</span>
+                        <span>↗</span>
+                      </button>
+                    </div>
+
                     <div className={styles.qrFallbackRow}>
                       <span>Razorpay gateway unavailable or auth failed?</span>
                       <button
@@ -800,20 +846,19 @@ export default function CollabSection({
                         className={styles.qrInlineLink}
                         onClick={() => setModalTab('qr')}
                       >
-                        Use Direct UPI QR Code (Key-Secured) ➔
+                        Use Direct UPI QR Code (Key-Secured) →
                       </button>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* TAB 3: KEY-SECRET PROTECTED QR CODE */}
+              {/* TAB 3: KEY-SECRET PROTECTED QR CODE (Clean, No e.g. placeholder) */}
               {modalTab === 'qr' && (
                 <div className={styles.tabContent}>
                   {!qrUnlocked ? (
                     <div className={styles.qrLockContainer}>
                       <div className={styles.qrLockShield}>
-                        <span className={styles.lockIcon}>🔐</span>
                         <h4>Direct QR Code Payment is Protected</h4>
                         <p>
                           To ensure payments occur <strong>only after allowance is granted</strong>, direct QR Code payment requires the Owner Authorization Passcode provided by Vaibhav Shaw.
@@ -827,7 +872,7 @@ export default function CollabSection({
                             <input
                               type="text"
                               required
-                              placeholder="Enter Key-Secret (e.g. VSNU2026)"
+                              placeholder="Enter Key-Secret"
                               className={styles.formInput}
                               value={secretKeyInput}
                               onChange={(e) => {
@@ -836,7 +881,7 @@ export default function CollabSection({
                               }}
                             />
                             <button type="submit" className={styles.unlockBtn}>
-                              Unlock QR ➔
+                              Unlock QR →
                             </button>
                           </div>
                           {qrKeyError && <span className={styles.keyErrorText}>{qrKeyError}</span>}
@@ -905,7 +950,7 @@ export default function CollabSection({
                         className={styles.lockAgainBtn}
                         onClick={() => setQrUnlocked(false)}
                       >
-                        🔒 Lock QR Code
+                        Lock QR Code
                       </button>
                     </div>
                   )}

@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import styles from './Certifications.module.css';
 import type { Certification } from '@/types';
+import { resolveAutoPreview } from '@/lib/previewEngine';
 
 interface Props {
   items: Certification[];
@@ -261,6 +262,14 @@ export default function CertificationsSection({ items, onOpen }: Props) {
                 ? cert.file
                 : null;
 
+            const autoPreview = resolveAutoPreview(
+              cert.file || cert.preview || '',
+              cert.title,
+              cert.issuer,
+              cert.category
+            );
+            const displayPreviewSrc = imageSource || autoPreview.previewUrl;
+
             // Detect format badge text & style
             const fileTarget = cert.file || cert.preview || '';
             let formatText = 'PNG';
@@ -366,24 +375,6 @@ export default function CertificationsSection({ items, onOpen }: Props) {
                         </button>
                       </div>
                     </div>
-                  ) : hasRealImage && imageSource ? (
-                    /* Archetype 2: Real Certificate Image with Pushpin & Corner Tape (Cards 1, 3, 5 Reference) */
-                    <div className={styles.realImageWrap}>
-                      <div className={styles.tapeTopLeft} />
-                      <div className={styles.tapeBottomRight} />
-                      <svg className={styles.cornerPushPin} viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="6" fill="#e2e8f0" stroke="#64748b" strokeWidth="1.5" />
-                        <circle cx="11" cy="11" r="2" fill="#ffffff" />
-                      </svg>
-                      <Image
-                        src={imageSource}
-                        alt={cert.title}
-                        fill
-                        unoptimized={true}
-                        className={styles.realCertImg}
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
-                    </div>
                   ) : isThumbnailUnavailable ? (
                     /* Archetype 3: Thumbnail Placeholder (Card 6 ISRO Reference) */
                     <div className={styles.docPlaceholderStage}>
@@ -420,8 +411,26 @@ export default function CertificationsSection({ items, onOpen }: Props) {
                         </a>
                       </div>
                     </div>
+                  ) : displayPreviewSrc ? (
+                    /* Real Image or Vector Certificate Document Card with Pushpin & Corner Tape */
+                    <div className={styles.realImageWrap}>
+                      <div className={styles.tapeTopLeft} />
+                      <div className={styles.tapeBottomRight} />
+                      <svg className={styles.cornerPushPin} viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="6" fill="#e2e8f0" stroke="#64748b" strokeWidth="1.5" />
+                        <circle cx="11" cy="11" r="2" fill="#ffffff" />
+                      </svg>
+                      <Image
+                        src={displayPreviewSrc}
+                        alt={cert.title}
+                        fill
+                        unoptimized={true}
+                        className={styles.realCertImg}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    </div>
                   ) : (
-                    /* Archetype 4: PDF Preview Unavailable (Card 4 Reference) */
+                    /* Fallback Document Card */
                     <div className={styles.docPlaceholderStage}>
                       <svg className={styles.docIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -430,8 +439,8 @@ export default function CertificationsSection({ items, onOpen }: Props) {
                         <line x1="16" y1="17" x2="8" y2="17" />
                         <polyline points="10 9 9 9 8 9" />
                       </svg>
-                      <h4 className={styles.docHeading}>Certificate Preview Unavailable</h4>
-                      <p className={styles.docSub}>This certificate is in PDF format. Click to view or download.</p>
+                      <h4 className={styles.docHeading}>Official Credential</h4>
+                      <p className={styles.docSub}>{cert.issuer || 'Click to view full certificate document.'}</p>
                       <div className={styles.verifiedActionsRow}>
                         <button
                           type="button"
@@ -441,7 +450,7 @@ export default function CertificationsSection({ items, onOpen }: Props) {
                             onOpen(cert);
                           }}
                         >
-                          View PDF →
+                          View Certificate →
                         </button>
                         <a
                           href={cert.file || '#'}

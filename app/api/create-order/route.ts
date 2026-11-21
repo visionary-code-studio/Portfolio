@@ -58,35 +58,23 @@ export async function POST(request: Request) {
       order_id: order.id,
       amount: order.amount,
       currency: order.currency,
+      key_id: key_id,
     });
   } catch (error: any) {
     console.error('Razorpay Order Creation Error:', error);
 
     const statusCode = error?.statusCode || error?.status || 500;
-    const isAuthError =
-      statusCode === 401 ||
-      error?.error?.code === 'BAD_REQUEST_ERROR' &&
-      (error?.error?.description?.toLowerCase().includes('auth') || error?.message?.toLowerCase().includes('auth'));
-
-    if (isAuthError) {
-      return NextResponse.json(
-        {
-          error: 'Razorpay authentication is in consultation mode. Please use Direct UPI QR Code (with owner access key) or submit an inquiry.',
-          fallbackToQr: true,
-        },
-        { status: 401 }
-      );
-    }
-
     const errorMessage =
-      error?.error?.description || error?.message || 'Payment processing error. Please use Direct QR Code.';
+      error?.error?.description ||
+      error?.message ||
+      'Unable to create payment order. Please try again or use direct UPI transfer.';
 
     return NextResponse.json(
       {
         error: errorMessage,
         fallbackToQr: true,
       },
-      { status: 500 }
+      { status: statusCode }
     );
   }
 }

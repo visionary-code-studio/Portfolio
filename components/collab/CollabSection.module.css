@@ -1,6 +1,6 @@
 /* ════════════════════════════════════════════════════════════════════════════
    COLLABORATION & SERVICE SHOWCASE — BESPOKE ARCHITECTURAL CRAFT
-   Editorial Typography, Physical Studio Ledger Details, No AI Cliché Glows
+   Editorial Typography, Physical Studio Ledger Details, No AI Emojis/Clichés
    ════════════════════════════════════════════════════════════════════════════ */
 
 .collabSectionWrapper {
@@ -132,12 +132,6 @@
   -webkit-backdrop-filter: blur(20px);
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   text-align: left;
-}
-
-.noticeIconWrap {
-  font-size: 1.8rem;
-  line-height: 1;
-  flex-shrink: 0;
 }
 
 .noticeTextWrap {
@@ -318,20 +312,34 @@
   padding-bottom: 1.15rem;
 }
 
+.cardIndexRow {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.4rem;
+}
+
+.cardIndexNumber {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #f5a623;
+  letter-spacing: 0.06em;
+}
+
 .cardPillarTag {
   display: inline-block;
   font-family: var(--font-mono, monospace);
   font-size: 0.65rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #94a3b8;
-  margin-bottom: 0.4rem;
 }
 
 .cardMainTitle {
-  font-size: 1.38rem;
-  font-weight: 800;
+  font-size: 1.35rem;
+  font-weight: 750;
   color: #ffffff;
   letter-spacing: 0.01em;
   margin-bottom: 0.3rem;
@@ -343,6 +351,7 @@
   color: #94a3b8;
   line-height: 1.45;
   margin: 0;
+  font-weight: 450;
 }
 
 /* ── Menu Items Showcase Listing ── */
@@ -398,11 +407,6 @@
   gap: 0.4rem;
 }
 
-.itemBullet {
-  color: #f5a623;
-  font-size: 0.65rem;
-}
-
 .itemName {
   font-size: 0.84rem;
   font-weight: 600;
@@ -424,8 +428,7 @@
 .itemNoteText {
   font-size: 0.73rem;
   color: #94a3b8;
-  font-style: italic;
-  padding-left: 0.95rem;
+  font-style: normal;
   line-height: 1.35;
 }
 
@@ -460,7 +463,7 @@
 }
 
 .deliverablesTitle {
-  font-size: 0.76rem;
+  font-size: 0.75rem;
   font-family: var(--font-mono, monospace);
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -486,12 +489,11 @@
   line-height: 1.45;
 }
 
-.checkIcon {
-  color: #10b981;
-  font-weight: 800;
+.checkMarker {
+  color: #f5a623;
+  font-weight: 700;
   font-size: 0.74rem;
   flex-shrink: 0;
-  margin-top: 1px;
 }
 
 /* ── Card Footer Actions ── */
@@ -510,7 +512,7 @@
   gap: 0.5rem;
   padding: 0.82rem;
   border-radius: 12px;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 750;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -543,57 +545,59 @@
 }
 
 .btnArrow {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   transition: transform 0.2s ease;
 }
 
 .primaryActionBtn:hover .btnArrow,
 .primaryActionBtnGold:hover .btnArrow {
-  transform: translateX(4px);
+  transform: translateX(3px);
 }
 
 .cardDisclaimer {
   font-size: 0.67rem;
   color: #64748b;
   text-align: center;
-  font-style: italic;
 }
 
-/* ── Recruiter Banner ── */
+/* ════════════════════════════════════════════════════════════════════════════
+   RECRUITER / FREELANCE BANNER (1:1 MATCH WITH REFERENCE IMAGE 4)
+   ════════════════════════════════════════════════════════════════════════════ */
+
 .recruiterBanner {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: 2.5rem;
-  background: linear-gradient(180deg, rgba(14, 19, 30, 0.95) 0%, rgba(7, 9, 15, 0.98) 100%);
+  background: #090c14;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 22px;
-  padding: 2.75rem;
+  border-radius: 20px;
+  padding: 2.5rem 2.75rem;
   backdrop-filter: blur(20px);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
 }
 
 .recruiterEyebrow {
   font-family: var(--font-mono, monospace);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.15em;
-  color: #f5a623;
+  letter-spacing: 0.14em;
+  color: #94a3b8;
   margin-bottom: 0.45rem;
 }
 
 .recruiterHeading {
-  font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+  font-size: clamp(1.35rem, 2.3vw, 1.75rem);
   font-weight: 800;
   color: #ffffff;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.65rem;
   letter-spacing: -0.01em;
 }
 
 .recruiterDesc {
-  font-size: 0.86rem;
+  font-size: 0.85rem;
   color: #94a3b8;
-  line-height: 1.65;
+  line-height: 1.6;
   margin-bottom: 1.35rem;
   max-width: 680px;
 }
@@ -607,9 +611,9 @@
 .recruiterPillItem {
   font-family: var(--font-mono, monospace);
   font-size: 0.7rem;
-  padding: 0.35rem 0.8rem;
+  padding: 0.35rem 0.85rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.12);
   color: #cbd5e1;
 }
@@ -618,59 +622,60 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  min-width: 260px;
 }
 
-.recruiterPrimaryBtn {
+/* White Pill Button: Only Remote Work as Freelancing */
+.recruiterPrimaryPillBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.82rem 1.6rem;
-  border-radius: 12px;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
   background: #ffffff;
   color: #07090e;
-  font-size: 0.86rem;
+  font-size: 0.85rem;
   font-weight: 750;
-  text-decoration: none;
+  border: none;
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 4px 18px rgba(255, 255, 255, 0.2);
   white-space: nowrap;
 }
 
-.recruiterPrimaryBtn:hover {
+.recruiterPrimaryPillBtn:hover {
   background: #f1f5f9;
   transform: translateY(-2px);
   box-shadow: 0 6px 24px rgba(255, 255, 255, 0.35);
 }
 
-.recruiterSecondaryBtn {
+/* Outline Dark Button: Send a Project Inquiry */
+.recruiterSecondaryOutlineBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   padding: 0.82rem 1.6rem;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   color: #ffffff;
-  font-size: 0.86rem;
-  font-weight: 600;
-  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 650;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
 }
 
-.recruiterSecondaryBtn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.35);
+.recruiterSecondaryOutlineBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.45);
   transform: translateY(-2px);
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   MODAL WINDOW (PINNED HEADER, FLUID TOUCH SCROLL, BULLETPROOF FIT)
-   Guaranteed visible and complete on any screen size from 320px to 4K
+   MODAL WINDOW (1:1 MATCH WITH REFERENCE IMAGE 3)
    ════════════════════════════════════════════════════════════════════════════ */
 
 .modalBackdrop {
@@ -694,15 +699,15 @@
 
 .modalBox {
   background: #090c15;
-  border: 1px solid rgba(245, 166, 35, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 20px;
-  width: min(680px, 95vw);
+  width: min(720px, 95vw);
   max-height: min(92vh, 840px);
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Header stays pinned; inner body scrolls smoothly */
+  overflow: hidden;
   color: #ffffff;
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.95), 0 0 45px rgba(245, 166, 35, 0.12);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.95), 0 0 45px rgba(245, 166, 35, 0.08);
   position: relative;
   box-sizing: border-box;
 }
@@ -734,36 +739,55 @@
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.14em;
-  color: #f5a623;
+  color: #94a3b8;
   display: block;
   margin-bottom: 0.25rem;
 }
 
 .modalTitle {
-  font-size: clamp(1.2rem, 2.8vw, 1.55rem);
+  font-size: clamp(1.25rem, 2.8vw, 1.6rem);
   font-weight: 800;
   letter-spacing: -0.01em;
   color: #ffffff;
-  margin: 0 0 0.25rem 0;
+  margin: 0 0 0.35rem 0;
   line-height: 1.2;
 }
 
-.modalSelectedService {
-  font-size: 0.82rem;
-  color: #94a3b8;
-  margin: 0;
+.scopeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.modalSelectedService strong {
+.scopeLabel {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.scopePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  padding: 0.18rem 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.scopeIcon {
   color: #f5a623;
+  font-size: 0.75rem;
 }
 
 .modalCloseBtn {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   color: #94a3b8;
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -781,87 +805,99 @@
   border-color: #ffffff;
 }
 
-/* Modal Notice Callout */
-.modalNoticeBox {
-  background: rgba(245, 166, 35, 0.07);
-  border: 1px solid rgba(245, 166, 35, 0.25);
-  border-radius: 10px;
-  padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
-}
-
-.modalNoticeHeader {
-  display: flex;
+/* 2-Column Notice Box Matching Reference Image 3 */
+.modalNoticeTwoCol {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  gap: 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 0.85rem 1.15rem;
+  margin-bottom: 1.15rem;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.3rem;
 }
 
-.authorBadge {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.62rem;
+.noticeColLeft {
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  padding-right: 1rem;
+}
+
+.noticeLeftTitle {
+  font-size: 0.82rem;
   font-weight: 750;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  background: rgba(245, 166, 35, 0.16);
+  color: #ffffff;
+  margin-bottom: 0.15rem;
+}
+
+.noticeLeftSub {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
   color: #f5a623;
-  padding: 0.15rem 0.5rem;
-  border-radius: 4px;
 }
 
-.modalNoticeSubtitle {
-  font-size: 0.72rem;
-  color: #cbd5e1;
-  font-weight: 600;
-}
-
-.modalNoticeText {
-  font-size: 0.76rem;
+.noticeColRight {
+  font-size: 0.74rem;
   color: #94a3b8;
   line-height: 1.45;
-  margin: 0;
 }
 
-/* Modal Navigation Tabs */
-.modalNavTabs {
+/* Stepper Navigation Matching Reference Image 3 */
+.modalStepperRow {
   display: flex;
-  gap: 0.35rem;
+  align-items: center;
+  gap: 0.65rem;
+  padding-bottom: 0.85rem;
   overflow-x: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
 
-.modalNavTabs::-webkit-scrollbar {
+.modalStepperRow::-webkit-scrollbar {
   display: none;
 }
 
-.modalTabBtn {
+.stepItem {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.65rem 0.95rem;
+  padding: 0.35rem 0.5rem;
   border: none;
   background: transparent;
   color: #94a3b8;
   font-family: var(--font-mono, monospace);
-  font-size: 0.78rem;
-  font-weight: 650;
+  font-size: 0.75rem;
   cursor: pointer;
   white-space: nowrap;
-  border-bottom: 2px solid transparent;
   transition: all 0.2s ease;
 }
 
-.modalTabBtn:hover {
+.stepNum {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+.stepItemActive .stepNum {
+  background: #ffffff;
+  color: #07090e;
+  border-color: #ffffff;
+}
+
+.stepItemActive .stepText {
   color: #ffffff;
+  font-weight: 750;
 }
 
-.modalTabBtnActive {
-  color: #f5a623 !important;
-  border-bottom-color: #f5a623 !important;
-}
-
-.tabBadgeReq {
+.stepBadgeReq {
   font-size: 0.58rem;
   background: rgba(245, 166, 35, 0.16);
   color: #f5a623;
@@ -869,20 +905,19 @@
   border-radius: 4px;
 }
 
-.tabBadgeOpt {
+.stepBadgeOpt {
   font-size: 0.58rem;
-  background: rgba(56, 189, 248, 0.16);
-  color: #38bdf8;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
   padding: 0.1rem 0.4rem;
   border-radius: 4px;
 }
 
-.tabBadgeKey {
-  font-size: 0.58rem;
-  background: rgba(16, 185, 129, 0.16);
-  color: #10b981;
-  padding: 0.1rem 0.4rem;
-  border-radius: 4px;
+.stepDividerLine {
+  flex: 1;
+  min-width: 24px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
 }
 
 /* Scrollable Body */
@@ -901,7 +936,7 @@
 }
 
 .modalScrollBody::-webkit-scrollbar-thumb {
-  background: rgba(245, 166, 35, 0.3);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 999px;
 }
 
@@ -914,7 +949,36 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ── TAB 1: INQUIRY FORM ── */
+/* ── TAB 1 & 2 FORM STYLING ── */
+.customAgreedBar {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.infoIcon {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  margin-top: 2px;
+}
+
+.customAgreedBar p {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #94a3b8;
+  line-height: 1.45;
+}
+
+.customAgreedBar strong {
+  color: #ffffff;
+}
+
+.paymentForm,
 .inquiryForm {
   display: flex;
   flex-direction: column;
@@ -938,13 +1002,12 @@
   font-size: 0.72rem;
   font-weight: 600;
   color: #cbd5e1;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
 }
 
 .formInput,
 .formTextarea {
-  background: rgba(255, 255, 255, 0.04);
+  background: #0d111c;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 10px;
   padding: 0.72rem 0.85rem;
@@ -959,9 +1022,8 @@
 .formInput:focus,
 .formTextarea:focus {
   outline: none;
-  border-color: #f5a623;
-  background: rgba(255, 255, 255, 0.07);
-  box-shadow: 0 0 12px rgba(245, 166, 35, 0.25);
+  border-color: #ffffff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
 }
 
 .formTextarea {
@@ -969,22 +1031,64 @@
   min-height: 80px;
 }
 
+.amountInputWrap {
+  display: flex;
+  align-items: center;
+  background: #0d111c;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 0.45rem 0.85rem;
+  transition: all 0.2s;
+}
+
+.amountInputWrap:focus-within {
+  border-color: #ffffff;
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.18);
+}
+
+.currencyPrefix {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.25rem;
+  font-weight: 750;
+  color: #ffffff;
+  margin-right: 0.5rem;
+}
+
+.amountInput {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-family: var(--font-mono, monospace);
+  font-size: 1.25rem;
+  font-weight: 750;
+  width: 100%;
+}
+
+.amountInput:focus {
+  outline: none;
+}
+
+.inputHintText {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  margin-top: 0.2rem;
+}
+
 .modalSubmitBtn {
-  background: linear-gradient(135deg, #f5a623 0%, #d97706 100%);
+  background: #ffffff;
   color: #07090e;
   border: none;
-  border-radius: 12px;
-  padding: 0.88rem;
-  font-size: 0.92rem;
+  border-radius: 999px;
+  padding: 0.85rem;
+  font-size: 0.88rem;
   font-weight: 750;
   cursor: pointer;
   transition: all 0.2s ease;
   margin-top: 0.5rem;
-  box-shadow: 0 4px 18px rgba(245, 166, 35, 0.35);
 }
 
 .modalSubmitBtn:hover {
-  filter: brightness(1.1);
+  background: #f1f5f9;
   transform: translateY(-1px);
 }
 
@@ -1039,79 +1143,49 @@
   cursor: pointer;
 }
 
-/* ── TAB 2: RAZORPAY PAYMENT ── */
-.paymentNoticeBox {
-  background: rgba(56, 189, 248, 0.08);
-  border: 1px solid rgba(56, 189, 248, 0.25);
-  border-radius: 10px;
-  padding: 0.85rem 1rem;
-  margin-bottom: 1.25rem;
-}
-
-.paymentNoticeBox p {
-  margin: 0;
-  font-size: 0.82rem;
-  color: #cbd5e1;
-  line-height: 1.45;
-}
-
-.paymentNoticeBox strong {
-  color: #38bdf8;
-}
-
-.paymentForm {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.amountInputWrap {
-  display: flex;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1.5px solid rgba(245, 166, 35, 0.4);
-  border-radius: 12px;
-  padding: 0.4rem 0.85rem;
-  transition: all 0.2s;
-}
-
-.amountInputWrap:focus-within {
-  border-color: #f5a623;
-  box-shadow: 0 0 16px rgba(245, 166, 35, 0.25);
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.currencyPrefix {
-  font-family: var(--font-mono, monospace);
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: #f5a623;
-  margin-right: 0.5rem;
-}
-
-.amountInput {
-  background: transparent;
-  border: none;
-  color: #ffffff;
-  font-family: var(--font-mono, monospace);
-  font-size: 1.35rem;
-  font-weight: 800;
-  width: 100%;
-}
-
-.amountInput:focus {
-  outline: none;
-}
-
-.inputHintText {
-  font-size: 0.72rem;
-  color: #94a3b8;
-  font-style: italic;
-  margin-top: 0.2rem;
-}
-
 .razorpayActionWrap {
   margin-top: 0.5rem;
+}
+
+/* Direct UPI QR Code Alternative Box Matching Reference Image 3 */
+.directQrBannerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  margin-top: 0.75rem;
+}
+
+.directQrBannerText {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.directQrBannerBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 650;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.directQrBannerBtn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: #ffffff;
 }
 
 .qrFallbackRow {
@@ -1121,17 +1195,17 @@
   flex-wrap: wrap;
   gap: 0.5rem;
   padding-top: 0.75rem;
-  border-top: 1px dashed rgba(255, 255, 255, 0.1);
-  font-size: 0.78rem;
-  color: #94a3b8;
+  border-top: 1px dashed rgba(255, 255, 255, 0.08);
+  font-size: 0.75rem;
+  color: #64748b;
 }
 
 .qrInlineLink {
   background: none;
   border: none;
-  color: #f5a623;
-  font-weight: 700;
-  font-size: 0.78rem;
+  color: #cbd5e1;
+  font-weight: 650;
+  font-size: 0.75rem;
   cursor: pointer;
   text-decoration: underline;
   padding: 0;
@@ -1150,8 +1224,8 @@
 }
 
 .qrLockShield {
-  background: rgba(245, 166, 35, 0.06);
-  border: 1px solid rgba(245, 166, 35, 0.25);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   padding: 1.25rem;
   text-align: center;
@@ -1159,10 +1233,6 @@
   flex-direction: column;
   align-items: center;
   gap: 0.4rem;
-}
-
-.lockIcon {
-  font-size: 1.8rem;
 }
 
 .qrLockShield h4 {
@@ -1180,7 +1250,7 @@
 }
 
 .qrLockShield strong {
-  color: #f5a623;
+  color: #ffffff;
 }
 
 .keyInputRow {
@@ -1202,7 +1272,7 @@
 }
 
 .unlockBtn:hover {
-  background: #f5a623;
+  background: #f1f5f9;
 }
 
 .keyErrorText {
@@ -1223,8 +1293,8 @@
 }
 
 .requestKeyBtn {
-  color: #f5a623;
-  font-weight: 700;
+  color: #cbd5e1;
+  font-weight: 650;
   text-decoration: underline;
   cursor: pointer;
 }
@@ -1451,8 +1521,8 @@
     width: 100%;
   }
 
-  .recruiterPrimaryBtn,
-  .recruiterSecondaryBtn {
+  .recruiterPrimaryPillBtn,
+  .recruiterSecondaryOutlineBtn {
     width: 100%;
     box-sizing: border-box;
   }
@@ -1465,6 +1535,28 @@
 
   .modalPinnedHeader {
     padding: 1rem 1rem 0;
+  }
+
+  .modalNoticeTwoCol {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .noticeColLeft {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-right: 0;
+    padding-bottom: 0.4rem;
+  }
+
+  .directQrBannerRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .directQrBannerBtn {
+    width: 100%;
+    justify-content: center;
   }
 
   .modalScrollBody {
@@ -1520,18 +1612,18 @@
     font-size: 1rem;
   }
 
-  .modalNavTabs {
-    gap: 0.2rem;
+  .modalStepperRow {
+    gap: 0.35rem;
   }
 
-  .modalTabBtn {
-    padding: 0.55rem 0.65rem;
-    font-size: 0.72rem;
+  .stepItem {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.35rem;
   }
 
   .formInput,
   .formTextarea {
-    font-size: 16px; /* Prevents auto-zoom on iOS */
+    font-size: 16px;
     padding: 0.65rem 0.75rem;
   }
 

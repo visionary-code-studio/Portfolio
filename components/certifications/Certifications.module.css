@@ -539,9 +539,15 @@
 }
 
 .realCertImg {
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
   width: 100%;
   height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .realCertImg {
+  transform: scale(1.02);
 }
 
 .cornerPushPin {
