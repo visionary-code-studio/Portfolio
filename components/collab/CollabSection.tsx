@@ -820,6 +820,7 @@ export default function CollabSection({
                           client_email: clientEmail,
                           approved_amount: `Rs. ${customAmount}`,
                         }}
+                        paymentPageUrl="https://rzp.io/rzp/visionary-code-studio"
                         onSwitchToQr={() => setModalTab('qr')}
                       />
                     </div>

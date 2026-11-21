@@ -23,6 +23,7 @@ interface RazorpayButtonProps {
   }) => void;
   onFailure?: (error: any) => void;
   onSwitchToQr?: () => void;
+  paymentPageUrl?: string;
 }
 
 declare global {
@@ -43,6 +44,7 @@ export default function RazorpayButton({
   onSuccess,
   onFailure,
   onSwitchToQr,
+  paymentPageUrl = 'https://rzp.io/rzp/visionary-code-studio',
 }: RazorpayButtonProps) {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -236,15 +238,28 @@ export default function RazorpayButton({
         <div className={styles.errorAlert} role="alert">
           <div className={styles.errorAlertContent}>
             <span>⚠️ {errorMessage}</span>
-            {showQrSuggestion && onSwitchToQr && (
-              <button
-                type="button"
-                className={styles.qrSwitchBtn}
-                onClick={onSwitchToQr}
-              >
-                📱 Click to Pay via Direct UPI QR Code (Key-Secured) ➔
-              </button>
-            )}
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginTop: '0.4rem' }}>
+              {paymentPageUrl && (
+                <a
+                  href={paymentPageUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.qrSwitchBtn}
+                  style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}
+                >
+                  💳 Open Official Razorpay Page ➔
+                </a>
+              )}
+              {showQrSuggestion && onSwitchToQr && (
+                <button
+                  type="button"
+                  className={styles.qrSwitchBtn}
+                  onClick={onSwitchToQr}
+                >
+                  📱 Pay via Direct UPI QR Code (Key-Secured) ➔
+                </button>
+              )}
+            </div>
           </div>
           <button
             type="button"
