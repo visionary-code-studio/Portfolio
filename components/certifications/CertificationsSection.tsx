@@ -77,8 +77,6 @@ export default function CertificationsSection({ items, onOpen }: Props) {
       <div className={styles.cosmicStar} style={{ top: '65%', right: '3%', fontSize: '1.1rem', opacity: 0.45 }}>✦</div>
       <div className={styles.cosmicStar} style={{ bottom: '12%', left: '5%', fontSize: '1.3rem', opacity: 0.55 }}>★</div>
 
-
-
       {/* Left Pinned Curiosity Paper Note */}
       <div className={styles.curiosityNoteWrap} aria-hidden="true">
         <div className={styles.curiosityTape} />
@@ -252,9 +250,6 @@ export default function CertificationsSection({ items, onOpen }: Props) {
         {/* ── 3. THREE-COLUMN CARDS GRID (1:1 REFERENCE) ── */}
         <div className={`${styles.grid} ${viewMode === 'list' ? styles.gridList : ''}`}>
           {filteredItems.map((cert) => {
-            const hasRealImage =
-              (cert.preview && isRasterImage(cert.preview)) ||
-              (cert.file && isRasterImage(cert.file));
             const imageSource =
               cert.preview && isRasterImage(cert.preview)
                 ? cert.preview
@@ -283,16 +278,14 @@ export default function CertificationsSection({ items, onOpen }: Props) {
             }
 
             // Detect card archetype
-            const isVerifiedOnboarding =
-              cert.category === 'Campus Ambassador' ||
-            // Only use placeholder if specifically an onboarding letter without an image
             const isOnboardingCard =
               !imageSource &&
               cert.title.toLowerCase().includes('onboarding');
 
             const isThumbnailUnavailable =
-              cert.title.toUpperCase().includes('ISRO') ||
-              cert.title.toLowerCase().includes('thumbnail');
+              !imageSource &&
+              (cert.title.toUpperCase().includes('ISRO') ||
+               cert.title.toLowerCase().includes('thumbnail'));
 
             return (
               <div
@@ -330,187 +323,165 @@ export default function CertificationsSection({ items, onOpen }: Props) {
                   <span className={styles.cardYear}>{cert.year || 2026}</span>
                 </div>
 
-                {/* Body Preview Stage (Matching the 4 Reference Archetypes) */}
                 {/* Body Preview Stage */}
                 <div className={styles.previewStage}>
-                  {/* Archetype 1: Verified Interactive Credential (Card 2 Reference) */}
-                  {isVerifiedOnboarding ? (
-                    {
-                      isOnboardingCard?(
-                    <div className = { styles.verifiedOrbitalStage } >
-                          {/* Orbital SVG Circles */ }
-                          < svg className = { styles.orbitalRingsSvg } viewBox = "0 0 200 200" fill = "none" >
+                  {isOnboardingCard ? (
+                    /* Archetype: Verified Onboarding Letter */
+                    <div className={styles.verifiedOrbitalStage}>
+                      <svg className={styles.orbitalRingsSvg} viewBox="0 0 200 200" fill="none">
                         <ellipse cx="100" cy="100" rx="90" ry="40" stroke="#38bdf8" strokeWidth="1" strokeDasharray="3 3" transform="rotate(-20 100 100)" />
                         <ellipse cx="100" cy="100" rx="70" ry="30" stroke="#0ea5e9" strokeWidth="0.8" transform="rotate(35 100 100)" />
                       </svg>
-
-                <div className={styles.checkCircleLarge}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
+                      <div className={styles.checkCircleLarge}>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      </div>
+                      <h4 className={styles.verifiedHeading}>Certificate Verified</h4>
+                      <p className={styles.verifiedPerson}>Vaibhav Shaw</p>
+                      <span className={styles.verifiedDocumentSub}>Onboarding Letter</span>
+                      <div className={styles.verifiedActionsRow}>
+                        <button
+                          type="button"
+                          className={styles.actionPillBtn}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onOpen(cert);
+                          }}
+                        >
+                          View Certificate →
+                        </button>
+                        <button
+                          type="button"
+                          className={styles.iconCircleMini}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onOpen(cert);
+                          }}
+                          aria-label="Inspect certificate details"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                            <circle cx="12" cy="12" r="3" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  ) : isThumbnailUnavailable ? (
+                    /* Archetype: Thumbnail Placeholder */
+                    <div className={styles.docPlaceholderStage}>
+                      <svg className={styles.docIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                        <circle cx="8.5" cy="8.5" r="1.5" />
+                        <polyline points="21 15 16 10 5 21" />
+                      </svg>
+                      <h4 className={styles.docHeading}>Thumbnail Not Available</h4>
+                      <p className={styles.docSub}>Open the certificate to view.</p>
+                      <div className={styles.verifiedActionsRow}>
+                        <button
+                          type="button"
+                          className={styles.actionPillBtn}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onOpen(cert);
+                          }}
+                        >
+                          View Certificate →
+                        </button>
+                        <a
+                          href={cert.file || '#'}
+                          download
+                          className={styles.iconCircleMini}
+                          onClick={(e) => e.stopPropagation()}
+                          aria-label="Download certificate"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  ) : displayPreviewSrc ? (
+                    /* Real Image or Vector Certificate Document Card */
+                    <div className={styles.realImageWrap}>
+                      <div className={styles.tapeTopLeft} />
+                      <div className={styles.tapeBottomRight} />
+                      <svg className={styles.cornerPushPin} viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="6" fill="#e2e8f0" stroke="#64748b" strokeWidth="1.5" />
+                        <circle cx="11" cy="11" r="2" fill="#ffffff" />
+                      </svg>
+                      <Image
+                        src={displayPreviewSrc}
+                        alt={cert.title}
+                        fill
+                        unoptimized={true}
+                        className={styles.realCertImg}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    </div>
+                  ) : (
+                    /* Fallback Document Card */
+                    <div className={styles.docPlaceholderStage}>
+                      <svg className={styles.docIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                        <polyline points="10 9 9 9 8 9" />
+                      </svg>
+                      <h4 className={styles.docHeading}>Official Credential</h4>
+                      <p className={styles.docSub}>{cert.issuer || 'Click to view full certificate document.'}</p>
+                      <div className={styles.verifiedActionsRow}>
+                        <button
+                          type="button"
+                          className={styles.actionPillBtn}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onOpen(cert);
+                          }}
+                        >
+                          View Certificate →
+                        </button>
+                        <a
+                          href={cert.file || '#'}
+                          download
+                          className={styles.iconCircleMini}
+                          onClick={(e) => e.stopPropagation()}
+                          aria-label="Download certificate"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                <h4 className={styles.verifiedHeading}>Certificate Verified</h4>
-                <p className={styles.verifiedPerson}>Vaibhav Shaw</p>
-                <span className={styles.verifiedDocumentSub}>Onboarding Letter</span>
-
-                <div className={styles.verifiedActionsRow}>
-                  <button
-                    type="button"
-                    className={styles.actionPillBtn}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onOpen(cert);
-                    }}
-                  >
-                    View Certificate →
-                  </button>
-                  <button
-                    type="button"
-                    className={styles.iconCircleMini}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onOpen(cert);
-                    }}
-                    aria-label="Inspect certificate details"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                      <circle cx="12" cy="12" r="3" />
-                    </svg>
-                  </button>
+                {/* Bottom Row: Certificate Title + External Link Arrow Circle */}
+                <div className={styles.cardBottomRow}>
+                  <span className={styles.cardTitleText} title={cert.title}>
+                    {cert.title}
+                  </span>
+                  <div className={styles.cardExternalBtn} aria-hidden="true">
+                    ↗
+                  </div>
                 </div>
               </div>
-            ) : isThumbnailUnavailable ? (
-          /* Archetype 3: Thumbnail Placeholder (Card 6 ISRO Reference) */
-          <div className={styles.docPlaceholderStage}>
-            <svg className={styles.docIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-              <circle cx="8.5" cy="8.5" r="1.5" />
-              <polyline points="21 15 16 10 5 21" />
-            </svg>
-            <h4 className={styles.docHeading}>Thumbnail Not Available</h4>
-            <p className={styles.docSub}>Open the certificate to view.</p>
-            <div className={styles.verifiedActionsRow}>
-              <button
-                type="button"
-                className={styles.actionPillBtn}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onOpen(cert);
-                }}
-              >
-                View Certificate →
-              </button>
-              <a
-                href={cert.file || '#'}
-                download
-                className={styles.iconCircleMini}
-                onClick={(e) => e.stopPropagation()}
-                aria-label="Download certificate"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="7 10 12 15 17 10" />
-                  <line x1="12" y1="15" x2="12" y2="3" />
-                </svg>
-              </a>
-            </div>
-          </div>
-          ) : displayPreviewSrc ? (
-          /* Real Image or Vector Certificate Document Card with Pushpin & Corner Tape */
-          <div className={styles.realImageWrap}>
-            <div className={styles.tapeTopLeft} />
-            <div className={styles.tapeBottomRight} />
-            <svg className={styles.cornerPushPin} viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="6" fill="#e2e8f0" stroke="#64748b" strokeWidth="1.5" />
-              <circle cx="11" cy="11" r="2" fill="#ffffff" />
-            </svg>
-            <Image
-              src={displayPreviewSrc}
-              alt={cert.title}
-              fill
-              unoptimized={true}
-              className={styles.realCertImg}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          </div>
-          ) : (
-          /* Fallback Document Card */
-          <div className={styles.docPlaceholderStage}>
-            <svg className={styles.docIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-              <polyline points="14 2 14 8 20 8" />
-              <line x1="16" y1="13" x2="8" y2="13" />
-              <line x1="16" y1="17" x2="8" y2="17" />
-              <polyline points="10 9 9 9 8 9" />
-            </svg>
-            <h4 className={styles.docHeading}>Official Credential</h4>
-            <p className={styles.docSub}>{cert.issuer || 'Click to view full certificate document.'}</p>
-            <div className={styles.verifiedActionsRow}>
-              <button
-                type="button"
-                className={styles.actionPillBtn}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onOpen(cert);
-                }}
-              >
-                View Certificate →
-              </button>
-              <a
-                href={cert.file || '#'}
-                download
-                className={styles.iconCircleMini}
-                onClick={(e) => e.stopPropagation()}
-                aria-label="Download certificate"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="7 10 12 15 17 10" />
-                  <line x1="12" y1="15" x2="12" y2="3" />
-                </svg>
-              </a>
-            </div>
-          </div>
-          href={cert.file || '#'}
-          download
-          className={styles.iconCircleMini}
-          onClick={(e) => e.stopPropagation()}
-          aria-label="Download certificate"
-                        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <polyline points="7 10 12 15 17 10" />
-            <line x1="12" y1="15" x2="12" y2="3" />
-          </svg>
-        </a>
-      </div>
-    </div>
-  )
-}
-      </div >
-
-  {/* Bottom Row: Certificate Title + External Link Arrow Circle */ }
-  < div className = { styles.cardBottomRow } >
-        <span className={styles.cardTitleText} title={cert.title}>
-          {cert.title}
-        </span>
-        <div className={styles.cardExternalBtn} aria-hidden="true">
-          ↗
+            );
+          })}
         </div>
-      </div >
-    </div >
-  );
-})}
-        </div >
 
-  {/* ── 4. SUB-FOOTER LINE (1:1 REFERENCE) ── */ }
-  < div className = { styles.subFooterLine } >
+        {/* ── 4. SUB-FOOTER LINE (1:1 REFERENCE) ── */}
+        <div className={styles.subFooterLine}>
           <span className={styles.subFooterLeft}>06 / DOCUMENTING PROGRESS.</span>
           <span className={styles.subFooterRight}>CERTIFICATES • ACHIEVEMENTS • MILESTONES</span>
-        </div >
-      </div >
-    </section >
+        </div>
+      </div>
+    </section>
   );
 }
