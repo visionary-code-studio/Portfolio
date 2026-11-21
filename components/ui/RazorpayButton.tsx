@@ -211,20 +211,23 @@ export default function RazorpayButton({
           </span>
         ) : (
           <span className={styles.btnContent}>
-            <svg
-              className={styles.razorpayIcon}
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-            >
-              <path
-                d="M14.5 3L6 14H11.5L9.5 21L18 10H12.5L14.5 3Z"
-                fill="currentColor"
-              />
-            </svg>
-            {buttonText}
+            <span className={styles.btnLeftWrap}>
+              <svg
+                className={styles.razorpayIcon}
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+              >
+                <path
+                  d="M14.5 3L6 14H11.5L9.5 21L18 10H12.5L14.5 3Z"
+                  fill="currentColor"
+                />
+              </svg>
+              <span>{buttonText}</span>
+            </span>
+            <span className={styles.btnArrow}>→</span>
           </span>
         )}
       </button>

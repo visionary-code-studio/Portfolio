@@ -16,14 +16,27 @@
   position: relative;
   width: 100%;
   max-width: 530px;
+  max-height: min(92vh, 740px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   background: #f2f2ee;
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 32px 80px rgba(0, 0, 0, 0.55), 0 4px 20px rgba(0, 0, 0, 0.15);
   border-radius: 6px;
   padding: 2.25rem 2.25rem 2rem;
   color: #111111;
-  overflow: hidden;
+  box-sizing: border-box;
   animation: popIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  scrollbar-width: thin;
+}
+
+.modalCard::-webkit-scrollbar {
+  width: 5px;
+}
+
+.modalCard::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 999px;
 }
 
 .closeBtn {

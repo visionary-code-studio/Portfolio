@@ -380,7 +380,7 @@ export default function CollabSection({
           </div>
 
           <h2 className={styles.mainTitle}>
-            SERVICES <span className={styles.titleGoldHighlight}>MENU CARD</span> &amp; SHOWCASE
+            SERVICES <span className={styles.titleWhiteHighlight}>MENU CARD</span> &amp; SHOWCASE
           </h2>
 
           <p className={styles.subDescription}>
@@ -822,32 +822,6 @@ export default function CollabSection({
                         }}
                         onSwitchToQr={() => setModalTab('qr')}
                       />
-                    </div>
-
-                    {/* Direct UPI QR Code Alternative Box Matching Reference Image 3 */}
-                    <div className={styles.directQrBannerRow}>
-                      <div className={styles.directQrBannerText}>
-                        Razorpay authentication is in consultation mode. Please use Direct UPI QR Code (with owner access key) or submit an inquiry.
-                      </div>
-                      <button
-                        type="button"
-                        className={styles.directQrBannerBtn}
-                        onClick={() => setModalTab('qr')}
-                      >
-                        <span>Pay via Direct UPI QR Code</span>
-                        <span>↗</span>
-                      </button>
-                    </div>
-
-                    <div className={styles.qrFallbackRow}>
-                      <span>Razorpay gateway unavailable or auth failed?</span>
-                      <button
-                        type="button"
-                        className={styles.qrInlineLink}
-                        onClick={() => setModalTab('qr')}
-                      >
-                        Use Direct UPI QR Code (Key-Secured) →
-                      </button>
                     </div>
                   </div>
                 </div>
