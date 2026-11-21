@@ -52,7 +52,7 @@
   color: #000000;
 }
 
-@media (max-width: 1600px) {
+@media (max-width: 1680px) {
   .socialSidebar {
     display: none;
   }
